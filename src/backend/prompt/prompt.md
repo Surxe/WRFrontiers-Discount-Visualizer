@@ -26,8 +26,8 @@ Output the matched results exclusively as a raw, valid JSON list of module ID st
 
 The output must be exactly in this format:
 [
-  "DA_Module_Robot_Example.1",
-  "DA_Module_Robot_Example2.2"
+  "OBJID_VirtualBot::varangian",
+  "OBJID_Module::DA_Module_Weapon_Zeus.0"
 ]
 
 ## Rules
