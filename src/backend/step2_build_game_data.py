@@ -39,7 +39,7 @@ def build_game_data() -> list[dict]:
         
         if english_name:
             game_data.append({
-                "id": f"OBJID_VirtualBot::{bot_id}",
+                "ref": f"OBJID_VirtualBot::{bot_id}",
                 "name": english_name
             })
             vbots_added += 1
@@ -70,9 +70,8 @@ def build_game_data() -> list[dict]:
             continue
 
         game_data.append({
-            "id": f"OBJID_Module::{module_id}",
+            "ref": f"OBJID_Module::{module_id}",
             "name": english_name,
-            "image_path": icon_path.lstrip("/")
         })
         modules_added += 1
 
