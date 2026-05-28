@@ -2,8 +2,7 @@
   {
     "id": "DA_Module_ChassisVityaz.2",
     "name": "Varangian",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisVityaz",
-    "_ci_test": true
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisVityaz"
   },
   {
     "id": "DA_Module_ChassisHitcher.2",
@@ -14,16 +13,6 @@
     "id": "DA_Module_ChassisPursuer.2",
     "name": "Pursuer",
     "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisPursuer"
-  },
-  {
-    "id": "DA_Module_ChassisHitcher.2",
-    "name": "Hitcher",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisHitcher"
-  },
-  {
-    "id": "DA_Module_ChassisVityaz.2",
-    "name": "Varangian",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisVityaz"
   },
   {
     "id": "DA_Module_ChassisNorna.2",
