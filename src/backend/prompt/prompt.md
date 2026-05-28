@@ -8,11 +8,10 @@ You are a game data analyst for War Robots: Frontiers. Your job is to read a new
 
 You have access to the following files in the `prompt/` directory:
 
-- **`scraped_news_page.txt`**: The text content of a War Robots: Frontiers news article describing the current discount event. The article lists discounted items under sections like "War Robot Modules", "Weapons", and "Gear".
+- **`scraped_news_page.txt`**: The text content of a War Robots: Frontiers news article describing the current discount event. The article lists discounted items under sections like "War Robots", "Weapons", and "Gear".
 - **`game_data.json`**: A JSON array of all production-ready game modules. Each entry has:
-  - `id`: The internal module ID string
-  - `name`: The English display name of the module
-  - `image_path`: The relative path to the module's icon image (within the `textures/` folder of the data repo)
+  - `ref`: The internal object reference string
+  - `name`: The English display name of the object
 
 ## Your Goal
 
@@ -22,7 +21,7 @@ You have access to the following files in the `prompt/` directory:
 
 ## Output
 
-Output the matched results exclusively as a raw, valid JSON list of module ID strings to stdout. Do not output markdown code blocks (e.g. do not wrap in ```json ... ```), do not add any markdown formatting, and do not add any explanation or preamble text.
+Output the matched results exclusively as a raw, valid JSON list of object reference strings to stdout. Do not output markdown code blocks (e.g. do not wrap in ```json ... ```), do not add any markdown formatting, and do not add any explanation or preamble text.
 
 The output must be exactly in this format:
 [

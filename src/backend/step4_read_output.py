@@ -25,17 +25,17 @@ def load_discounts() -> list[dict]:
     content = re.sub(r"\s*```$", "", content)
 
     try:
-        discount_ids = json.loads(content)
+        discount_refs = json.loads(content)
     except json.JSONDecodeError as e:
         print(f"  [ERROR] Output is not valid JSON: {e}")
         print(f"  Content preview: {content[:300]}")
         sys.exit(1)
 
-    if not isinstance(discount_ids, list):
+    if not isinstance(discount_refs, list):
         print("  [ERROR] Output is not a JSON list/array.")
         sys.exit(1)
 
-    print(f"  -> Found {len(discount_ids)} ID matches in output.")
+    print(f"  -> Found {len(discount_refs)} ID matches in output.")
 
     # Load game_data.json to build a lookup map
     if not GAME_DATA_JSON.exists():
@@ -49,17 +49,17 @@ def load_discounts() -> list[dict]:
     game_data_map = {item["id"]: item for item in game_data}
 
     discounts = []
-    for m_id in discount_ids:
+    for m_ref in discount_refs:
         # Gracefully handle string IDs or list items
-        if not isinstance(m_id, str):
+        if not isinstance(m_ref, str):
             continue
         
-        match = game_data_map.get(m_id)
+        match = game_data_map.get(m_ref)
         if match:
             discounts.append(match)
             print(f"     • Resolved: {match['name']} ({match['id']})")
         else:
-            print(f"     [!] Warning: ID {m_id} from LLM output was not found in game_data.json")
+            print(f"     [!] Warning: ID {m_ref} from LLM output was not found in game_data.json")
 
     # Write the full discounts data to frontend
     FRONTEND_DATA_DIR.mkdir(parents=True, exist_ok=True)
