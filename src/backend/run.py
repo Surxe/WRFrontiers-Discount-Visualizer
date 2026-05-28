@@ -2,7 +2,7 @@
 run.py
 
 Main orchestrator script for the backend of WRFrontiers Discount Visualizer.
-Runs step 1 through 5.
+Runs step 1 through 4.
 
 Usage:
     python src/backend/run.py <news_url>
@@ -16,7 +16,6 @@ from step1_scrape import run_step as run_step1
 from step2_build_game_data import run_step as run_step2
 from step3_call_gemini import run_step as run_step3
 from step4_read_output import run_step as run_step4
-from step5_copy_assets import run_step as run_step5
 
 def main():
     if len(sys.argv) < 2:
@@ -42,9 +41,6 @@ def main():
 
     # Step 4: Validate and load the mapped output
     discounts = run_step4()
-
-    # Step 5: Transfer assets and results to the frontend
-    run_step5(discounts)
 
     print("\n✅ Done! All steps completed successfully. Ready for frontend build.")
 
