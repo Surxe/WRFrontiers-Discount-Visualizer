@@ -196,3 +196,4 @@ src/frontend/.astro/
 WRFrontiersDB-Data/
 src/frontend/public/WRFrontiersDB-Data/
 src/frontend/public/WRFrontiersDB-Data
+src/frontend/public/data/discounts.json
