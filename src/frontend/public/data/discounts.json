@@ -5,9 +5,34 @@
     "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisVityaz"
   },
   {
+    "id": "DA_Module_TorsoVityaz.1",
+    "name": "Varangian",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_TorsoVityaz"
+  },
+  {
+    "id": "DA_Module_ShoulderVityaz01.0",
+    "name": "Varangian Mk. II",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderVityaz01"
+  },
+  {
+    "id": "DA_Module_ShoulderVityaz02.0",
+    "name": "Varangian Mk. I",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderVityaz02"
+  },
+  {
     "id": "DA_Module_ChassisHitcher.2",
     "name": "Hitcher",
     "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisHitcher"
+  },
+  {
+    "id": "DA_Module_TorsoHitcher.1",
+    "name": "Hitcher",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_TorsoHitcher"
+  },
+  {
+    "id": "DA_Module_ShoulderHitcher.0",
+    "name": "Hitcher",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderHitcher"
   },
   {
     "id": "DA_Module_ChassisPursuer.2",
@@ -15,9 +40,39 @@
     "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisPursuer"
   },
   {
+    "id": "DA_Module_TorsoPursuer.1",
+    "name": "Pursuer",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_TorsoPursuer"
+  },
+  {
+    "id": "DA_Module_ShoulderPursuer.0",
+    "name": "Pursuer",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderPursuer"
+  },
+  {
     "id": "DA_Module_ChassisNorna.2",
     "name": "Norna",
     "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisNorna"
+  },
+  {
+    "id": "DA_Module_TorsoNorna.0",
+    "name": "Norna",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_TorsoNorna"
+  },
+  {
+    "id": "DA_Module_ShoulderLNorna.0",
+    "name": "Norna",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderLNorna"
+  },
+  {
+    "id": "DA_Module_ShoulderRNorna.0",
+    "name": "Norna",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderLNorna"
+  },
+  {
+    "id": "DA_Module_Weapon_Coriolis.0",
+    "name": "Coriolis",
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Coriolis"
   },
   {
     "id": "DA_Module_Weapon_Scatter.0",
