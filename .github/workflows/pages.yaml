@@ -1,0 +1,85 @@
+name: Deploy WRFrontiers Discount Visualizer to GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      news_url:
+        description: 'War Robots Frontiers news article URL'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout main repo
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Checkout data repo into WRFrontiersDB-Data at root
+      - name: Checkout Data Repo
+        uses: actions/checkout@v4
+        with:
+          repository: Surxe/WRFrontiersDB-Data
+          token: ${{ secrets.DATA_REPO_PAT }}
+          path: WRFrontiersDB-Data
+          ref: main
+
+      # Set up Python and install backend dependencies
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install -r src/backend/requirements.txt
+
+      # Set up Node.js and install Gemini CLI globally
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Gemini CLI
+        run: npm install -g @google/gemini-cli
+
+      # Run the backend pipeline
+      - name: Run backend
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python src/backend/run.py "${{ github.event.inputs.news_url }}"
+
+      # Symlink WRFrontiersDB-Data into the frontend's public directory
+      # (step4 already writes discounts.json to src/frontend/public/data/discounts.json)
+      - name: Symlink data repo into frontend public
+        run: ln -s ../../../WRFrontiersDB-Data src/frontend/public/WRFrontiersDB-Data
+
+      # Build the Astro frontend
+      - name: Install frontend dependencies
+        working-directory: src/frontend
+        run: npm install
+
+      - name: Build frontend
+        working-directory: src/frontend
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: src/frontend/dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
