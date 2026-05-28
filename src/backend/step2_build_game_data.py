@@ -6,22 +6,19 @@ Step 2: Load WRFrontiersDB-Data/current/Objects/Module.json and build game_data.
 
 import sys
 import json
-from config import MODULE_JSON, PROMPT_DIR, GAME_DATA_JSON, REPO_ROOT
+from config import MODULE_JSON, VIRTUAL_BOT_JSON, PROMPT_DIR, GAME_DATA_JSON, REPO_ROOT, STANDALONE_MODULE_GROUPS
 
 def build_game_data() -> list[dict]:
     """
-    Reads Module.json and extracts all production-ready modules.
+    Reads VirtualBot.json and Module.json to extract relevant game objects.
     Produces a compact list of { id, name, image_path } for the LLM prompt.
-
-    image_path is derived from inventory_icon_path, which looks like:
-        /WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisAres
-    We strip the leading '/' to get a relative path usable to locate the file
-    inside the textures/ directory.
+    VirtualBots are prefixed with OBJID_VirtualBot::
+    Modules are prefixed with OBJID_Module::
     """
-    print(f"[2/4] Building game_data.json from {MODULE_JSON}")
+    print(f"[2/4] Building game_data.json...")
 
-    if not MODULE_JSON.exists():
-        print(f"  [ERROR] Module.json not found at {MODULE_JSON}")
+    if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists():
+        print(f"  [ERROR] Data files not found.")
         print(
             "  Make sure WRFrontiersDB-Data is cloned. "
             "Set DATA_REPO_PAT in .env and run:\n"
@@ -29,41 +26,55 @@ def build_game_data() -> list[dict]:
         )
         sys.exit(1)
 
+    game_data = []
+    
+    # 1. Process VirtualBots
+    with open(VIRTUAL_BOT_JSON, encoding="utf-8") as f:
+        virtual_bots = json.load(f)
+        
+    vbots_added = 0
+    for bot_id, bot in virtual_bots.items():
+        name_field = bot.get("name", {})
+        english_name = name_field.get("en", "")
+        
+        if english_name:
+            game_data.append({
+                "ref": f"OBJID_VirtualBot::{bot_id}",
+                "name": english_name
+            })
+            vbots_added += 1
+
+    # 2. Process Modules (with filtering)
     with open(MODULE_JSON, encoding="utf-8") as f:
         modules = json.load(f)
 
-    game_data = []
-    skipped = 0
+    modules_added = 0
 
     for module_id, module in modules.items():
-        # Only include production-ready modules
         if module.get("production_status") != "Ready":
-            skipped += 1
             continue
 
-        # Extract English name
+        # Check module_group_ref against allowed groups
+        group_ref = module.get("module_group_ref", "")
+        if not any(allowed in group_ref for allowed in STANDALONE_MODULE_GROUPS):
+            continue
+
         name_field = module.get("name", {})
         english_name = name_field.get("en", "")
         if not english_name:
-            skipped += 1
             continue
 
-        # Extract image path — strip leading '/' to make it relative
         icon_path = module.get("inventory_icon_path", "")
         if not icon_path:
-            skipped += 1
             continue
 
-        # Normalize: strip leading '/' 
-        image_path = icon_path.lstrip("/")
-
         game_data.append({
-            "id": module_id,
+            "ref": f"OBJID_Module::{module_id}",
             "name": english_name,
-            "image_path": image_path,
         })
+        modules_added += 1
 
-    print(f"  -> {len(game_data)} production modules found ({skipped} skipped)")
+    print(f"  -> {vbots_added} Virtual Bots and {modules_added} Modules found.")
     return game_data
 
 

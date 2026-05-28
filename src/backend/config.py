@@ -28,6 +28,7 @@ else:
     DATA_REPO = _data_repo_local
 
 MODULE_JSON = DATA_REPO / "current" / "Objects" / "Module.json"
+VIRTUAL_BOT_JSON = DATA_REPO / "current" / "Objects" / "VirtualBot.json"
 
 PROMPT_DIR = SCRIPT_DIR / "prompt"
 OUTPUT_DIR = PROMPT_DIR / "output"
@@ -37,3 +38,15 @@ GAME_DATA_JSON = PROMPT_DIR / "game_data.json"
 DISCOUNTS_OUTPUT = OUTPUT_DIR / "discounts.json"
 
 FRONTEND_DATA_DIR = REPO_ROOT / "src" / "frontend" / "public" / "data"
+
+# Module groups that appear as standalone discountable items (weapons / gear).
+# step2 INCLUDES only these groups when building game_data for the LLM.
+# step4 EXCLUDES these groups when expanding a VirtualBot's core_module_refs,
+# so titan-specific weapons don't bleed into robot frame listings.
+STANDALONE_MODULE_GROUPS = [
+    "supply-gear",
+    "cycle-gear",
+    "light-weapon",
+    "heavy-weapon",
+    "titan-weapon",
+]

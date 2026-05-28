@@ -2,12 +2,44 @@ import sys
 import json
 import re
 from pathlib import Path
-from config import DISCOUNTS_OUTPUT, GAME_DATA_JSON, REPO_ROOT, FRONTEND_DATA_DIR
+from config import DISCOUNTS_OUTPUT, MODULE_JSON, VIRTUAL_BOT_JSON, REPO_ROOT, FRONTEND_DATA_DIR, STANDALONE_MODULE_GROUPS
+
+def parse_ref(ref: str) -> tuple[str, str]:
+    """
+    Converts a reference like 'OBJID_VirtualBot::varangian' 
+    to a tuple of (objtype, id), e.g., ('VirtualBot', 'varangian').
+    """
+    if "::" in ref:
+        prefix, obj_id = ref.split("::", 1)
+        obj_type = prefix.replace("OBJID_", "")
+        return obj_type, obj_id
+    return "", ref
+
+def get_module_info(module_id: str, modules_data: dict) -> dict | None:
+    """
+    Extracts id, name, and image_path from a Module dictionary.
+    """
+    module = modules_data.get(module_id)
+    if not module:
+        return None
+    
+    name_field = module.get("name", {})
+    english_name = name_field.get("en", "")
+    icon_path = module.get("inventory_icon_path", "")
+    
+    if english_name and icon_path:
+        return {
+            "id": module_id,
+            "name": english_name,
+            "image_path": icon_path.lstrip("/")
+        }
+    return None
 
 def load_discounts() -> list[dict]:
     """
-    Reads the LLM-generated discounts.json output (which is a list of IDs).
-    Reconstitutes the full metadata (name, image_path) by looking them up in game_data.json.
+    Reads the LLM-generated discounts.json output (which is a list of refs).
+    Reconstitutes the full metadata by looking them up directly in Module.json and VirtualBot.json.
+    For VirtualBot objtypes, expands to its core modules.
     Writes the result to frontend public/data/discounts.json.
     """
     print("[4/4] Reading LLM output from prompt/output/discounts.json...")
@@ -25,41 +57,68 @@ def load_discounts() -> list[dict]:
     content = re.sub(r"\s*```$", "", content)
 
     try:
-        discount_ids = json.loads(content)
+        discount_refs = json.loads(content)
     except json.JSONDecodeError as e:
         print(f"  [ERROR] Output is not valid JSON: {e}")
         print(f"  Content preview: {content[:300]}")
         sys.exit(1)
 
-    if not isinstance(discount_ids, list):
+    if not isinstance(discount_refs, list):
         print("  [ERROR] Output is not a JSON list/array.")
         sys.exit(1)
 
-    print(f"  -> Found {len(discount_ids)} ID matches in output.")
+    print(f"  -> Found {len(discount_refs)} ID matches in output.")
 
-    # Load game_data.json to build a lookup map
-    if not GAME_DATA_JSON.exists():
-        print(f"  [ERROR] game_data.json not found at {GAME_DATA_JSON}")
+    # Load constant JSONs
+    if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists():
+        print(f"  [ERROR] Database JSONs not found.")
         sys.exit(1)
 
-    with open(GAME_DATA_JSON, encoding="utf-8") as f:
-        game_data = json.load(f)
+    with open(MODULE_JSON, encoding="utf-8") as f:
+        modules_data = json.load(f)
 
-    # Map ID -> full details
-    game_data_map = {item["id"]: item for item in game_data}
+    with open(VIRTUAL_BOT_JSON, encoding="utf-8") as f:
+        virtual_bots_data = json.load(f)
 
     discounts = []
-    for m_id in discount_ids:
-        # Gracefully handle string IDs or list items
-        if not isinstance(m_id, str):
+    for m_ref in discount_refs:
+        if not isinstance(m_ref, str):
             continue
         
-        match = game_data_map.get(m_id)
-        if match:
-            discounts.append(match)
-            print(f"     • Resolved: {match['name']} ({match['id']})")
+        obj_type, obj_id = parse_ref(m_ref)
+        
+        if obj_type == "VirtualBot":
+            vbot = virtual_bots_data.get(obj_id)
+            if vbot:
+                print(f"     • Resolved VirtualBot: {obj_id}")
+                # STANDALONE_MODULE_GROUPS are included as standalone items in step2;
+                # exclude them here so built-in weapons (e.g. Norna's Coriolis)
+                # are not listed as robot frame parts.
+                for core_ref in vbot.get("core_module_refs", []):
+                    c_type, c_id = parse_ref(core_ref)
+                    module = modules_data.get(c_id)
+                    if not module:
+                        continue
+                    group_ref = module.get("module_group_ref", "")
+                    if any(group in group_ref for group in STANDALONE_MODULE_GROUPS):
+                        print(f"       - Skipping weapon/gear core module: {c_id}")
+                        continue
+                    minfo = get_module_info(c_id, modules_data)
+                    if minfo:
+                        discounts.append(minfo)
+                        print(f"       + Extracted Core Module: {minfo['name']}")
+            else:
+                print(f"     [!] Warning: VirtualBot ID {obj_id} not found.")
+
+        elif obj_type == "Module":
+            minfo = get_module_info(obj_id, modules_data)
+            if minfo:
+                discounts.append(minfo)
+                print(f"     • Resolved Module: {minfo['name']} ({minfo['id']})")
+            else:
+                print(f"     [!] Warning: Module ID {obj_id} not found.")
         else:
-            print(f"     [!] Warning: ID {m_id} from LLM output was not found in game_data.json")
+            print(f"     [!] Warning: Unknown objtype {obj_type} in ref {m_ref}")
 
     # Write the full discounts data to frontend
     FRONTEND_DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -70,10 +129,8 @@ def load_discounts() -> list[dict]:
 
     return discounts
 
-
 def run_step() -> list[dict]:
     return load_discounts()
-
 
 if __name__ == "__main__":
     run_step()
