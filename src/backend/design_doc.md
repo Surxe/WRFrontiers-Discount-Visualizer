@@ -5,7 +5,13 @@ The backend is responsible for fetching discount information from the War Robots
 
 ## Structure
 - `src/backend/`
-  - `fetch_discounts.py`: The main orchestrator script.
+  - `run.py`: The main orchestrator script that executes steps 1 through 5.
+  - `config.py`: Shared configuration and path definitions for all step scripts.
+  - `step1_scrape.py`: Scrapes the news URL and saves body text to `prompt/scraped_news_page.txt`.
+  - `step2_build_game_data.py`: Loads `WRFrontiersDB-Data/current/Objects/Module.json` and builds `game_data.json`.
+  - `step3_call_gemini.py`: Calls the Gemini CLI with access to the `prompt/` directory.
+  - `step4_read_output.py`: Reads and validates LLM output from `prompt/output/discounts.json`.
+  - `step5_copy_assets.py`: Copies referenced images and the output JSON to the frontend.
   - `package.json`: Contains the npm dependencies, specifically the `@google/gemini-cli` package used for LLM interaction.
   - `requirements.txt`: Python dependencies (`requests`, `beautifulsoup4`).
   - `prompt/`
@@ -31,12 +37,14 @@ The backend is responsible for fetching discount information from the War Robots
         ```
 
 ## Workflow
-1. **Scraping**: `fetch_discounts.py` downloads the HTML from the provided URL and extracts the main text body of the news article. The text is saved to `prompt/scraped_news_page.txt`.
-2. **Game Data Preparation**: The script reads `current/Module.json` from the `WRFrontiersDB-Data` repository, extracts all production-ready English module names, their IDs, and their image file paths, and writes them to `prompt/game_data.json`.
-3. **LLM Invocation**: The script invokes the Gemini CLI via subprocess. The CLI is configured to:
+1. **Scraping**: `step1_scrape.py` downloads the HTML from the provided URL and extracts the main text body of the news article. The text is saved to `prompt/scraped_news_page.txt`.
+2. **Game Data Preparation**: `step2_build_game_data.py` reads `current/Module.json` from the `WRFrontiersDB-Data` repository, extracts all production-ready English module names, their IDs, and their image file paths, and writes them to `prompt/game_data.json`.
+3. **LLM Invocation**: `step3_call_gemini.py` invokes the Gemini CLI via subprocess. The CLI is configured to:
    - Only read files in `prompt/` (including `prompt.md`, `game_data.json`, and `scraped_news_page.txt`).
    - Only edit files in `prompt/output/`.
    - Follow the instructions in `prompt.md` to map the items mentioned in `scraped_news_page.txt` to the modules listed in `game_data.json`.
    - Output the result to `prompt/output/discounts.json`, containing module IDs, English names, and image paths in the order they appear in the news article.
-4. **Image Copying**: After the LLM produces its output, the script reads `prompt/output/discounts.json` and copies the referenced image files from `WRFrontiersDB-Data/` to `src/frontend/public/assets/`, preserving the original folder structure.
-5. **Frontend Data Delivery**: The script copies `prompt/output/discounts.json` to `src/frontend/public/data/discounts.json` for the Astro build to consume.
+4. **Image Copying & Frontend Data Delivery**:
+   - `step4_read_output.py` reads and parses `prompt/output/discounts.json` to validate the output.
+   - `step5_copy_assets.py` copies the referenced image files from `WRFrontiersDB-Data/` to `src/frontend/public/assets/` (preserving original folder structure) and copies the JSON output to `src/frontend/public/data/discounts.json` for the frontend build.
+
