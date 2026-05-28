@@ -1,0 +1,44 @@
+name: 02 - Gemini Mapping
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  map:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install -r src/backend/requirements.txt
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Gemini CLI
+        run: npm install -g @google/gemini-cli
+
+      - name: Run Step 3 (Call Gemini)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python -c "import sys; sys.path.append('src/backend'); from step3_call_gemini import run_step; run_step()"
+
+      - name: Run Step 4 (Read Output)
+        run: python -c "import sys; sys.path.append('src/backend'); from step4_read_output import run_step; run_step()"
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(data): update mapped discounts [skip ci]"
+          file_pattern: "src/frontend/public/data/discounts.json"

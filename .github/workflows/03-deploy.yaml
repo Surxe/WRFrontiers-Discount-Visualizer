@@ -1,0 +1,56 @@
+name: 03 - Deploy Astro to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Checkout Data Repo
+        uses: actions/checkout@v4
+        with:
+          repository: Surxe/WRFrontiersDB-Data
+          token: ${{ secrets.DATA_REPO_PAT }}
+          path: WRFrontiersDB-Data
+          ref: main
+
+      - name: Symlink data repo into frontend public
+        run: ln -s ../../../WRFrontiersDB-Data src/frontend/public/WRFrontiersDB-Data
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frontend dependencies
+        working-directory: src/frontend
+        run: npm install
+
+      - name: Build frontend
+        working-directory: src/frontend
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: src/frontend/dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
