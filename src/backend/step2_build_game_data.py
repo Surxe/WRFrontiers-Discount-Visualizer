@@ -36,13 +36,11 @@ def build_game_data() -> list[dict]:
     for bot_id, bot in virtual_bots.items():
         name_field = bot.get("name", {})
         english_name = name_field.get("en", "")
-        icon_path = bot.get("icon_path", "")
         
-        if english_name and icon_path:
+        if english_name:
             game_data.append({
                 "id": f"OBJID_VirtualBot::{bot_id}",
-                "name": english_name,
-                "image_path": icon_path.lstrip("/")
+                "name": english_name
             })
             vbots_added += 1
 

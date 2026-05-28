@@ -1,178 +1,143 @@
 [
   {
     "id": "OBJID_VirtualBot::alpha",
-    "name": "Alpha",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha"
+    "name": "Alpha"
   },
   {
     "id": "OBJID_VirtualBot::anansi",
-    "name": "Anansi",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi"
+    "name": "Anansi"
   },
   {
     "id": "OBJID_VirtualBot::ares",
-    "name": "Ares",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAres"
+    "name": "Ares"
   },
   {
     "id": "OBJID_VirtualBot::bulgasari",
-    "name": "Bulgasari",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari"
+    "name": "Bulgasari"
   },
   {
     "id": "OBJID_VirtualBot::bulwark",
-    "name": "Bulwark",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulwark"
+    "name": "Bulwark"
   },
   {
     "id": "OBJID_VirtualBot::ceres",
-    "name": "Ceres",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCeres"
+    "name": "Ceres"
   },
   {
     "id": "OBJID_VirtualBot::crix",
-    "name": "Crix",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotNipper"
+    "name": "Crix"
   },
   {
     "id": "OBJID_VirtualBot::cyclops",
-    "name": "Cyclops",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCyclops"
+    "name": "Cyclops"
   },
   {
     "id": "OBJID_VirtualBot::decker",
-    "name": "Decker",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotKernel"
+    "name": "Decker"
   },
   {
     "id": "OBJID_VirtualBot::ever-s-typhon",
-    "name": "Ever's Typhon",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyphon"
+    "name": "Ever's Typhon"
   },
   {
     "id": "OBJID_VirtualBot::ever-s-tyr",
-    "name": "Ever's Tyr",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyr"
+    "name": "Ever's Tyr"
   },
   {
     "id": "OBJID_VirtualBot::fenrir",
-    "name": "Fenrir",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFenrir"
+    "name": "Fenrir"
   },
   {
     "id": "OBJID_VirtualBot::fury",
-    "name": "Fury",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFury"
+    "name": "Fury"
   },
   {
     "id": "OBJID_VirtualBot::garuda",
-    "name": "Garuda",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotGaruda"
+    "name": "Garuda"
   },
   {
     "id": "OBJID_VirtualBot::griffin",
-    "name": "Griffin",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotGriffin"
+    "name": "Griffin"
   },
   {
     "id": "OBJID_VirtualBot::grim",
-    "name": "Grim",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Grim"
+    "name": "Grim"
   },
   {
     "id": "OBJID_VirtualBot::harpy",
-    "name": "Harpy",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHarpy"
+    "name": "Harpy"
   },
   {
     "id": "OBJID_VirtualBot::heike",
-    "name": "Heike",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHeike"
+    "name": "Heike"
   },
   {
     "id": "OBJID_VirtualBot::hitcher",
-    "name": "Hitcher",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHitcher"
+    "name": "Hitcher"
   },
   {
     "id": "OBJID_VirtualBot::kumo",
-    "name": "Kumo",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotKumo"
+    "name": "Kumo"
   },
   {
     "id": "OBJID_VirtualBot::lancelot",
-    "name": "Lancelot",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLancelot"
+    "name": "Lancelot"
   },
   {
     "id": "OBJID_VirtualBot::loki",
-    "name": "Loki",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLoki"
+    "name": "Loki"
   },
   {
     "id": "OBJID_VirtualBot::matriarch",
-    "name": "Matriarch",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch"
+    "name": "Matriarch"
   },
   {
     "id": "OBJID_VirtualBot::mesa",
-    "name": "Mesa",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotMesa"
+    "name": "Mesa"
   },
   {
     "id": "OBJID_VirtualBot::norna",
-    "name": "Norna",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Norna"
+    "name": "Norna"
   },
   {
     "id": "OBJID_VirtualBot::orochi",
-    "name": "Orochi",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotOrochi"
+    "name": "Orochi"
   },
   {
     "id": "OBJID_VirtualBot::phantom",
-    "name": "Phantom",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPhantom"
+    "name": "Phantom"
   },
   {
     "id": "OBJID_VirtualBot::purifier",
-    "name": "Purifier",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPurifier"
+    "name": "Purifier"
   },
   {
     "id": "OBJID_VirtualBot::pursuer",
-    "name": "Pursuer",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPursuer"
+    "name": "Pursuer"
   },
   {
     "id": "OBJID_VirtualBot::ravana",
-    "name": "Ravana",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRavana"
+    "name": "Ravana"
   },
   {
     "id": "OBJID_VirtualBot::raven",
-    "name": "Raven",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRaven"
+    "name": "Raven"
   },
   {
     "id": "OBJID_VirtualBot::scorpion",
-    "name": "Scorpion",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotScorpion"
+    "name": "Scorpion"
   },
   {
     "id": "OBJID_VirtualBot::siren",
-    "name": "Siren",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotSiren"
+    "name": "Siren"
   },
   {
     "id": "OBJID_VirtualBot::varangian",
-    "name": "Varangian",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotVarangian"
+    "name": "Varangian"
   },
   {
     "id": "OBJID_VirtualBot::volta",
-    "name": "Volta",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire"
+    "name": "Volta"
   },
   {
     "id": "OBJID_Module::DA_Module_Ability_AmmoGenerator.1",
