@@ -2,7 +2,8 @@
   {
     "id": "DA_Module_ChassisVityaz.2",
     "name": "Varangian",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisVityaz"
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisVityaz",
+    "_ci_test": true
   },
   {
     "id": "DA_Module_ChassisHitcher.2",

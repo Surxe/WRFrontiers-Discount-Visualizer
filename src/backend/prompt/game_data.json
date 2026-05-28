@@ -2,7 +2,8 @@
   {
     "id": "DA_Module_Ability_AmmoGenerator.1",
     "name": "Ammo Fabricator",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AmmoGenerator"
+    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AmmoGenerator",
+    "_ci_test": true
   },
   {
     "id": "DA_Module_Ability_ArmorShield.1",
