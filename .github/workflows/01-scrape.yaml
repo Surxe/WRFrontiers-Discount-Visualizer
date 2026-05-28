@@ -1,0 +1,47 @@
+name: 01 - Scrape and Build Game Data
+
+on:
+  workflow_dispatch:
+    inputs:
+      news_url:
+        description: 'War Robots Frontiers news article URL'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Checkout Data Repo
+        uses: actions/checkout@v4
+        with:
+          repository: Surxe/WRFrontiersDB-Data
+          token: ${{ secrets.DATA_REPO_PAT }}
+          path: WRFrontiersDB-Data
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install -r src/backend/requirements.txt
+
+      - name: Run Step 1 (Scrape)
+        run: python -c "import sys; sys.path.append('src/backend'); from step1_scrape import run_step; run_step('${{ github.event.inputs.news_url }}')"
+
+      - name: Run Step 2 (Build Game Data)
+        run: python -c "import sys; sys.path.append('src/backend'); from step2_build_game_data import run_step; run_step()"
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(data): update scraped news page and game data [skip ci]"
+          file_pattern: "src/backend/prompt/scraped_news_page.txt src/backend/prompt/game_data.json"
