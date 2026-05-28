@@ -1,14 +1,16 @@
 import sys
 import json
 import re
-from config import DISCOUNTS_OUTPUT, GAME_DATA_JSON, REPO_ROOT
+from pathlib import Path
+from config import DISCOUNTS_OUTPUT, GAME_DATA_JSON, REPO_ROOT, FRONTEND_DATA_DIR
 
 def load_discounts() -> list[dict]:
     """
     Reads the LLM-generated discounts.json output (which is a list of IDs).
     Reconstitutes the full metadata (name, image_path) by looking them up in game_data.json.
+    Writes the result to frontend public/data/discounts.json.
     """
-    print("[4/5] Reading LLM output from prompt/output/discounts.json...")
+    print("[4/4] Reading LLM output from prompt/output/discounts.json...")
 
     if not DISCOUNTS_OUTPUT.exists():
         print(f"  [ERROR] Output file not found: {DISCOUNTS_OUTPUT}")
@@ -58,6 +60,13 @@ def load_discounts() -> list[dict]:
             print(f"     • Resolved: {match['name']} ({match['id']})")
         else:
             print(f"     [!] Warning: ID {m_id} from LLM output was not found in game_data.json")
+
+    # Write the full discounts data to frontend
+    FRONTEND_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    frontend_output = FRONTEND_DATA_DIR / "discounts.json"
+    with open(frontend_output, "w", encoding="utf-8") as f:
+        json.dump(discounts, f, indent=2, ensure_ascii=False)
+    print(f"  -> Wrote {len(discounts)} items to {frontend_output.relative_to(REPO_ROOT)}")
 
     return discounts
 

@@ -15,7 +15,7 @@ def scrape_url(url: str) -> str:
     The site uses Nuxt SSR and embeds the article body in JSON-LD structured data.
     Falls back to BeautifulSoup body text if JSON-LD is not found.
     """
-    print(f"[1/5] Scraping URL: {url}")
+    print(f"[1/4] Scraping URL: {url}")
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "

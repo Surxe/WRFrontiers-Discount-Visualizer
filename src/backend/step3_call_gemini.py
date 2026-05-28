@@ -14,7 +14,7 @@ def call_gemini_cli():
     Invokes the Gemini CLI via subprocess.
     Captures the raw JSON printed to stdout and writes it to prompt/output/discounts.json.
     """
-    print("[3/5] Calling Gemini CLI...")
+    print("[3/4] Calling Gemini CLI...")
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

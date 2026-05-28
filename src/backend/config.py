@@ -28,7 +28,6 @@ else:
     DATA_REPO = _data_repo_local
 
 MODULE_JSON = DATA_REPO / "current" / "Objects" / "Module.json"
-TEXTURES_DIR = DATA_REPO / "textures"
 
 PROMPT_DIR = SCRIPT_DIR / "prompt"
 OUTPUT_DIR = PROMPT_DIR / "output"
@@ -38,4 +37,3 @@ GAME_DATA_JSON = PROMPT_DIR / "game_data.json"
 DISCOUNTS_OUTPUT = OUTPUT_DIR / "discounts.json"
 
 FRONTEND_DATA_DIR = REPO_ROOT / "src" / "frontend" / "public" / "data"
-FRONTEND_ASSETS_DIR = REPO_ROOT / "src" / "frontend" / "public" / "assets"

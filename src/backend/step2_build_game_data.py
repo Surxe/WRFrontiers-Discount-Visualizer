@@ -18,7 +18,7 @@ def build_game_data() -> list[dict]:
     We strip the leading '/' to get a relative path usable to locate the file
     inside the textures/ directory.
     """
-    print(f"[2/5] Building game_data.json from {MODULE_JSON}")
+    print(f"[2/4] Building game_data.json from {MODULE_JSON}")
 
     if not MODULE_JSON.exists():
         print(f"  [ERROR] Module.json not found at {MODULE_JSON}")
