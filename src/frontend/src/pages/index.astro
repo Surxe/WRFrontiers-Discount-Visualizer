@@ -1,0 +1,35 @@
+---
+import discounts from '../../public/data/discounts.json';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>WRFrontiers Discount Visualizer</title>
+	</head>
+	<body>
+		<h1>WRFrontiers Discount Visualizer</h1>
+		<p>This week's discounted items:</p>
+		
+		<div class="discounts-container">
+			{discounts.map((item) => (
+				<div class="discount-item">
+					<img 
+						src={`/WRFrontiersDB-Data/textures/${item.image_path}.png`} 
+						alt={item.name} 
+						width="128" 
+						height="128" 
+						loading="lazy" 
+					/>
+					<div class="item-details">
+						<strong>{item.name}</strong>
+						<br />
+						<small>{item.id}</small>
+					</div>
+				</div>
+			))}
+		</div>
+	</body>
+</html>
