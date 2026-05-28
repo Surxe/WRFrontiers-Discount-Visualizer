@@ -70,11 +70,6 @@
     "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderLNorna"
   },
   {
-    "id": "DA_Module_Weapon_Coriolis.0",
-    "name": "Coriolis",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Coriolis"
-  },
-  {
     "id": "DA_Module_Weapon_Scatter.0",
     "name": "Scatter",
     "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Scatter"
