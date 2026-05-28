@@ -1,497 +1,426 @@
 [
   {
-    "id": "OBJID_VirtualBot::alpha",
+    "ref": "OBJID_VirtualBot::alpha",
     "name": "Alpha"
   },
   {
-    "id": "OBJID_VirtualBot::anansi",
+    "ref": "OBJID_VirtualBot::anansi",
     "name": "Anansi"
   },
   {
-    "id": "OBJID_VirtualBot::ares",
+    "ref": "OBJID_VirtualBot::ares",
     "name": "Ares"
   },
   {
-    "id": "OBJID_VirtualBot::bulgasari",
+    "ref": "OBJID_VirtualBot::bulgasari",
     "name": "Bulgasari"
   },
   {
-    "id": "OBJID_VirtualBot::bulwark",
+    "ref": "OBJID_VirtualBot::bulwark",
     "name": "Bulwark"
   },
   {
-    "id": "OBJID_VirtualBot::ceres",
+    "ref": "OBJID_VirtualBot::ceres",
     "name": "Ceres"
   },
   {
-    "id": "OBJID_VirtualBot::crix",
+    "ref": "OBJID_VirtualBot::crix",
     "name": "Crix"
   },
   {
-    "id": "OBJID_VirtualBot::cyclops",
+    "ref": "OBJID_VirtualBot::cyclops",
     "name": "Cyclops"
   },
   {
-    "id": "OBJID_VirtualBot::decker",
+    "ref": "OBJID_VirtualBot::decker",
     "name": "Decker"
   },
   {
-    "id": "OBJID_VirtualBot::ever-s-typhon",
+    "ref": "OBJID_VirtualBot::ever-s-typhon",
     "name": "Ever's Typhon"
   },
   {
-    "id": "OBJID_VirtualBot::ever-s-tyr",
+    "ref": "OBJID_VirtualBot::ever-s-tyr",
     "name": "Ever's Tyr"
   },
   {
-    "id": "OBJID_VirtualBot::fenrir",
+    "ref": "OBJID_VirtualBot::fenrir",
     "name": "Fenrir"
   },
   {
-    "id": "OBJID_VirtualBot::fury",
+    "ref": "OBJID_VirtualBot::fury",
     "name": "Fury"
   },
   {
-    "id": "OBJID_VirtualBot::garuda",
+    "ref": "OBJID_VirtualBot::garuda",
     "name": "Garuda"
   },
   {
-    "id": "OBJID_VirtualBot::griffin",
+    "ref": "OBJID_VirtualBot::griffin",
     "name": "Griffin"
   },
   {
-    "id": "OBJID_VirtualBot::grim",
+    "ref": "OBJID_VirtualBot::grim",
     "name": "Grim"
   },
   {
-    "id": "OBJID_VirtualBot::harpy",
+    "ref": "OBJID_VirtualBot::harpy",
     "name": "Harpy"
   },
   {
-    "id": "OBJID_VirtualBot::heike",
+    "ref": "OBJID_VirtualBot::heike",
     "name": "Heike"
   },
   {
-    "id": "OBJID_VirtualBot::hitcher",
+    "ref": "OBJID_VirtualBot::hitcher",
     "name": "Hitcher"
   },
   {
-    "id": "OBJID_VirtualBot::kumo",
+    "ref": "OBJID_VirtualBot::kumo",
     "name": "Kumo"
   },
   {
-    "id": "OBJID_VirtualBot::lancelot",
+    "ref": "OBJID_VirtualBot::lancelot",
     "name": "Lancelot"
   },
   {
-    "id": "OBJID_VirtualBot::loki",
+    "ref": "OBJID_VirtualBot::loki",
     "name": "Loki"
   },
   {
-    "id": "OBJID_VirtualBot::matriarch",
+    "ref": "OBJID_VirtualBot::matriarch",
     "name": "Matriarch"
   },
   {
-    "id": "OBJID_VirtualBot::mesa",
+    "ref": "OBJID_VirtualBot::mesa",
     "name": "Mesa"
   },
   {
-    "id": "OBJID_VirtualBot::norna",
+    "ref": "OBJID_VirtualBot::norna",
     "name": "Norna"
   },
   {
-    "id": "OBJID_VirtualBot::orochi",
+    "ref": "OBJID_VirtualBot::orochi",
     "name": "Orochi"
   },
   {
-    "id": "OBJID_VirtualBot::phantom",
+    "ref": "OBJID_VirtualBot::phantom",
     "name": "Phantom"
   },
   {
-    "id": "OBJID_VirtualBot::purifier",
+    "ref": "OBJID_VirtualBot::purifier",
     "name": "Purifier"
   },
   {
-    "id": "OBJID_VirtualBot::pursuer",
+    "ref": "OBJID_VirtualBot::pursuer",
     "name": "Pursuer"
   },
   {
-    "id": "OBJID_VirtualBot::ravana",
+    "ref": "OBJID_VirtualBot::ravana",
     "name": "Ravana"
   },
   {
-    "id": "OBJID_VirtualBot::raven",
+    "ref": "OBJID_VirtualBot::raven",
     "name": "Raven"
   },
   {
-    "id": "OBJID_VirtualBot::scorpion",
+    "ref": "OBJID_VirtualBot::scorpion",
     "name": "Scorpion"
   },
   {
-    "id": "OBJID_VirtualBot::siren",
+    "ref": "OBJID_VirtualBot::siren",
     "name": "Siren"
   },
   {
-    "id": "OBJID_VirtualBot::varangian",
+    "ref": "OBJID_VirtualBot::varangian",
     "name": "Varangian"
   },
   {
-    "id": "OBJID_VirtualBot::volta",
+    "ref": "OBJID_VirtualBot::volta",
     "name": "Volta"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_AmmoGenerator.1",
-    "name": "Ammo Fabricator",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AmmoGenerator"
+    "ref": "OBJID_Module::DA_Module_Ability_AmmoGenerator.1",
+    "name": "Ammo Fabricator"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_ArmorShield.1",
-    "name": "Emergency Shield",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon"
+    "ref": "OBJID_Module::DA_Module_Ability_ArmorShield.1",
+    "name": "Emergency Shield"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_Atrophy.1",
-    "name": "Suppressor",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy"
+    "ref": "OBJID_Module::DA_Module_Ability_Atrophy.1",
+    "name": "Suppressor"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_BlastWave.1",
-    "name": "Blast Wave",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlastWave"
+    "ref": "OBJID_Module::DA_Module_Ability_BlastWave.1",
+    "name": "Blast Wave"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_BlockingField.1",
-    "name": "Energy Wall",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlockingField"
+    "ref": "OBJID_Module::DA_Module_Ability_BlockingField.1",
+    "name": "Energy Wall"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_CounterAttack.1",
-    "name": "Reflector",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack"
+    "ref": "OBJID_Module::DA_Module_Ability_CounterAttack.1",
+    "name": "Reflector"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_DashBlinkedVisible.1",
-    "name": "Blink",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_DashBlinkedVisible"
+    "ref": "OBJID_Module::DA_Module_Ability_DashBlinkedVisible.1",
+    "name": "Blink"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_Dazzle.1",
-    "name": "Flashbang",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle"
+    "ref": "OBJID_Module::DA_Module_Ability_Dazzle.1",
+    "name": "Flashbang"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_FuelReserve.1",
-    "name": "Fuel Reserve",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FuelReserve"
+    "ref": "OBJID_Module::DA_Module_Ability_FuelReserve.1",
+    "name": "Fuel Reserve"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_GhostTurret.1",
-    "name": "Ghost Turret",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret"
+    "ref": "OBJID_Module::DA_Module_Ability_GhostTurret.1",
+    "name": "Ghost Turret"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_Grounded.1",
-    "name": "Fuel Burn",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Grounded"
+    "ref": "OBJID_Module::DA_Module_Ability_Grounded.1",
+    "name": "Fuel Burn"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_Homing.1",
-    "name": "Homing Missile",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon"
+    "ref": "OBJID_Module::DA_Module_Ability_Homing.1",
+    "name": "Homing Missile"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_InfiniteAmmo.1",
-    "name": "Infinite Ammo",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon"
+    "ref": "OBJID_Module::DA_Module_Ability_InfiniteAmmo.1",
+    "name": "Infinite Ammo"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_IronVeil.1",
-    "name": "Iron Veil",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_IronVeil"
+    "ref": "OBJID_Module::DA_Module_Ability_IronVeil.1",
+    "name": "Iron Veil"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_KineticPulse.1",
-    "name": "Kinetic Pulse",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_KineticPulse"
+    "ref": "OBJID_Module::DA_Module_Ability_KineticPulse.1",
+    "name": "Kinetic Pulse"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_MineField.1",
-    "name": "Minefield",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_MineField"
+    "ref": "OBJID_Module::DA_Module_Ability_MineField.1",
+    "name": "Minefield"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_Regeneration.1",
-    "name": "Quick Repair",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_ArmorRepairing2"
+    "ref": "OBJID_Module::DA_Module_Ability_Regeneration.1",
+    "name": "Quick Repair"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_RegenerationFull.1",
-    "name": "Nanite Repair",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing"
+    "ref": "OBJID_Module::DA_Module_Ability_RegenerationFull.1",
+    "name": "Nanite Repair"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_Repulsor.1",
-    "name": "Repulsor",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Repulsor"
+    "ref": "OBJID_Module::DA_Module_Ability_Repulsor.1",
+    "name": "Repulsor"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_SmokeWall.1",
-    "name": "Holofield",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SmokeWall"
+    "ref": "OBJID_Module::DA_Module_Ability_SmokeWall.1",
+    "name": "Holofield"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_SpeedBoost.1",
-    "name": "Sprint Reactor",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SpeedBoost"
+    "ref": "OBJID_Module::DA_Module_Ability_SpeedBoost.1",
+    "name": "Sprint Reactor"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_Spotlight.1",
-    "name": "Recon Mode",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Spotlight"
+    "ref": "OBJID_Module::DA_Module_Ability_Spotlight.1",
+    "name": "Recon Mode"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_SupplySurge.1",
-    "name": "Supply Surge",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SupplySurge"
+    "ref": "OBJID_Module::DA_Module_Ability_SupplySurge.1",
+    "name": "Supply Surge"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_TensionLink.1",
-    "name": "Gamma Beam",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_TensionLink"
+    "ref": "OBJID_Module::DA_Module_Ability_TensionLink.1",
+    "name": "Gamma Beam"
   },
   {
-    "id": "OBJID_Module::DA_Module_Ability_Umbrella.1",
-    "name": "Umbrella",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon"
+    "ref": "OBJID_Module::DA_Module_Ability_Umbrella.1",
+    "name": "Umbrella"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Bayonet.0",
-    "name": "Bayonet",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Bayonet"
+    "ref": "OBJID_Module::DA_Module_Weapon_Bayonet.0",
+    "name": "Bayonet"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Bisector.0",
-    "name": "Bisector",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Bisector"
+    "ref": "OBJID_Module::DA_Module_Weapon_Bisector.0",
+    "name": "Bisector"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Buckshot.0",
-    "name": "Quantum",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Buckshot"
+    "ref": "OBJID_Module::DA_Module_Weapon_Buckshot.0",
+    "name": "Quantum"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Callisto.0",
-    "name": "Callisto",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Callisto"
+    "ref": "OBJID_Module::DA_Module_Weapon_Callisto.0",
+    "name": "Callisto"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Cascade.0",
-    "name": "Cascade",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Cascade"
+    "ref": "OBJID_Module::DA_Module_Weapon_Cascade.0",
+    "name": "Cascade"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Conflux.0",
-    "name": "Conflux",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Conflux"
+    "ref": "OBJID_Module::DA_Module_Weapon_Conflux.0",
+    "name": "Conflux"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Coriolis.0",
-    "name": "Coriolis",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Coriolis"
+    "ref": "OBJID_Module::DA_Module_Weapon_Coriolis.0",
+    "name": "Coriolis"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Dragoon.0",
-    "name": "Dragoon",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Dragoon"
+    "ref": "OBJID_Module::DA_Module_Weapon_Dragoon.0",
+    "name": "Dragoon"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Fowler.0",
-    "name": "Fowler",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Fowler"
+    "ref": "OBJID_Module::DA_Module_Weapon_Fowler.0",
+    "name": "Fowler"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Gimcoil.0",
-    "name": "Apollo",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Gimcoil"
+    "ref": "OBJID_Module::DA_Module_Weapon_Gimcoil.0",
+    "name": "Apollo"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Glory.0",
-    "name": "Halo",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Glory"
+    "ref": "OBJID_Module::DA_Module_Weapon_Glory.0",
+    "name": "Halo"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Gozer.0",
-    "name": "Gozer",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Gozer"
+    "ref": "OBJID_Module::DA_Module_Weapon_Gozer.0",
+    "name": "Gozer"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_GrenadeLauncher.0",
-    "name": "Rampant",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_GrenadeLauncher"
+    "ref": "OBJID_Module::DA_Module_Weapon_GrenadeLauncher.0",
+    "name": "Rampant"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Hefty.0",
-    "name": "Hefty",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Hefty"
+    "ref": "OBJID_Module::DA_Module_Weapon_Hefty.0",
+    "name": "Hefty"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Hive.0",
-    "name": "Hive",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Hive"
+    "ref": "OBJID_Module::DA_Module_Weapon_Hive.0",
+    "name": "Hive"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Horde.0",
-    "name": "Horde",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Horde"
+    "ref": "OBJID_Module::DA_Module_Weapon_Horde.0",
+    "name": "Horde"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_ION.0",
-    "name": "I.O.N.",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_ION"
+    "ref": "OBJID_Module::DA_Module_Weapon_ION.0",
+    "name": "I.O.N."
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Incinerator.0",
-    "name": "Incinerator",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Incinerator"
+    "ref": "OBJID_Module::DA_Module_Weapon_Incinerator.0",
+    "name": "Incinerator"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Jigsaw.0",
-    "name": "Jigsaw",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Jigsaw"
+    "ref": "OBJID_Module::DA_Module_Weapon_Jigsaw.0",
+    "name": "Jigsaw"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Katzbalger.0",
-    "name": "Katzbalger",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Katzbalger"
+    "ref": "OBJID_Module::DA_Module_Weapon_Katzbalger.0",
+    "name": "Katzbalger"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Locust.0",
-    "name": "Locust",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Locust"
+    "ref": "OBJID_Module::DA_Module_Weapon_Locust.0",
+    "name": "Locust"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_MLx2.0",
-    "name": "MLx2",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_MLx2"
+    "ref": "OBJID_Module::DA_Module_Weapon_MLx2.0",
+    "name": "MLx2"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Noricum.0",
-    "name": "Noricum",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Noricum"
+    "ref": "OBJID_Module::DA_Module_Weapon_Noricum.0",
+    "name": "Noricum"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Nucleon.0",
-    "name": "Nucleon",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Nucleon"
+    "ref": "OBJID_Module::DA_Module_Weapon_Nucleon.0",
+    "name": "Nucleon"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Orkan.0",
-    "name": "Orkan",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Orkan"
+    "ref": "OBJID_Module::DA_Module_Weapon_Orkan.0",
+    "name": "Orkan"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Pulsar.0",
-    "name": "Pulsar",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Pulsar"
+    "ref": "OBJID_Module::DA_Module_Weapon_Pulsar.0",
+    "name": "Pulsar"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Punisher.0",
-    "name": "Punisher",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Punisher"
+    "ref": "OBJID_Module::DA_Module_Weapon_Punisher.0",
+    "name": "Punisher"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Railgun.0",
-    "name": "Railgun",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Railgun"
+    "ref": "OBJID_Module::DA_Module_Weapon_Railgun.0",
+    "name": "Railgun"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Scatter.0",
-    "name": "Scatter",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Scatter"
+    "ref": "OBJID_Module::DA_Module_Weapon_Scatter.0",
+    "name": "Scatter"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Scourge.0",
-    "name": "Scourge",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Scourge"
+    "ref": "OBJID_Module::DA_Module_Weapon_Scourge.0",
+    "name": "Scourge"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Scrubber.0",
-    "name": "Scrubber",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Scrubber"
+    "ref": "OBJID_Module::DA_Module_Weapon_Scrubber.0",
+    "name": "Scrubber"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Shocktrain.0",
-    "name": "Shocktrain",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shocktrain"
+    "ref": "OBJID_Module::DA_Module_Weapon_Shocktrain.0",
+    "name": "Shocktrain"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Shredder.0",
-    "name": "Shredder",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shredder"
+    "ref": "OBJID_Module::DA_Module_Weapon_Shredder.0",
+    "name": "Shredder"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Skuld.0",
-    "name": "Skuld",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Skuld"
+    "ref": "OBJID_Module::DA_Module_Weapon_Skuld.0",
+    "name": "Skuld"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Slugger.0",
-    "name": "Slugger",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Slugger"
+    "ref": "OBJID_Module::DA_Module_Weapon_Slugger.0",
+    "name": "Slugger"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_StickyGun.0",
-    "name": "Magneto",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_StickyGun"
+    "ref": "OBJID_Module::DA_Module_Weapon_StickyGun.0",
+    "name": "Magneto"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Stormpike.0",
-    "name": "Stormpike",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Stormpike"
+    "ref": "OBJID_Module::DA_Module_Weapon_Stormpike.0",
+    "name": "Stormpike"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Thunder.0",
-    "name": "Thunder",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Thunder"
+    "ref": "OBJID_Module::DA_Module_Weapon_Thunder.0",
+    "name": "Thunder"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Toxin.0",
-    "name": "Lighter",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Toxin"
+    "ref": "OBJID_Module::DA_Module_Weapon_Toxin.0",
+    "name": "Lighter"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Trebuchet.0",
-    "name": "Trebuchet",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Trebuchet"
+    "ref": "OBJID_Module::DA_Module_Weapon_Trebuchet.0",
+    "name": "Trebuchet"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Trident.0",
-    "name": "Trident",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Trident"
+    "ref": "OBJID_Module::DA_Module_Weapon_Trident.0",
+    "name": "Trident"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Tusk.0",
-    "name": "Tusk",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Tusk"
+    "ref": "OBJID_Module::DA_Module_Weapon_Tusk.0",
+    "name": "Tusk"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Twinflare.0",
-    "name": "Gemini",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Twinflare"
+    "ref": "OBJID_Module::DA_Module_Weapon_Twinflare.0",
+    "name": "Gemini"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Vortex.0",
-    "name": "Vortex",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Vortex"
+    "ref": "OBJID_Module::DA_Module_Weapon_Vortex.0",
+    "name": "Vortex"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Zenit.0",
-    "name": "Zenit",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Zenit"
+    "ref": "OBJID_Module::DA_Module_Weapon_Zenit.0",
+    "name": "Zenit"
   },
   {
-    "id": "OBJID_Module::DA_Module_Weapon_Zeus.0",
-    "name": "Zeus",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Zeus"
+    "ref": "OBJID_Module::DA_Module_Weapon_Zeus.0",
+    "name": "Zeus"
   }
 ]
