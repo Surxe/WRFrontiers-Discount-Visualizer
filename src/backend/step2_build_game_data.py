@@ -6,7 +6,7 @@ Step 2: Load WRFrontiersDB-Data/current/Objects/Module.json and build game_data.
 
 import sys
 import json
-from config import MODULE_JSON, VIRTUAL_BOT_JSON, PROMPT_DIR, GAME_DATA_JSON, REPO_ROOT
+from config import MODULE_JSON, VIRTUAL_BOT_JSON, PROMPT_DIR, GAME_DATA_JSON, REPO_ROOT, STANDALONE_MODULE_GROUPS
 
 def build_game_data() -> list[dict]:
     """
@@ -48,7 +48,6 @@ def build_game_data() -> list[dict]:
     with open(MODULE_JSON, encoding="utf-8") as f:
         modules = json.load(f)
 
-    ALLOWED_GROUPS = ["supply-gear", "cycle-gear", "light-weapon", "heavy-weapon", "titan-weapon"]
     modules_added = 0
 
     for module_id, module in modules.items():
@@ -57,7 +56,7 @@ def build_game_data() -> list[dict]:
 
         # Check module_group_ref against allowed groups
         group_ref = module.get("module_group_ref", "")
-        if not any(allowed in group_ref for allowed in ALLOWED_GROUPS):
+        if not any(allowed in group_ref for allowed in STANDALONE_MODULE_GROUPS):
             continue
 
         name_field = module.get("name", {})

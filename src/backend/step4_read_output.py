@@ -2,7 +2,7 @@ import sys
 import json
 import re
 from pathlib import Path
-from config import DISCOUNTS_OUTPUT, MODULE_JSON, VIRTUAL_BOT_JSON, REPO_ROOT, FRONTEND_DATA_DIR
+from config import DISCOUNTS_OUTPUT, MODULE_JSON, VIRTUAL_BOT_JSON, REPO_ROOT, FRONTEND_DATA_DIR, STANDALONE_MODULE_GROUPS
 
 def parse_ref(ref: str) -> tuple[str, str]:
     """
@@ -91,20 +91,16 @@ def load_discounts() -> list[dict]:
             vbot = virtual_bots_data.get(obj_id)
             if vbot:
                 print(f"     • Resolved VirtualBot: {obj_id}")
-                # Groups included as standalone items in step2 — exclude them
-                # here so titan-specific weapons (e.g. Norna's Coriolis) are not listed unless explicitly listed as a weapon
-                # in the discount list.
-                EXCLUDED_MODULE_GROUPS = [
-                    "supply-gear", "cycle-gear",
-                    "light-weapon", "heavy-weapon", "titan-weapon",
-                ]
+                # STANDALONE_MODULE_GROUPS are included as standalone items in step2;
+                # exclude them here so built-in weapons (e.g. Norna's Coriolis)
+                # are not listed as robot frame parts.
                 for core_ref in vbot.get("core_module_refs", []):
                     c_type, c_id = parse_ref(core_ref)
                     module = modules_data.get(c_id)
                     if not module:
                         continue
                     group_ref = module.get("module_group_ref", "")
-                    if any(group in group_ref for group in EXCLUDED_MODULE_GROUPS):
+                    if any(group in group_ref for group in STANDALONE_MODULE_GROUPS):
                         print(f"       - Skipping weapon/gear core module: {c_id}")
                         continue
                     minfo = get_module_info(c_id, modules_data)
