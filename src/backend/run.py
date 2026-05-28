@@ -28,7 +28,7 @@ def main():
 
     url = sys.argv[1]
 
-    print("🚀 Starting WRFrontiers Discount Visualizer Backend Processing...")
+    print("Starting WRFrontiers Discount Visualizer Backend Processing...")
     
     # Step 1: Scrape news article
     run_step1(url)
@@ -42,7 +42,7 @@ def main():
     # Step 4: Validate and load the mapped output
     discounts = run_step4()
 
-    print("\n✅ Done! All steps completed successfully. Ready for frontend build.")
+    print("\nDone! All steps completed successfully. Ready for frontend build.")
 
 if __name__ == "__main__":
     main()
