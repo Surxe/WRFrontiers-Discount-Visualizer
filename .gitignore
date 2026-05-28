@@ -179,3 +179,18 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+
+# Personal
+notes/
+
+# WRFrontiers Discount Visualizer
+WRFrontiersDB-Data/
+.env
+src/backend/prompt/game_data.json
+src/backend/prompt/scraped_news_page.txt
+src/backend/prompt/output/
+src/backend/node_modules/
+src/frontend/node_modules/
+src/frontend/dist/
+src/frontend/.astro/
+WRFrontiersDB-Data/

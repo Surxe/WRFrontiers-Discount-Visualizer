@@ -1,0 +1,8 @@
+{
+  "name": "wrf-discount-backend",
+  "version": "1.0.0",
+  "description": "Backend tooling for WRFrontiers Discount Visualizer - invokes Gemini CLI for item mapping",
+  "dependencies": {
+    "@google/gemini-cli": "latest"
+  }
+}
