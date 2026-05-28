@@ -1,18 +1,12 @@
-"""
-step4_read_output.py
-
-Step 4: Read the LLM output from prompt/output/discounts.json.
-"""
-
 import sys
 import json
 import re
-from config import DISCOUNTS_OUTPUT, REPO_ROOT
+from config import DISCOUNTS_OUTPUT, GAME_DATA_JSON, REPO_ROOT
 
 def load_discounts() -> list[dict]:
     """
-    Reads the LLM-generated discounts.json output.
-    Validates that it is a non-empty list with the expected fields.
+    Reads the LLM-generated discounts.json output (which is a list of IDs).
+    Reconstitutes the full metadata (name, image_path) by looking them up in game_data.json.
     """
     print("[4/5] Reading LLM output from prompt/output/discounts.json...")
 
@@ -29,19 +23,41 @@ def load_discounts() -> list[dict]:
     content = re.sub(r"\s*```$", "", content)
 
     try:
-        discounts = json.loads(content)
+        discount_ids = json.loads(content)
     except json.JSONDecodeError as e:
         print(f"  [ERROR] Output is not valid JSON: {e}")
         print(f"  Content preview: {content[:300]}")
         sys.exit(1)
 
-    if not isinstance(discounts, list) or len(discounts) == 0:
-        print("  [ERROR] Output is empty or not a JSON array.")
+    if not isinstance(discount_ids, list):
+        print("  [ERROR] Output is not a JSON list/array.")
         sys.exit(1)
 
-    print(f"  -> {len(discounts)} discounted items found:")
-    for item in discounts:
-        print(f"     • {item.get('name', '?')} ({item.get('id', '?')})")
+    print(f"  -> Found {len(discount_ids)} ID matches in output.")
+
+    # Load game_data.json to build a lookup map
+    if not GAME_DATA_JSON.exists():
+        print(f"  [ERROR] game_data.json not found at {GAME_DATA_JSON}")
+        sys.exit(1)
+
+    with open(GAME_DATA_JSON, encoding="utf-8") as f:
+        game_data = json.load(f)
+
+    # Map ID -> full details
+    game_data_map = {item["id"]: item for item in game_data}
+
+    discounts = []
+    for m_id in discount_ids:
+        # Gracefully handle string IDs or list items
+        if not isinstance(m_id, str):
+            continue
+        
+        match = game_data_map.get(m_id)
+        if match:
+            discounts.append(match)
+            print(f"     • Resolved: {match['name']} ({match['id']})")
+        else:
+            print(f"     [!] Warning: ID {m_id} from LLM output was not found in game_data.json")
 
     return discounts
 

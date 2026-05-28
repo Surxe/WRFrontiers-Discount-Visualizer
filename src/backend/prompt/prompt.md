@@ -22,25 +22,18 @@ You have access to the following files in the `prompt/` directory:
 
 ## Output
 
-Output the matched results exclusively as a raw, valid JSON array to stdout. Do not output markdown code blocks (e.g. do not wrap in ```json ... ```), do not add any markdown formatting, and do not add any explanation or preamble text.
+Output the matched results exclusively as a raw, valid JSON list of module ID strings to stdout. Do not output markdown code blocks (e.g. do not wrap in ```json ... ```), do not add any markdown formatting, and do not add any explanation or preamble text.
 
-CRITICAL: The output must be exactly in this JSON format:
-```json
+The output must be exactly in this format:
 [
-  {
-    "id": "DA_Module_Robot_Example.1",
-    "name": "Example Robot",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisExample"
-  }
+  "DA_Module_Robot_Example.1",
+  "DA_Module_Robot_Example2.2"
 ]
-```
 
 ## Rules
 
 - Only include items from the **most recent** (first) "Featured Items" section.
 - Do not include any item you cannot confidently match to an entry in `game_data.json`.
 - Do not include discount values or prices.
-- Do not add any extra fields to the output objects.
-- The `image_path` must be copied exactly from the `game_data.json` entry's `image_path` field.
-- Output ONLY the raw JSON string. Do not wrap in markdown code blocks. Do not add conversational text.
-
+- Do not add any extra fields or structure to the output list.
+- Output ONLY the raw JSON string array. Do not wrap in markdown code blocks. Do not add conversational text.
