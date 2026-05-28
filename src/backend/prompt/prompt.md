@@ -22,8 +22,9 @@ You have access to the following files in the `prompt/` directory:
 
 ## Output
 
-Write your output to `output/discounts.json`. It must be a valid JSON array. Each element should be an object with exactly these three fields:
+Output the matched results exclusively as a raw, valid JSON array to stdout. Do not output markdown code blocks (e.g. do not wrap in ```json ... ```), do not add any markdown formatting, and do not add any explanation or preamble text.
 
+CRITICAL: The output must be exactly in this JSON format:
 ```json
 [
   {
@@ -41,4 +42,5 @@ Write your output to `output/discounts.json`. It must be a valid JSON array. Eac
 - Do not include discount values or prices.
 - Do not add any extra fields to the output objects.
 - The `image_path` must be copied exactly from the `game_data.json` entry's `image_path` field.
-- The output file must be `output/discounts.json` and must contain only valid JSON — no markdown, no explanation text.
+- Output ONLY the raw JSON string. Do not wrap in markdown code blocks. Do not add conversational text.
+

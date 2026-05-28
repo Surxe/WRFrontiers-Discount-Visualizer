@@ -7,13 +7,12 @@ Step 3: Call the Gemini CLI with access to prompt/ directory to map items.
 import sys
 import shutil
 import subprocess
-from config import PROMPT_DIR, OUTPUT_DIR
+from config import PROMPT_DIR, OUTPUT_DIR, DISCOUNTS_OUTPUT
 
 def call_gemini_cli():
     """
     Invokes the Gemini CLI via subprocess.
-    The CLI is given access to the prompt/ directory and instructed to follow prompt.md.
-    It should write output to prompt/output/discounts.json.
+    Captures the raw JSON printed to stdout and writes it to prompt/output/discounts.json.
     """
     print("[3/5] Calling Gemini CLI...")
 
@@ -21,9 +20,9 @@ def call_gemini_cli():
 
     # Build the prompt message that references the files
     prompt_message = (
-        "Follow the instructions in prompt.md. "
+        "Follow the instructions at prompt.md in src/backend/prompt/. "
         "Read scraped_news_page.txt and game_data.json from the current directory, "
-        "then write the output JSON array to output/discounts.json."
+        "and output the resulting JSON directly to stdout without using file editing tools."
     )
 
     # Try 'gemini' (globally installed) then fall back to npx
@@ -46,9 +45,12 @@ def call_gemini_cli():
             print(f"  STDOUT: {result.stdout}")
             print(f"  STDERR: {result.stderr}")
             sys.exit(1)
-        print(f"  -> Gemini CLI completed successfully.")
-        if result.stdout:
-            print(f"  STDOUT: {result.stdout[:500]}")
+        
+        # Write captured stdout to the discounts.json file
+        output_content = result.stdout.strip()
+        DISCOUNTS_OUTPUT.write_text(output_content, encoding="utf-8")
+        
+        print(f"  -> Gemini CLI completed successfully and output was saved to {DISCOUNTS_OUTPUT.name}.")
     except FileNotFoundError:
         print(
             "  [ERROR] 'gemini' CLI not found. "
