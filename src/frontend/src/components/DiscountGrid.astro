@@ -131,14 +131,14 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 	})}
 
 	{/* Titan Section Header */}
-	{titanRows > 0 && (
+	{titanItems.length > 0 && (
 		<div class="titan-divider" style="grid-column: 1 / -1;">
 			<h2>Titan Discounts</h2>
 		</div>
 	)}
 
 	{/* Titan Rows */}
-	{Array.from({ length: titanRows }).map((_, i) => {
+	{titanItems.length > 0 && Array.from({ length: titanRows }).map((_, i) => {
 		const bot = titanBots[i];
 		const tw = titanWeapons[i];
 
@@ -376,7 +376,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 
 	.titan-divider h2 {
 		margin: 0;
-		color: #ff3a3a;
+		color: #fff;
 		text-transform: uppercase;
 		letter-spacing: 2px;
 	}
