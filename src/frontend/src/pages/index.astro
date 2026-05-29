@@ -1,5 +1,8 @@
 ---
-import discounts from '../../public/data/discounts.json';
+import DiscountGrid from '../components/DiscountGrid.astro';
+import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
+
+const { items, shopCards } = fetchEnrichedDiscounts();
 ---
 
 <html lang="en">
@@ -8,28 +11,51 @@ import discounts from '../../public/data/discounts.json';
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>WRFrontiers Discount Visualizer</title>
+		<link rel="stylesheet" href="/global.css" />
 	</head>
 	<body>
-		<h1>WRFrontiers Discount Visualizer</h1>
-		<p>This week's discounted items:</p>
-		
-		<div class="discounts-container">
-			{discounts.map((item) => (
-				<div class="discount-item">
-					<img 
-						src={`/WRFrontiersDB-Data/textures/${item.image_path}.png`} 
-						alt={item.name} 
-						width="128" 
-						height="128" 
-						loading="lazy" 
-					/>
-					<div class="item-details">
-						<strong>{item.name}</strong>
-						<br />
-						<small>{item.id}</small>
-					</div>
-				</div>
-			))}
-		</div>
+		<main class="app-container">
+			<header>
+				<h1>WRFrontiers Discount Visualizer</h1>
+				<p>This week's discounted items</p>
+			</header>
+			
+			<DiscountGrid items={items} shopCards={shopCards} />
+		</main>
 	</body>
 </html>
+
+<style>
+	:root {
+		--bg-color: #0f1115;
+		--text-color: #e0e0e0;
+		--accent-color: #3a86ff;
+	}
+
+	body {
+		background-color: var(--bg-color);
+		color: var(--text-color);
+		font-family: 'Inter', system-ui, sans-serif;
+		margin: 0;
+		padding: 0;
+	}
+
+	.app-container {
+		max-width: 1400px;
+		margin: 0 auto;
+		padding: 2rem;
+	}
+
+	header {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 0.5rem;
+		background: linear-gradient(90deg, #3a86ff, #8338ec);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+</style>

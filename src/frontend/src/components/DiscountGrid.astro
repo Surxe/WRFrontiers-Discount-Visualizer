@@ -1,0 +1,339 @@
+---
+const { items, shopCards } = Astro.props;
+
+// Grouping and processing logic
+const isTitan = (item) => item.vbot && item.vbot.toLowerCase().includes('titan');
+
+const categorize = (item) => {
+	const cat = (item.category || "").toLowerCase();
+	if (cat.includes('chassis')) return 'chassis';
+	if (cat.includes('shoulder')) return 'shoulder';
+	if (cat.includes('torso')) return 'torso';
+	return null;
+};
+
+// Process standard/mech
+const standardItems = items.filter(i => !isTitan(i));
+const titanItems = items.filter(i => isTitan(i));
+
+const getTexturePath = (uePath) => {
+    if (!uePath) return '';
+    const cleanPath = uePath.startsWith('/') ? uePath.substring(1) : uePath;
+    return `/WRFrontiersDB-Data/textures/${cleanPath}.png`;
+};
+
+const getBackgroundPath = (rarityId, isVertical) => {
+	const bgObjId = `OBJID_Rarity::${rarityId}`;
+	const sizeKey = isVertical ? 'DA_CardSize_SV.0' : 'DA_CardSize_SH.0';
+	const bgObj = shopCards[sizeKey]?.backgrounds;
+	if (!bgObj) return '';
+	return getTexturePath(bgObj[bgObjId]);
+};
+
+// Organize Bots
+const processBots = (botItems) => {
+	const botParts = botItems.filter(i => categorize(i) !== null);
+	const botsMap = {};
+	for (const part of botParts) {
+		const vbot = part.vbot || part.id; 
+		if (!botsMap[vbot]) {
+			botsMap[vbot] = { torso: [], shoulder: [], chassis: [], rarity: part.rarity };
+		}
+		const cat = categorize(part);
+		if (cat) {
+			if (botsMap[vbot][cat].length === 0) {
+				botsMap[vbot][cat].push(part);
+			}
+		}
+	}
+	return Object.values(botsMap);
+};
+
+const standardBots = processBots(standardItems);
+const titanBots = processBots(titanItems);
+
+// Organize right columns (Weapons, Gear)
+const getWeaponAndGear = (colItems) => {
+	const lightWep = colItems.filter(i => i.group && i.group.toLowerCase().includes('light'));
+	const heavyWep = colItems.filter(i => i.group && i.group.toLowerCase().includes('heavy'));
+	const supply = colItems.filter(i => i.group && i.group.toLowerCase().includes('supply'));
+	const cycle = colItems.filter(i => i.group && i.group.toLowerCase().includes('cycle'));
+	return { lightWep, heavyWep, supply, cycle };
+};
+
+const stdWeapons = getWeaponAndGear(standardItems);
+
+// Count rows needed for standard grid
+const stdRows = Math.max(
+	standardBots.length,
+	stdWeapons.lightWep.length,
+	stdWeapons.heavyWep.length,
+	stdWeapons.supply.length,
+	stdWeapons.cycle.length
+);
+
+// Titan Weapons
+const titanWeapons = titanItems.filter(i => categorize(i) === null);
+const titanRows = Math.max(titanBots.length, titanWeapons.length);
+
+---
+
+<div class="grid-container">
+	{/* Headers */}
+	<div class="grid-header bot-col">Torso</div>
+	<div class="grid-header bot-col">Shoulder</div>
+	<div class="grid-header bot-col">Chassis</div>
+	<div class="grid-header">Light Wep</div>
+	<div class="grid-header">Heavy Wep</div>
+	<div class="grid-header">Supply Gear</div>
+	<div class="grid-header">Cycle Gear</div>
+
+	{/* Standard Grid Rows */}
+	{Array.from({ length: stdRows }).map((_, i) => {
+		const bot = standardBots[i];
+		const lw = stdWeapons.lightWep[i];
+		const hw = stdWeapons.heavyWep[i];
+		const sg = stdWeapons.supply[i];
+		const cg = stdWeapons.cycle[i];
+
+		return (
+			<div class="grid-row contents">
+				{bot ? (
+					<div class="bot-group" style={`grid-column: 1 / 4; background-image: url('${getBackgroundPath(bot.rarity, false)}');`}>
+						<div class="bot-cell torso-cell">
+							{bot.torso.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
+						</div>
+						<div class="bot-cell shoulder-cell">
+							{bot.shoulder.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
+						</div>
+						<div class="bot-cell chassis-cell">
+							{bot.chassis.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
+						</div>
+						{bot.torso.length > 0 && <span class="group-title">{bot.torso[0].name}</span>}
+					</div>
+				) : (
+					<>
+						<div class="empty-cell"></div>
+						<div class="empty-cell"></div>
+						<div class="empty-cell"></div>
+					</>
+				)}
+
+				{[lw, hw, sg, cg].map(wep => (
+					wep ? (
+						<div class="wep-cell" style={`background-image: url('${getBackgroundPath(wep.rarity, true)}');`}>
+							<div class="item-card"><img src={getTexturePath(wep.icon_path)} /><span>{wep.name}</span></div>
+						</div>
+					) : <div class="empty-cell"></div>
+				))}
+			</div>
+		);
+	})}
+
+	{/* Titan Section Header */}
+	{titanRows > 0 && (
+		<div class="titan-divider" style="grid-column: 1 / -1;">
+			<h2>Titan Discounts</h2>
+		</div>
+	)}
+
+	{/* Titan Rows */}
+	{Array.from({ length: titanRows }).map((_, i) => {
+		const bot = titanBots[i];
+		const tw = titanWeapons[i];
+
+		return (
+			<div class="grid-row contents">
+				{bot ? (
+					<div class="bot-group" style={`grid-column: 1 / 4; background-image: url('${getBackgroundPath(bot.rarity, false)}');`}>
+						<div class="bot-cell torso-cell">
+							{bot.torso.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
+						</div>
+						<div class="bot-cell shoulder-cell">
+							{bot.shoulder.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
+						</div>
+						<div class="bot-cell chassis-cell">
+							{bot.chassis.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
+						</div>
+						{bot.torso.length > 0 && <span class="group-title">{bot.torso[0].name}</span>}
+					</div>
+				) : (
+					<>
+						<div class="empty-cell"></div>
+						<div class="empty-cell"></div>
+						<div class="empty-cell"></div>
+					</>
+				)}
+
+				{tw ? (
+					<div class="titan-wep-group" style={`grid-column: 4 / 6; background-image: url('${getBackgroundPath(tw.rarity, false)}');`}>
+						<div class="item-card"><img src={getTexturePath(tw.icon_path)} /></div>
+						<span class="group-title">{tw.name}</span>
+					</div>
+				) : (
+					<>
+						<div class="empty-cell"></div>
+						<div class="empty-cell"></div>
+					</>
+				)}
+
+				<div class="empty-cell"></div>
+				<div class="empty-cell"></div>
+			</div>
+		);
+	})}
+</div>
+
+<style>
+	.grid-container {
+		display: grid;
+		grid-template-columns: repeat(7, 1fr);
+		gap: 16px;
+		background: #15181e;
+		padding: 24px;
+		border-radius: 12px;
+		box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+	}
+
+	.grid-header {
+		text-transform: uppercase;
+		font-weight: 800;
+		font-size: 0.85rem;
+		color: #7b8390;
+		text-align: center;
+		padding-bottom: 8px;
+		border-bottom: 2px solid #232730;
+	}
+
+	.contents {
+		display: contents;
+	}
+
+	.bot-group {
+		position: relative;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		border-radius: 8px;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		overflow: hidden;
+	}
+
+	.bot-cell {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 0;
+		height: 100%;
+		box-sizing: border-box;
+		min-height: 0;
+	}
+
+	.bot-cell .item-card {
+		width: 100%;
+		height: 100%;
+	}
+
+	.wep-cell {
+		background-size: 100% 100%;
+		background-position: center;
+		background-repeat: no-repeat;
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: 1/1;
+		overflow: hidden;
+		height: 100%;
+		width: 100%;
+	}
+
+	.wep-cell .item-card {
+		width: 100%;
+		height: 100%;
+	}
+
+	.titan-wep-group {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		border-radius: 8px;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		padding: 0;
+		overflow: hidden;
+	}
+
+	.titan-wep-group .item-card {
+		width: 100%;
+		height: 100%;
+	}
+
+	.item-card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background: transparent;
+		transition: transform 0.2s;
+		overflow: hidden;
+		box-sizing: border-box;
+	}
+
+	.item-card:hover {
+		transform: translateY(-2px);
+	}
+
+	.item-card img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	.item-card span, .group-title {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: rgba(0, 0, 0, 0.75);
+		font-size: 0.85rem;
+		font-weight: 700;
+		text-align: center;
+		padding: 6px 4px;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+		color: #fff;
+	}
+
+	.empty-cell {
+		background: rgba(255,255,255,0.02);
+		border: 1px dashed rgba(255,255,255,0.1);
+		border-radius: 8px;
+		aspect-ratio: 1/1;
+	}
+
+	.titan-divider {
+		margin-top: 32px;
+		margin-bottom: 16px;
+		text-align: center;
+		border-top: 2px solid #333;
+		padding-top: 24px;
+	}
+
+	.titan-divider h2 {
+		margin: 0;
+		color: #ff3a3a;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+	}
+</style>

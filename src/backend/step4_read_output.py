@@ -17,7 +17,7 @@ def parse_ref(ref: str) -> tuple[str, str]:
 
 def get_module_info(module_id: str, modules_data: dict) -> dict | None:
     """
-    Extracts id, name, and image_path from a Module dictionary.
+    Extracts id and name from a Module dictionary.
     """
     module = modules_data.get(module_id)
     if not module:
@@ -25,13 +25,11 @@ def get_module_info(module_id: str, modules_data: dict) -> dict | None:
     
     name_field = module.get("name", {})
     english_name = name_field.get("en", "")
-    icon_path = module.get("inventory_icon_path", "")
     
-    if english_name and icon_path:
+    if english_name:
         return {
             "id": module_id,
-            "name": english_name,
-            "image_path": icon_path.lstrip("/")
+            "name": english_name
         }
     return None
 

@@ -1,122 +1,98 @@
 [
   {
     "id": "DA_Module_ChassisVityaz.2",
-    "name": "Varangian",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisVityaz"
+    "name": "Varangian"
   },
   {
     "id": "DA_Module_TorsoVityaz.1",
-    "name": "Varangian",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_TorsoVityaz"
+    "name": "Varangian"
   },
   {
     "id": "DA_Module_ShoulderVityaz01.0",
-    "name": "Varangian Mk. II",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderVityaz01"
+    "name": "Varangian Mk. II"
   },
   {
     "id": "DA_Module_ShoulderVityaz02.0",
-    "name": "Varangian Mk. I",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderVityaz02"
+    "name": "Varangian Mk. I"
   },
   {
     "id": "DA_Module_ChassisHitcher.2",
-    "name": "Hitcher",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisHitcher"
+    "name": "Hitcher"
   },
   {
     "id": "DA_Module_TorsoHitcher.1",
-    "name": "Hitcher",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_TorsoHitcher"
+    "name": "Hitcher"
   },
   {
     "id": "DA_Module_ShoulderHitcher.0",
-    "name": "Hitcher",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderHitcher"
+    "name": "Hitcher"
   },
   {
     "id": "DA_Module_ChassisPursuer.2",
-    "name": "Pursuer",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisPursuer"
+    "name": "Pursuer"
   },
   {
     "id": "DA_Module_TorsoPursuer.1",
-    "name": "Pursuer",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_TorsoPursuer"
+    "name": "Pursuer"
   },
   {
     "id": "DA_Module_ShoulderPursuer.0",
-    "name": "Pursuer",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderPursuer"
+    "name": "Pursuer"
   },
   {
     "id": "DA_Module_ChassisNorna.2",
-    "name": "Norna",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ChassisNorna"
+    "name": "Norna"
   },
   {
     "id": "DA_Module_TorsoNorna.0",
-    "name": "Norna",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_TorsoNorna"
+    "name": "Norna"
   },
   {
     "id": "DA_Module_ShoulderLNorna.0",
-    "name": "Norna",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderLNorna"
+    "name": "Norna"
   },
   {
     "id": "DA_Module_ShoulderRNorna.0",
-    "name": "Norna",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_ShoulderLNorna"
+    "name": "Norna"
   },
   {
     "id": "DA_Module_Weapon_Scatter.0",
-    "name": "Scatter",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Scatter"
+    "name": "Scatter"
   },
   {
     "id": "DA_Module_Weapon_Orkan.0",
-    "name": "Orkan",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Orkan"
+    "name": "Orkan"
   },
   {
     "id": "DA_Module_Weapon_Nucleon.0",
-    "name": "Nucleon",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Nucleon"
+    "name": "Nucleon"
   },
   {
     "id": "DA_Module_Weapon_Coriolis.0",
-    "name": "Coriolis",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Coriolis"
+    "name": "Coriolis"
   },
   {
     "id": "DA_Module_Ability_Spotlight.1",
-    "name": "Recon Mode",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Spotlight"
+    "name": "Recon Mode"
   },
   {
     "id": "DA_Module_Ability_Dazzle.1",
-    "name": "Flashbang",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle"
+    "name": "Flashbang"
   },
   {
     "id": "DA_Module_Ability_ArmorShield.1",
-    "name": "Emergency Shield",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon"
+    "name": "Emergency Shield"
   },
   {
     "id": "DA_Module_Ability_BlockingField.1",
-    "name": "Energy Wall",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlockingField"
+    "name": "Energy Wall"
   },
   {
     "id": "DA_Module_Ability_Grounded.1",
-    "name": "Fuel Burn",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Grounded"
+    "name": "Fuel Burn"
   },
   {
     "id": "DA_Module_Ability_RegenerationFull.1",
-    "name": "Nanite Repair",
-    "image_path": "WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing"
+    "name": "Nanite Repair"
   }
 ]
