@@ -19,17 +19,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # Checkout into public/ so Vite can copy assets (symlinks break: ln -s
+      # ../../… from src/frontend resolves to src/WRFrontiersDB-Data, not repo root).
       - name: Checkout Data Repo
         uses: actions/checkout@v4
         with:
           repository: Surxe/WRFrontiersDB-Data
           token: ${{ secrets.DATA_REPO_PAT }}
-          path: WRFrontiersDB-Data
+          path: src/frontend/public/WRFrontiersDB-Data
           ref: main
-
-      - name: Symlink WRFrontiersDB-Data to public
-        working-directory: src/frontend
-        run: ln -s ../../WRFrontiersDB-Data public/WRFrontiersDB-Data
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
