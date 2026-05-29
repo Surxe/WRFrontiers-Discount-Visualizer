@@ -28,10 +28,7 @@ jobs:
           ref: main
 
       - name: Symlink data repo into frontend public
-        run: |
-          rm -rf src/frontend/public/WRFrontiersDB-Data
-          ln -s WRFrontiersDB-Data src/frontend/public/WRFrontiersDB-Data
-          ls -la src/frontend/public/WRFrontiersDB-Data
+        run: cd src/frontend/public && ln -s ../../WRFrontiersDB-Data WRFrontiersDB-Data
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
