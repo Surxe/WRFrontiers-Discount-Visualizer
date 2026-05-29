@@ -38,5 +38,9 @@ The output must be exactly in this format:
 - Only include items from the **most recent** (first) "Featured Items" section.
 - Do not include any item you cannot confidently match to an entry in `game_data.json`.
 - Do not include discount values or prices.
+- Format the date range string clearly, filling in missing month names. For example:
+  - "May 26-June 2" -> "May 26 - June 2"
+  - "May 19-26" -> "May 19 - May 26"
+  - "May 5 - 12" -> "May 5 - May 12"
 - Do not add any extra fields or structure to the output JSON.
 - Output ONLY the raw JSON object string. Do not wrap in markdown code blocks. Do not add conversational text.
