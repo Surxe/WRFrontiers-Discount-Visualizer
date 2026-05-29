@@ -41,7 +41,6 @@ const processBots = (botItems) => {
 		}
 		const cat = categorize(part);
 		if (cat) {
-			// Arbitrarily keep only the first item of this module type
 			if (botsMap[vbot][cat].length === 0) {
 				botsMap[vbot][cat].push(part);
 			}
@@ -213,8 +212,8 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 		border-radius: 8px;
-		aspect-ratio: 544 / 200;
 		width: 100%;
+		height: 100%;
 		box-sizing: border-box;
 		overflow: hidden;
 	}
@@ -224,24 +223,19 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		gap: 6px;
-		padding: 12px;
+		padding: 0;
 		height: 100%;
 		box-sizing: border-box;
 		min-height: 0;
 	}
 
 	.bot-cell .item-card {
-		flex: 1 1 auto;
-		min-height: 0;
-		max-height: 150px;
-		max-width: 150px;
 		width: 100%;
-		aspect-ratio: 1/1;
+		height: 100%;
 	}
 
 	.wep-cell {
-		background-size: cover;
+		background-size: 100% 100%;
 		background-position: center;
 		background-repeat: no-repeat;
 		border-radius: 8px;
@@ -255,11 +249,8 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 	}
 
 	.wep-cell .item-card {
-		width: 90%;
-		height: 90%;
-		max-height: 150px;
-		max-width: 150px;
-		aspect-ratio: 1/1;
+		width: 100%;
+		height: 100%;
 	}
 
 	.titan-wep-group {
@@ -270,17 +261,14 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 		border-radius: 8px;
-		aspect-ratio: 544 / 200;
 		width: 100%;
+		height: 100%;
 		box-sizing: border-box;
-		padding: 12px;
 	}
 
 	.titan-wep-group .item-card {
-		max-height: 150px;
-		max-width: 150px;
 		width: 100%;
-		aspect-ratio: 1/1;
+		height: 100%;
 	}
 
 	.item-card {
@@ -290,8 +278,6 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		align-items: center;
 		justify-content: center;
 		background: transparent;
-		border-radius: 8px;
-		border: 1px solid rgba(255, 255, 255, 0.15);
 		transition: transform 0.2s;
 		overflow: hidden;
 		box-sizing: border-box;
@@ -299,13 +285,11 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 
 	.item-card:hover {
 		transform: translateY(-2px);
-		border-color: rgba(255, 255, 255, 0.4);
-		box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 	}
 
 	.item-card img {
-		width: 85%;
-		height: 85%;
+		width: 100%;
+		height: 100%;
 		object-fit: contain;
 	}
 
