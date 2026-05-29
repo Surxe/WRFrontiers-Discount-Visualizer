@@ -187,7 +187,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 <style>
 	.grid-container {
 		display: grid;
-		grid-template-columns: repeat(7, 1fr);
+		grid-template-columns: 1fr 1fr 1fr 1.5fr 1.5fr 1fr 1fr;
 		gap: 16px;
 		background: #15181e;
 		padding: 24px;
@@ -227,7 +227,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		background-repeat: no-repeat;
 		border-radius: 8px;
 		width: 100%;
-		height: 100%;
+		height: 120px;
 		box-sizing: border-box;
 		overflow: hidden;
 	}
@@ -256,9 +256,8 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		aspect-ratio: 1/1;
+		height: 120px;
 		overflow: hidden;
-		height: 100%;
 		width: 100%;
 	}
 
@@ -277,7 +276,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		background-repeat: no-repeat;
 		border-radius: 8px;
 		width: 100%;
-		aspect-ratio: 544 / 200;
+		height: 120px;
 		box-sizing: border-box;
 		padding: 0;
 		overflow: hidden;
@@ -305,8 +304,8 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 	}
 
 	.item-card img {
-		width: 100%;
 		height: 100%;
+		width: auto;
 		object-fit: contain;
 	}
 
@@ -326,7 +325,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 	}
 
 	.empty-cell {
-		aspect-ratio: 1/1;
+		height: 120px;
 	}
 
 	.titan-divider {
