@@ -2,7 +2,7 @@
 const { items, shopCards } = Astro.props;
 
 // Grouping and processing logic
-const isTitan = (item) => item.vbot && item.vbot.toLowerCase().includes('titan'); // naive check or check category for Titan
+const isTitan = (item) => item.vbot && item.vbot.toLowerCase().includes('titan');
 
 const categorize = (item) => {
 	const cat = (item.category || "").toLowerCase();
@@ -18,9 +18,6 @@ const titanItems = items.filter(i => isTitan(i));
 
 const getTexturePath = (uePath) => {
     if (!uePath) return '';
-    // UE Path: /WRFrontiers/Content/Sparrow/UI/Textures/...
-    // Target Path: /WRFrontiersDB-Data/textures/WRFrontiers/Content/Sparrow/UI/Textures/...png
-    // Strip leading slash if present
     const cleanPath = uePath.startsWith('/') ? uePath.substring(1) : uePath;
     return `/WRFrontiersDB-Data/textures/${cleanPath}.png`;
 };
@@ -74,7 +71,7 @@ const stdRows = Math.max(
 );
 
 // Titan Weapons
-const titanWeapons = titanItems.filter(i => categorize(i) === null); // assuming non bot parts are weapons
+const titanWeapons = titanItems.filter(i => categorize(i) === null);
 const titanRows = Math.max(titanBots.length, titanWeapons.length);
 
 ---
@@ -105,10 +102,10 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 							{bot.torso.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /><span>{p.name}</span></div>)}
 						</div>
 						<div class="bot-cell shoulder-cell">
-							{bot.shoulder.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /><span>{p.name}</span></div>)}
+							{bot.shoulder.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
 						</div>
 						<div class="bot-cell chassis-cell">
-							{bot.chassis.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /><span>{p.name}</span></div>)}
+							{bot.chassis.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
 						</div>
 					</div>
 				) : (
@@ -122,7 +119,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 				{[lw, hw, sg, cg].map(wep => (
 					wep ? (
 						<div class="wep-cell" style={`background-image: url('${getBackgroundPath(wep.rarity, true)}');`}>
-							<div class="item-card wep-card"><img src={getTexturePath(wep.icon_path)} /><span>{wep.name}</span></div>
+							<div class="item-card"><img src={getTexturePath(wep.icon_path)} /><span>{wep.name}</span></div>
 						</div>
 					) : <div class="empty-cell"></div>
 				))}
@@ -130,7 +127,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		);
 	})}
 
-	{/* Titan Section Header (Spans all columns) */}
+	{/* Titan Section Header */}
 	{titanRows > 0 && (
 		<div class="titan-divider" style="grid-column: 1 / -1;">
 			<h2>Titan Discounts</h2>
@@ -150,10 +147,10 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 							{bot.torso.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /><span>{p.name}</span></div>)}
 						</div>
 						<div class="bot-cell shoulder-cell">
-							{bot.shoulder.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /><span>{p.name}</span></div>)}
+							{bot.shoulder.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
 						</div>
 						<div class="bot-cell chassis-cell">
-							{bot.chassis.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /><span>{p.name}</span></div>)}
+							{bot.chassis.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
 						</div>
 					</div>
 				) : (
@@ -213,7 +210,10 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 		border-radius: 8px;
-		min-height: 180px;
+		aspect-ratio: 544 / 200;
+		width: 100%;
+		box-sizing: border-box;
+		overflow: hidden;
 	}
 
 	.bot-cell {
@@ -221,8 +221,20 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		gap: 10px;
-		padding: 10px;
+		gap: 6px;
+		padding: 12px;
+		height: 100%;
+		box-sizing: border-box;
+		min-height: 0;
+	}
+
+	.bot-cell .item-card {
+		flex: 1 1 auto;
+		min-height: 0;
+		max-height: 150px;
+		max-width: 150px;
+		width: 100%;
+		aspect-ratio: 1/1;
 	}
 
 	.wep-cell {
@@ -235,6 +247,16 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		justify-content: center;
 		aspect-ratio: 1/1;
 		overflow: hidden;
+		height: 100%;
+		width: 100%;
+	}
+
+	.wep-cell .item-card {
+		width: 90%;
+		height: 90%;
+		max-height: 150px;
+		max-width: 150px;
+		aspect-ratio: 1/1;
 	}
 
 	.titan-wep-group {
@@ -245,42 +267,56 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 		border-radius: 8px;
-		min-height: 180px;
+		aspect-ratio: 544 / 200;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 12px;
+	}
+
+	.titan-wep-group .item-card {
+		max-height: 150px;
+		max-width: 150px;
+		width: 100%;
+		aspect-ratio: 1/1;
 	}
 
 	.item-card {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		background: rgba(0, 0, 0, 0.4);
-		padding: 8px;
+		justify-content: center;
+		background: transparent;
 		border-radius: 8px;
-		backdrop-filter: blur(4px);
-		border: 1px solid rgba(255, 255, 255, 0.1);
+		border: 1px solid rgba(255, 255, 255, 0.15);
 		transition: transform 0.2s;
+		overflow: hidden;
+		box-sizing: border-box;
 	}
 
 	.item-card:hover {
 		transform: translateY(-2px);
-		border-color: rgba(255, 255, 255, 0.3);
+		border-color: rgba(255, 255, 255, 0.4);
+		box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 	}
 
 	.item-card img {
-		width: 64px;
-		height: 64px;
+		width: 85%;
+		height: 85%;
 		object-fit: contain;
 	}
 
-	.wep-card img {
-		width: 80px;
-		height: 80px;
-	}
-
 	.item-card span {
-		font-size: 0.8rem;
-		font-weight: 600;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: rgba(0, 0, 0, 0.75);
+		font-size: 0.85rem;
+		font-weight: 700;
 		text-align: center;
-		margin-top: 4px;
+		padding: 6px 4px;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
 		text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 	}
 
@@ -288,6 +324,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		background: rgba(255,255,255,0.02);
 		border: 1px dashed rgba(255,255,255,0.1);
 		border-radius: 8px;
+		aspect-ratio: 1/1;
 	}
 
 	.titan-divider {
