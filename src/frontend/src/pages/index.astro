@@ -2,25 +2,27 @@
 import DiscountGrid from '../components/DiscountGrid.astro';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 
-const { dateRange, items, shopCards } = fetchEnrichedDiscounts();
+const { dateRange, items, shopCards, catIcons } = fetchEnrichedDiscounts();
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>WRFrontiers Discount Visualizer</title>
+		<title>War Robots Frontiers Discounts</title>
 		<link rel="stylesheet" href="/global.css" />
 	</head>
 	<body>
 		<main class="app-container">
 			<header>
-				<h1>WRFrontiers Discount Visualizer</h1>
-				<p>This week's discounted items {dateRange && <span>({dateRange})</span>}</p>
+				<h1>War Robots Frontiers Discounts</h1>
+				{dateRange && <h2><strong>{dateRange}</strong></h2>}
+				<p>This week's discounted items. Salvage is 50% reduced and Intel is reduced by ~62%</p>
 			</header>
 			
-			<DiscountGrid items={items} shopCards={shopCards} />
+			<DiscountGrid items={items} shopCards={shopCards} catIcons={catIcons} />
 		</main>
 	</body>
 </html>

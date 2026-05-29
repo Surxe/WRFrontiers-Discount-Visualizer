@@ -41,6 +41,14 @@ export function fetchEnrichedDiscounts() {
   const ShopCardDB = readJson('ShopCard.json');
   const VirtualBotDB = readJson('VirtualBot.json');
 
+  const catIcons = {
+    torso: ModuleCategoryDB['DA_ModuleCategory_Torso.0']?.icon_path,
+    shoulder: ModuleCategoryDB['DA_ModuleCategory_Shoulder.0']?.icon_path,
+    chassis: ModuleCategoryDB['DA_ModuleCategory_Chassis.0']?.icon_path,
+    weapon: ModuleCategoryDB['DA_ModuleCategory_Weapon.0']?.icon_path,
+    ability: ModuleCategoryDB['DA_ModuleCategory_Ability.0']?.icon_path
+  };
+
   const enrichedDiscounts = itemsArray.map(item => {
     const moduleId = item.id;
     const module = ModuleDB[moduleId];
@@ -104,6 +112,7 @@ export function fetchEnrichedDiscounts() {
   return {
     dateRange,
     items: enrichedDiscounts,
-    shopCards: ShopCardDB
+    shopCards: ShopCardDB,
+    catIcons
   };
 }
