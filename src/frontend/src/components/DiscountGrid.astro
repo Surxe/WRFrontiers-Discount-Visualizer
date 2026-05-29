@@ -2,7 +2,7 @@
 const { items, shopCards, catIcons } = Astro.props;
 
 // Grouping and processing logic
-const isTitan = (item) => item.vbot && item.vbot.toLowerCase().includes('titan');
+const isTitan = (item) => item.group && item.group.toLowerCase().includes('titan');
 
 const categorize = (item) => {
 	const cat = (item.category || "").toLowerCase();
