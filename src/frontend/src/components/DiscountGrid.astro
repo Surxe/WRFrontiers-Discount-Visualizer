@@ -101,7 +101,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 				{bot ? (
 					<div class="bot-group" style={`grid-column: 1 / 4; background-image: url('${getBackgroundPath(bot.rarity, false)}');`}>
 						<div class="bot-cell torso-cell">
-							{bot.torso.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /><span>{p.name}</span></div>)}
+							{bot.torso.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
 						</div>
 						<div class="bot-cell shoulder-cell">
 							{bot.shoulder.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
@@ -109,6 +109,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 						<div class="bot-cell chassis-cell">
 							{bot.chassis.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
 						</div>
+						{bot.torso.length > 0 && <span class="group-title">{bot.torso[0].name}</span>}
 					</div>
 				) : (
 					<>
@@ -146,7 +147,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 				{bot ? (
 					<div class="bot-group" style={`grid-column: 1 / 4; background-image: url('${getBackgroundPath(bot.rarity, false)}');`}>
 						<div class="bot-cell torso-cell">
-							{bot.torso.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /><span>{p.name}</span></div>)}
+							{bot.torso.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
 						</div>
 						<div class="bot-cell shoulder-cell">
 							{bot.shoulder.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
@@ -154,6 +155,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 						<div class="bot-cell chassis-cell">
 							{bot.chassis.map(p => <div class="item-card"><img src={getTexturePath(p.icon_path)} /></div>)}
 						</div>
+						{bot.torso.length > 0 && <span class="group-title">{bot.torso[0].name}</span>}
 					</div>
 				) : (
 					<>
@@ -165,7 +167,8 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 
 				{tw ? (
 					<div class="titan-wep-group" style={`grid-column: 4 / 6; background-image: url('${getBackgroundPath(tw.rarity, false)}');`}>
-						<div class="item-card"><img src={getTexturePath(tw.icon_path)} /><span>{tw.name}</span></div>
+						<div class="item-card"><img src={getTexturePath(tw.icon_path)} /></div>
+						<span class="group-title">{tw.name}</span>
 					</div>
 				) : (
 					<>
@@ -207,6 +210,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 	}
 
 	.bot-group {
+		position: relative;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		background-size: 100% 100%;
@@ -216,6 +220,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		height: 100%;
 		box-sizing: border-box;
 		overflow: hidden;
+		padding-bottom: 30px;
 	}
 
 	.bot-cell {
@@ -254,6 +259,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 	}
 
 	.titan-wep-group {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -264,6 +270,9 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		width: 100%;
 		height: 100%;
 		box-sizing: border-box;
+		padding: 0;
+		overflow: hidden;
+		padding-bottom: 30px;
 	}
 
 	.titan-wep-group .item-card {
@@ -293,7 +302,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		object-fit: contain;
 	}
 
-	.item-card span {
+	.item-card span, .group-title {
 		position: absolute;
 		bottom: 0;
 		left: 0;
@@ -305,6 +314,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		padding: 6px 4px;
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
 		text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+		color: #fff;
 	}
 
 	.empty-cell {
