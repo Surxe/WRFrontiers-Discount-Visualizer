@@ -25,8 +25,11 @@ export function fetchEnrichedDiscounts() {
   };
 
   const discountsOutput = readJson('discounts.json', frontendDataDir);
-  if (!Array.isArray(discountsOutput)) {
-    return [];
+  const itemsArray = Array.isArray(discountsOutput.items) ? discountsOutput.items : [];
+  const dateRange = discountsOutput.date_range || "";
+
+  if (itemsArray.length === 0) {
+    return { dateRange, items: [], shopCards: {} };
   }
 
   const ModuleDB = readJson('Module.json');
@@ -38,7 +41,7 @@ export function fetchEnrichedDiscounts() {
   const ShopCardDB = readJson('ShopCard.json');
   const VirtualBotDB = readJson('VirtualBot.json');
 
-  const enrichedDiscounts = discountsOutput.map(item => {
+  const enrichedDiscounts = itemsArray.map(item => {
     const moduleId = item.id;
     const module = ModuleDB[moduleId];
     
@@ -99,6 +102,7 @@ export function fetchEnrichedDiscounts() {
   }
 
   return {
+    dateRange,
     items: enrichedDiscounts,
     shopCards: ShopCardDB
   };

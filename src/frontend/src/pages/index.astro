@@ -2,7 +2,7 @@
 import DiscountGrid from '../components/DiscountGrid.astro';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 
-const { items, shopCards } = fetchEnrichedDiscounts();
+const { dateRange, items, shopCards } = fetchEnrichedDiscounts();
 ---
 
 <html lang="en">
@@ -17,7 +17,7 @@ const { items, shopCards } = fetchEnrichedDiscounts();
 		<main class="app-container">
 			<header>
 				<h1>WRFrontiers Discount Visualizer</h1>
-				<p>This week's discounted items</p>
+				<p>This week's discounted items {dateRange && <span>({dateRange})</span>}</p>
 			</header>
 			
 			<DiscountGrid items={items} shopCards={shopCards} />
