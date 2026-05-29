@@ -1,5 +1,6 @@
 ---
 const { items, shopCards, catIcons } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
 
 // Grouping and processing logic
 const isTitan = (item) => item.group && item.group.toLowerCase().startsWith('titan-');
@@ -19,7 +20,7 @@ const titanItems = items.filter(i => isTitan(i));
 const getTexturePath = (uePath) => {
     if (!uePath) return '';
     const cleanPath = uePath.startsWith('/') ? uePath.substring(1) : uePath;
-    return `/WRFrontiersDB-Data/textures/${cleanPath}.png`;
+    return `${baseUrl}WRFrontiersDB-Data/textures/${cleanPath}.png`;
 };
 
 const getBackgroundPath = (rarityId, isVertical) => {
