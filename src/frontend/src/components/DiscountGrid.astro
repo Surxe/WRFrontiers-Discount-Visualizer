@@ -2,7 +2,7 @@
 const { items, shopCards, catIcons } = Astro.props;
 
 // Grouping and processing logic
-const isTitan = (item) => item.group && item.group.toLowerCase().includes('titan');
+const isTitan = (item) => item.group && item.group.toLowerCase().startsWith('titan-');
 
 const categorize = (item) => {
 	const cat = (item.category || "").toLowerCase();
@@ -227,7 +227,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		background-repeat: no-repeat;
 		border-radius: 8px;
 		width: 100%;
-		height: 100%;
+		aspect-ratio: 544 / 200;
 		box-sizing: border-box;
 		overflow: hidden;
 	}
@@ -277,7 +277,7 @@ const titanRows = Math.max(titanBots.length, titanWeapons.length);
 		background-repeat: no-repeat;
 		border-radius: 8px;
 		width: 100%;
-		height: 100%;
+		aspect-ratio: 544 / 200;
 		box-sizing: border-box;
 		padding: 0;
 		overflow: hidden;
