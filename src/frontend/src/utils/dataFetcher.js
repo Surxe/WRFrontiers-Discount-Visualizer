@@ -25,8 +25,11 @@ export function fetchEnrichedDiscounts() {
   };
 
   const discountsOutput = readJson('discounts.json', frontendDataDir);
-  if (!Array.isArray(discountsOutput)) {
-    return [];
+  const itemsArray = Array.isArray(discountsOutput.items) ? discountsOutput.items : [];
+  const dateRange = discountsOutput.date_range || "";
+
+  if (itemsArray.length === 0) {
+    return { dateRange, items: [], shopCards: {} };
   }
 
   const ModuleDB = readJson('Module.json');
@@ -38,7 +41,15 @@ export function fetchEnrichedDiscounts() {
   const ShopCardDB = readJson('ShopCard.json');
   const VirtualBotDB = readJson('VirtualBot.json');
 
-  const enrichedDiscounts = discountsOutput.map(item => {
+  const catIcons = {
+    torso: ModuleCategoryDB['DA_ModuleCategory_Torso.0']?.icon_path,
+    shoulder: ModuleCategoryDB['DA_ModuleCategory_Shoulder.0']?.icon_path,
+    chassis: ModuleCategoryDB['DA_ModuleCategory_Chassis.0']?.icon_path,
+    weapon: ModuleCategoryDB['DA_ModuleCategory_Weapon.0']?.icon_path,
+    ability: ModuleCategoryDB['DA_ModuleCategory_Ability.0']?.icon_path
+  };
+
+  const enrichedDiscounts = itemsArray.map(item => {
     const moduleId = item.id;
     const module = ModuleDB[moduleId];
     
@@ -99,7 +110,9 @@ export function fetchEnrichedDiscounts() {
   }
 
   return {
+    dateRange,
     items: enrichedDiscounts,
-    shopCards: ShopCardDB
+    shopCards: ShopCardDB,
+    catIcons
   };
 }
