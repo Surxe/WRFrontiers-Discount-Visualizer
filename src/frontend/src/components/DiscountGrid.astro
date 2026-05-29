@@ -41,7 +41,10 @@ const processBots = (botItems) => {
 		}
 		const cat = categorize(part);
 		if (cat) {
-			botsMap[vbot][cat].push(part);
+			// Arbitrarily keep only the first item of this module type
+			if (botsMap[vbot][cat].length === 0) {
+				botsMap[vbot][cat].push(part);
+			}
 		}
 	}
 	return Object.values(botsMap);
