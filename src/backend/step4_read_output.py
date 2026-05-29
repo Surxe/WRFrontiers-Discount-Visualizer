@@ -55,17 +55,20 @@ def load_discounts() -> list[dict]:
     content = re.sub(r"\s*```$", "", content)
 
     try:
-        discount_refs = json.loads(content)
+        output_data = json.loads(content)
     except json.JSONDecodeError as e:
         print(f"  [ERROR] Output is not valid JSON: {e}")
         print(f"  Content preview: {content[:300]}")
         sys.exit(1)
 
-    if not isinstance(discount_refs, list):
-        print("  [ERROR] Output is not a JSON list/array.")
+    if not isinstance(output_data, dict) or "items" not in output_data:
+        print("  [ERROR] Output is not a JSON object containing 'items'.")
         sys.exit(1)
 
-    print(f"  -> Found {len(discount_refs)} ID matches in output.")
+    date_range = output_data.get("date_range", "")
+    discount_refs = output_data.get("items", [])
+
+    print(f"  -> Found {len(discount_refs)} ID matches for date range '{date_range}'.")
 
     # Load constant JSONs
     if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists():
@@ -121,11 +124,17 @@ def load_discounts() -> list[dict]:
     # Write the full discounts data to frontend
     FRONTEND_DATA_DIR.mkdir(parents=True, exist_ok=True)
     frontend_output = FRONTEND_DATA_DIR / "discounts.json"
+    
+    frontend_data = {
+        "date_range": date_range,
+        "items": discounts
+    }
+    
     with open(frontend_output, "w", encoding="utf-8") as f:
-        json.dump(discounts, f, indent=2, ensure_ascii=False)
+        json.dump(frontend_data, f, indent=2, ensure_ascii=False)
     print(f"  -> Wrote {len(discounts)} items to {frontend_output.relative_to(REPO_ROOT)}")
 
-    return discounts
+    return frontend_data
 
 def run_step() -> list[dict]:
     return load_discounts()
