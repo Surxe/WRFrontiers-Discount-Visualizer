@@ -93,12 +93,11 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
     --grid-header-height: calc(40px * var(--grid-scale));
     --grid-header-font: calc(13.6px * var(--grid-scale));
     --grid-header-icon: calc(20px * var(--grid-scale));
-    --sidebar-label-letter-spacing: calc(0.04em * var(--grid-scale));
-    /* Fit full word in row height; never wider than the sidebar column */
-    --sidebar-label-font-size: clamp(
-      calc(var(--module-cell-height) / 6.5),
-      calc(0.6rem * var(--grid-scale)),
-      calc(var(--grid-sidebar-col) * 0.88)
+    --sidebar-label-letter-spacing: calc(0.02em * var(--grid-scale));
+    /* Upright stack: ~6 letters tall + narrow column */
+    --sidebar-label-font-size: min(
+      calc(var(--module-cell-height) / 10),
+      calc(var(--grid-sidebar-col) * 0.68)
     );
     --module-card-height: calc(
       var(--module-icon-max-height) + 2 * var(--module-card-padding) + var(--module-name-strip)
@@ -131,10 +130,9 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
 
   @container discount-grid (max-width: 480px) {
     .grid-container {
-      --sidebar-label-font-size: clamp(
-        calc(var(--module-cell-height) / 7),
-        calc(0.48rem * var(--grid-scale)),
-        calc(var(--grid-sidebar-col) * 0.85)
+      --sidebar-label-font-size: min(
+        calc(var(--module-cell-height) / 11),
+        calc(var(--grid-sidebar-col) * 0.62)
       );
       --sidebar-label-letter-spacing: 0;
     }

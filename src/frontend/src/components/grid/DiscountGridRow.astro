@@ -149,13 +149,12 @@ const {
     color: #fff;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: var(--sidebar-label-font-size, calc(0.7rem * var(--grid-scale, 1)));
+    font-size: var(--sidebar-label-font-size, calc(var(--module-cell-height, 119px) / 10));
     text-transform: uppercase;
     letter-spacing: var(--sidebar-label-letter-spacing, 0.04em);
     writing-mode: vertical-rl;
-    text-orientation: mixed;
+    text-orientation: upright;
     pointer-events: none;
     line-height: 1;
-    white-space: nowrap;
   }
 </style>
