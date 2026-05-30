@@ -1,0 +1,551 @@
+---
+import DiscountGrid from './grid/DiscountGrid.astro';
+import { getTexturePath } from '../utils/textures.js';
+import { categorize } from '../utils/gridData.js';
+import { getWeekStatus, getCurrentOrLatestWeek, getNextWeek } from '../utils/dateValidator.js';
+
+const { dateRange, items, shopCards, catIcons, weeks, currentSlug } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
+const activeWeek = getCurrentOrLatestWeek(weeks);
+const nextWeek = getNextWeek(weeks, currentSlug);
+const nextWeekHref = nextWeek
+  ? activeWeek && nextWeek.slug === activeWeek.slug
+    ? baseUrl
+    : `${baseUrl}week/${nextWeek.slug}`
+  : null;
+
+// Extract unique names for Discord embed
+const vbots = new Set();
+const weapons = new Set();
+const gear = new Set();
+
+for (const item of items) {
+  const cat = categorize(item);
+  if (cat === 'chassis' || cat === 'torso' || cat === 'shoulder') {
+    // Bot parts - extract vbot name
+    if (item.vbot) {
+      vbots.add(item.name);
+    }
+  } else if (item.category?.toLowerCase().includes('weapon')) {
+    weapons.add(item.name);
+  } else if (item.category?.toLowerCase().includes('ability')) {
+    gear.add(item.name);
+  }
+}
+
+const botNames = Array.from(vbots).sort().join(', ');
+const weaponNames = Array.from(weapons).sort().join(', ');
+const gearNames = Array.from(gear).sort().join(', ');
+
+const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames || 'None'} | Weapons: ${weaponNames || 'None'} | Gear: ${gearNames || 'None'}`;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>War Robots Frontiers Discounts</title>
+		<link rel="stylesheet" href={`${baseUrl}global.css`} />
+		
+		<!-- Open Graph / Discord Embed -->
+		<meta property="og:title" content="War Robots Frontiers Discounts" />
+		<meta property="og:description" content={ogDescription} />
+		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="War Robots Frontiers Discounts" />
+		<meta name="twitter:description" content={ogDescription} />
+	</head>
+	<body>
+		<div class="layout-container" id="layout-container">
+			<div class="sidebar-controls" id="sidebar-controls">
+				<button
+					id="sidebar-toggle"
+					class="sidebar-toggle"
+					type="button"
+					aria-label="Toggle All Weeks navigation"
+					aria-expanded="false"
+					aria-controls="sidebar"
+				>
+					<span class="toggle-label">All Weeks</span>
+					<svg class="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<line x1="3" y1="12" x2="21" y2="12"></line>
+						<line x1="3" y1="6" x2="21" y2="6"></line>
+						<line x1="3" y1="18" x2="21" y2="18"></line>
+					</svg>
+					<svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<line x1="18" y1="6" x2="6" y2="18"></line>
+						<line x1="6" y1="6" x2="18" y2="18"></line>
+					</svg>
+				</button>
+
+				{nextWeek && nextWeekHref && (
+					<div
+						class="next-week-popup"
+						id="next-week-popup"
+						data-next-slug={nextWeek.slug}
+						role="status"
+					>
+						<button
+							type="button"
+							class="next-week-popup__close"
+							id="next-week-popup-close"
+							aria-label="Dismiss"
+						>
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<line x1="18" y1="6" x2="6" y2="18"></line>
+								<line x1="6" y1="6" x2="18" y2="18"></line>
+							</svg>
+						</button>
+						<a href={nextWeekHref} class="next-week-popup__link">See next week?</a>
+					</div>
+				)}
+			</div>
+			
+			<aside class="sidebar" id="sidebar">
+				<div class="sidebar-content">
+					<h3>All Weeks</h3>
+					<ul class="week-list">
+						{weeks && weeks.map((week) => {
+							let isActive = false;
+							if (currentSlug) {
+								isActive = week.slug === currentSlug;
+							} else {
+								isActive = activeWeek ? week.slug === activeWeek.slug : false;
+							}
+							const isMainPageWeek = activeWeek && week.slug === activeWeek.slug;
+							const href = isMainPageWeek ? baseUrl : `${baseUrl}week/${week.slug}`;
+							const status = getWeekStatus(week.date_range);
+							
+							return (
+								<li>
+									<a href={href} class={`week-link ${isActive ? 'active' : ''}`}>
+										{week.date_range}
+										{status === 'current' && <span class="badge current">Current</span>}
+										{status === 'upcoming' && <span class="badge upcoming">Upcoming</span>}
+									</a>
+								</li>
+							);
+						})}
+					</ul>
+				</div>
+			</aside>
+			
+			<main class="app-container">
+				<header>
+					<h1>War Robots Frontiers Discounts</h1>
+					{dateRange && (
+						<h2>
+							Salvage <img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_CreditsLarge', baseUrl)} class="currency-icon" alt="Salvage" /> and Intel <img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_IntelLarge', baseUrl)} class="currency-icon" alt="Intel" /> Discounts  -  <strong>{dateRange}</strong>
+						</h2>
+					)}
+				</header>
+				
+				<DiscountGrid items={items} shopCards={shopCards} catIcons={catIcons} />
+
+				<div class="discount-info" style="text-align: center;">
+					<p>Salvage is 50% reduced and Intel is ~62% reduced</p>
+				</div>
+
+				<footer class="legal-disclaimer">
+					<h3>Legal Disclaimer</h3>
+					<ul>
+						<li>This is an unofficial fan-made tool and is not affiliated with, endorsed by, or sponsored by Pixonic, My Games, or the official War Robots Frontiers game</li>
+						<li>All game assets, trademarks, and copyrighted materials belong to their respective owners</li>
+						<li>Discount information is retrieved from official news posts</li>
+						<li>This tool is provided as-is without any warranty, express or implied</li>
+					</ul>
+				</footer>
+				
+				<footer class="feedback-section">
+					<div class="feedback-link">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+							<path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+						</svg>
+						<span>Got feedback? @Surxe on Discord</span>
+					</div>
+				</footer>
+			</main>
+		</div>
+
+		<script is:inline>
+			(function() {
+				const drawerToggle = document.getElementById('sidebar-toggle');
+				const container = document.getElementById('layout-container');
+				const popup = document.getElementById('next-week-popup');
+				const popupClose = document.getElementById('next-week-popup-close');
+
+				function setDrawerOpen(isOpen) {
+					container.classList.toggle('sidebar-open', isOpen);
+					drawerToggle.setAttribute('aria-expanded', String(isOpen));
+					localStorage.setItem('sidebar-open', String(isOpen));
+				}
+
+				setDrawerOpen(localStorage.getItem('sidebar-open') === 'true');
+
+				drawerToggle.addEventListener('click', () => {
+					setDrawerOpen(!container.classList.contains('sidebar-open'));
+				});
+
+				if (popup && popupClose) {
+					const nextSlug = popup.getAttribute('data-next-slug');
+					const dismissKey = 'next-week-popup-dismissed-' + nextSlug;
+					if (localStorage.getItem(dismissKey) === 'true') {
+						popup.hidden = true;
+					}
+					popupClose.addEventListener('click', () => {
+						popup.hidden = true;
+						localStorage.setItem(dismissKey, 'true');
+					});
+				}
+			})();
+		</script>
+	</body>
+</html>
+
+<style>
+	:root {
+		--bg-color: #0f1115;
+		--sidebar-bg: #161920;
+		--sidebar-border: #232733;
+		--text-color: #e0e0e0;
+		--text-muted: #8b92a5;
+		--accent-color: #3a86ff;
+		--accent-hover: #2b65cc;
+		--active-bg: rgba(58, 134, 255, 0.1);
+	}
+
+	body {
+		background-color: var(--bg-color);
+		color: var(--text-color);
+		font-family: 'Montserrat', sans-serif;
+		margin: 0;
+		padding: 0;
+	}
+
+	.layout-container {
+		display: flex;
+		min-height: 100vh;
+		position: relative;
+	}
+
+	.sidebar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 250px;
+		background-color: var(--sidebar-bg);
+		border-right: 1px solid var(--sidebar-border);
+		z-index: 100;
+		transform: translateX(-100%);
+		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		flex-shrink: 0;
+	}
+
+	.layout-container.sidebar-open .sidebar {
+		transform: translateX(0);
+	}
+
+	.sidebar-controls {
+		position: fixed;
+		top: 1.5rem;
+		left: 0;
+		z-index: 110;
+		display: flex;
+		align-items: flex-start;
+		gap: 0.5rem;
+		transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.layout-container.sidebar-open .sidebar-controls {
+		left: 250px;
+	}
+
+	.sidebar-toggle {
+		flex-shrink: 0;
+		background: var(--sidebar-bg);
+		border: 1px solid var(--sidebar-border);
+		border-left: none;
+		color: var(--text-color);
+		padding: 0.75rem 0.65rem;
+		border-top-right-radius: 6px;
+		border-bottom-right-radius: 6px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		transition: background-color 0.2s ease;
+	}
+
+	.toggle-label {
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		color: var(--text-muted);
+		white-space: nowrap;
+	}
+
+	.layout-container.sidebar-open .toggle-label {
+		display: none;
+	}
+
+	.sidebar-toggle:hover {
+		background: rgba(255, 255, 255, 0.05);
+		color: var(--accent-color);
+	}
+
+	.next-week-popup {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		padding: 0.5rem 0.65rem;
+		background: var(--sidebar-bg);
+		border: 1px solid var(--sidebar-border);
+		border-radius: 6px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+		white-space: nowrap;
+	}
+
+	.next-week-popup[hidden] {
+		display: none;
+	}
+
+	.next-week-popup__link {
+		color: var(--accent-color);
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.next-week-popup__link:hover {
+		color: var(--accent-hover);
+		text-decoration: underline;
+	}
+
+	.next-week-popup__close {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		margin: 0;
+		border: none;
+		background: none;
+		color: var(--text-muted);
+		cursor: pointer;
+		line-height: 1;
+	}
+
+	.next-week-popup__close:hover {
+		color: var(--text-color);
+	}
+
+	.sidebar-toggle .icon-close {
+		display: none;
+	}
+
+	.layout-container.sidebar-open .sidebar-toggle .icon-open {
+		display: none;
+	}
+
+	.layout-container.sidebar-open .sidebar-toggle .icon-close {
+		display: block;
+	}
+
+	.sidebar-content {
+		position: sticky;
+		top: 0;
+		padding: 2rem 1.5rem;
+		max-height: 100vh;
+		overflow-y: auto;
+	}
+
+	.sidebar h3 {
+		color: var(--text-muted);
+		font-size: 0.85rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		margin-top: 0;
+		margin-bottom: 1rem;
+	}
+
+	.week-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.week-link {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0.75rem 1rem;
+		border-radius: 6px;
+		color: var(--text-color);
+		text-decoration: none;
+		font-size: 0.9rem;
+		font-weight: 500;
+		transition: all 0.2s ease;
+		border: 1px solid transparent;
+	}
+
+	.week-link:hover {
+		background-color: rgba(255, 255, 255, 0.05);
+	}
+
+	.week-link.active {
+		background-color: var(--active-bg);
+		color: var(--accent-color);
+		border-color: rgba(58, 134, 255, 0.3);
+	}
+
+	.badge {
+		font-size: 0.65rem;
+		padding: 2px 6px;
+		border-radius: 4px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		font-weight: 600;
+	}
+
+	.badge.current {
+		background-color: #2ec4b6;
+		color: #0f1115;
+	}
+
+	.badge.upcoming {
+		background-color: #ff9f1c;
+		color: #0f1115;
+	}
+
+	.app-container {
+		flex-grow: 1;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 2rem 2rem 2rem 4rem;
+		overflow-x: hidden;
+		transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.layout-container.sidebar-open .app-container {
+		margin-left: 250px;
+	}
+
+	header {
+		text-align: center;
+		margin-bottom: 1.5rem;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	h2 {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 4px;
+		font-size: 1.25rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.currency-icon {
+		width: 20px;
+		height: 20px;
+		object-fit: contain;
+		vertical-align: middle;
+	}
+
+	.legal-disclaimer {
+		text-align: center;
+		margin-top: 2rem;
+		padding: 1.5rem;
+		background: rgba(255, 255, 255, 0.05);
+		border-radius: 8px;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.legal-disclaimer h3 {
+		margin: 0 0 1rem 0;
+		font-size: 1rem;
+		color: #888;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.legal-disclaimer ul {
+		margin: 0;
+		padding-left: 1.5rem;
+		text-align: left;
+		display: inline-block;
+	}
+
+	.legal-disclaimer li {
+		font-size: 0.85rem;
+		color: #666;
+		line-height: 1.5;
+		margin-bottom: 0.5rem;
+	}
+
+	.legal-disclaimer li:last-child {
+		margin-bottom: 0;
+	}
+
+	.feedback-section {
+		text-align: center;
+		margin-top: 3rem;
+		padding-top: 2rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.feedback-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--text-color);
+		text-decoration: none;
+		opacity: 0.7;
+		transition: opacity 0.2s ease;
+		cursor: pointer;
+	}
+
+	.feedback-link:hover {
+		opacity: 1;
+	}
+
+	.feedback-link svg {
+		color: #5865F2;
+	}
+
+	@media (max-width: 900px) {
+		.layout-container.sidebar-open .app-container {
+			margin-left: 0; /* Don't shift content on mobile, just overlay */
+		}
+
+		.app-container {
+			padding: 2rem 1rem 2rem 3rem;
+		}
+
+		.sidebar-controls {
+			top: 1rem;
+		}
+	}
+
+	@media (max-width: 768px) {
+		header {
+			text-align: center;
+		}
+
+		.feedback-section {
+			text-align: center;
+		}
+	}
+</style>

@@ -173,7 +173,8 @@ def load_discounts() -> list[dict]:
     # Add the new week entry
     manifest_data["weeks"].append({
         "date_range": date_range,
-        "file": filename
+        "file": filename,
+        "slug": slug
     })
 
     # Sort weeks helper (optional, but nice) - parse start date from date_range if possible

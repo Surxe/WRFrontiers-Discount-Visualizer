@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { getCurrentOrLatestWeek } from './dateValidator.js';
 
 // Helper to strip "OBJID_Type::" prefixes
 const parseRef = (ref) => {
@@ -29,22 +30,33 @@ function resolveObjectsDir() {
   return candidates[0];
 }
 
-export function fetchEnrichedDiscounts() {
+export function fetchEnrichedDiscounts(filename = null) {
   const dataDir = resolveObjectsDir();
   const frontendDataDir = path.resolve('public/data');
   
-  const readJson = (filename, dir = dataDir) => {
+  const readJson = (file, dir = dataDir) => {
     try {
-      const filePath = path.join(dir, filename);
+      const filePath = path.join(dir, file);
       const content = fs.readFileSync(filePath, 'utf-8');
       return JSON.parse(content);
     } catch (e) {
-      console.error(`Error reading ${filename}:`, e);
+      console.error(`Error reading ${file}:`, e);
       return {};
     }
   };
 
-  const discountsOutput = readJson('discounts.json', frontendDataDir);
+  let targetFilename = filename;
+  if (!targetFilename) {
+    const manifest = readJson('weeks.json', frontendDataDir);
+    if (manifest && manifest.weeks && manifest.weeks.length > 0) {
+      const currentOrLatest = getCurrentOrLatestWeek(manifest.weeks);
+      targetFilename = currentOrLatest ? currentOrLatest.file : manifest.weeks[0].file;
+    } else {
+      targetFilename = 'discounts.json'; // Fallback just in case
+    }
+  }
+
+  const discountsOutput = readJson(targetFilename, frontendDataDir);
   const itemsArray = Array.isArray(discountsOutput.items) ? discountsOutput.items : [];
   const dateRange = discountsOutput.date_range || "";
 
