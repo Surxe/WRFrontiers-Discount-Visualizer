@@ -1,0 +1,16 @@
+name: Deploy to GitHub Pages
+description: Upload the built site artifact and publish to GitHub Pages
+
+inputs:
+  artifact_path:
+    description: Path to the built static site
+    required: false
+    default: src/frontend/dist
+
+runs:
+  using: composite
+  steps:
+    - name: Upload Pages artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ${{ inputs.artifact_path }}
