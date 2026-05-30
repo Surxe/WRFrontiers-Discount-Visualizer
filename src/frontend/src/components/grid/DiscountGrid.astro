@@ -70,6 +70,8 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
   /* Intrinsic width at scale 1: columns + gaps + horizontal padding */
   .grid-scale-host {
     --grid-intrinsic-width: 938px;
+    /* 8 module cols @ 100px each (scale 1 reference width) */
+    --grid-module-cols-width: 800px;
     container-type: inline-size;
     container-name: discount-grid;
     width: 100%;
@@ -78,7 +80,7 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
   }
 
   .grid-container {
-    --grid-scale: min(1, calc((100cqi - 1.5rem) / var(--grid-intrinsic-width)));
+    --grid-scale: min(1, calc((100cqi - 0.5rem) / var(--grid-intrinsic-width)));
     --module-col: calc(100px * var(--grid-scale));
     --grid-sidebar-col: calc(34px * var(--grid-scale));
     --grid-divider-col: calc(13px * var(--grid-scale));
@@ -127,7 +129,48 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
 
   @supports not (container-type: inline-size) {
     .grid-container {
-      --grid-scale: min(1, calc((100vw - 4.5rem) / var(--grid-intrinsic-width)));
+      --grid-scale: min(1, calc((100vw - 3.5rem) / var(--grid-intrinsic-width)));
+    }
+
+    @media (max-width: 640px) {
+      .grid-container {
+        --grid-sidebar-base: 18px;
+        --grid-divider-base: 9px;
+        --grid-static-overhead: 2.25rem;
+        --grid-scale: min(
+          1,
+          calc((100vw - 3.5rem - var(--grid-static-overhead)) / var(--grid-module-cols-width))
+        );
+        --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale));
+        --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale));
+        width: 100%;
+        grid-template-columns:
+          var(--grid-sidebar-col)
+          repeat(4, minmax(0, 1fr))
+          var(--grid-divider-col)
+          repeat(4, minmax(0, 1fr));
+      }
+    }
+  }
+
+  /* Thin viewports: fill width, shrink label gutter, scale from module column budget */
+  @container discount-grid (max-width: 640px) {
+    .grid-container {
+      --grid-sidebar-base: 18px;
+      --grid-divider-base: 9px;
+      --grid-static-overhead: 2.25rem;
+      --grid-scale: min(
+        1,
+        calc((100cqi - var(--grid-static-overhead)) / var(--grid-module-cols-width))
+      );
+      --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale));
+      --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale));
+      width: 100%;
+      grid-template-columns:
+        var(--grid-sidebar-col)
+        repeat(4, minmax(0, 1fr))
+        var(--grid-divider-col)
+        repeat(4, minmax(0, 1fr));
     }
   }
 

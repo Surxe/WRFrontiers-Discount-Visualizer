@@ -61,50 +61,6 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	</head>
 	<body>
 		<div class="layout-container" id="layout-container">
-			<div class="sidebar-controls" id="sidebar-controls">
-				<button
-					id="sidebar-toggle"
-					class="sidebar-toggle"
-					type="button"
-					aria-label="Toggle All Weeks navigation"
-					aria-expanded="false"
-					aria-controls="sidebar"
-				>
-					<span class="toggle-label">All Weeks</span>
-					<svg class="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-						<line x1="3" y1="12" x2="21" y2="12"></line>
-						<line x1="3" y1="6" x2="21" y2="6"></line>
-						<line x1="3" y1="18" x2="21" y2="18"></line>
-					</svg>
-					<svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-						<line x1="18" y1="6" x2="6" y2="18"></line>
-						<line x1="6" y1="6" x2="18" y2="18"></line>
-					</svg>
-				</button>
-
-				{nextWeek && nextWeekHref && (
-					<div
-						class="next-week-popup"
-						id="next-week-popup"
-						data-next-slug={nextWeek.slug}
-						role="status"
-					>
-						<button
-							type="button"
-							class="next-week-popup__close"
-							id="next-week-popup-close"
-							aria-label="Dismiss"
-						>
-							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<line x1="18" y1="6" x2="6" y2="18"></line>
-								<line x1="6" y1="6" x2="18" y2="18"></line>
-							</svg>
-						</button>
-						<a href={nextWeekHref} class="next-week-popup__link">See next week?</a>
-					</div>
-				)}
-			</div>
-			
 			<aside class="sidebar" id="sidebar">
 				<div class="sidebar-content">
 					<h3>All Weeks</h3>
@@ -137,8 +93,52 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 					</ul>
 				</div>
 			</aside>
-			
+
 			<main class="app-container">
+				<div class="sidebar-controls" id="sidebar-controls">
+					<button
+						id="sidebar-toggle"
+						class="sidebar-toggle"
+						type="button"
+						aria-label="Toggle All Weeks navigation"
+						aria-expanded="false"
+						aria-controls="sidebar"
+					>
+						<span class="toggle-label">All Weeks</span>
+						<svg class="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<line x1="3" y1="12" x2="21" y2="12"></line>
+							<line x1="3" y1="6" x2="21" y2="6"></line>
+							<line x1="3" y1="18" x2="21" y2="18"></line>
+						</svg>
+						<svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<line x1="18" y1="6" x2="6" y2="18"></line>
+							<line x1="6" y1="6" x2="18" y2="18"></line>
+						</svg>
+					</button>
+
+					{nextWeek && nextWeekHref && (
+						<div
+							class="next-week-popup"
+							id="next-week-popup"
+							data-next-slug={nextWeek.slug}
+							role="status"
+						>
+							<button
+								type="button"
+								class="next-week-popup__close"
+								id="next-week-popup-close"
+								aria-label="Dismiss"
+							>
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<line x1="18" y1="6" x2="6" y2="18"></line>
+									<line x1="6" y1="6" x2="18" y2="18"></line>
+								</svg>
+							</button>
+							<a href={nextWeekHref} class="next-week-popup__link">See next week?</a>
+						</div>
+					)}
+				</div>
+
 				<div class="app-content">
 					<header>
 						<h1>War Robots Frontiers Discounts</h1>
@@ -173,7 +173,10 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 
 				function syncSidebarWidth() {
 					if (!sidebar) return;
-					const width = sidebar.getBoundingClientRect().width;
+					const content = sidebar.querySelector('.sidebar-content');
+					const width = content
+						? content.getBoundingClientRect().width
+						: sidebar.getBoundingClientRect().width;
 					document.documentElement.style.setProperty('--sidebar-width', width + 'px');
 				}
 
@@ -258,29 +261,23 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	}
 
 	.sidebar-controls {
-		position: fixed;
-		top: 1.5rem;
-		left: 0;
+		position: sticky;
+		top: 1rem;
 		z-index: 110;
 		display: flex;
 		align-items: flex-start;
 		gap: 0.5rem;
-		transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	.layout-container.sidebar-open .sidebar-controls {
-		left: var(--sidebar-width);
+		margin-bottom: 1rem;
+		width: fit-content;
 	}
 
 	.sidebar-toggle {
 		flex-shrink: 0;
 		background: var(--sidebar-bg);
 		border: 1px solid var(--sidebar-border);
-		border-left: none;
 		color: var(--text-color);
 		padding: 0.75rem 0.65rem;
-		border-top-right-radius: 6px;
-		border-bottom-right-radius: 6px;
+		border-radius: 6px;
 		cursor: pointer;
 		display: flex;
 		align-items: center;
@@ -464,7 +461,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		width: 100%;
 		max-width: 1200px;
 		margin: 0 auto;
-		padding: 2rem 2rem 2rem 4rem;
+		padding: 1.25rem 1rem 2rem;
 		overflow-x: hidden;
 		box-sizing: border-box;
 		transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -525,11 +522,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		}
 
 		.app-container {
-			padding: 4.5rem 0.75rem 1.5rem 2.75rem;
-		}
-
-		.sidebar-controls {
-			top: 1rem;
+			padding: 1rem 0.75rem 1.5rem;
 		}
 	}
 
@@ -556,7 +549,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 
 	@media (max-width: 480px) and (orientation: portrait) {
 		.app-container {
-			padding: 4.25rem 0.35rem 1.25rem 2.35rem;
+			padding: 0.85rem 0.5rem 1.25rem;
 		}
 
 		h1 {
