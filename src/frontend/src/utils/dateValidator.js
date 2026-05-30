@@ -87,3 +87,30 @@ export function getCurrentOrLatestWeek(weeks) {
   
   return weeks[0];
 }
+
+/** Chronologically later week after the one being viewed (by slug or current week). */
+export function getNextWeek(weeks, viewedSlug) {
+  if (!weeks?.length) return null;
+
+  const sorted = weeks
+    .map((week) => ({ week, range: parseDateRange(week.date_range) }))
+    .filter((entry) => entry.range)
+    .sort((a, b) => a.range.start.getTime() - b.range.start.getTime());
+
+  if (sorted.length < 2) return null;
+
+  let viewedIndex = -1;
+  if (viewedSlug) {
+    viewedIndex = sorted.findIndex((entry) => entry.week.slug === viewedSlug);
+  } else {
+    const active = getCurrentOrLatestWeek(weeks);
+    if (active) {
+      viewedIndex = sorted.findIndex((entry) => entry.week.slug === active.slug);
+    }
+  }
+
+  if (viewedIndex === -1) return null;
+
+  const next = sorted[viewedIndex + 1];
+  return next ? next.week : null;
+}

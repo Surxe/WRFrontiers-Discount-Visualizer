@@ -2,11 +2,17 @@
 import DiscountGrid from './grid/DiscountGrid.astro';
 import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
-import { getWeekStatus, getCurrentOrLatestWeek } from '../utils/dateValidator.js';
+import { getWeekStatus, getCurrentOrLatestWeek, getNextWeek } from '../utils/dateValidator.js';
 
 const { dateRange, items, shopCards, catIcons, weeks, currentSlug } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 const activeWeek = getCurrentOrLatestWeek(weeks);
+const nextWeek = getNextWeek(weeks, currentSlug);
+const nextWeekHref = nextWeek
+  ? activeWeek && nextWeek.slug === activeWeek.slug
+    ? baseUrl
+    : `${baseUrl}week/${nextWeek.slug}`
+  : null;
 
 // Extract unique names for Discord embed
 const vbots = new Set();
@@ -53,25 +59,49 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	</head>
 	<body>
 		<div class="layout-container" id="layout-container">
-			<button
-				id="sidebar-toggle"
-				class="sidebar-toggle"
-				type="button"
-				aria-label="Toggle All Weeks navigation"
-				aria-expanded="false"
-				aria-controls="sidebar"
-			>
-				<span class="toggle-label">All Weeks</span>
-				<svg class="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<line x1="3" y1="12" x2="21" y2="12"></line>
-					<line x1="3" y1="6" x2="21" y2="6"></line>
-					<line x1="3" y1="18" x2="21" y2="18"></line>
-				</svg>
-				<svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<line x1="18" y1="6" x2="6" y2="18"></line>
-					<line x1="6" y1="6" x2="18" y2="18"></line>
-				</svg>
-			</button>
+			<div class="sidebar-controls" id="sidebar-controls">
+				<button
+					id="sidebar-toggle"
+					class="sidebar-toggle"
+					type="button"
+					aria-label="Toggle All Weeks navigation"
+					aria-expanded="false"
+					aria-controls="sidebar"
+				>
+					<span class="toggle-label">All Weeks</span>
+					<svg class="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<line x1="3" y1="12" x2="21" y2="12"></line>
+						<line x1="3" y1="6" x2="21" y2="6"></line>
+						<line x1="3" y1="18" x2="21" y2="18"></line>
+					</svg>
+					<svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<line x1="18" y1="6" x2="6" y2="18"></line>
+						<line x1="6" y1="6" x2="18" y2="18"></line>
+					</svg>
+				</button>
+
+				{nextWeek && nextWeekHref && (
+					<div
+						class="next-week-popup"
+						id="next-week-popup"
+						data-next-slug={nextWeek.slug}
+						role="status"
+					>
+						<button
+							type="button"
+							class="next-week-popup__close"
+							id="next-week-popup-close"
+							aria-label="Dismiss"
+						>
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<line x1="18" y1="6" x2="6" y2="18"></line>
+								<line x1="6" y1="6" x2="18" y2="18"></line>
+							</svg>
+						</button>
+						<a href={nextWeekHref} class="next-week-popup__link">See next week?</a>
+					</div>
+				)}
+			</div>
 			
 			<aside class="sidebar" id="sidebar">
 				<div class="sidebar-content">
@@ -143,6 +173,8 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 			(function() {
 				const drawerToggle = document.getElementById('sidebar-toggle');
 				const container = document.getElementById('layout-container');
+				const popup = document.getElementById('next-week-popup');
+				const popupClose = document.getElementById('next-week-popup-close');
 
 				function setDrawerOpen(isOpen) {
 					container.classList.toggle('sidebar-open', isOpen);
@@ -150,12 +182,23 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 					localStorage.setItem('sidebar-open', String(isOpen));
 				}
 
-				// Default collapsed unless user previously opened it
 				setDrawerOpen(localStorage.getItem('sidebar-open') === 'true');
 
 				drawerToggle.addEventListener('click', () => {
 					setDrawerOpen(!container.classList.contains('sidebar-open'));
 				});
+
+				if (popup && popupClose) {
+					const nextSlug = popup.getAttribute('data-next-slug');
+					const dismissKey = 'next-week-popup-dismissed-' + nextSlug;
+					if (localStorage.getItem(dismissKey) === 'true') {
+						popup.hidden = true;
+					}
+					popupClose.addEventListener('click', () => {
+						popup.hidden = true;
+						localStorage.setItem(dismissKey, 'true');
+					});
+				}
 			})();
 		</script>
 	</body>
@@ -205,11 +248,23 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		transform: translateX(0);
 	}
 
-	.sidebar-toggle {
+	.sidebar-controls {
 		position: fixed;
 		top: 1.5rem;
 		left: 0;
 		z-index: 110;
+		display: flex;
+		align-items: flex-start;
+		gap: 0.5rem;
+		transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.layout-container.sidebar-open .sidebar-controls {
+		left: 250px;
+	}
+
+	.sidebar-toggle {
+		flex-shrink: 0;
 		background: var(--sidebar-bg);
 		border: 1px solid var(--sidebar-border);
 		border-left: none;
@@ -222,7 +277,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		align-items: center;
 		justify-content: center;
 		gap: 0.5rem;
-		transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease;
+		transition: background-color 0.2s ease;
 	}
 
 	.toggle-label {
@@ -243,8 +298,49 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		color: var(--accent-color);
 	}
 
-	.layout-container.sidebar-open .sidebar-toggle {
-		left: 250px;
+	.next-week-popup {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		padding: 0.5rem 0.65rem;
+		background: var(--sidebar-bg);
+		border: 1px solid var(--sidebar-border);
+		border-radius: 6px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+		white-space: nowrap;
+	}
+
+	.next-week-popup[hidden] {
+		display: none;
+	}
+
+	.next-week-popup__link {
+		color: var(--accent-color);
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.next-week-popup__link:hover {
+		color: var(--accent-hover);
+		text-decoration: underline;
+	}
+
+	.next-week-popup__close {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		margin: 0;
+		border: none;
+		background: none;
+		color: var(--text-muted);
+		cursor: pointer;
+		line-height: 1;
+	}
+
+	.next-week-popup__close:hover {
+		color: var(--text-color);
 	}
 
 	.sidebar-toggle .icon-close {
@@ -438,7 +534,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 			padding: 2rem 1rem 2rem 3rem;
 		}
 
-		.sidebar-toggle {
+		.sidebar-controls {
 			top: 1rem;
 		}
 	}
