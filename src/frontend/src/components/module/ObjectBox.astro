@@ -11,9 +11,9 @@ const backgroundUrl = getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
 const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
 ---
 
-<div class="module-box" style={inlineStyle}>
+<div class="object-box" style={inlineStyle}>
   <div
-    class:list={['module-card', 'module-box__card', { 'module-box__card--no-name': !showName }]}
+    class:list={['module-card', 'object-box__card', { 'object-box__card--no-name': !showName }]}
     style={bgStyle || undefined}
   >
     <div class="module-card__icon">
@@ -24,7 +24,7 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
 </div>
 
 <style>
-  .module-box {
+  .object-box {
     display: block;
     width: 100%;
     height: 100%;
@@ -32,15 +32,15 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
     overflow: visible;
   }
 
-  .module-box__card {
+  .object-box__card {
     transition: transform 0.2s;
   }
 
-  .module-box:hover .module-box__card {
+  .object-box:hover .object-box__card {
     transform: translateY(-2px);
   }
 
-  .module-box__card--no-name .module-card__icon {
+  .object-box__card--no-name .module-card__icon {
     display: flex !important;
     align-items: center;
     justify-content: center;
