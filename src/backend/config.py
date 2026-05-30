@@ -38,6 +38,14 @@ GAME_DATA_JSON = PROMPT_DIR / "game_data.json"
 DISCOUNTS_OUTPUT = OUTPUT_DIR / "discounts.json"
 
 FRONTEND_DATA_DIR = REPO_ROOT / "src" / "frontend" / "public" / "data"
+WEEKS_MANIFEST = FRONTEND_DATA_DIR / "weeks.json"
+
+def date_range_to_slug(date_range: str) -> str:
+    """Convert 'May 26 - June 2' to 'may-26-june-2' for use in filenames."""
+    import re
+    slug = date_range.lower()
+    slug = re.sub(r'[^a-z0-9]+', '-', slug)
+    return slug.strip('-')
 
 # Module groups that appear as standalone discountable items (weapons / gear).
 # step2 INCLUDES only these groups when building game_data for the LLM.
@@ -50,3 +58,4 @@ STANDALONE_MODULE_GROUPS = [
     "heavy-weapon",
     "titan-weapon",
 ]
+
