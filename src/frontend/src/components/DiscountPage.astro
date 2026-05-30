@@ -121,9 +121,13 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 							return (
 								<li>
 									<a href={href} class={`week-link ${isActive ? 'active' : ''}`}>
-										{week.date_range}
-										{status === 'current' && <span class="badge current">Current</span>}
-										{status === 'upcoming' && <span class="badge upcoming">Upcoming</span>}
+										{(status === 'current' || status === 'upcoming') && (
+											<span class="week-link__badge">
+												{status === 'current' && <span class="badge current">Current</span>}
+												{status === 'upcoming' && <span class="badge upcoming">Upcoming</span>}
+											</span>
+										)}
+										<span class="week-link__label">{week.date_range}</span>
 									</a>
 								</li>
 							);
@@ -211,6 +215,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		--bg-color: #0f1115;
 		--sidebar-bg: #161920;
 		--sidebar-border: #232733;
+		--sidebar-width: 10.75rem;
 		--text-color: #e0e0e0;
 		--text-muted: #8b92a5;
 		--accent-color: #3a86ff;
@@ -237,7 +242,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		top: 0;
 		left: 0;
 		bottom: 0;
-		width: 250px;
+		width: var(--sidebar-width);
 		background-color: var(--sidebar-bg);
 		border-right: 1px solid var(--sidebar-border);
 		z-index: 100;
@@ -262,7 +267,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	}
 
 	.layout-container.sidebar-open .sidebar-controls {
-		left: 250px;
+		left: var(--sidebar-width);
 	}
 
 	.sidebar-toggle {
@@ -360,7 +365,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	.sidebar-content {
 		position: sticky;
 		top: 0;
-		padding: 2rem 1.5rem;
+		padding: 2rem 0.85rem;
 		max-height: 100vh;
 		overflow-y: auto;
 	}
@@ -385,16 +390,25 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 
 	.week-link {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 0.75rem 1rem;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.35rem;
+		padding: 0.55rem 0.65rem;
 		border-radius: 6px;
 		color: var(--text-color);
 		text-decoration: none;
-		font-size: 0.9rem;
 		font-weight: 500;
 		transition: all 0.2s ease;
 		border: 1px solid transparent;
+	}
+
+	.week-link__label {
+		font-size: 0.8rem;
+		line-height: 1.25;
+	}
+
+	.week-link__badge {
+		display: block;
 	}
 
 	.week-link:hover {
@@ -408,12 +422,14 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	}
 
 	.badge {
-		font-size: 0.65rem;
-		padding: 2px 6px;
-		border-radius: 4px;
+		display: inline-block;
+		font-size: 0.58rem;
+		padding: 2px 5px;
+		border-radius: 3px;
 		text-transform: uppercase;
-		letter-spacing: 0.5px;
+		letter-spacing: 0.4px;
 		font-weight: 600;
+		line-height: 1.2;
 	}
 
 	.badge.current {
@@ -438,7 +454,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	}
 
 	.layout-container.sidebar-open .app-container {
-		margin-left: 250px;
+		margin-left: var(--sidebar-width);
 	}
 
 	header {
