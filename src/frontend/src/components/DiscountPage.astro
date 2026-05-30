@@ -148,6 +148,8 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		flex-wrap: wrap;
 		gap: 4px;
 		font-size: 1.25rem;
+		/* slightly more grey than before */
+		color: #bfbfbf;
 		margin-bottom: 0.5rem;
 	}
 
@@ -156,6 +158,11 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		height: 20px;
 		object-fit: contain;
 		vertical-align: middle;
+	}
+
+	/* keep the date (inside <strong>) the main text color */
+	header h2 strong {
+		color: var(--text-color);
 	}
 
 
