@@ -148,15 +148,17 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 					<p>Salvage is 50% reduced and Intel is ~62% reduced</p>
 				</div>
 
-				<footer class="legal-disclaimer">
-					<h3>Legal Disclaimer</h3>
-					<ul>
-						<li>This is an unofficial fan-made tool and is not affiliated with, endorsed by, or sponsored by Pixonic, My Games, or the official War Robots Frontiers game</li>
-						<li>All game assets, trademarks, and copyrighted materials belong to their respective owners</li>
-						<li>Discount information is retrieved from official news posts</li>
-						<li>This tool is provided as-is without any warranty, express or implied</li>
-					</ul>
-				</footer>
+				<details class="legal-disclaimer">
+					<summary class="legal-disclaimer__summary">Legal Disclaimer</summary>
+					<div class="legal-disclaimer__content">
+						<ul>
+							<li>This is an unofficial fan-made tool and is not affiliated with, endorsed by, or sponsored by Pixonic, My Games, or the official War Robots Frontiers game</li>
+							<li>All game assets, trademarks, and copyrighted materials belong to their respective owners</li>
+							<li>Discount information is retrieved from official news posts</li>
+							<li>This tool is provided as-is without any warranty, express or implied</li>
+						</ul>
+					</div>
+				</details>
 				
 				<footer class="feedback-section">
 					<div class="feedback-link">
@@ -469,18 +471,56 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	.legal-disclaimer {
 		text-align: center;
 		margin-top: 2rem;
-		padding: 1.5rem;
+		padding: 1rem 1.5rem;
 		background: rgba(255, 255, 255, 0.05);
 		border-radius: 8px;
 		border: 1px solid rgba(255, 255, 255, 0.1);
 	}
 
-	.legal-disclaimer h3 {
-		margin: 0 0 1rem 0;
+	.legal-disclaimer__summary {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		margin: 0;
 		font-size: 1rem;
 		color: #888;
 		text-transform: uppercase;
 		letter-spacing: 1px;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.legal-disclaimer__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.legal-disclaimer__summary::after {
+		content: '';
+		display: inline-block;
+		width: 0.4em;
+		height: 0.4em;
+		border-right: 2px solid #888;
+		border-bottom: 2px solid #888;
+		transform: rotate(45deg);
+		transition: transform 0.2s ease;
+		margin-top: -0.15em;
+	}
+
+	.legal-disclaimer[open] .legal-disclaimer__summary::after {
+		transform: rotate(-135deg);
+		margin-top: 0.15em;
+	}
+
+	.legal-disclaimer__summary:hover {
+		color: var(--text-muted);
+	}
+
+	.legal-disclaimer__content {
+		margin-top: 1rem;
+		padding-top: 1rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
 	}
 
 	.legal-disclaimer ul {
