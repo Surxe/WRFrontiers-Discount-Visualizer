@@ -3,16 +3,17 @@ import DiscountGrid from '../components/DiscountGrid.astro';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 
 const { dateRange, items, shopCards, catIcons } = fetchEnrichedDiscounts();
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>War Robots Frontiers Discounts</title>
-		<link rel="stylesheet" href="/global.css" />
+		<link rel="stylesheet" href={`${baseUrl}global.css`} />
 	</head>
 	<body>
 		<main class="app-container">
