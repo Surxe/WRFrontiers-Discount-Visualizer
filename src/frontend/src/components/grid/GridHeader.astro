@@ -1,0 +1,69 @@
+---
+import { getTexturePath } from '../../utils/textures.js';
+
+const { catIcons } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
+
+const icon = (path) => getTexturePath(path, baseUrl);
+---
+
+<div class="grid-header sidebar-header"></div>
+<div class="grid-header bot-col">
+  Bot
+</div>
+<div class="grid-header bot-col">
+  {catIcons?.torso && <img src={icon(catIcons.torso)} class="header-icon" alt="" />}
+  Torso
+</div>
+<div class="grid-header bot-col">
+  {catIcons?.shoulder && <img src={icon(catIcons.shoulder)} class="header-icon" alt="" />}
+  Shoulder
+</div>
+<div class="grid-header bot-col">
+  {catIcons?.chassis && <img src={icon(catIcons.chassis)} class="header-icon" alt="" />}
+  Chassis
+</div>
+<div class="grid-spacer"></div>
+<div class="grid-header">
+  {catIcons?.lightWep && <img src={icon(catIcons.lightWep)} class="header-icon" alt="" />}
+  Light Wep
+</div>
+<div class="grid-header">
+  {catIcons?.heavyWep && <img src={icon(catIcons.heavyWep)} class="header-icon" alt="" />}
+  Heavy Wep
+</div>
+<div class="grid-header">
+  {catIcons?.supplyGear && <img src={icon(catIcons.supplyGear)} class="header-icon" alt="" />}
+  Supply Gear
+</div>
+<div class="grid-header">
+  {catIcons?.cycleGear && <img src={icon(catIcons.cycleGear)} class="header-icon" alt="" />}
+  Cycle Gear
+</div>
+
+<style>
+  .grid-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #7b8390;
+    text-align: center;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #232730;
+    height: 40px;
+  }
+
+  .header-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+    object-fit: contain;
+  }
+
+  .sidebar-header {
+    visibility: hidden;
+  }
+</style>

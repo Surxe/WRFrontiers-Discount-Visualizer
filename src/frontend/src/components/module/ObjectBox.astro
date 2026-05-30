@@ -1,0 +1,49 @@
+---
+import '../../styles/module-icon.css';
+import '../../styles/module-card.css';
+import { getTexturePath, getRarityBackgroundUrl } from '../../utils/textures.js';
+
+const { module, shopCards, showName = true, style: inlineStyle } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
+
+const iconSrc = getTexturePath(module.icon_path, baseUrl);
+const backgroundUrl = getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
+const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
+---
+
+<div class="object-box" style={inlineStyle}>
+  <div
+    class:list={['module-card', 'object-box__card', { 'object-box__card--no-name': !showName }]}
+    style={bgStyle || undefined}
+  >
+    <div class="module-card__icon">
+      {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
+    </div>
+    {showName && <span class="module-card__name">{module.name}</span>}
+  </div>
+</div>
+
+<style>
+  .object-box {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    overflow: visible;
+  }
+
+  .object-box__card {
+    transition: transform 0.2s;
+  }
+
+  .object-box:hover .object-box__card {
+    transform: translateY(-2px);
+  }
+
+  .object-box__card--no-name .module-card__icon {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+</style>

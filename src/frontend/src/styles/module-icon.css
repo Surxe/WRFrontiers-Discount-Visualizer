@@ -1,0 +1,12 @@
+/* Shared module icon sizing — imported by ObjectBox and ModulesBox */
+.module-icon {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.module-card__icon .module-icon {
+  width: 100%;
+}
+

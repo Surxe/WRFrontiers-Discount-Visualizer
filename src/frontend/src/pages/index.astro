@@ -1,6 +1,7 @@
 ---
-import DiscountGrid from '../components/DiscountGrid.astro';
+import DiscountGrid from '../components/grid/DiscountGrid.astro';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
+import { getTexturePath } from '../utils/textures.js';
 
 const { dateRange, items, shopCards, catIcons } = fetchEnrichedDiscounts();
 const baseUrl = import.meta.env.BASE_URL;
@@ -19,11 +20,18 @@ const baseUrl = import.meta.env.BASE_URL;
 		<main class="app-container">
 			<header>
 				<h1>War Robots Frontiers Discounts</h1>
-				{dateRange && <h2><strong>{dateRange}</strong></h2>}
-				<p>This week's discounted items. Salvage is 50% reduced and Intel is reduced by ~62%</p>
+				{dateRange && (
+					<h2>
+						Salvage <img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_CreditsLarge', baseUrl)} class="currency-icon" alt="Salvage" /> and Intel <img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_IntelLarge', baseUrl)} class="currency-icon" alt="Intel" /> Discounts  -  <strong>{dateRange}</strong>
+					</h2>
+				)}
 			</header>
 			
 			<DiscountGrid items={items} shopCards={shopCards} catIcons={catIcons} />
+
+			<div class="discount-info" style="text-align: center;">
+				<p>Salvage is 50% reduced and Intel is ~62% reduced</p>
+			</div>
 			
 			<footer class="feedback-section">
 				<div class="feedback-link">
@@ -53,22 +61,36 @@ const baseUrl = import.meta.env.BASE_URL;
 	}
 
 	.app-container {
-		max-width: 1400px;
+		max-width: 1200px;
 		margin: 0 auto;
-		padding: 2rem;
+		padding: 1rem 2rem;
 	}
 
 	header {
 		text-align: center;
-		margin-bottom: 3rem;
+		margin-bottom: 1.5rem;
 	}
 
 	h1 {
 		font-size: 2.5rem;
 		margin-bottom: 0.5rem;
-		background: linear-gradient(90deg, #3a86ff, #8338ec);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
+	}
+
+	h2 {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 4px;
+		font-size: 1.25rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.currency-icon {
+		width: 20px;
+		height: 20px;
+		object-fit: contain;
+		vertical-align: middle;
 	}
 
 	.feedback-section {

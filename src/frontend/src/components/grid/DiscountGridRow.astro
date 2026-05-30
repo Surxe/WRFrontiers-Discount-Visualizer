@@ -1,0 +1,152 @@
+---
+import ObjectBox from '../module/ObjectBox.astro';
+import EmptyCell from './EmptyCell.astro';
+
+const {
+  bot,
+  lightWep,
+  heavyWep,
+  supply,
+  cycle,
+  shopCards,
+  titanWeapon,
+  variant = 'standard',
+  sidebarLabel,
+} = Astro.props;
+---
+
+<div class="grid-row contents">
+  {variant === 'standard' && (
+    <>
+      {sidebarLabel ? (
+        <div class="sidebar-cell"><span>{sidebarLabel}</span></div>
+      ) : (
+        <EmptyCell />
+      )}
+      {bot ? (
+        <>
+          <ObjectBox
+            module={{
+              icon_path: bot.icon_path,
+              name: bot.name,
+              rarity: bot.rarity
+            }}
+            shopCards={shopCards}
+            showName={true}
+          />
+          <ObjectBox module={bot.torso[0]} shopCards={shopCards} showName={false} />
+          <ObjectBox module={bot.shoulder[0]} shopCards={shopCards} showName={false} />
+          <ObjectBox module={bot.chassis[0]} shopCards={shopCards} showName={false} />
+        </>
+      ) : (
+        <>
+          <EmptyCell />
+          <EmptyCell />
+          <EmptyCell />
+          <EmptyCell />
+          <EmptyCell />
+        </>
+      )}
+
+      <div class="grid-spacer"></div>
+
+      {lightWep ? (
+        <ObjectBox module={lightWep} shopCards={shopCards} />
+      ) : (
+        <EmptyCell />
+      )}
+      {heavyWep ? (
+        <ObjectBox module={heavyWep} shopCards={shopCards} />
+      ) : (
+        <EmptyCell />
+      )}
+      {supply ? (
+        <ObjectBox module={supply} shopCards={shopCards} />
+      ) : (
+        <EmptyCell />
+      )}
+      {cycle ? (
+        <ObjectBox module={cycle} shopCards={shopCards} />
+      ) : (
+        <EmptyCell />
+      )}
+    </>
+  )}
+
+  {variant === 'titan' && (
+    <>
+      {sidebarLabel ? (
+        <div class="sidebar-cell"><span>{sidebarLabel}</span></div>
+      ) : (
+        <EmptyCell />
+      )}
+      {bot ? (
+        <>
+          <ObjectBox
+            module={{
+              icon_path: bot.icon_path,
+              name: bot.name,
+              rarity: bot.rarity
+            }}
+            shopCards={shopCards}
+            showName={true}
+          />
+          <ObjectBox module={bot.torso[0]} shopCards={shopCards} showName={false} />
+          <ObjectBox module={bot.shoulder[0]} shopCards={shopCards} showName={false} />
+          <ObjectBox module={bot.chassis[0]} shopCards={shopCards} showName={false} />
+        </>
+      ) : (
+        <>
+          <EmptyCell />
+          <EmptyCell />
+          <EmptyCell />
+          <EmptyCell />
+          <EmptyCell />
+        </>
+      )}
+
+      <div class="grid-spacer"></div>
+
+      {titanWeapon ? (
+        <ObjectBox
+          module={titanWeapon}
+          shopCards={shopCards}
+        />
+      ) : (
+        <EmptyCell />
+      )}
+
+      <EmptyCell />
+      <EmptyCell />
+      <EmptyCell />
+      <EmptyCell />
+    </>
+  )}
+</div>
+
+<style>
+  .contents {
+    display: contents;
+  }
+
+  .sidebar-cell {
+    position: relative;
+    height: 100%;
+  }
+
+  .sidebar-cell span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-family: 'Orbitron', 'Fira Code', 'Source Code Pro', monospace;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    pointer-events: none;
+  }
+</style>
