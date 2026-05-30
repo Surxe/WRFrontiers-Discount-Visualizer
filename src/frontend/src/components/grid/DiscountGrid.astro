@@ -17,9 +17,9 @@ const standardItems = items.filter((i) => !isTitan(i));
 const titanItems = items.filter((i) => isTitan(i));
 
 const standardBots = processBots(standardItems);
-const titanBots = processBots(titanItems);
+const titanBots = titanItems.length > 0 ? processBots(titanItems) : [];
 const stdWeapons = getWeaponAndGear(standardItems);
-const titanWeapons = titanItems.filter((i) => categorize(i) === null);
+const titanWeapons = titanItems.length > 0 ? titanItems.filter((i) => categorize(i) === null) : [];
 
 // Assign weapons to their preferred bot rows
 const assignedLightWep = assignWeaponTypeToBots(standardBots, stdWeapons.lightWep);
@@ -48,16 +48,19 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
     />
   ))}
 
-  {titanItems.length > 0 &&
-    Array.from({ length: titanRows }).map((_, i) => (
-      <DiscountGridRow
-        bot={titanBots[i]}
-        titanWeapon={assignedTitanWeapons[i]}
-        shopCards={shopCards}
-        variant="titan"
-        sidebarLabel={i === 0 ? 'Titans' : null}
-      />
-    ))}
+  {titanItems.length > 0 && titanRows > 0 && titanBots.length > 0 ? (
+    <>
+      {Array.from({ length: titanRows }).map((_, i) => (
+        <DiscountGridRow
+          bot={titanBots[i]}
+          titanWeapon={assignedTitanWeapons[i]}
+          shopCards={shopCards}
+          variant="titan"
+          sidebarLabel={i === 0 ? 'Titans' : null}
+        />
+      ))}
+    </>
+  ) : null}
 </div>
 
 <style>
