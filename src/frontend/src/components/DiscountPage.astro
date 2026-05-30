@@ -52,10 +52,30 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		<meta name="twitter:description" content={ogDescription} />
 	</head>
 	<body>
-		<div class="layout-container">
-			<aside class="sidebar">
+		<div class="layout-container" id="layout-container">
+			<button
+				id="sidebar-toggle"
+				class="sidebar-toggle"
+				type="button"
+				aria-label="Toggle All Weeks navigation"
+				aria-expanded="false"
+				aria-controls="sidebar"
+			>
+				<span class="toggle-label">All Weeks</span>
+				<svg class="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<line x1="3" y1="12" x2="21" y2="12"></line>
+					<line x1="3" y1="6" x2="21" y2="6"></line>
+					<line x1="3" y1="18" x2="21" y2="18"></line>
+				</svg>
+				<svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<line x1="18" y1="6" x2="6" y2="18"></line>
+					<line x1="6" y1="6" x2="18" y2="18"></line>
+				</svg>
+			</button>
+			
+			<aside class="sidebar" id="sidebar">
 				<div class="sidebar-content">
-					<h3>Past Weeks</h3>
+					<h3>All Weeks</h3>
 					<ul class="week-list">
 						{weeks && weeks.map((week) => {
 							let isActive = false;
@@ -118,6 +138,26 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 				</footer>
 			</main>
 		</div>
+
+		<script is:inline>
+			(function() {
+				const drawerToggle = document.getElementById('sidebar-toggle');
+				const container = document.getElementById('layout-container');
+
+				function setDrawerOpen(isOpen) {
+					container.classList.toggle('sidebar-open', isOpen);
+					drawerToggle.setAttribute('aria-expanded', String(isOpen));
+					localStorage.setItem('sidebar-open', String(isOpen));
+				}
+
+				// Default collapsed unless user previously opened it
+				setDrawerOpen(localStorage.getItem('sidebar-open') === 'true');
+
+				drawerToggle.addEventListener('click', () => {
+					setDrawerOpen(!container.classList.contains('sidebar-open'));
+				});
+			})();
+		</script>
 	</body>
 </html>
 
@@ -144,13 +184,79 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	.layout-container {
 		display: flex;
 		min-height: 100vh;
+		position: relative;
 	}
 
 	.sidebar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
 		width: 250px;
 		background-color: var(--sidebar-bg);
 		border-right: 1px solid var(--sidebar-border);
+		z-index: 100;
+		transform: translateX(-100%);
+		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		flex-shrink: 0;
+	}
+
+	.layout-container.sidebar-open .sidebar {
+		transform: translateX(0);
+	}
+
+	.sidebar-toggle {
+		position: fixed;
+		top: 1.5rem;
+		left: 0;
+		z-index: 110;
+		background: var(--sidebar-bg);
+		border: 1px solid var(--sidebar-border);
+		border-left: none;
+		color: var(--text-color);
+		padding: 0.75rem 0.65rem;
+		border-top-right-radius: 6px;
+		border-bottom-right-radius: 6px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease;
+	}
+
+	.toggle-label {
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		color: var(--text-muted);
+		white-space: nowrap;
+	}
+
+	.layout-container.sidebar-open .toggle-label {
+		display: none;
+	}
+
+	.sidebar-toggle:hover {
+		background: rgba(255, 255, 255, 0.05);
+		color: var(--accent-color);
+	}
+
+	.layout-container.sidebar-open .sidebar-toggle {
+		left: 250px;
+	}
+
+	.sidebar-toggle .icon-close {
+		display: none;
+	}
+
+	.layout-container.sidebar-open .sidebar-toggle .icon-open {
+		display: none;
+	}
+
+	.layout-container.sidebar-open .sidebar-toggle .icon-close {
+		display: block;
 	}
 
 	.sidebar-content {
@@ -226,8 +332,13 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		flex-grow: 1;
 		max-width: 1200px;
 		margin: 0 auto;
-		padding: 2rem;
+		padding: 2rem 2rem 2rem 4rem;
 		overflow-x: hidden;
+		transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.layout-container.sidebar-open .app-container {
+		margin-left: 250px;
 	}
 
 	header {
@@ -319,19 +430,16 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	}
 
 	@media (max-width: 900px) {
-		.layout-container {
-			flex-direction: column;
+		.layout-container.sidebar-open .app-container {
+			margin-left: 0; /* Don't shift content on mobile, just overlay */
 		}
 
-		.sidebar {
-			width: 100%;
-			border-right: none;
-			border-bottom: 1px solid var(--sidebar-border);
+		.app-container {
+			padding: 2rem 1rem 2rem 3rem;
 		}
 
-		.sidebar-content {
-			padding: 1rem;
-			max-height: 200px;
+		.sidebar-toggle {
+			top: 1rem;
 		}
 	}
 
