@@ -1,0 +1,94 @@
+name: All
+
+on:
+  workflow_dispatch:
+    inputs:
+      news_url:
+        description: War Robots Frontiers news article URL
+        required: true
+        type: string
+      target_date_range:
+        description: 'Target date range (e.g. "May 26 - June 2"). Leave empty for latest week.'
+        required: false
+        type: string
+        default: ''
+      skip_deploy:
+        description: Run scrape and map only (skip build/deploy)
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Scrape and build game data
+        uses: ./.github/actions/scrape
+        with:
+          news_url: ${{ github.event.inputs.news_url }}
+
+  map:
+    runs-on: ubuntu-latest
+    needs: scrape
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull scrape commit
+        shell: bash
+        run: git pull origin "${{ github.ref_name }}"
+
+      - name: Gemini mapping
+        uses: ./.github/actions/map
+        with:
+          target_date_range: ${{ github.event.inputs.target_date_range }}
+
+  build:
+    if: ${{ !inputs.skip_deploy }}
+    runs-on: ubuntu-latest
+    needs: map
+    env:
+      DATA_REPO_PAT: ${{ secrets.DATA_REPO_PAT }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull map commit
+        shell: bash
+        run: git pull origin "${{ github.ref_name }}"
+
+      - name: Build frontend
+        uses: ./.github/actions/build
+
+      - name: Upload Pages artifact
+        uses: ./.github/actions/deploy
+
+  publish:
+    if: ${{ !inputs.skip_deploy }}
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: publish
+        uses: actions/deploy-pages@v4
