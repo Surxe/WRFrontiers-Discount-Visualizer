@@ -1,1 +1,18 @@
-{"date_range": "May 26 - June 2", "items": ["OBJID_VirtualBot::varangian", "OBJID_VirtualBot::hitcher", "OBJID_VirtualBot::pursuer", "OBJID_VirtualBot::norna", "OBJID_Module::DA_Module_Weapon_Scatter.0", "OBJID_Module::DA_Module_Weapon_Orkan.0", "OBJID_Module::DA_Module_Weapon_Nucleon.0", "OBJID_Module::DA_Module_Weapon_Coriolis.0", "OBJID_Module::DA_Module_Ability_Spotlight.1", "OBJID_Module::DA_Module_Ability_Dazzle.1", "OBJID_Module::DA_Module_Ability_ArmorShield.1", "OBJID_Module::DA_Module_Ability_BlockingField.1", "OBJID_Module::DA_Module_Ability_Grounded.1", "OBJID_Module::DA_Module_Ability_RegenerationFull.1"]}
+{
+  "date_range": "June 2 - June 9",
+  "items": [
+    "OBJID_VirtualBot::scorpion",
+    "OBJID_VirtualBot::lancelot",
+    "OBJID_VirtualBot::raven",
+    "OBJID_Module::DA_Module_Weapon_Cascade.0",
+    "OBJID_Module::DA_Module_Weapon_Gozer.0",
+    "OBJID_Module::DA_Module_Weapon_Punisher.0",
+    "OBJID_Module::DA_Module_Weapon_Tusk.0",
+    "OBJID_Module::DA_Module_Ability_BlastWave.1",
+    "OBJID_Module::DA_Module_Ability_CounterAttack.1",
+    "OBJID_Module::DA_Module_Ability_InfiniteAmmo.1",
+    "OBJID_Module::DA_Module_Ability_Repulsor.1",
+    "OBJID_Module::DA_Module_Ability_SpeedBoost.1",
+    "OBJID_Module::DA_Module_Ability_TensionLink.1"
+  ]
+}
