@@ -93,6 +93,13 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
     --grid-header-height: calc(40px * var(--grid-scale));
     --grid-header-font: calc(13.6px * var(--grid-scale));
     --grid-header-icon: calc(20px * var(--grid-scale));
+    --sidebar-label-letter-spacing: calc(0.04em * var(--grid-scale));
+    /* Fit full word in row height; never wider than the sidebar column */
+    --sidebar-label-font-size: clamp(
+      calc(var(--module-cell-height) / 6.5),
+      calc(0.6rem * var(--grid-scale)),
+      calc(var(--grid-sidebar-col) * 0.88)
+    );
     --module-card-height: calc(
       var(--module-icon-max-height) + 2 * var(--module-card-padding) + var(--module-name-strip)
     );
@@ -119,6 +126,17 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
   @supports not (container-type: inline-size) {
     .grid-container {
       --grid-scale: min(1, calc((100vw - 4.5rem) / var(--grid-intrinsic-width)));
+    }
+  }
+
+  @container discount-grid (max-width: 480px) {
+    .grid-container {
+      --sidebar-label-font-size: clamp(
+        calc(var(--module-cell-height) / 7),
+        calc(0.48rem * var(--grid-scale)),
+        calc(var(--grid-sidebar-col) * 0.85)
+      );
+      --sidebar-label-letter-spacing: 0;
     }
   }
 

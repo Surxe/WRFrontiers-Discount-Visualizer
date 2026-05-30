@@ -138,6 +138,7 @@ const {
   .sidebar-cell {
     position: relative;
     height: 100%;
+    overflow: visible;
   }
 
   .sidebar-cell span {
@@ -148,11 +149,13 @@ const {
     color: #fff;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: calc(1.2rem * var(--grid-scale, 1));
+    font-size: var(--sidebar-label-font-size, calc(0.7rem * var(--grid-scale, 1)));
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: var(--sidebar-label-letter-spacing, 0.04em);
     writing-mode: vertical-rl;
-    text-orientation: upright;
+    text-orientation: mixed;
     pointer-events: none;
+    line-height: 1;
+    white-space: nowrap;
   }
 </style>
