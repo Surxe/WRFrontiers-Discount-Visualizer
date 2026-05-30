@@ -69,14 +69,15 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
     );
     --module-cell-height: var(--module-card-height);
     display: grid;
-    grid-template-columns: repeat(4, 1fr) 16px repeat(4, 1fr);
+    grid-template-columns: repeat(4, 120px) 16px repeat(4, 120px);
     grid-template-rows: auto;
-    grid-auto-rows: minmax(var(--module-cell-height), auto);
+    grid-auto-rows: var(--module-cell-height);
     gap: 8px;
     background: #15181e;
     padding: 16px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    min-width: fit-content;
   }
 
   .titan-divider {
