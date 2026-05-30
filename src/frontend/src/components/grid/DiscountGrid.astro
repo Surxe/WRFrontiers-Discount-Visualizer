@@ -6,6 +6,7 @@ import {
   categorize,
   processBots,
   getWeaponAndGear,
+  assignWeaponTypeToBots,
   countStandardRows,
   countTitanRows,
 } from '../../utils/gridData.js';
@@ -20,6 +21,13 @@ const titanBots = processBots(titanItems);
 const stdWeapons = getWeaponAndGear(standardItems);
 const titanWeapons = titanItems.filter((i) => categorize(i) === null);
 
+// Assign weapons to their preferred bot rows
+const assignedLightWep = assignWeaponTypeToBots(standardBots, stdWeapons.lightWep);
+const assignedHeavyWep = assignWeaponTypeToBots(standardBots, stdWeapons.heavyWep);
+const assignedSupply = assignWeaponTypeToBots(standardBots, stdWeapons.supply);
+const assignedCycle = assignWeaponTypeToBots(standardBots, stdWeapons.cycle);
+const assignedTitanWeapons = assignWeaponTypeToBots(titanBots, titanWeapons);
+
 const stdRows = countStandardRows(standardBots, stdWeapons);
 const titanRows = countTitanRows(titanBots, titanWeapons);
 ---
@@ -30,10 +38,10 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
   {Array.from({ length: stdRows }).map((_, i) => (
     <DiscountGridRow
       bot={standardBots[i]}
-      lightWep={stdWeapons.lightWep[i]}
-      heavyWep={stdWeapons.heavyWep[i]}
-      supply={stdWeapons.supply[i]}
-      cycle={stdWeapons.cycle[i]}
+      lightWep={assignedLightWep[i]}
+      heavyWep={assignedHeavyWep[i]}
+      supply={assignedSupply[i]}
+      cycle={assignedCycle[i]}
       shopCards={shopCards}
       variant="standard"
     />
@@ -43,7 +51,7 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
     Array.from({ length: titanRows }).map((_, i) => (
       <DiscountGridRow
         bot={titanBots[i]}
-        titanWeapon={titanWeapons[i]}
+        titanWeapon={assignedTitanWeapons[i]}
         shopCards={shopCards}
         variant="titan"
       />

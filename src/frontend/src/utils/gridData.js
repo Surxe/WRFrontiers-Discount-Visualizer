@@ -9,6 +9,47 @@ export const categorize = (item) => {
   return null;
 };
 
+export const assignWeaponTypeToBots = (bots, weapons) => {
+  // Assign a single weapon type to bots based on preferred_vbot
+  const weaponsByVbot = new Map();
+  const unmatchedWeapons = [];
+  
+  for (const weapon of weapons) {
+    if (weapon.preferred_vbot) {
+      if (!weaponsByVbot.has(weapon.preferred_vbot)) {
+        weaponsByVbot.set(weapon.preferred_vbot, []);
+      }
+      weaponsByVbot.get(weapon.preferred_vbot).push(weapon);
+    } else {
+      unmatchedWeapons.push(weapon);
+    }
+  }
+  
+  // Assign weapons to their preferred bots
+  const assignedWeapons = new Set();
+  const botWeapons = bots.map(bot => {
+    const botId = bot.torso[0]?.vbot || bot.name;
+    const preferredWeapons = weaponsByVbot.get(botId) || [];
+    const assigned = preferredWeapons.slice(0, 1); // Take first preferred weapon
+    assigned.forEach(w => assignedWeapons.add(w.id));
+    return assigned[0] || null;
+  });
+  
+  // Fill remaining slots with unmatched weapons
+  const remainingUnmatched = unmatchedWeapons.filter(w => !assignedWeapons.has(w.id));
+  let unmatchedIndex = 0;
+  
+  for (let i = 0; i < botWeapons.length; i++) {
+    if (!botWeapons[i] && unmatchedIndex < remainingUnmatched.length) {
+      botWeapons[i] = remainingUnmatched[unmatchedIndex];
+      assignedWeapons.add(remainingUnmatched[unmatchedIndex].id);
+      unmatchedIndex++;
+    }
+  }
+  
+  return botWeapons;
+};
+
 export const processBots = (botItems) => {
   const botParts = botItems.filter((i) => categorize(i) !== null);
   const botsMap = {};

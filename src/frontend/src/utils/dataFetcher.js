@@ -61,6 +61,7 @@ export function fetchEnrichedDiscounts() {
   const ModuleSocketTypeDB = readJson('ModuleSocketType.json');
   const ShopCardDB = readJson('ShopCard.json');
   const VirtualBotDB = readJson('VirtualBot.json');
+  const CharacterPresetDB = readJson('CharacterPreset.json');
 
   const getSocketIcon = (moduleTypeId) => {
     const fullRef = `OBJID_ModuleType::${moduleTypeId}`;
@@ -87,6 +88,23 @@ export function fetchEnrichedDiscounts() {
     supplyGear: getSocketIcon('DA_ModuleType_Ability3.0'),
     cycleGear: getSocketIcon('DA_ModuleType_Ability4.0')
   };
+
+  // Build module-to-vbot mapping from factory presets
+  const moduleToVbotMap = new Map();
+  for (const [vbotId, vbotData] of Object.entries(VirtualBotDB)) {
+    if (vbotData.factory_preset_refs) {
+      for (const presetRef of vbotData.factory_preset_refs) {
+        const presetId = parseRef(presetRef);
+        const preset = CharacterPresetDB[presetId];
+        if (preset && preset.modules) {
+          for (const moduleData of preset.modules) {
+            const moduleId = parseRef(moduleData.module_ref);
+            moduleToVbotMap.set(moduleId, vbotId);
+          }
+        }
+      }
+    }
+  }
 
   const enrichedDiscounts = itemsArray.map(item => {
     const moduleId = item.id;
@@ -125,7 +143,8 @@ export function fetchEnrichedDiscounts() {
       category: categoryRef,
       group: groupRef,
       vbot: vbotRef,
-      vbot_icon_path: vbotIconPath
+      vbot_icon_path: vbotIconPath,
+      preferred_vbot: moduleToVbotMap.get(moduleId) || null
     };
   }).filter(item => !item._missing);
 
