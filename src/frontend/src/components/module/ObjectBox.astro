@@ -110,9 +110,10 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
 
   .module-card__footer-icons {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 2px;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 1px;
     flex-shrink: 0;
   }
 
