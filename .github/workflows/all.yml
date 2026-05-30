@@ -76,7 +76,7 @@ jobs:
         run: git pull origin "${{ github.ref_name }}"
 
       - name: Build frontend
-        uses: Surxe/WRFrontiers-Discount-Visualizer/.github/actions/build@main
+        uses: ./.github/actions/build
 
       - name: Upload Pages artifact
         uses: ./.github/actions/deploy

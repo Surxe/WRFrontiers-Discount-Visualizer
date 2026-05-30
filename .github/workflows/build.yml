@@ -16,4 +16,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build frontend
-        uses: Surxe/WRFrontiers-Discount-Visualizer/.github/actions/build@main
+        uses: ./.github/actions/build
