@@ -39,12 +39,6 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
     />
   ))}
 
-  {titanItems.length > 0 && (
-    <div class="titan-divider">
-      <h2>Titan Discounts</h2>
-    </div>
-  )}
-
   {titanItems.length > 0 &&
     Array.from({ length: titanRows }).map((_, i) => (
       <DiscountGridRow
