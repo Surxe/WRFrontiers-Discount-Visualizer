@@ -62,6 +62,17 @@ export function fetchEnrichedDiscounts() {
   const ShopCardDB = readJson('ShopCard.json');
   const VirtualBotDB = readJson('VirtualBot.json');
 
+  // Build reverse map: moduleId → { vbotId, icon_path }
+  const moduleToVbot = {};
+  for (const [vbotId, vbot] of Object.entries(VirtualBotDB)) {
+    for (const ref of (vbot.core_module_refs || [])) {
+      const moduleId = parseRef(ref);
+      if (moduleId) {
+        moduleToVbot[moduleId] = { vbotId, icon_path: vbot.icon_path };
+      }
+    }
+  }
+
   const getSocketIcon = (moduleTypeId) => {
     const fullRef = `OBJID_ModuleType::${moduleTypeId}`;
     for (const socket of Object.values(ModuleSocketTypeDB)) {
@@ -112,9 +123,10 @@ export function fetchEnrichedDiscounts() {
     const groupRef = parseRef(module.module_group_ref);
     const groupObj = groupRef ? ModuleGroupDB[groupRef] : null;
 
-    // Resolve Virtual Bot
-    const vbotRef = parseRef(module.virtual_bot_ref);
-    const vbotObj = vbotRef ? VirtualBotDB[vbotRef] : null;
+    // Resolve Virtual Bot via reverse lookup
+    const vbotEntry = moduleToVbot[moduleId];
+    const vbotRef = vbotEntry?.vbotId || null;
+    const vbotIconPath = vbotEntry?.icon_path || null;
 
     return {
       ...item,
@@ -123,7 +135,8 @@ export function fetchEnrichedDiscounts() {
       rarity: baseRarityRef,
       category: categoryRef,
       group: groupRef,
-      vbot: vbotRef
+      vbot: vbotRef,
+      vbot_icon_path: vbotIconPath
     };
   }).filter(item => !item._missing);
 
