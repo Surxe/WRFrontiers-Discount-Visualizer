@@ -1,0 +1,96 @@
+---
+const defaultItems = [
+	'This is an unofficial fan-made tool and is not affiliated with, endorsed by, or sponsored by Pixonic, My Games, or the official War Robots Frontiers game',
+	'All game assets, trademarks, and copyrighted materials belong to their respective owners',
+	'Discount information is retrieved from official news posts',
+	'This tool is provided as-is without any warranty, express or implied',
+];
+
+const { items = defaultItems } = Astro.props;
+---
+
+<details class="legal-disclaimer">
+	<summary class="legal-disclaimer__summary">Legal Disclaimer</summary>
+	<div class="legal-disclaimer__content">
+		<ul>
+			{items.map((item) => (
+				<li>{item}</li>
+			))}
+		</ul>
+	</div>
+</details>
+
+<style>
+	.legal-disclaimer {
+		text-align: center;
+		margin-top: 1.5rem;
+		padding: 1rem 1.5rem;
+		background: rgba(255, 255, 255, 0.05);
+		border-radius: 8px;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.legal-disclaimer__summary {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		margin: 0;
+		font-size: 1rem;
+		color: #888;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.legal-disclaimer__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.legal-disclaimer__summary::after {
+		content: '';
+		display: inline-block;
+		width: 0.4em;
+		height: 0.4em;
+		border-right: 2px solid #888;
+		border-bottom: 2px solid #888;
+		transform: rotate(45deg);
+		transition: transform 0.2s ease;
+		margin-top: -0.15em;
+	}
+
+	.legal-disclaimer[open] .legal-disclaimer__summary::after {
+		transform: rotate(-135deg);
+		margin-top: 0.15em;
+	}
+
+	.legal-disclaimer__summary:hover {
+		color: var(--text-muted);
+	}
+
+	.legal-disclaimer__content {
+		margin-top: 1rem;
+		padding-top: 1rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.legal-disclaimer ul {
+		margin: 0;
+		padding-left: 1.5rem;
+		text-align: left;
+		display: inline-block;
+	}
+
+	.legal-disclaimer li {
+		font-size: 0.85rem;
+		color: #666;
+		line-height: 1.5;
+		margin-bottom: 0.5rem;
+	}
+
+	.legal-disclaimer li:last-child {
+		margin-bottom: 0;
+	}
+</style>
