@@ -58,6 +58,7 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
           shopCards={shopCards}
           variant="titan"
           sidebarLabel={i === 0 ? 'Titans' : null}
+          sectionTopDivider={stdRows > 0 && i === 0}
         />
       ))}
     </>
@@ -138,19 +139,4 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
     }
   }
 
-  .titan-divider {
-    grid-column: 1 / -1;
-    margin-top: 20px;
-    margin-bottom: 12px;
-    text-align: center;
-    border-top: 2px solid #333;
-    padding-top: 16px;
-  }
-
-  .titan-divider h2 {
-    margin: 0;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
 </style>
