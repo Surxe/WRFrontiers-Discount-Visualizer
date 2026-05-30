@@ -142,7 +142,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 					)}
 				</header>
 				
-				<DiscountGrid items={items} shopCards={shopCards} catIcons={catIcons} />
+				<DiscountGrid items={items} shopCards={shopCards} catIcons={catIcons} vbotMetaById={Astro.props.vbotMetaById} />
 
 				<div class="discount-info" style="text-align: center;">
 					<p>Salvage is 50% reduced and Intel is ~62% reduced</p>

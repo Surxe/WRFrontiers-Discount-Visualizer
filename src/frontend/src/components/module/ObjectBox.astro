@@ -3,12 +3,29 @@ import '../../styles/module-icon.css';
 import '../../styles/module-card.css';
 import { getTexturePath, getRarityBackgroundUrl } from '../../utils/textures.js';
 
-const { module, shopCards, showName = true, style: inlineStyle } = Astro.props;
+const { module, shopCards, showName = true, showBadges = false, style: inlineStyle } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 
 const iconSrc = getTexturePath(module.icon_path, baseUrl);
 const backgroundUrl = getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
 const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
+
+const factionIconSrc = module.faction_icon_path
+  ? getTexturePath(module.faction_icon_path, baseUrl)
+  : null;
+const tagIconSrc = module.tag_icon_path
+  ? getTexturePath(module.tag_icon_path, baseUrl)
+  : null;
+
+const tagStyle =
+  module.tag_label && (module.tag_text_color || module.tag_background)
+    ? [
+        module.tag_text_color ? `color: ${module.tag_text_color}` : '',
+        module.tag_background ? `background-color: ${module.tag_background}` : '',
+      ]
+        .filter(Boolean)
+        .join('; ')
+    : '';
 ---
 
 <div class="object-box" style={inlineStyle}>
@@ -16,6 +33,32 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
     class:list={['module-card', 'object-box__card', { 'object-box__card--no-name': !showName }]}
     style={bgStyle || undefined}
   >
+    {showBadges && (factionIconSrc || tagIconSrc || module.tag_label) && (
+      <div class="object-box__badges">
+        {factionIconSrc && (
+          <img
+            class="object-box__badge-icon"
+            src={factionIconSrc}
+            alt=""
+            title="Faction"
+          />
+        )}
+        {tagIconSrc ? (
+          <img
+            class="object-box__badge-icon"
+            src={tagIconSrc}
+            alt=""
+            title={module.tag_label || 'Tag'}
+          />
+        ) : (
+          module.tag_label && (
+            <span class="object-box__tag-label" style={tagStyle || undefined}>
+              {module.tag_label}
+            </span>
+          )
+        )}
+      </div>
+    )}
     <div class="module-card__icon">
       {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
     </div>
@@ -33,11 +76,48 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
   }
 
   .object-box__card {
+    position: relative;
     transition: transform 0.2s;
   }
 
   .object-box:hover .object-box__card {
     transform: translateY(-2px);
+  }
+
+  .object-box__badges {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    flex-wrap: wrap;
+    pointer-events: none;
+  }
+
+  .object-box__badge-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+  }
+
+  .object-box__tag-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    line-height: 1.1;
+    padding: 2px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 
   .object-box__card--no-name .module-card__icon {

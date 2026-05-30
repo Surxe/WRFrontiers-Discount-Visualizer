@@ -11,13 +11,13 @@ import {
   countTitanRows,
 } from '../../utils/gridData.js';
 
-const { items, shopCards, catIcons } = Astro.props;
+const { items, shopCards, catIcons, vbotMetaById = {} } = Astro.props;
 
 const standardItems = items.filter((i) => !isTitan(i));
 const titanItems = items.filter((i) => isTitan(i));
 
-const standardBots = processBots(standardItems);
-const titanBots = titanItems.length > 0 ? processBots(titanItems) : [];
+const standardBots = processBots(standardItems, vbotMetaById);
+const titanBots = titanItems.length > 0 ? processBots(titanItems, vbotMetaById) : [];
 const stdWeapons = getWeaponAndGear(standardItems);
 const titanWeapons = titanItems.length > 0 ? titanItems.filter((i) => categorize(i) === null) : [];
 
