@@ -1,6 +1,7 @@
 ---
 import ModuleBox from '../module/ModuleBox.astro';
 import EmptyCell from './EmptyCell.astro';
+import { getTexturePath } from '../../utils/textures.js';
 
 const {
   bot,
@@ -19,12 +20,16 @@ const {
     <>
       {bot ? (
         <>
+          <div class="bot-icon-cell">
+            {bot.icon_path && <img src={getTexturePath(bot.icon_path, import.meta.env.BASE_URL)} alt="" class="bot-icon" />}
+          </div>
           <ModuleBox module={bot.torso[0]} shopCards={shopCards} />
           <ModuleBox module={bot.shoulder[0]} shopCards={shopCards} />
           <ModuleBox module={bot.chassis[0]} shopCards={shopCards} />
         </>
       ) : (
         <>
+          <EmptyCell />
           <EmptyCell />
           <EmptyCell />
           <EmptyCell />
@@ -60,12 +65,16 @@ const {
     <>
       {bot ? (
         <>
+          <div class="bot-icon-cell">
+            {bot.icon_path && <img src={getTexturePath(bot.icon_path, import.meta.env.BASE_URL)} alt="" class="bot-icon" />}
+          </div>
           <ModuleBox module={bot.torso[0]} shopCards={shopCards} />
           <ModuleBox module={bot.shoulder[0]} shopCards={shopCards} />
           <ModuleBox module={bot.chassis[0]} shopCards={shopCards} />
         </>
       ) : (
         <>
+          <EmptyCell />
           <EmptyCell />
           <EmptyCell />
           <EmptyCell />
@@ -93,5 +102,17 @@ const {
 <style>
   .contents {
     display: contents;
+  }
+  .bot-icon-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  .bot-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 </style>
