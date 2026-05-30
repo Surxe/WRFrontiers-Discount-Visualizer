@@ -2,9 +2,35 @@
 import DiscountGrid from '../components/grid/DiscountGrid.astro';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 import { getTexturePath } from '../utils/textures.js';
+import { categorize } from '../utils/gridData.js';
 
 const { dateRange, items, shopCards, catIcons } = fetchEnrichedDiscounts();
 const baseUrl = import.meta.env.BASE_URL;
+
+// Extract unique names for Discord embed
+const vbots = new Set();
+const weapons = new Set();
+const gear = new Set();
+
+for (const item of items) {
+  const cat = categorize(item);
+  if (cat === 'chassis' || cat === 'torso' || cat === 'shoulder') {
+    // Bot parts - extract vbot name
+    if (item.vbot) {
+      vbots.add(item.name);
+    }
+  } else if (item.category?.toLowerCase().includes('weapon')) {
+    weapons.add(item.name);
+  } else if (item.category?.toLowerCase().includes('ability')) {
+    gear.add(item.name);
+  }
+}
+
+const botNames = Array.from(vbots).sort().join(', ');
+const weaponNames = Array.from(weapons).sort().join(', ');
+const gearNames = Array.from(gear).sort().join(', ');
+
+const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames || 'None'} | Weapons: ${weaponNames || 'None'} | Gear: ${gearNames || 'None'}`;
 ---
 
 <html lang="en">
@@ -15,6 +41,14 @@ const baseUrl = import.meta.env.BASE_URL;
 		<meta name="generator" content={Astro.generator} />
 		<title>War Robots Frontiers Discounts</title>
 		<link rel="stylesheet" href={`${baseUrl}global.css`} />
+		
+		<!-- Open Graph / Discord Embed -->
+		<meta property="og:title" content="War Robots Frontiers Discounts" />
+		<meta property="og:description" content={ogDescription} />
+		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="War Robots Frontiers Discounts" />
+		<meta name="twitter:description" content={ogDescription} />
 	</head>
 	<body>
 		<main class="app-container">
