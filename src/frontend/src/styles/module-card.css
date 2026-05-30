@@ -1,14 +1,15 @@
 /* Rarity background card — hugs icon + name, centered in grid cell */
 .module-card {
-  display: block;
-  width: 100%;
-  height: 100%;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 8px;
-  overflow: hidden;
-  box-sizing: border-box;
+  overflow: visible;
+  vertical-align: top;
+  text-align: center;
 }
 
 .module-card__name {
