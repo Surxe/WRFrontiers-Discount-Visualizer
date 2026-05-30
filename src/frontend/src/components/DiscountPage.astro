@@ -2,9 +2,11 @@
 import DiscountGrid from './grid/DiscountGrid.astro';
 import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
+import { getWeekStatus, getCurrentOrLatestWeek } from '../utils/dateValidator.js';
 
 const { dateRange, items, shopCards, catIcons, weeks, currentSlug } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
+const activeWeek = getCurrentOrLatestWeek(weeks);
 
 // Extract unique names for Discord embed
 const vbots = new Set();
@@ -55,21 +57,23 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 				<div class="sidebar-content">
 					<h3>Past Weeks</h3>
 					<ul class="week-list">
-						{weeks && weeks.map((week, idx) => {
-							const isLatest = idx === 0;
+						{weeks && weeks.map((week) => {
 							let isActive = false;
 							if (currentSlug) {
 								isActive = week.slug === currentSlug;
 							} else {
-								isActive = isLatest;
+								isActive = activeWeek ? week.slug === activeWeek.slug : false;
 							}
-							const href = isLatest ? baseUrl : `${baseUrl}week/${week.slug}`;
+							const isMainPageWeek = activeWeek && week.slug === activeWeek.slug;
+							const href = isMainPageWeek ? baseUrl : `${baseUrl}week/${week.slug}`;
+							const status = getWeekStatus(week.date_range);
 							
 							return (
 								<li>
 									<a href={href} class={`week-link ${isActive ? 'active' : ''}`}>
 										{week.date_range}
-										{isLatest && <span class="badge">Latest</span>}
+										{status === 'current' && <span class="badge current">Current</span>}
+										{status === 'upcoming' && <span class="badge upcoming">Upcoming</span>}
 									</a>
 								</li>
 							);
@@ -201,12 +205,21 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 
 	.badge {
 		font-size: 0.65rem;
-		background-color: var(--accent-color);
-		color: white;
 		padding: 2px 6px;
 		border-radius: 4px;
 		text-transform: uppercase;
 		letter-spacing: 0.5px;
+		font-weight: 600;
+	}
+
+	.badge.current {
+		background-color: #2ec4b6;
+		color: #0f1115;
+	}
+
+	.badge.upcoming {
+		background-color: #ff9f1c;
+		color: #0f1115;
 	}
 
 	.app-container {

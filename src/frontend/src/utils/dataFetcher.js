@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { getCurrentOrLatestWeek } from './dateValidator.js';
 
 // Helper to strip "OBJID_Type::" prefixes
 const parseRef = (ref) => {
@@ -48,7 +49,8 @@ export function fetchEnrichedDiscounts(filename = null) {
   if (!targetFilename) {
     const manifest = readJson('weeks.json', frontendDataDir);
     if (manifest && manifest.weeks && manifest.weeks.length > 0) {
-      targetFilename = manifest.weeks[0].file;
+      const currentOrLatest = getCurrentOrLatestWeek(manifest.weeks);
+      targetFilename = currentOrLatest ? currentOrLatest.file : manifest.weeks[0].file;
     } else {
       targetFilename = 'discounts.json'; // Fallback just in case
     }

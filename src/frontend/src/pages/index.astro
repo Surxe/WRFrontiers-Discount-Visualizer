@@ -2,12 +2,14 @@
 import DiscountPage from '../components/DiscountPage.astro';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 import { fetchWeeksManifest } from '../utils/weeksManifest.js';
+import { getCurrentOrLatestWeek } from '../utils/dateValidator.js';
 
 const weeks = fetchWeeksManifest();
-// fetchEnrichedDiscounts with no args will automatically load the latest week from weeks.json
+// fetchEnrichedDiscounts with no args will automatically load the current/latest week
 const data = fetchEnrichedDiscounts();
 
-const currentSlug = weeks.length > 0 ? weeks[0].slug : null;
+const activeWeek = getCurrentOrLatestWeek(weeks);
+const currentSlug = activeWeek ? activeWeek.slug : null;
 ---
 
 <DiscountPage 
