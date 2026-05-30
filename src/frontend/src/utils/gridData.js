@@ -50,12 +50,10 @@ export const assignWeaponTypeToBots = (bots, weapons) => {
     }
   }
   
-  // If there are no bots but there are unmatched weapons, create slots for them
-  if (bots.length === 0 && unmatchedIndex < remainingUnmatched.length) {
-    while (unmatchedIndex < remainingUnmatched.length) {
-      botWeapons.push(remainingUnmatched[unmatchedIndex]);
-      unmatchedIndex++;
-    }
+  // Create slots for all remaining unmatched weapons
+  while (unmatchedIndex < remainingUnmatched.length) {
+    botWeapons.push(remainingUnmatched[unmatchedIndex]);
+    unmatchedIndex++;
   }
   
   return botWeapons;
