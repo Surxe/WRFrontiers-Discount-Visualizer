@@ -1,0 +1,23 @@
+---
+import DiscountPage from '../../components/DiscountPage.astro';
+import { fetchEnrichedDiscounts } from '../../utils/dataFetcher.js';
+import { fetchWeeksManifest } from '../../utils/weeksManifest.js';
+
+export async function getStaticPaths() {
+  const weeks = fetchWeeksManifest();
+  
+  return weeks.map(week => ({
+    params: { slug: week.slug },
+    props: { week, weeks }
+  }));
+}
+
+const { week, weeks } = Astro.props;
+const data = fetchEnrichedDiscounts(week.file);
+---
+
+<DiscountPage 
+  {...data} 
+  weeks={weeks} 
+  currentSlug={week.slug} 
+/>
