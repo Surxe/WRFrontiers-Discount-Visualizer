@@ -1,0 +1,17 @@
+/* Shared module icon sizing — imported by ModuleBox and ModulesBox */
+.module-icon {
+  display: inline-block;
+  height: var(--module-icon-max-height, 88px);
+  max-height: var(--module-icon-max-height, 88px);
+  width: auto;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.module-box__icon .module-icon {
+  max-width: 100%;
+}
+
+.modules-box__slot .module-icon {
+  max-width: none;
+}
