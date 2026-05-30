@@ -1,0 +1,107 @@
+---
+import ModulesBox from '../module/ModulesBox.astro';
+import ModuleBox from '../module/ModuleBox.astro';
+import EmptyCell from './EmptyCell.astro';
+
+const {
+  bot,
+  lightWep,
+  heavyWep,
+  supply,
+  cycle,
+  shopCards,
+  titanWeapon,
+  variant = 'standard',
+} = Astro.props;
+
+const botModules = bot
+  ? [...bot.torso, ...bot.shoulder, ...bot.chassis]
+  : [];
+---
+
+<div class="grid-row contents">
+  {variant === 'standard' && (
+    <>
+      {bot ? (
+        <ModulesBox
+          modules={botModules}
+          shopCards={shopCards}
+          layout="bot"
+          class="bot-group"
+          style="grid-column: 1 / 4;"
+        />
+      ) : (
+        <>
+          <EmptyCell />
+          <EmptyCell />
+          <EmptyCell />
+        </>
+      )}
+
+      {lightWep ? (
+        <ModuleBox module={lightWep} shopCards={shopCards} />
+      ) : (
+        <EmptyCell />
+      )}
+      {heavyWep ? (
+        <ModuleBox module={heavyWep} shopCards={shopCards} />
+      ) : (
+        <EmptyCell />
+      )}
+      {supply ? (
+        <ModuleBox module={supply} shopCards={shopCards} />
+      ) : (
+        <EmptyCell />
+      )}
+      {cycle ? (
+        <ModuleBox module={cycle} shopCards={shopCards} />
+      ) : (
+        <EmptyCell />
+      )}
+    </>
+  )}
+
+  {variant === 'titan' && (
+    <>
+      {bot ? (
+        <ModulesBox
+          modules={botModules}
+          shopCards={shopCards}
+          layout="bot"
+          class="bot-group"
+          style="grid-column: 1 / 4;"
+        />
+      ) : (
+        <>
+          <EmptyCell />
+          <EmptyCell />
+          <EmptyCell />
+        </>
+      )}
+
+      {titanWeapon ? (
+        <ModulesBox
+          modules={[titanWeapon]}
+          shopCards={shopCards}
+          layout="single"
+          class="titan-wep-group"
+          style="grid-column: 4 / 6;"
+        />
+      ) : (
+        <>
+          <EmptyCell />
+          <EmptyCell />
+        </>
+      )}
+
+      <EmptyCell />
+      <EmptyCell />
+    </>
+  )}
+</div>
+
+<style>
+  .contents {
+    display: contents;
+  }
+</style>

@@ -1,0 +1,85 @@
+---
+import { getRarityBackgroundUrl } from '../../utils/textures.js';
+import ModuleBox from './ModuleBox.astro';
+
+const { modules, shopCards, layout = 'single', class: className, style: inlineStyle } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
+
+const backgroundUrl =
+  modules?.length > 0
+    ? getRarityBackgroundUrl(modules[0].rarity, shopCards, baseUrl)
+    : '';
+const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
+const combinedStyle = [bgStyle, inlineStyle].filter(Boolean).join(' ');
+---
+
+{modules?.length > 0 && (
+<div
+  class:list={['modules-box', `modules-box--${layout}`, className]}
+  style={combinedStyle || undefined}
+>
+  <div class="modules-box__body">
+    {modules.map((module) => (
+      <ModuleBox module={module} shopCards={shopCards} showName={false} embedded />
+    ))}
+  </div>
+  <span class="modules-box__title">{modules[0].name}</span>
+</div>
+)}
+
+<style>
+  .modules-box {
+    position: relative;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    width: 100%;
+    height: 120px;
+    padding-bottom: 32px;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+
+  .modules-box__body {
+    height: 100%;
+    width: 100%;
+  }
+
+  .modules-box--bot .modules-box__body {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: 100%;
+  }
+
+  .modules-box--bot :global(.module-box--embedded) {
+    height: 100%;
+  }
+
+  .modules-box--single .modules-box__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .modules-box--single :global(.module-box--embedded) {
+    height: 100%;
+    width: 100%;
+  }
+
+  .modules-box__title {
+    position: absolute;
+    top: calc(100% - 32px);
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.75);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 6px 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    color: #fff;
+  }
+</style>
