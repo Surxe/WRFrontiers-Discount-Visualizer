@@ -136,12 +136,13 @@ const {
     display: grid;
     grid-column: 1 / -1;
     grid-template-columns: subgrid;
+    box-sizing: border-box;
+    height: 100%;
   }
 
   .grid-row--section-top {
     border-top: 1px solid rgba(255, 255, 255, 0.14);
     padding-top: calc(10px * var(--grid-scale, 1));
-    margin-top: calc(9px * var(--grid-scale, 1));
   }
 
   .sidebar-cell {

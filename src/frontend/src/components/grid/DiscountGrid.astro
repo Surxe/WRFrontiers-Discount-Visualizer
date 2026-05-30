@@ -104,7 +104,7 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
       calc(var(--grid-sidebar-col) * 0.68)
     );
     --module-card-height: calc(
-      var(--module-icon-max-height) + 2 * var(--module-card-padding) + var(--module-name-strip)
+      var(--module-icon-max-height) + 2 * var(--module-card-padding) + var(--module-name-strip) + calc(6px * var(--grid-scale))
     );
     --module-cell-height: var(--module-card-height);
     display: grid;
