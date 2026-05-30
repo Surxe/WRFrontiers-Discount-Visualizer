@@ -13,19 +13,9 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
 const factionIconSrc = module.faction_icon_path
   ? getTexturePath(module.faction_icon_path, baseUrl)
   : null;
-const tagIconSrc = module.tag_icon_path
-  ? getTexturePath(module.tag_icon_path, baseUrl)
+const classIconSrc = module.class_icon_path
+  ? getTexturePath(module.class_icon_path, baseUrl)
   : null;
-
-const tagStyle =
-  module.tag_label && (module.tag_text_color || module.tag_background)
-    ? [
-        module.tag_text_color ? `color: ${module.tag_text_color}` : '',
-        module.tag_background ? `background-color: ${module.tag_background}` : '',
-      ]
-        .filter(Boolean)
-        .join('; ')
-    : '';
 ---
 
 <div class="object-box" style={inlineStyle}>
@@ -33,7 +23,7 @@ const tagStyle =
     class:list={['module-card', 'object-box__card', { 'object-box__card--no-name': !showName }]}
     style={bgStyle || undefined}
   >
-    {showBadges && (factionIconSrc || tagIconSrc || module.tag_label) && (
+    {showBadges && (factionIconSrc || classIconSrc) && (
       <div class="object-box__badges">
         {factionIconSrc && (
           <img
@@ -43,19 +33,13 @@ const tagStyle =
             title="Faction"
           />
         )}
-        {tagIconSrc ? (
+        {classIconSrc && (
           <img
             class="object-box__badge-icon"
-            src={tagIconSrc}
+            src={classIconSrc}
             alt=""
-            title={module.tag_label || 'Tag'}
+            title="Class"
           />
-        ) : (
-          module.tag_label && (
-            <span class="object-box__tag-label" style={tagStyle || undefined}>
-              {module.tag_label}
-            </span>
-          )
         )}
       </div>
     )}
@@ -103,21 +87,6 @@ const tagStyle =
     height: 22px;
     object-fit: contain;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
-  }
-
-  .object-box__tag-label {
-    font-size: 0.6rem;
-    font-weight: 700;
-    line-height: 1.1;
-    padding: 2px 5px;
-    border-radius: 3px;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 
   .object-box__card--no-name .module-card__icon {

@@ -76,14 +76,16 @@ export function fetchEnrichedDiscounts(filename = null) {
   const VirtualBotDB = readJson('VirtualBot.json');
   const CharacterPresetDB = readJson('CharacterPreset.json');
   const FactionDB = readJson('Faction.json');
-  const ModuleTagDB = readJson('ModuleTag.json');
+  const ModuleClassDB = readJson('ModuleClass.json');
+  const CharacterClassDB = readJson('CharacterClass.json');
 
   const databases = {
     ModuleDB,
     ModuleTypeDB,
     VirtualBotDB,
     FactionDB,
-    ModuleTagDB,
+    ModuleClassDB,
+    CharacterClassDB,
   };
 
   const getSocketIcon = (moduleTypeId) => {

@@ -4,9 +4,10 @@ const CORE_MODULE_CATEGORIES = [
   'DA_ModuleCategory_Shoulder.0',
 ];
 
-const CORE_CATEGORY_PRIORITY = [
-  'DA_ModuleCategory_Chassis.0',
+/** Torso carries module_classes_refs; chassis/shoulder are fallbacks for faction only. */
+const META_CORE_CATEGORY_PRIORITY = [
   'DA_ModuleCategory_Torso.0',
+  'DA_ModuleCategory_Chassis.0',
   'DA_ModuleCategory_Shoulder.0',
 ];
 
@@ -21,23 +22,8 @@ export function isCoreModule(module, ModuleTypeDB, parseRef) {
   return categoryId != null && CORE_MODULE_CATEGORIES.includes(categoryId);
 }
 
-function rgbaToCss(rgba) {
-  if (!rgba) return null;
-  const r = Math.round((rgba.R ?? 0) * 255);
-  const g = Math.round((rgba.G ?? 0) * 255);
-  const b = Math.round((rgba.B ?? 0) * 255);
-  const a = rgba.A ?? 1;
-  return `rgba(${r}, ${g}, ${b}, ${a})`;
-}
-
-function tagDisplayName(tag) {
-  if (!tag?.name) return tag?.id ?? '';
-  if (typeof tag.name === 'string') return tag.name;
-  return tag.name.en || tag.name.Key || tag.id;
-}
-
 /**
- * Pick one core module from a virtual bot's core_module_refs (chassis preferred).
+ * Pick one core module from a virtual bot's core_module_refs (torso preferred).
  */
 export function findCoreModuleForVbot(vbotId, databases, parseRef) {
   const { VirtualBotDB, ModuleDB, ModuleTypeDB } = databases;
@@ -58,26 +44,65 @@ export function findCoreModuleForVbot(vbotId, databases, parseRef) {
     const catA = getModuleCategoryId(a, ModuleTypeDB, parseRef);
     const catB = getModuleCategoryId(b, ModuleTypeDB, parseRef);
     return (
-      CORE_CATEGORY_PRIORITY.indexOf(catA) - CORE_CATEGORY_PRIORITY.indexOf(catB)
+      META_CORE_CATEGORY_PRIORITY.indexOf(catA) -
+      META_CORE_CATEGORY_PRIORITY.indexOf(catB)
     );
   });
 
   return coreModules[0];
 }
 
-/**
- * Faction badge icon + first module tag for a virtual bot (build fails if >1 tag).
- */
-export function resolveVbotMeta(vbotId, databases, parseRef) {
-  const { FactionDB, ModuleTagDB } = databases;
-  const coreModule = findCoreModuleForVbot(vbotId, databases, parseRef);
+function assertAtMostOneClassPerCorePart(vbotId, coreModules) {
+  for (const module of coreModules) {
+    const classes = module.module_classes_refs ?? [];
+    if (classes.length > 1) {
+      throw new Error(
+        `Virtual bot ${vbotId} core module ${module.id} has ${classes.length} module_classes_refs (expected at most 1)`
+      );
+    }
+  }
+}
 
-  const tags = coreModule.module_tags_refs ?? [];
-  if (tags.length > 1) {
+function resolveCharacterClassIcon(module, databases, parseRef) {
+  const { ModuleClassDB, CharacterClassDB } = databases;
+  const classRefs = module.module_classes_refs ?? [];
+  if (classRefs.length === 0) return null;
+
+  const moduleClassId = parseRef(classRefs[0]);
+  const moduleClass = moduleClassId ? ModuleClassDB[moduleClassId] : null;
+  if (!moduleClass?.character_class_ref) {
     throw new Error(
-      `Virtual bot ${vbotId} core module ${coreModule.id} has ${tags.length} module_tags_refs (expected at most 1)`
+      `Module ${module.id}: ModuleClass ${moduleClassId} missing character_class_ref`
     );
   }
+
+  const characterClassId = parseRef(moduleClass.character_class_ref);
+  const characterClass = characterClassId
+    ? CharacterClassDB[characterClassId]
+    : null;
+  const iconPath = characterClass?.badge?.image_path ?? null;
+  if (!iconPath) {
+    throw new Error(
+      `Module ${module.id}: CharacterClass ${characterClassId} has no badge.image_path`
+    );
+  }
+
+  return iconPath;
+}
+
+/**
+ * Faction badge + CharacterClass icon from torso core module (build fails if >1 class ref).
+ */
+export function resolveVbotMeta(vbotId, databases, parseRef) {
+  const { VirtualBotDB, ModuleDB, ModuleTypeDB, FactionDB } = databases;
+  const bot = VirtualBotDB[vbotId];
+  const coreModules = bot.core_module_refs
+    .map((ref) => ModuleDB[parseRef(ref)])
+    .filter((module) => module && isCoreModule(module, ModuleTypeDB, parseRef));
+
+  assertAtMostOneClassPerCorePart(vbotId, coreModules);
+
+  const coreModule = findCoreModuleForVbot(vbotId, databases, parseRef);
 
   let faction_icon_path = null;
   if (coreModule.faction_ref) {
@@ -91,32 +116,15 @@ export function resolveVbotMeta(vbotId, databases, parseRef) {
     }
   }
 
-  let tag_icon_path = null;
-  let tag_label = null;
-  let tag_text_color = null;
-  let tag_background = null;
-
-  if (tags.length === 1) {
-    const tagId = parseRef(tags[0]);
-    const tag = tagId ? ModuleTagDB[tagId] : null;
-    if (!tag) {
-      throw new Error(
-        `Virtual bot ${vbotId} core module ${coreModule.id}: unknown module tag ${tagId}`
-      );
-    }
-    tag_label = tagDisplayName(tag);
-    tag_text_color = tag.text_color?.Hex ?? null;
-    tag_background = rgbaToCss(tag.background_color?.RGBA);
-    // ModuleTag objects have no image_path in game data
-    tag_icon_path = tag.icon_path ?? null;
-  }
+  const class_icon_path = resolveCharacterClassIcon(
+    coreModule,
+    databases,
+    parseRef
+  );
 
   return {
     faction_icon_path,
-    tag_icon_path,
-    tag_label,
-    tag_text_color,
-    tag_background,
+    class_icon_path,
     core_module_id: coreModule.id,
   };
 }
