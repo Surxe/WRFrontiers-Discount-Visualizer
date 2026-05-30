@@ -1,7 +1,6 @@
 ---
 import ObjectBox from '../module/ObjectBox.astro';
 import EmptyCell from './EmptyCell.astro';
-import { getTexturePath } from '../../utils/textures.js';
 
 const {
   bot,
@@ -20,9 +19,15 @@ const {
     <>
       {bot ? (
         <>
-          <div class="bot-icon-cell">
-            {bot.icon_path && <img src={getTexturePath(bot.icon_path, import.meta.env.BASE_URL)} alt="" class="bot-icon" />}
-          </div>
+          <ObjectBox
+            module={{
+              icon_path: bot.icon_path,
+              name: bot.name,
+              rarity: bot.rarity
+            }}
+            shopCards={shopCards}
+            showName={true}
+          />
           <ObjectBox module={bot.torso[0]} shopCards={shopCards} showName={false} />
           <ObjectBox module={bot.shoulder[0]} shopCards={shopCards} showName={false} />
           <ObjectBox module={bot.chassis[0]} shopCards={shopCards} showName={false} />
@@ -65,9 +70,15 @@ const {
     <>
       {bot ? (
         <>
-          <div class="bot-icon-cell">
-            {bot.icon_path && <img src={getTexturePath(bot.icon_path, import.meta.env.BASE_URL)} alt="" class="bot-icon" />}
-          </div>
+          <ObjectBox
+            module={{
+              icon_path: bot.icon_path,
+              name: bot.name,
+              rarity: bot.rarity
+            }}
+            shopCards={shopCards}
+            showName={true}
+          />
           <ObjectBox module={bot.torso[0]} shopCards={shopCards} showName={false} />
           <ObjectBox module={bot.shoulder[0]} shopCards={shopCards} showName={false} />
           <ObjectBox module={bot.chassis[0]} shopCards={shopCards} showName={false} />
@@ -102,18 +113,5 @@ const {
 <style>
   .contents {
     display: contents;
-  }
-  .bot-icon-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-  .bot-icon {
-    width: 100%;
-    height: 100%;
-    max-height: var(--module-icon-max-height);
-    object-fit: contain;
   }
 </style>

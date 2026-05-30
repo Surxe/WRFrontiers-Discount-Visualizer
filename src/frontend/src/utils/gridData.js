@@ -15,7 +15,7 @@ export const processBots = (botItems) => {
   for (const part of botParts) {
     const vbot = part.vbot || part.id;
     if (!botsMap[vbot]) {
-      botsMap[vbot] = { torso: [], shoulder: [], chassis: [], rarity: part.rarity, icon_path: part.vbot_icon_path };
+      botsMap[vbot] = { torso: [], shoulder: [], chassis: [], rarity: part.rarity, icon_path: part.vbot_icon_path, name: part.name };
     }
     const cat = categorize(part);
     if (cat && botsMap[vbot][cat].length === 0) {
