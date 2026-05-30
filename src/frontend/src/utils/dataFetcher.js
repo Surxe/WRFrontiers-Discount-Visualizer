@@ -58,15 +58,34 @@ export function fetchEnrichedDiscounts() {
   const ModuleTypeDB = readJson('ModuleType.json');
   const ModuleCategoryDB = readJson('ModuleCategory.json');
   const ModuleGroupDB = readJson('ModuleGroup.json');
+  const ModuleSocketTypeDB = readJson('ModuleSocketType.json');
   const ShopCardDB = readJson('ShopCard.json');
   const VirtualBotDB = readJson('VirtualBot.json');
 
+  const getSocketIcon = (moduleTypeId) => {
+    const fullRef = `OBJID_ModuleType::${moduleTypeId}`;
+    for (const socket of Object.values(ModuleSocketTypeDB)) {
+      if (socket.compatible_module_types_refs?.includes(fullRef)) {
+        return socket.icon_path;
+      }
+    }
+    // Fallback to Category icon if not found
+    const typeObj = ModuleTypeDB[moduleTypeId];
+    if (typeObj && typeObj.module_category_ref) {
+      const catRef = parseRef(typeObj.module_category_ref);
+      return ModuleCategoryDB[catRef]?.icon_path;
+    }
+    return null;
+  };
+
   const catIcons = {
-    torso: ModuleCategoryDB['DA_ModuleCategory_Torso.0']?.icon_path,
-    shoulder: ModuleCategoryDB['DA_ModuleCategory_Shoulder.0']?.icon_path,
-    chassis: ModuleCategoryDB['DA_ModuleCategory_Chassis.0']?.icon_path,
-    weapon: ModuleCategoryDB['DA_ModuleCategory_Weapon.0']?.icon_path,
-    ability: ModuleCategoryDB['DA_ModuleCategory_Ability.0']?.icon_path
+    torso: getSocketIcon('DA_ModuleType_Torso.0'),
+    shoulder: getSocketIcon('DA_ModuleType_Shoulder.0'),
+    chassis: getSocketIcon('DA_ModuleType_Chassis.0'),
+    lightWep: getSocketIcon('DA_ModuleType_Weapon.0'),
+    heavyWep: getSocketIcon('DA_ModuleType_WeaponHeavy.0'),
+    supplyGear: getSocketIcon('DA_ModuleType_Ability3.0'),
+    cycleGear: getSocketIcon('DA_ModuleType_Ability4.0')
   };
 
   const enrichedDiscounts = itemsArray.map(item => {
