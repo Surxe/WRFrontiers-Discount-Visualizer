@@ -179,14 +179,27 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 			(function() {
 				const drawerToggle = document.getElementById('sidebar-toggle');
 				const container = document.getElementById('layout-container');
+				const sidebar = document.getElementById('sidebar');
 				const popup = document.getElementById('next-week-popup');
 				const popupClose = document.getElementById('next-week-popup-close');
+
+				function syncSidebarWidth() {
+					if (!sidebar) return;
+					const width = sidebar.getBoundingClientRect().width;
+					document.documentElement.style.setProperty('--sidebar-width', width + 'px');
+				}
 
 				function setDrawerOpen(isOpen) {
 					container.classList.toggle('sidebar-open', isOpen);
 					drawerToggle.setAttribute('aria-expanded', String(isOpen));
 					localStorage.setItem('sidebar-open', String(isOpen));
+					if (isOpen) {
+						requestAnimationFrame(syncSidebarWidth);
+					}
 				}
+
+				syncSidebarWidth();
+				window.addEventListener('resize', syncSidebarWidth);
 
 				setDrawerOpen(localStorage.getItem('sidebar-open') === 'true');
 
@@ -215,7 +228,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		--bg-color: #0f1115;
 		--sidebar-bg: #161920;
 		--sidebar-border: #232733;
-		--sidebar-width: 10.75rem;
+		--sidebar-width: 0px;
 		--text-color: #e0e0e0;
 		--text-muted: #8b92a5;
 		--accent-color: #3a86ff;
@@ -242,7 +255,8 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		top: 0;
 		left: 0;
 		bottom: 0;
-		width: var(--sidebar-width);
+		width: max-content;
+		max-width: min(85vw, 11rem);
 		background-color: var(--sidebar-bg);
 		border-right: 1px solid var(--sidebar-border);
 		z-index: 100;
@@ -365,18 +379,22 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	.sidebar-content {
 		position: sticky;
 		top: 0;
-		padding: 2rem 0.85rem;
+		width: max-content;
+		max-width: 100%;
+		box-sizing: border-box;
+		padding: 1.75rem 0.45rem;
 		max-height: 100vh;
 		overflow-y: auto;
 	}
 
 	.sidebar h3 {
 		color: var(--text-muted);
-		font-size: 0.85rem;
+		font-size: 0.72rem;
 		text-transform: uppercase;
-		letter-spacing: 1px;
+		letter-spacing: 0.6px;
 		margin-top: 0;
-		margin-bottom: 1rem;
+		margin-bottom: 0.75rem;
+		padding-inline: 0.15rem;
 	}
 
 	.week-list {
@@ -385,16 +403,24 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		margin: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		align-items: flex-start;
+		gap: 0.35rem;
+	}
+
+	.week-list li {
+		max-width: 100%;
 	}
 
 	.week-link {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 0.35rem;
-		padding: 0.55rem 0.65rem;
-		border-radius: 6px;
+		gap: 0.25rem;
+		width: max-content;
+		max-width: 100%;
+		box-sizing: border-box;
+		padding: 0.4rem 0.4rem;
+		border-radius: 5px;
 		color: var(--text-color);
 		text-decoration: none;
 		font-weight: 500;
@@ -403,8 +429,9 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	}
 
 	.week-link__label {
-		font-size: 0.8rem;
-		line-height: 1.25;
+		font-size: 0.72rem;
+		line-height: 1.2;
+		white-space: nowrap;
 	}
 
 	.week-link__badge {
@@ -423,8 +450,8 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 
 	.badge {
 		display: inline-block;
-		font-size: 0.58rem;
-		padding: 2px 5px;
+		font-size: 0.55rem;
+		padding: 1px 4px;
 		border-radius: 3px;
 		text-transform: uppercase;
 		letter-spacing: 0.4px;
