@@ -2,6 +2,12 @@ name: 02 - Gemini Mapping
 
 on:
   workflow_dispatch:
+    inputs:
+      target_date_range:
+        description: 'Target date range to extract (e.g. "May 26 - June 2"). Leave empty to find and map the latest week.'
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -32,7 +38,7 @@ jobs:
       - name: Run Step 3 (Call Gemini)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python -c "import sys; sys.path.append('src/backend'); from step3_call_gemini import run_step; run_step()"
+        run: python -c "import sys; sys.path.append('src/backend'); from step3_call_gemini import run_step; run_step('${{ github.event.inputs.target_date_range }}')"
 
       - name: Run Step 4 (Read Output)
         run: python -c "import sys; sys.path.append('src/backend'); from step4_read_output import run_step; run_step()"
@@ -41,4 +47,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(data): update mapped discounts [skip ci]"
-          file_pattern: "src/frontend/public/data/discounts.json"
+          file_pattern: "src/frontend/public/data/*.json"
+

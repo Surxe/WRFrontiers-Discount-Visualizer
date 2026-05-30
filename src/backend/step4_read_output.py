@@ -2,7 +2,16 @@ import sys
 import json
 import re
 from pathlib import Path
-from config import DISCOUNTS_OUTPUT, MODULE_JSON, VIRTUAL_BOT_JSON, REPO_ROOT, FRONTEND_DATA_DIR, STANDALONE_MODULE_GROUPS
+from config import (
+    DISCOUNTS_OUTPUT,
+    MODULE_JSON,
+    VIRTUAL_BOT_JSON,
+    REPO_ROOT,
+    FRONTEND_DATA_DIR,
+    STANDALONE_MODULE_GROUPS,
+    WEEKS_MANIFEST,
+    date_range_to_slug
+)
 
 def parse_ref(ref: str) -> tuple[str, str]:
     """
@@ -38,7 +47,8 @@ def load_discounts() -> list[dict]:
     Reads the LLM-generated discounts.json output (which is a list of refs).
     Reconstitutes the full metadata by looking them up directly in Module.json and VirtualBot.json.
     For VirtualBot objtypes, expands to its core modules.
-    Writes the result to frontend public/data/discounts.json.
+    Writes the result to a date-keyed JSON file in frontend public/data/
+    and registers it in the weeks.json manifest.
     """
     print("[4/4] Reading LLM output from prompt/output/discounts.json...")
 
@@ -50,9 +60,11 @@ def load_discounts() -> list[dict]:
     with open(DISCOUNTS_OUTPUT, encoding="utf-8") as f:
         content = f.read().strip()
 
-    # Strip markdown code fences if the LLM wrapped the JSON
-    content = re.sub(r"^```(?:json)?\s*", "", content)
-    content = re.sub(r"\s*```$", "", content)
+    # Locate the JSON object substring between the first '{' and last '}'
+    first_brace = content.find('{')
+    last_brace = content.rfind('}')
+    if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
+        content = content[first_brace:last_brace + 1]
 
     try:
         output_data = json.loads(content)
@@ -65,7 +77,12 @@ def load_discounts() -> list[dict]:
         print("  [ERROR] Output is not a JSON object containing 'items'.")
         sys.exit(1)
 
+
     date_range = output_data.get("date_range", "")
+    if not date_range:
+        print("  [ERROR] Output date_range is empty or missing.")
+        sys.exit(1)
+
     discount_refs = output_data.get("items", [])
 
     print(f"  -> Found {len(discount_refs)} ID matches for date range '{date_range}'.")
@@ -121,9 +138,11 @@ def load_discounts() -> list[dict]:
         else:
             print(f"     [!] Warning: Unknown objtype {obj_type} in ref {m_ref}")
 
-    # Write the full discounts data to frontend
+    # Write the full discounts data to date-keyed file in frontend
     FRONTEND_DATA_DIR.mkdir(parents=True, exist_ok=True)
-    frontend_output = FRONTEND_DATA_DIR / "discounts.json"
+    slug = date_range_to_slug(date_range)
+    filename = f"discounts_{slug}.json"
+    frontend_output = FRONTEND_DATA_DIR / filename
     
     frontend_data = {
         "date_range": date_range,
@@ -134,6 +153,52 @@ def load_discounts() -> list[dict]:
         json.dump(frontend_data, f, indent=2, ensure_ascii=False)
     print(f"  -> Wrote {len(discounts)} items to {frontend_output.relative_to(REPO_ROOT)}")
 
+    # Update manifest weeks.json
+    manifest_data = {"weeks": []}
+    if WEEKS_MANIFEST.exists():
+        try:
+            with open(WEEKS_MANIFEST, encoding="utf-8") as f:
+                manifest_data = json.load(f)
+                if not isinstance(manifest_data, dict) or "weeks" not in manifest_data:
+                    manifest_data = {"weeks": []}
+        except Exception as e:
+            print(f"  [!] Warning parsing weeks.json manifest: {e}. Recreating manifest.")
+
+    # Remove existing entry if we are overwriting it
+    manifest_data["weeks"] = [
+        w for w in manifest_data["weeks"] 
+        if w.get("date_range") != date_range and w.get("file") != filename
+    ]
+
+    # Add the new week entry
+    manifest_data["weeks"].append({
+        "date_range": date_range,
+        "file": filename
+    })
+
+    # Sort weeks helper (optional, but nice) - parse start date from date_range if possible
+    def get_sort_key(week_entry):
+        # date_range looks like: "June 2 - June 9" or "May 26 - June 2"
+        # We can extract the first month and day to sort roughly.
+        dr = week_entry.get("date_range", "")
+        months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+        match = re.match(r'([A-Za-z]+)\s+(\d+)', dr)
+        if match:
+            m_name, d_val = match.groups()
+            try:
+                m_idx = months.index(m_name.lower()[:3])
+                return (m_idx, int(d_val))
+            except ValueError:
+                pass
+        return (99, 99)
+
+    # Sort descending (most recent first)
+    manifest_data["weeks"].sort(key=get_sort_key, reverse=True)
+
+    with open(WEEKS_MANIFEST, "w", encoding="utf-8") as f:
+        json.dump(manifest_data, f, indent=2, ensure_ascii=False)
+    print(f"  -> Updated manifest at {WEEKS_MANIFEST.relative_to(REPO_ROOT)}")
+
     return frontend_data
 
 def run_step() -> list[dict]:
@@ -141,3 +206,4 @@ def run_step() -> list[dict]:
 
 if __name__ == "__main__":
     run_step()
+

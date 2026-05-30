@@ -12,10 +12,12 @@ The project is split into two distinct components:
 
 ## End-to-End Workflow
 
-1. A news URL is provided to the backend tool.
+1. A news URL and optional target date range are provided to the backend tool.
 2. The backend scrapes the URL and saves the body text into `src/backend/prompt/scraped_news_page.txt`.
 3. The backend extracts production-ready English module names, IDs, and image paths from `WRFrontiersDB-Data` and writes them into `src/backend/prompt/game_data.json`.
 4. The prompt instructions are stored in `src/backend/prompt/prompt.md`.
-5. The backend calls the Gemini CLI, giving it access only to the files in `src/backend/prompt/`. It is tasked with reading the inputs and writing the mapped output to `src/backend/prompt/output/discounts.json` (or similar output file).
-6. The backend script copies the mapped image files from `WRFrontiersDB-Data/` to the frontend's `public/assets/` directory while keeping their original folder structure.
-7. The static Astro site uses the mapped output to build a static page showing the images sequentially.
+5. The backend calls the Gemini CLI, giving it access only to the files in `src/backend/prompt/`. It is tasked with reading the inputs and writing the mapped output to `src/backend/prompt/output/discounts.json`.
+6. The backend script resolves IDs to build a date-keyed data file `src/frontend/public/data/discounts_<slug>.json` and registers it in `src/frontend/public/data/weeks.json`.
+7. The backend script copies the mapped image files from `WRFrontiersDB-Data/` to the frontend's `public/assets/` directory while keeping their original folder structure.
+8. The static Astro site uses the mapped output to build a static page showing the images sequentially.
+

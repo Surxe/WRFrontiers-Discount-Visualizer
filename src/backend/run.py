@@ -19,14 +19,16 @@ from step4_read_output import run_step as run_step4
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python src/backend/run.py <news_url>")
+        print("Usage: python src/backend/run.py <news_url> [target_date_range]")
         print(
             "Example: python src/backend/run.py "
-            "https://warrobotsfrontiers.com/en/news/272-intel-salvage-discount-event-save-big-april-14-21"
+            "https://warrobotsfrontiers.com/en/news/272-intel-salvage-discount-event-save-big-april-14-21 "
+            "\"May 26 - June 2\""
         )
         sys.exit(1)
 
     url = sys.argv[1]
+    target_date_range = sys.argv[2] if len(sys.argv) > 2 else None
 
     print("Starting WRFrontiers Discount Visualizer Backend Processing...")
     
@@ -37,7 +39,7 @@ def main():
     run_step2()
 
     # Step 3: Run Gemini model mapping
-    run_step3()
+    run_step3(target_date_range)
 
     # Step 4: Validate and load the mapped output
     discounts = run_step4()
@@ -46,3 +48,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -9,7 +9,7 @@ import shutil
 import subprocess
 from config import PROMPT_DIR, OUTPUT_DIR, DISCOUNTS_OUTPUT
 
-def call_gemini_cli():
+def call_gemini_cli(target_date_range: str | None = None):
     """
     Invokes the Gemini CLI via subprocess.
     Captures the raw JSON printed to stdout and writes it to prompt/output/discounts.json.
@@ -24,6 +24,12 @@ def call_gemini_cli():
         "Read scraped_news_page.txt and game_data.json from the current directory, "
         "and output the resulting JSON directly to stdout without using file editing tools."
     )
+    if target_date_range:
+        prompt_message += (
+            f" The target date range is: \"{target_date_range}\". "
+            "Locate and extract the Featured Items section matching this date range instead of the most recent one. "
+            "Standardize the date range to match the formatting rules in prompt.md."
+        )
 
     # Try 'gemini' (globally installed) then fall back to npx
     gemini_cmd = shutil.which("gemini")
@@ -62,9 +68,12 @@ def call_gemini_cli():
         sys.exit(1)
 
 
-def run_step():
-    call_gemini_cli()
+def run_step(target_date_range: str | None = None):
+    call_gemini_cli(target_date_range)
 
 
 if __name__ == "__main__":
-    run_step()
+    # If run standalone, we can optionally parse target_date_range from sys.argv
+    arg = sys.argv[1] if len(sys.argv) > 1 else None
+    run_step(arg)
+
