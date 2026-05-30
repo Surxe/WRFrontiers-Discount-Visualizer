@@ -15,10 +15,10 @@
   background: rgba(0, 0, 0, 0.75);
   font-size: 0.85rem;
   font-weight: 700;
-  padding: 6px 8px;
+  padding: 2px 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
-  min-height: var(--module-name-strip, 32px);
+  min-height: var(--module-name-strip, 29px);
 }
 
 .module-card__name {
