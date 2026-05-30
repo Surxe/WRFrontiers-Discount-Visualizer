@@ -91,9 +91,9 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 6px;
+    gap: calc(6px * var(--grid-scale, 1));
     flex-shrink: 0;
-    padding: 1px 8px;
+    padding: calc(1px * var(--grid-scale, 1)) calc(8px * var(--grid-scale, 1));
   }
 
   .object-box__card .module-card__name {
@@ -115,14 +115,14 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    gap: 1px;
+    gap: calc(1px * var(--grid-scale, 1));
     flex-shrink: 0;
   }
 
   .module-card__footer-icon {
     display: block;
-    width: 11px;
-    height: 11px;
+    width: var(--footer-icon-size, 11px);
+    height: var(--footer-icon-size, 11px);
     object-fit: contain;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
   }

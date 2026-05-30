@@ -48,18 +48,18 @@ const icon = (path) => getTexturePath(path, baseUrl);
     justify-content: center;
     text-transform: uppercase;
     font-weight: 800;
-    font-size: 0.85rem;
+    font-size: var(--grid-header-font, 0.85rem);
     color: #7b8390;
     text-align: center;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #232730;
-    height: 40px;
+    padding-bottom: calc(8px * var(--grid-scale, 1));
+    border-bottom: calc(2px * var(--grid-scale, 1)) solid #232730;
+    height: var(--grid-header-height, 40px);
   }
 
   .header-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 6px;
+    width: var(--grid-header-icon, 20px);
+    height: var(--grid-header-icon, 20px);
+    margin-right: calc(6px * var(--grid-scale, 1));
     object-fit: contain;
   }
 

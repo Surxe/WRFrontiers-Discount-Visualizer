@@ -44,7 +44,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<title>War Robots Frontiers Discounts</title>
 		<link rel="stylesheet" href={`${baseUrl}global.css`} />
@@ -426,10 +426,12 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 
 	.app-container {
 		flex-grow: 1;
+		width: 100%;
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 2rem 2rem 2rem 4rem;
 		overflow-x: hidden;
+		box-sizing: border-box;
 		transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
@@ -531,7 +533,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		}
 
 		.app-container {
-			padding: 2rem 1rem 2rem 3rem;
+			padding: 4.5rem 0.75rem 1.5rem 2.75rem;
 		}
 
 		.sidebar-controls {
@@ -544,8 +546,36 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 			text-align: center;
 		}
 
+		h1 {
+			font-size: 1.65rem;
+			line-height: 1.2;
+		}
+
+		h2 {
+			font-size: 0.95rem;
+		}
+
+		.currency-icon {
+			width: 16px;
+			height: 16px;
+		}
+
 		.feedback-section {
 			text-align: center;
+		}
+	}
+
+	@media (max-width: 480px) and (orientation: portrait) {
+		.app-container {
+			padding: 4.25rem 0.35rem 1.25rem 2.35rem;
+		}
+
+		h1 {
+			font-size: 1.35rem;
+		}
+
+		h2 {
+			font-size: 0.85rem;
 		}
 	}
 </style>
