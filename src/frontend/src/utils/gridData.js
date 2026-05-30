@@ -28,7 +28,8 @@ export const assignWeaponTypeToBots = (bots, weapons) => {
   // Assign weapons to their preferred bots
   const assignedWeapons = new Set();
   const botWeapons = bots.map(bot => {
-    const botId = bot.torso[0]?.vbot || bot.name;
+    // Use the vbot ID stored in the bot object
+    const botId = bot.vbot;
     const preferredWeapons = weaponsByVbot.get(botId) || [];
     const assigned = preferredWeapons.slice(0, 1); // Take first preferred weapon
     assigned.forEach(w => assignedWeapons.add(w.id));
@@ -56,7 +57,7 @@ export const processBots = (botItems) => {
   for (const part of botParts) {
     const vbot = part.vbot || part.id;
     if (!botsMap[vbot]) {
-      botsMap[vbot] = { torso: [], shoulder: [], chassis: [], rarity: part.rarity, icon_path: part.vbot_icon_path, name: part.name };
+      botsMap[vbot] = { torso: [], shoulder: [], chassis: [], rarity: part.rarity, icon_path: part.vbot_icon_path, name: part.name, vbot: vbot };
     }
     const cat = categorize(part);
     if (cat && botsMap[vbot][cat].length === 0) {

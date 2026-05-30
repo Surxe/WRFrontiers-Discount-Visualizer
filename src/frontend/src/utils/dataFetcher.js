@@ -89,23 +89,6 @@ export function fetchEnrichedDiscounts() {
     cycleGear: getSocketIcon('DA_ModuleType_Ability4.0')
   };
 
-  // Build module-to-vbot mapping from factory presets
-  const moduleToVbotMap = new Map();
-  for (const [vbotId, vbotData] of Object.entries(VirtualBotDB)) {
-    if (vbotData.factory_preset_refs) {
-      for (const presetRef of vbotData.factory_preset_refs) {
-        const presetId = parseRef(presetRef);
-        const preset = CharacterPresetDB[presetId];
-        if (preset && preset.modules) {
-          for (const moduleData of preset.modules) {
-            const moduleId = parseRef(moduleData.module_ref);
-            moduleToVbotMap.set(moduleId, vbotId);
-          }
-        }
-      }
-    }
-  }
-
   const enrichedDiscounts = itemsArray.map(item => {
     const moduleId = item.id;
     const module = ModuleDB[moduleId];
@@ -144,13 +127,47 @@ export function fetchEnrichedDiscounts() {
       group: groupRef,
       vbot: vbotRef,
       vbot_icon_path: vbotIconPath,
-      preferred_vbot: moduleToVbotMap.get(moduleId) || null
+      preferred_vbot: null // Will be set after we know which vbots are in the data
     };
   }).filter(item => !item._missing);
 
-  // Grouping by vbot for chassis/torso/shoulder and validating rarity
-  const botParts = enrichedDiscounts.filter(item => ['Chassis', 'Torso', 'Shoulder'].some(c => item.category && item.category.includes(c)));
+  // Build module-to-vbot mapping only for virtual bots in the current discount data
+  const moduleToVbotMap = new Map();
   
+  // First, identify which virtual bots are in the current discount data
+  const botParts = enrichedDiscounts.filter(item => ['Chassis', 'Torso', 'Shoulder'].some(c => item.category && item.category.includes(c)));
+  const vbotsInData = new Set();
+  for (const part of botParts) {
+    if (part.vbot) {
+      vbotsInData.add(part.vbot);
+    }
+  }
+  
+  // For each virtual bot in the data, extract modules from its factory presets
+  for (const vbotId of vbotsInData) {
+    const vbotData = VirtualBotDB[vbotId];
+    if (vbotData && vbotData.factory_preset_refs) {
+      for (const presetRef of vbotData.factory_preset_refs) {
+        const presetId = parseRef(presetRef);
+        const preset = CharacterPresetDB[presetId];
+        if (preset && preset.modules) {
+          for (const moduleData of preset.modules) {
+            const moduleId = parseRef(moduleData.module_ref);
+            moduleToVbotMap.set(moduleId, vbotId);
+          }
+        }
+      }
+    }
+  }
+  
+  // Now set preferred_vbot for items that match the mapping
+  for (const item of enrichedDiscounts) {
+    if (moduleToVbotMap.has(item.id)) {
+      item.preferred_vbot = moduleToVbotMap.get(item.id);
+    }
+  }
+
+  // Grouping by vbot for chassis/torso/shoulder and validating rarity
   const botsMap = {};
   for (const part of botParts) {
     if (part.vbot) {
