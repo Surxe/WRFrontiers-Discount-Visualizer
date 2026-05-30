@@ -11,12 +11,18 @@ const {
   shopCards,
   titanWeapon,
   variant = 'standard',
+  sidebarLabel,
 } = Astro.props;
 ---
 
 <div class="grid-row contents">
   {variant === 'standard' && (
     <>
+      {sidebarLabel ? (
+        <div class="sidebar-cell"><span>{sidebarLabel}</span></div>
+      ) : (
+        <EmptyCell />
+      )}
       {bot ? (
         <>
           <ObjectBox
@@ -34,6 +40,7 @@ const {
         </>
       ) : (
         <>
+          <EmptyCell />
           <EmptyCell />
           <EmptyCell />
           <EmptyCell />
@@ -68,6 +75,11 @@ const {
 
   {variant === 'titan' && (
     <>
+      {sidebarLabel ? (
+        <div class="sidebar-cell"><span>{sidebarLabel}</span></div>
+      ) : (
+        <EmptyCell />
+      )}
       {bot ? (
         <>
           <ObjectBox
@@ -89,6 +101,7 @@ const {
           <EmptyCell />
           <EmptyCell />
           <EmptyCell />
+          <EmptyCell />
         </>
       )}
 
@@ -106,6 +119,7 @@ const {
       <EmptyCell />
       <EmptyCell />
       <EmptyCell />
+      <EmptyCell />
     </>
   )}
 </div>
@@ -113,5 +127,26 @@ const {
 <style>
   .contents {
     display: contents;
+  }
+
+  .sidebar-cell {
+    position: relative;
+    height: 100%;
+  }
+
+  .sidebar-cell span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-family: 'Orbitron', 'Fira Code', 'Source Code Pro', monospace;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    pointer-events: none;
   }
 </style>
