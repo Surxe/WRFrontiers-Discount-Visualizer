@@ -29,7 +29,8 @@
 .module-card__icon {
   display: block;
   padding: var(--module-card-padding, 6px) var(--module-card-padding-x, 8px);
-  height: var(--module-icon-max-height, 88px);
+  min-height: var(--module-icon-max-height, 88px);
+  height: auto;
   overflow: visible;
   text-align: center;
   box-sizing: content-box;
