@@ -1,0 +1,46 @@
+/* Rarity background card — hugs icon + name, centered in grid cell */
+.module-card {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  overflow: visible;
+  vertical-align: top;
+  text-align: center;
+}
+
+.module-card__name {
+  display: block;
+  background: rgba(0, 0, 0, 0.75);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 6px 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  color: #fff;
+  line-height: 1.2;
+  min-height: var(--module-name-strip, 32px);
+  box-sizing: border-box;
+}
+
+.module-card__icon {
+  display: block;
+  padding: var(--module-card-padding, 6px) var(--module-card-padding-x, 8px);
+  height: var(--module-icon-max-height, 88px);
+  overflow: visible;
+  text-align: center;
+  box-sizing: content-box;
+}
+
+.module-card--wide {
+  width: 100%;
+}
+
+.module-card--wide .module-card__icon {
+  padding-left: var(--module-card-padding-x, 8px);
+  padding-right: var(--module-card-padding-x, 8px);
+}

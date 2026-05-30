@@ -1,63 +1,41 @@
 ---
 import '../../styles/module-icon.css';
+import '../../styles/module-card.css';
 import { getTexturePath, getRarityBackgroundUrl } from '../../utils/textures.js';
 
-const { module, shopCards, showName = true, style: inlineStyle } = Astro.props;
+const { module, shopCards, showName = true, wide = false, style: inlineStyle } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 
 const iconSrc = getTexturePath(module.icon_path, baseUrl);
 const backgroundUrl = getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
 const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
-const combinedStyle = [bgStyle, inlineStyle].filter(Boolean).join(' ');
 ---
 
-<div class="module-box" style={combinedStyle || undefined}>
-  <div class="module-box__icon">
-    {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
+<div class="module-box" style={inlineStyle}>
+  <div
+    class:list={['module-card', 'module-box__card', { 'module-card--wide': wide }]}
+    style={bgStyle || undefined}
+  >
+    <div class="module-card__icon">
+      {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
+    </div>
+    {showName && <span class="module-card__name">{module.name}</span>}
   </div>
-  {showName && <span class="module-box__name">{module.name}</span>}
 </div>
 
 <style>
   .module-box {
-    position: relative;
     display: block;
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 8px;
     width: 100%;
-    height: var(--module-cell-height, 120px);
-    padding-bottom: var(--module-name-strip, 32px);
-    box-sizing: border-box;
+    text-align: center;
     overflow: visible;
+  }
+
+  .module-box__card {
     transition: transform 0.2s;
   }
 
-  .module-box:hover {
+  .module-box:hover .module-box__card {
     transform: translateY(-2px);
-  }
-
-  .module-box__icon {
-    display: block;
-    width: 100%;
-    height: var(--module-icon-max-height, 88px);
-    overflow: visible;
-    text-align: center;
-  }
-
-  .module-box__name {
-    position: absolute;
-    top: calc(100% - var(--module-name-strip, 32px));
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.75);
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-align: center;
-    padding: 6px 4px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-    color: #fff;
   }
 </style>

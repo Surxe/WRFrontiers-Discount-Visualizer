@@ -1,5 +1,6 @@
 ---
 import '../../styles/module-icon.css';
+import '../../styles/module-card.css';
 import { getTexturePath, getRarityBackgroundUrl } from '../../utils/textures.js';
 
 const { modules, shopCards, class: className, style: inlineStyle } = Astro.props;
@@ -10,36 +11,32 @@ const backgroundUrl =
     ? getRarityBackgroundUrl(modules[0].rarity, shopCards, baseUrl)
     : '';
 const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
-const combinedStyle = [bgStyle, inlineStyle].filter(Boolean).join(' ');
+const cardStyle = [bgStyle, inlineStyle].filter(Boolean).join(' ');
 ---
 
 {modules?.length > 0 && (
-  <div class:list={['modules-box', className]} style={combinedStyle || undefined}>
-    <div class="modules-box__body">
-      {modules.map((module) => {
-        const iconSrc = getTexturePath(module.icon_path, baseUrl);
-        return (
-          <div class="modules-box__slot">
-            {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
-          </div>
-        );
-      })}
+  <div class:list={['modules-box', className]} style={inlineStyle}>
+    <div class="module-card module-card--wide modules-box__card" style={cardStyle || undefined}>
+      <div class="modules-box__body">
+        {modules.map((module) => {
+          const iconSrc = getTexturePath(module.icon_path, baseUrl);
+          return (
+            <div class="modules-box__slot">
+              {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
+            </div>
+          );
+        })}
+      </div>
+      <span class="module-card__name">{modules[0].name}</span>
     </div>
-    <span class="modules-box__title">{modules[0].name}</span>
   </div>
 )}
 
 <style>
   .modules-box {
-    position: relative;
     display: block;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    border-radius: 8px;
     width: 100%;
-    height: var(--module-cell-height, 120px);
-    padding-bottom: var(--module-name-strip, 32px);
-    box-sizing: border-box;
+    text-align: center;
     overflow: visible;
   }
 
@@ -50,6 +47,8 @@ const combinedStyle = [bgStyle, inlineStyle].filter(Boolean).join(' ');
     width: 100%;
     height: var(--module-icon-max-height, 88px);
     overflow: visible;
+    padding: var(--module-card-padding, 6px) var(--module-card-padding-x, 8px);
+    box-sizing: content-box;
   }
 
   .modules-box__slot {
@@ -57,20 +56,5 @@ const combinedStyle = [bgStyle, inlineStyle].filter(Boolean).join(' ');
     height: var(--module-icon-max-height, 88px);
     overflow: visible;
     text-align: center;
-  }
-
-  .modules-box__title {
-    position: absolute;
-    top: calc(100% - var(--module-name-strip, 32px));
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.75);
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-align: center;
-    padding: 6px 4px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-    color: #fff;
   }
 </style>
