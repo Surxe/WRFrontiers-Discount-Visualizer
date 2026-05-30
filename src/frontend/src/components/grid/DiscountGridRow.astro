@@ -11,18 +11,12 @@ const {
   shopCards,
   titanWeapon,
   variant = 'standard',
-  sidebarLabel,
 } = Astro.props;
 ---
 
 <div class="grid-row contents">
   {variant === 'standard' && (
     <>
-      {sidebarLabel ? (
-        <div class="sidebar-cell">{sidebarLabel}</div>
-      ) : (
-        <EmptyCell />
-      )}
       {bot ? (
         <>
           <ObjectBox
@@ -74,11 +68,6 @@ const {
 
   {variant === 'titan' && (
     <>
-      {sidebarLabel ? (
-        <div class="sidebar-cell">{sidebarLabel}</div>
-      ) : (
-        <EmptyCell />
-      )}
       {bot ? (
         <>
           <ObjectBox
@@ -117,7 +106,6 @@ const {
       <EmptyCell />
       <EmptyCell />
       <EmptyCell />
-      <EmptyCell />
     </>
   )}
 </div>
@@ -125,19 +113,5 @@ const {
 <style>
   .contents {
     display: contents;
-  }
-
-  .sidebar-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-family: 'Orbitron', 'Fira Code', 'Source Code Pro', monospace;
-    font-weight: 700;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    writing-mode: vertical-rl;
-    text-orientation: upright;
   }
 </style>
