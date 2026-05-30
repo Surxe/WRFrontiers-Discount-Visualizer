@@ -19,11 +19,14 @@ const baseUrl = import.meta.env.BASE_URL;
 		<main class="app-container">
 			<header>
 				<h1>War Robots Frontiers Discounts</h1>
-				{dateRange && <h2><strong>{dateRange}</strong></h2>}
-				<p>This week's discounted items. Salvage is 50% reduced and Intel is reduced by ~62%</p>
+				{dateRange && <h2>Salvage and Intel Discounts: <strong>{dateRange}</strong></h2>}
 			</header>
 			
 			<DiscountGrid items={items} shopCards={shopCards} catIcons={catIcons} />
+
+			<div class="discount-info" style="text-align: center;">
+				<p>Salvage is 50% reduced and Intel is ~62% reduced</p>
+			</div>
 			
 			<footer class="feedback-section">
 				<div class="feedback-link">
