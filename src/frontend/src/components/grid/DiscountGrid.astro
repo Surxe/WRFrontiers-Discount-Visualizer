@@ -17,9 +17,9 @@ const standardItems = items.filter((i) => !isTitan(i));
 const titanItems = items.filter((i) => isTitan(i));
 
 const standardBots = processBots(standardItems);
-const titanBots = processBots(titanItems);
+const titanBots = titanItems.length > 0 ? processBots(titanItems) : [];
 const stdWeapons = getWeaponAndGear(standardItems);
-const titanWeapons = titanItems.filter((i) => categorize(i) === null);
+const titanWeapons = titanItems.length > 0 ? titanItems.filter((i) => categorize(i) === null) : [];
 
 // Assign weapons to their preferred bot rows
 const assignedLightWep = assignWeaponTypeToBots(standardBots, stdWeapons.lightWep);
