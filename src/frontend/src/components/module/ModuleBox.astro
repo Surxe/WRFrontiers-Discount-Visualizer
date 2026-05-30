@@ -13,7 +13,7 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
 
 <div class="module-box" style={inlineStyle}>
   <div
-    class:list={['module-card', 'module-box__card']}
+    class:list={['module-card', 'module-box__card', { 'module-box__card--no-name': !showName }]}
     style={bgStyle || undefined}
   >
     <div class="module-card__icon">
@@ -38,5 +38,9 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
 
   .module-box:hover .module-box__card {
     transform: translateY(-2px);
+  }
+
+  .module-box__card--no-name .module-card__icon {
+    height: 100%;
   }
 </style>

@@ -23,9 +23,9 @@ const {
           <div class="bot-icon-cell">
             {bot.icon_path && <img src={getTexturePath(bot.icon_path, import.meta.env.BASE_URL)} alt="" class="bot-icon" />}
           </div>
-          <ModuleBox module={bot.torso[0]} shopCards={shopCards} />
-          <ModuleBox module={bot.shoulder[0]} shopCards={shopCards} />
-          <ModuleBox module={bot.chassis[0]} shopCards={shopCards} />
+          <ModuleBox module={bot.torso[0]} shopCards={shopCards} showName={false} />
+          <ModuleBox module={bot.shoulder[0]} shopCards={shopCards} showName={false} />
+          <ModuleBox module={bot.chassis[0]} shopCards={shopCards} showName={false} />
         </>
       ) : (
         <>
@@ -68,9 +68,9 @@ const {
           <div class="bot-icon-cell">
             {bot.icon_path && <img src={getTexturePath(bot.icon_path, import.meta.env.BASE_URL)} alt="" class="bot-icon" />}
           </div>
-          <ModuleBox module={bot.torso[0]} shopCards={shopCards} />
-          <ModuleBox module={bot.shoulder[0]} shopCards={shopCards} />
-          <ModuleBox module={bot.chassis[0]} shopCards={shopCards} />
+          <ModuleBox module={bot.torso[0]} shopCards={shopCards} showName={false} />
+          <ModuleBox module={bot.shoulder[0]} shopCards={shopCards} showName={false} />
+          <ModuleBox module={bot.chassis[0]} shopCards={shopCards} showName={false} />
         </>
       ) : (
         <>
