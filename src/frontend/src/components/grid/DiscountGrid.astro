@@ -134,8 +134,18 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
   @container discount-grid (max-width: 480px) {
     .grid-container {
       --sidebar-label-font-size: min(
-        calc(var(--module-cell-height) / 11),
-        calc(var(--grid-sidebar-col) * 0.62)
+        calc(var(--module-cell-height) / 16),
+        calc(var(--grid-sidebar-col) * 0.45)
+      );
+      --sidebar-label-letter-spacing: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grid-container {
+      --sidebar-label-font-size: min(
+        calc(var(--module-cell-height) / 16),
+        calc(var(--grid-sidebar-col) * 0.45)
       );
       --sidebar-label-letter-spacing: 0;
     }
