@@ -11,11 +11,13 @@ export const categorize = (item) => {
 
 export const assignWeaponTypeToBots = (bots, weapons) => {
   // Assign a single weapon type to bots based on preferred_vbot
+  const botIds = new Set(bots.map(b => b.vbot));
   const weaponsByVbot = new Map();
   const unmatchedWeapons = [];
   
   for (const weapon of weapons) {
-    if (weapon.preferred_vbot) {
+    // Only consider preferred_vbot if that bot exists in the current list
+    if (weapon.preferred_vbot && botIds.has(weapon.preferred_vbot)) {
       if (!weaponsByVbot.has(weapon.preferred_vbot)) {
         weaponsByVbot.set(weapon.preferred_vbot, []);
       }
@@ -44,6 +46,14 @@ export const assignWeaponTypeToBots = (bots, weapons) => {
     if (!botWeapons[i] && unmatchedIndex < remainingUnmatched.length) {
       botWeapons[i] = remainingUnmatched[unmatchedIndex];
       assignedWeapons.add(remainingUnmatched[unmatchedIndex].id);
+      unmatchedIndex++;
+    }
+  }
+  
+  // If there are no bots but there are unmatched weapons, create slots for them
+  if (bots.length === 0 && unmatchedIndex < remainingUnmatched.length) {
+    while (unmatchedIndex < remainingUnmatched.length) {
+      botWeapons.push(remainingUnmatched[unmatchedIndex]);
       unmatchedIndex++;
     }
   }

@@ -131,20 +131,12 @@ export function fetchEnrichedDiscounts() {
     };
   }).filter(item => !item._missing);
 
-  // Build module-to-vbot mapping only for virtual bots in the current discount data
+  // Build module-to-vbot mapping for ALL virtual bots in the database
+  // This ensures weapons can be matched to their vbots even if the bot itself isn't discounted
   const moduleToVbotMap = new Map();
   
-  // First, identify which virtual bots are in the current discount data
-  const botParts = enrichedDiscounts.filter(item => ['Chassis', 'Torso', 'Shoulder'].some(c => item.category && item.category.includes(c)));
-  const vbotsInData = new Set();
-  for (const part of botParts) {
-    if (part.vbot) {
-      vbotsInData.add(part.vbot);
-    }
-  }
-  
-  // For each virtual bot in the data, extract modules from its factory presets
-  for (const vbotId of vbotsInData) {
+  // For each virtual bot in the database, extract modules from its factory presets
+  for (const vbotId of Object.keys(VirtualBotDB)) {
     const vbotData = VirtualBotDB[vbotId];
     if (vbotData && vbotData.factory_preset_refs) {
       for (const presetRef of vbotData.factory_preset_refs) {
@@ -166,6 +158,9 @@ export function fetchEnrichedDiscounts() {
       item.preferred_vbot = moduleToVbotMap.get(item.id);
     }
   }
+
+  // Identify which virtual bots are in the current discount data
+  const botParts = enrichedDiscounts.filter(item => ['Chassis', 'Torso', 'Shoulder'].some(c => item.category && item.category.includes(c)));
 
   // Grouping by vbot for chassis/torso/shoulder and validating rarity
   const botsMap = {};
