@@ -3,7 +3,7 @@ import '../../styles/module-icon.css';
 import '../../styles/module-card.css';
 import { getTexturePath, getRarityBackgroundUrl } from '../../utils/textures.js';
 
-const { module, shopCards, showName = true, wide = false, style: inlineStyle } = Astro.props;
+const { module, shopCards, showName = true, style: inlineStyle } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 
 const iconSrc = getTexturePath(module.icon_path, baseUrl);
@@ -13,7 +13,7 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
 
 <div class="module-box" style={inlineStyle}>
   <div
-    class:list={['module-card', 'module-box__card', { 'module-card--wide': wide }]}
+    class:list={['module-card', 'module-box__card']}
     style={bgStyle || undefined}
   >
     <div class="module-card__icon">

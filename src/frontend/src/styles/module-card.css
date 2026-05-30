@@ -36,11 +36,3 @@
   box-sizing: content-box;
 }
 
-.module-card--wide {
-  width: 100%;
-}
-
-.module-card--wide .module-card__icon {
-  padding-left: var(--module-card-padding-x, 8px);
-  padding-right: var(--module-card-padding-x, 8px);
-}

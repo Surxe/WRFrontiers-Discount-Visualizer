@@ -1,5 +1,4 @@
 ---
-import ModulesBox from '../module/ModulesBox.astro';
 import ModuleBox from '../module/ModuleBox.astro';
 import EmptyCell from './EmptyCell.astro';
 
@@ -13,23 +12,23 @@ const {
   titanWeapon,
   variant = 'standard',
 } = Astro.props;
-
-const botModules = bot
-  ? [...bot.torso, ...bot.shoulder, ...bot.chassis]
-  : [];
 ---
 
 <div class="grid-row contents">
   {variant === 'standard' && (
     <>
       {bot ? (
-        <ModulesBox
-          modules={botModules}
-          shopCards={shopCards}
-          style="grid-column: 1 / 4;"
-        />
+        <>
+          <ModuleBox module={bot.torso[0]} shopCards={shopCards} />
+          <ModuleBox module={bot.shoulder[0]} shopCards={shopCards} />
+          <ModuleBox module={bot.chassis[0]} shopCards={shopCards} />
+        </>
       ) : (
-        <EmptyCell style="grid-column: 1 / 4;" />
+        <>
+          <EmptyCell />
+          <EmptyCell />
+          <EmptyCell />
+        </>
       )}
 
       {lightWep ? (
@@ -58,26 +57,29 @@ const botModules = bot
   {variant === 'titan' && (
     <>
       {bot ? (
-        <ModulesBox
-          modules={botModules}
-          shopCards={shopCards}
-          style="grid-column: 1 / 4;"
-        />
+        <>
+          <ModuleBox module={bot.torso[0]} shopCards={shopCards} />
+          <ModuleBox module={bot.shoulder[0]} shopCards={shopCards} />
+          <ModuleBox module={bot.chassis[0]} shopCards={shopCards} />
+        </>
       ) : (
-        <EmptyCell style="grid-column: 1 / 4;" />
+        <>
+          <EmptyCell />
+          <EmptyCell />
+          <EmptyCell />
+        </>
       )}
 
       {titanWeapon ? (
         <ModuleBox
           module={titanWeapon}
           shopCards={shopCards}
-          wide
-          style="grid-column: 4 / 6;"
         />
       ) : (
-        <EmptyCell style="grid-column: 4 / 6;" />
+        <EmptyCell />
       )}
 
+      <EmptyCell />
       <EmptyCell />
       <EmptyCell />
     </>
