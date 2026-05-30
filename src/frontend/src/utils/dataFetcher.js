@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { getCurrentOrLatestWeek } from './dateValidator.js';
+import { buildVbotMetaById } from './vbotMeta.js';
 
 // Helper to strip "OBJID_Type::" prefixes
 const parseRef = (ref) => {
@@ -61,7 +62,7 @@ export function fetchEnrichedDiscounts(filename = null) {
   const dateRange = discountsOutput.date_range || "";
 
   if (itemsArray.length === 0) {
-    return { dateRange, items: [], shopCards: {} };
+    return { dateRange, items: [], shopCards: {}, catIcons: {}, vbotMetaById: {} };
   }
 
   const ModuleDB = readJson('Module.json');
@@ -74,6 +75,18 @@ export function fetchEnrichedDiscounts(filename = null) {
   const ShopCardDB = readJson('ShopCard.json');
   const VirtualBotDB = readJson('VirtualBot.json');
   const CharacterPresetDB = readJson('CharacterPreset.json');
+  const FactionDB = readJson('Faction.json');
+  const ModuleClassDB = readJson('ModuleClass.json');
+  const CharacterClassDB = readJson('CharacterClass.json');
+
+  const databases = {
+    ModuleDB,
+    ModuleTypeDB,
+    VirtualBotDB,
+    FactionDB,
+    ModuleClassDB,
+    CharacterClassDB,
+  };
 
   const getSocketIcon = (moduleTypeId) => {
     const fullRef = `OBJID_ModuleType::${moduleTypeId}`;
@@ -193,10 +206,14 @@ export function fetchEnrichedDiscounts(filename = null) {
     }
   }
 
+  const vbotIdsInDiscount = [...new Set(botParts.map((p) => p.vbot).filter(Boolean))];
+  const vbotMetaById = buildVbotMetaById(vbotIdsInDiscount, databases, parseRef);
+
   return {
     dateRange,
     items: enrichedDiscounts,
     shopCards: ShopCardDB,
-    catIcons
+    catIcons,
+    vbotMetaById,
   };
 }

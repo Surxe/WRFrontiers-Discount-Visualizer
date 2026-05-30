@@ -59,13 +59,22 @@ export const assignWeaponTypeToBots = (bots, weapons) => {
   return botWeapons;
 };
 
-export const processBots = (botItems) => {
+export const processBots = (botItems, vbotMetaById = {}) => {
   const botParts = botItems.filter((i) => categorize(i) !== null);
   const botsMap = {};
   for (const part of botParts) {
     const vbot = part.vbot || part.id;
     if (!botsMap[vbot]) {
-      botsMap[vbot] = { torso: [], shoulder: [], chassis: [], rarity: part.rarity, icon_path: part.vbot_icon_path, name: part.name, vbot: vbot };
+      botsMap[vbot] = {
+        torso: [],
+        shoulder: [],
+        chassis: [],
+        rarity: part.rarity,
+        icon_path: part.vbot_icon_path,
+        name: part.name,
+        vbot,
+        ...(vbotMetaById[vbot] || {}),
+      };
     }
     const cat = categorize(part);
     if (cat && botsMap[vbot][cat].length === 0) {

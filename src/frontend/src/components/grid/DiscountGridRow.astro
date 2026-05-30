@@ -29,10 +29,13 @@ const {
             module={{
               icon_path: bot.icon_path,
               name: bot.name,
-              rarity: bot.rarity
+              rarity: bot.rarity,
+              faction_icon_path: bot.faction_icon_path,
+              class_icon_path: bot.class_icon_path,
             }}
             shopCards={shopCards}
             showName={true}
+            showBadges={true}
           />
           <ObjectBox module={bot.torso[0]} shopCards={shopCards} showName={false} />
           <ObjectBox module={bot.shoulder[0]} shopCards={shopCards} showName={false} />
@@ -86,10 +89,13 @@ const {
             module={{
               icon_path: bot.icon_path,
               name: bot.name,
-              rarity: bot.rarity
+              rarity: bot.rarity,
+              faction_icon_path: bot.faction_icon_path,
+              class_icon_path: bot.class_icon_path,
             }}
             shopCards={shopCards}
             showName={true}
+            showBadges={true}
           />
           <ObjectBox module={bot.torso[0]} shopCards={shopCards} showName={false} />
           <ObjectBox module={bot.shoulder[0]} shopCards={shopCards} showName={false} />

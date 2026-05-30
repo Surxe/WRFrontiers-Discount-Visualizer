@@ -3,12 +3,21 @@ import '../../styles/module-icon.css';
 import '../../styles/module-card.css';
 import { getTexturePath, getRarityBackgroundUrl } from '../../utils/textures.js';
 
-const { module, shopCards, showName = true, style: inlineStyle } = Astro.props;
+const { module, shopCards, showName = true, showBadges = false, style: inlineStyle } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 
 const iconSrc = getTexturePath(module.icon_path, baseUrl);
 const backgroundUrl = getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
 const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
+
+const factionIconSrc = module.faction_icon_path
+  ? getTexturePath(module.faction_icon_path, baseUrl)
+  : null;
+const classIconSrc = module.class_icon_path
+  ? getTexturePath(module.class_icon_path, baseUrl)
+  : null;
+
+const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
 ---
 
 <div class="object-box" style={inlineStyle}>
@@ -19,7 +28,31 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
     <div class="module-card__icon">
       {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
     </div>
-    {showName && <span class="module-card__name">{module.name}</span>}
+    {showName && (
+      <div class="module-card__footer">
+        <span class="module-card__name">{module.name}</span>
+        {hasFooterIcons && (
+          <div class="module-card__footer-icons">
+            {factionIconSrc && (
+              <img
+                class="module-card__footer-icon"
+                src={factionIconSrc}
+                alt=""
+                title="Faction"
+              />
+            )}
+            {classIconSrc && (
+              <img
+                class="module-card__footer-icon"
+                src={classIconSrc}
+                alt=""
+                title="Class"
+              />
+            )}
+          </div>
+        )}
+      </div>
+    )}
   </div>
 </div>
 
@@ -33,6 +66,8 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
   }
 
   .object-box__card {
+    display: flex;
+    flex-direction: column;
     transition: transform 0.2s;
   }
 
@@ -40,10 +75,55 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
     transform: translateY(-2px);
   }
 
+  .object-box__card .module-card__icon {
+    flex: 1;
+    min-height: 0;
+  }
+
   .object-box__card--no-name .module-card__icon {
     display: flex !important;
     align-items: center;
     justify-content: center;
     height: 100%;
+  }
+
+  .object-box__card .module-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    flex-shrink: 0;
+    padding: 1px 8px;
+  }
+
+  .object-box__card .module-card__name {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    background: none;
+    border-top: none;
+    padding: 0;
+    min-height: 0;
+    line-height: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .module-card__footer-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 1px;
+    flex-shrink: 0;
+  }
+
+  .module-card__footer-icon {
+    display: block;
+    width: 11px;
+    height: 11px;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
   }
 </style>
