@@ -48,16 +48,7 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
     />
   ))}
 
-  {titanItems.length > 0 &&
-    Array.from({ length: titanRows }).map((_, i) => (
-      <DiscountGridRow
-        bot={titanBots[i]}
-        titanWeapon={assignedTitanWeapons[i]}
-        shopCards={shopCards}
-        variant="titan"
-        sidebarLabel={i === 0 ? 'Titans' : null}
-      />
-    ))}
+  {/* Titan section removed */}
 </div>
 
 <style>
