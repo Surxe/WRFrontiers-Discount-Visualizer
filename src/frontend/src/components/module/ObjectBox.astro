@@ -16,6 +16,8 @@ const factionIconSrc = module.faction_icon_path
 const classIconSrc = module.class_icon_path
   ? getTexturePath(module.class_icon_path, baseUrl)
   : null;
+
+const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
 ---
 
 <div class="object-box" style={inlineStyle}>
@@ -23,30 +25,34 @@ const classIconSrc = module.class_icon_path
     class:list={['module-card', 'object-box__card', { 'object-box__card--no-name': !showName }]}
     style={bgStyle || undefined}
   >
-    {showBadges && (factionIconSrc || classIconSrc) && (
-      <div class="object-box__badges">
-        {factionIconSrc && (
-          <img
-            class="object-box__badge-icon"
-            src={factionIconSrc}
-            alt=""
-            title="Faction"
-          />
-        )}
-        {classIconSrc && (
-          <img
-            class="object-box__badge-icon"
-            src={classIconSrc}
-            alt=""
-            title="Class"
-          />
-        )}
-      </div>
-    )}
     <div class="module-card__icon">
       {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
     </div>
-    {showName && <span class="module-card__name">{module.name}</span>}
+    {showName && (
+      <div class="module-card__footer">
+        <span class="module-card__name">{module.name}</span>
+        {hasFooterIcons && (
+          <div class="module-card__footer-icons">
+            {factionIconSrc && (
+              <img
+                class="module-card__footer-icon"
+                src={factionIconSrc}
+                alt=""
+                title="Faction"
+              />
+            )}
+            {classIconSrc && (
+              <img
+                class="module-card__footer-icon"
+                src={classIconSrc}
+                alt=""
+                title="Class"
+              />
+            )}
+          </div>
+        )}
+      </div>
+    )}
   </div>
 </div>
 
@@ -60,7 +66,8 @@ const classIconSrc = module.class_icon_path
   }
 
   .object-box__card {
-    position: relative;
+    display: flex;
+    flex-direction: column;
     transition: transform 0.2s;
   }
 
@@ -68,25 +75,9 @@ const classIconSrc = module.class_icon_path
     transform: translateY(-2px);
   }
 
-  .object-box__badges {
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    right: 4px;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 4px;
-    flex-wrap: wrap;
-    pointer-events: none;
-  }
-
-  .object-box__badge-icon {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+  .object-box__card .module-card__icon {
+    flex: 1;
+    min-height: 0;
   }
 
   .object-box__card--no-name .module-card__icon {
@@ -94,5 +85,41 @@ const classIconSrc = module.class_icon_path
     align-items: center;
     justify-content: center;
     height: 100%;
+  }
+
+  .object-box__card .module-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .object-box__card .module-card__name {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    background: none;
+    border-top: none;
+    padding: 0;
+    min-height: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .module-card__footer-icons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+
+  .module-card__footer-icon {
+    width: 12px;
+    height: 12px;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
   }
 </style>

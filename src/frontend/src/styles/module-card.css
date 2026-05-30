@@ -11,18 +11,22 @@
   box-sizing: border-box;
 }
 
-.module-card__name {
-  display: block;
+.module-card__footer {
   background: rgba(0, 0, 0, 0.75);
   font-size: 0.85rem;
   font-weight: 700;
-  text-align: center;
   padding: 6px 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+  min-height: var(--module-name-strip, 32px);
+}
+
+.module-card__name {
+  display: block;
+  text-align: left;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
   color: #fff;
   line-height: 1.2;
-  min-height: var(--module-name-strip, 32px);
   box-sizing: border-box;
 }
 
