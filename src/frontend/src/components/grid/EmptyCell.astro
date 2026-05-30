@@ -1,9 +1,13 @@
-<div class="empty-cell"></div>
+---
+const { style: inlineStyle } = Astro.props;
+---
+
+<div class="empty-cell" style={inlineStyle}></div>
 
 <style>
   .empty-cell {
-    height: 120px;
-    padding-bottom: 32px;
+    height: var(--module-cell-height, 120px);
+    padding-bottom: var(--module-name-strip, 32px);
     box-sizing: border-box;
   }
 </style>

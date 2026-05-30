@@ -26,16 +26,10 @@ const botModules = bot
         <ModulesBox
           modules={botModules}
           shopCards={shopCards}
-          layout="bot"
-          class="bot-group"
           style="grid-column: 1 / 4;"
         />
       ) : (
-        <>
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-        </>
+        <EmptyCell style="grid-column: 1 / 4;" />
       )}
 
       {lightWep ? (
@@ -67,31 +61,20 @@ const botModules = bot
         <ModulesBox
           modules={botModules}
           shopCards={shopCards}
-          layout="bot"
-          class="bot-group"
           style="grid-column: 1 / 4;"
         />
       ) : (
-        <>
-          <EmptyCell />
-          <EmptyCell />
-          <EmptyCell />
-        </>
+        <EmptyCell style="grid-column: 1 / 4;" />
       )}
 
       {titanWeapon ? (
-        <ModulesBox
-          modules={[titanWeapon]}
+        <ModuleBox
+          module={titanWeapon}
           shopCards={shopCards}
-          layout="single"
-          class="titan-wep-group"
           style="grid-column: 4 / 6;"
         />
       ) : (
-        <>
-          <EmptyCell />
-          <EmptyCell />
-        </>
+        <EmptyCell style="grid-column: 4 / 6;" />
       )}
 
       <EmptyCell />

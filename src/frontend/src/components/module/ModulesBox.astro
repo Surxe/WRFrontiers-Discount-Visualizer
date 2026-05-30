@@ -1,8 +1,7 @@
 ---
-import { getRarityBackgroundUrl } from '../../utils/textures.js';
-import ModuleBox from './ModuleBox.astro';
+import { getTexturePath, getRarityBackgroundUrl } from '../../utils/textures.js';
 
-const { modules, shopCards, layout = 'single', class: className, style: inlineStyle } = Astro.props;
+const { modules, shopCards, class: className, style: inlineStyle } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 
 const backgroundUrl =
@@ -14,63 +13,62 @@ const combinedStyle = [bgStyle, inlineStyle].filter(Boolean).join(' ');
 ---
 
 {modules?.length > 0 && (
-<div
-  class:list={['modules-box', `modules-box--${layout}`, className]}
-  style={combinedStyle || undefined}
->
-  <div class="modules-box__body">
-    {modules.map((module) => (
-      <ModuleBox module={module} shopCards={shopCards} showName={false} embedded />
-    ))}
+  <div class:list={['modules-box', className]} style={combinedStyle || undefined}>
+    <div class="modules-box__body">
+      {modules.map((module) => {
+        const iconSrc = getTexturePath(module.icon_path, baseUrl);
+        return (
+          <div class="modules-box__slot">
+            {iconSrc && <img src={iconSrc} alt={module.name} />}
+          </div>
+        );
+      })}
+    </div>
+    <span class="modules-box__title">{modules[0].name}</span>
   </div>
-  <span class="modules-box__title">{modules[0].name}</span>
-</div>
 )}
 
 <style>
   .modules-box {
     position: relative;
+    display: block;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     border-radius: 8px;
     width: 100%;
-    height: 120px;
-    padding-bottom: 32px;
+    height: var(--module-cell-height, 120px);
+    padding-bottom: var(--module-name-strip, 32px);
     box-sizing: border-box;
     overflow: visible;
   }
 
   .modules-box__body {
-    height: 100%;
-    width: 100%;
-  }
-
-  .modules-box--bot .modules-box__body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    height: 100%;
-  }
-
-  .modules-box--bot :global(.module-box--embedded) {
-    height: 100%;
-  }
-
-  .modules-box--single .modules-box__body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-
-  .modules-box--single :global(.module-box--embedded) {
-    height: 100%;
     width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .modules-box__slot {
+    display: block;
+    height: 100%;
+    overflow: visible;
+    text-align: center;
+  }
+
+  .modules-box__slot img {
+    display: inline-block;
+    height: 100%;
+    width: auto;
+    max-width: none;
+    object-fit: contain;
+    vertical-align: middle;
   }
 
   .modules-box__title {
     position: absolute;
-    top: calc(100% - 32px);
+    top: calc(100% - var(--module-name-strip, 32px));
     left: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.75);

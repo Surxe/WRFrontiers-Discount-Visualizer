@@ -58,9 +58,11 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
 
 <style>
   .grid-container {
+    --module-cell-height: 120px;
+    --module-name-strip: 32px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1.5fr 1.5fr 1fr 1fr;
-    grid-auto-rows: minmax(120px, auto);
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: minmax(var(--module-cell-height), auto);
     gap: 8px;
     background: #15181e;
     padding: 24px;
