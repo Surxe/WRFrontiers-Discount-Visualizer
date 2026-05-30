@@ -6,16 +6,16 @@
   background-size: cover;
   background-position: left center;
   background-repeat: no-repeat;
-  border-radius: 8px;
+  border-radius: var(--module-card-radius, 8px);
   overflow: hidden;
   box-sizing: border-box;
 }
 
 .module-card__footer {
   background: rgba(0, 0, 0, 0.75);
-  font-size: 0.85rem;
+  font-size: var(--module-name-font, 0.85rem);
   font-weight: 700;
-  padding: 2px 8px;
+  padding: calc(2px * var(--grid-scale, 1)) calc(8px * var(--grid-scale, 1));
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
   min-height: var(--module-name-strip, 29px);

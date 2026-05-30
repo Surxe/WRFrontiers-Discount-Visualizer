@@ -1,0 +1,104 @@
+---
+import '../styles/all-weeks-sidebar.css';
+import { getWeekStatus, getCurrentOrLatestWeek } from '../utils/dateValidator.js';
+
+const { weeks, currentSlug, baseUrl, nextWeek, nextWeekHref } = Astro.props;
+const activeWeek = getCurrentOrLatestWeek(weeks);
+---
+
+<div class="layout-container" id="layout-container">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-content">
+      <h3>All Weeks</h3>
+      <ul class="week-list">
+        {weeks && weeks.map((week) => {
+          let isActive = false;
+          if (currentSlug) {
+            isActive = week.slug === currentSlug;
+          } else {
+            isActive = activeWeek ? week.slug === activeWeek.slug : false;
+          }
+          const isMainPageWeek = activeWeek && week.slug === activeWeek.slug;
+          const href = isMainPageWeek ? baseUrl : `${baseUrl}week/${week.slug}`;
+          const status = getWeekStatus(week.date_range);
+
+          return (
+            <li>
+              <a href={href} class={`week-link ${isActive ? 'active' : ''}`}>
+                {(status === 'current' || status === 'upcoming') && (
+                  <span class="week-link__badge">
+                    {status === 'current' && <span class="badge current">Current</span>}
+                    {status === 'upcoming' && <span class="badge upcoming">Upcoming</span>}
+                  </span>
+                )}
+                <span class="week-link__label">{week.date_range}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </aside>
+
+  <main class="all-weeks-sidebar__main">
+    <div class="sidebar-controls" id="sidebar-controls">
+      <button
+        id="sidebar-toggle"
+        class="sidebar-toggle"
+        type="button"
+        aria-label="Toggle All Weeks navigation"
+        aria-expanded="false"
+        aria-controls="sidebar"
+      >
+        <span class="toggle-label">All Weeks</span>
+        <svg class="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      {nextWeek && nextWeekHref && (
+        <div
+          class="next-week-popup"
+          id="next-week-popup"
+          data-next-slug={nextWeek.slug}
+          role="status"
+        >
+          <button
+            type="button"
+            class="next-week-popup__close"
+            id="next-week-popup-close"
+            aria-label="Dismiss"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <a href={nextWeekHref} class="next-week-popup__link">See next week?</a>
+        </div>
+      )}
+    </div>
+
+    <slot />
+  </main>
+</div>
+
+<script>
+  import { initAllWeeksSidebar } from '../scripts/all-weeks-sidebar.js';
+
+  initAllWeeksSidebar();
+</script>
+
+<style>
+  .layout-container {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+  }
+</style>

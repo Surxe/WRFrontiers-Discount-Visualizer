@@ -12,10 +12,11 @@ const {
   titanWeapon,
   variant = 'standard',
   sidebarLabel,
+  sectionTopDivider = false,
 } = Astro.props;
 ---
 
-<div class="grid-row contents">
+<div class:list={['grid-row', { 'grid-row--section-top': sectionTopDivider }]}>
   {variant === 'standard' && (
     <>
       {sidebarLabel ? (
@@ -131,13 +132,22 @@ const {
 </div>
 
 <style>
-  .contents {
-    display: contents;
+  .grid-row {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+  }
+
+  .grid-row--section-top {
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    padding-top: calc(10px * var(--grid-scale, 1));
+    margin-top: calc(9px * var(--grid-scale, 1));
   }
 
   .sidebar-cell {
     position: relative;
     height: 100%;
+    overflow: visible;
   }
 
   .sidebar-cell span {
@@ -148,11 +158,12 @@ const {
     color: #fff;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: var(--sidebar-label-font-size, calc(var(--module-cell-height, 119px) / 10));
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: var(--sidebar-label-letter-spacing, 0.04em);
     writing-mode: vertical-rl;
     text-orientation: upright;
     pointer-events: none;
+    line-height: 1;
   }
 </style>

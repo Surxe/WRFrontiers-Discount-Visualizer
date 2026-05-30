@@ -9,58 +9,67 @@ const icon = (path) => getTexturePath(path, baseUrl);
 
 <div class="grid-header sidebar-header"></div>
 <div class="grid-header bot-col">
-  Bot
+  <span class="header-label">Bot</span>
 </div>
 <div class="grid-header bot-col">
   {catIcons?.torso && <img src={icon(catIcons.torso)} class="header-icon" alt="" />}
-  Torso
+  <span class="header-label">Torso</span>
 </div>
 <div class="grid-header bot-col">
   {catIcons?.shoulder && <img src={icon(catIcons.shoulder)} class="header-icon" alt="" />}
-  Shoulder
+  <span class="header-label">Shoulder</span>
 </div>
 <div class="grid-header bot-col">
   {catIcons?.chassis && <img src={icon(catIcons.chassis)} class="header-icon" alt="" />}
-  Chassis
+  <span class="header-label">Chassis</span>
 </div>
 <div class="grid-spacer"></div>
 <div class="grid-header">
   {catIcons?.lightWep && <img src={icon(catIcons.lightWep)} class="header-icon" alt="" />}
-  Light Wep
+  <span class="header-label">Light Wep</span>
 </div>
 <div class="grid-header">
   {catIcons?.heavyWep && <img src={icon(catIcons.heavyWep)} class="header-icon" alt="" />}
-  Heavy Wep
+  <span class="header-label">Heavy Wep</span>
 </div>
 <div class="grid-header">
   {catIcons?.supplyGear && <img src={icon(catIcons.supplyGear)} class="header-icon" alt="" />}
-  Supply Gear
+  <span class="header-label">Supply Gear</span>
 </div>
 <div class="grid-header">
   {catIcons?.cycleGear && <img src={icon(catIcons.cycleGear)} class="header-icon" alt="" />}
-  Cycle Gear
+  <span class="header-label">Cycle Gear</span>
 </div>
 
 <style>
   .grid-header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    gap: calc(3px * var(--grid-scale, 1));
     text-transform: uppercase;
     font-weight: 800;
-    font-size: 0.85rem;
+    font-size: var(--grid-header-font, 0.85rem);
     color: #7b8390;
     text-align: center;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #232730;
-    height: 40px;
+    padding-bottom: calc(6px * var(--grid-scale, 1));
+    border-bottom: calc(2px * var(--grid-scale, 1)) solid #232730;
+    min-height: var(--grid-header-height, 60px);
+    box-sizing: border-box;
   }
 
   .header-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 6px;
+    display: block;
+    width: var(--grid-header-icon, 30px);
+    height: var(--grid-header-icon, 30px);
     object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .header-label {
+    display: block;
+    line-height: 1.1;
   }
 
   .sidebar-header {

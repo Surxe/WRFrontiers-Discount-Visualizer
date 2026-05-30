@@ -32,6 +32,7 @@ const stdRows = countStandardRows(standardBots, stdWeapons);
 const titanRows = countTitanRows(titanBots, titanWeapons);
 ---
 
+<div class="grid-scale-host">
 <div class="grid-container">
   <GridHeader catIcons={catIcons} />
 
@@ -57,47 +58,140 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
           shopCards={shopCards}
           variant="titan"
           sidebarLabel={i === 0 ? 'Titans' : null}
+          sectionTopDivider={stdRows > 0 && i === 0}
         />
       ))}
     </>
   ) : null}
 </div>
+</div>
 
 <style>
+  /* Intrinsic width at scale 1: columns + gaps + horizontal padding */
+  .grid-scale-host {
+    --grid-intrinsic-width: 938px;
+    /* 8 module cols @ 100px each (scale 1 reference width) */
+    --grid-module-cols-width: 800px;
+    container-type: inline-size;
+    container-name: discount-grid;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
   .grid-container {
-    --module-icon-max-height: 80px;
-    --module-name-strip: 29px;
-    --module-card-padding: 5px;
-    --module-card-padding-x: 7px;
+    --grid-scale: min(1, calc((100cqi - 0.5rem) / var(--grid-intrinsic-width)));
+    --module-col: calc(100px * var(--grid-scale));
+    --grid-sidebar-col: calc(34px * var(--grid-scale));
+    --grid-divider-col: calc(13px * var(--grid-scale));
+    --grid-col-gap: calc(7px * var(--grid-scale));
+    --grid-row-gap: calc(13px * var(--grid-scale));
+    --grid-padding: calc(14px * var(--grid-scale));
+    --module-icon-max-height: calc(80px * var(--grid-scale));
+    --module-name-strip: calc(29px * var(--grid-scale));
+    --module-card-padding: calc(5px * var(--grid-scale));
+    --module-card-padding-x: calc(7px * var(--grid-scale));
+    --module-card-radius: calc(8px * var(--grid-scale));
+    --module-name-font: calc(13.6px * var(--grid-scale));
+    --footer-icon-size: calc(11px * var(--grid-scale));
+    --grid-header-height: calc(60px * var(--grid-scale));
+    --grid-header-font: calc(13.6px * var(--grid-scale));
+    --grid-header-icon: calc(30px * var(--grid-scale));
+    --sidebar-label-letter-spacing: calc(0.02em * var(--grid-scale));
+    /* Upright stack: ~6 letters tall + narrow column */
+    --sidebar-label-font-size: min(
+      calc(var(--module-cell-height) / 10),
+      calc(var(--grid-sidebar-col) * 0.68)
+    );
     --module-card-height: calc(
       var(--module-icon-max-height) + 2 * var(--module-card-padding) + var(--module-name-strip)
     );
     --module-cell-height: var(--module-card-height);
     display: grid;
-    grid-template-columns: 34px repeat(4, 100px) 13px repeat(4, 100px);
+    grid-template-columns:
+      var(--grid-sidebar-col)
+      repeat(4, var(--module-col))
+      var(--grid-divider-col)
+      repeat(4, var(--module-col));
     grid-template-rows: auto;
     grid-auto-rows: var(--module-cell-height);
-    gap: 7px;
+    column-gap: var(--grid-col-gap);
+    row-gap: var(--grid-row-gap);
     background: #15181e;
-    padding: 14px;
-    border-radius: 12px;
+    padding: var(--grid-padding);
+    border-radius: calc(12px * var(--grid-scale));
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    min-width: fit-content;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    box-sizing: border-box;
   }
 
-  .titan-divider {
-    grid-column: 1 / -1;
-    margin-top: 20px;
-    margin-bottom: 12px;
-    text-align: center;
-    border-top: 2px solid #333;
-    padding-top: 16px;
+  @supports not (container-type: inline-size) {
+    .grid-container {
+      --grid-scale: min(1, calc((100vw - 3.5rem) / var(--grid-intrinsic-width)));
+    }
+
+    @media (max-width: 640px) {
+      .grid-container {
+        --grid-sidebar-base: 18px;
+        --grid-divider-base: 9px;
+        --grid-static-overhead: 2.25rem;
+        --grid-scale: min(
+          1,
+          calc((100vw - 3.5rem - var(--grid-static-overhead)) / var(--grid-module-cols-width))
+        );
+        --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale));
+        --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale));
+        width: 100%;
+        grid-template-columns:
+          var(--grid-sidebar-col)
+          repeat(4, minmax(0, 1fr))
+          var(--grid-divider-col)
+          repeat(4, minmax(0, 1fr));
+      }
+    }
   }
 
-  .titan-divider h2 {
-    margin: 0;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+  /* Thin viewports: fill width, shrink label gutter, scale from module column budget */
+  @container discount-grid (max-width: 640px) {
+    .grid-container {
+      --grid-sidebar-base: 18px;
+      --grid-divider-base: 9px;
+      --grid-static-overhead: 2.25rem;
+      --grid-scale: min(
+        1,
+        calc((100cqi - var(--grid-static-overhead)) / var(--grid-module-cols-width))
+      );
+      --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale));
+      --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale));
+      width: 100%;
+      grid-template-columns:
+        var(--grid-sidebar-col)
+        repeat(4, minmax(0, 1fr))
+        var(--grid-divider-col)
+        repeat(4, minmax(0, 1fr));
+    }
   }
+
+  @container discount-grid (max-width: 480px) {
+    .grid-container {
+      --sidebar-label-font-size: min(
+        calc(var(--module-cell-height) / 16),
+        calc(var(--grid-sidebar-col) * 0.45)
+      );
+      --sidebar-label-letter-spacing: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .grid-container {
+      --sidebar-label-font-size: min(
+        calc(var(--module-cell-height) / 16),
+        calc(var(--grid-sidebar-col) * 0.45)
+      );
+      --sidebar-label-letter-spacing: 0;
+    }
+  }
+
 </style>
