@@ -19,8 +19,8 @@ const titanItems = items.filter(i => isTitan(i));
 
 const getTexturePath = (uePath) => {
     if (!uePath) return '';
-    const cleanPath = uePath.startsWith('/') ? uePath.substring(1) : uePath;
-    return `${baseUrl}WRFrontiersDB-Data/textures/${cleanPath}.png`;
+    const iconPath = uePath.startsWith('/') ? uePath : `/${uePath}`;
+    return `${baseUrl}WRFrontiersDB-Data/textures${iconPath}.png`;
 };
 
 const getBackgroundPath = (rarityId, isVertical) => {

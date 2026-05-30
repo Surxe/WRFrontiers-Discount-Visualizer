@@ -8,9 +8,29 @@ const parseRef = (ref) => {
   return parts.length > 1 ? parts[1] : parts[0];
 };
 
+function resolveObjectsDir() {
+  if (process.env.DATA_DIR) {
+    return process.env.DATA_DIR;
+  }
+  const candidates = [
+    path.resolve('public/WRFrontiersDB-Data/current/Objects'),
+    path.resolve('../../WRFrontiersDB-Data/current/Objects'),
+    path.resolve('../../../WRFrontiersDB-Data/current/Objects'),
+  ];
+  for (const dir of candidates) {
+    if (fs.existsSync(path.join(dir, 'Module.json'))) {
+      return dir;
+    }
+  }
+  console.warn(
+    'WRFrontiersDB-Data Objects not found. Tried:',
+    candidates.join(', ')
+  );
+  return candidates[0];
+}
+
 export function fetchEnrichedDiscounts() {
-  // Use absolute path or fallback to process.cwd() assuming we're running from src/frontend
-  const dataDir = process.env.DATA_DIR || path.resolve('../../WRFrontiersDB-Data/current/Objects');
+  const dataDir = resolveObjectsDir();
   const frontendDataDir = path.resolve('public/data');
   
   const readJson = (filename, dir = dataDir) => {

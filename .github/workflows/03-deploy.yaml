@@ -38,6 +38,9 @@ jobs:
         working-directory: src/frontend
         run: npm install
 
+      - name: Verify WRFrontiersDB-Data checkout
+        run: test -f src/frontend/public/WRFrontiersDB-Data/current/Objects/Module.json
+
       - name: Build frontend
         working-directory: src/frontend
         run: npm run build
