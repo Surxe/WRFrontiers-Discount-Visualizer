@@ -1,0 +1,34 @@
+name: Build frontend
+description: Check out game data, install dependencies, and build the Astro site
+
+runs:
+  using: composite
+  steps:
+    # Checkout into public/ so Vite can copy assets (symlinks break: ln -s
+    # ../../… from src/frontend resolves to src/WRFrontiersDB-Data, not repo root).
+    - name: Checkout Data Repo
+      uses: actions/checkout@v4
+      with:
+        repository: Surxe/WRFrontiersDB-Data
+        token: ${{ env.DATA_REPO_PAT }}
+        path: src/frontend/public/WRFrontiersDB-Data
+        ref: main
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+
+    - name: Install frontend dependencies
+      shell: bash
+      working-directory: src/frontend
+      run: npm install
+
+    - name: Verify WRFrontiersDB-Data checkout
+      shell: bash
+      run: test -f src/frontend/public/WRFrontiersDB-Data/current/Objects/Module.json
+
+    - name: Build frontend
+      shell: bash
+      working-directory: src/frontend
+      run: npm run build
