@@ -7,6 +7,7 @@ const baseUrl = import.meta.env.BASE_URL;
 const icon = (path) => getTexturePath(path, baseUrl);
 ---
 
+<div class="grid-header sidebar-header"></div>
 <div class="grid-header bot-col">
   Bot
 </div>
@@ -60,5 +61,9 @@ const icon = (path) => getTexturePath(path, baseUrl);
     height: 20px;
     margin-right: 6px;
     object-fit: contain;
+  }
+
+  .sidebar-header {
+    visibility: hidden;
   }
 </style>

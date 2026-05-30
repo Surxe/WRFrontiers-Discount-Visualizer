@@ -44,18 +44,23 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
       cycle={assignedCycle[i]}
       shopCards={shopCards}
       variant="standard"
+      sidebarLabel={i === Math.floor((stdRows - 1) / 2) ? 'Mechs' : null}
     />
   ))}
 
-  {titanItems.length > 0 &&
-    Array.from({ length: titanRows }).map((_, i) => (
-      <DiscountGridRow
-        bot={titanBots[i]}
-        titanWeapon={assignedTitanWeapons[i]}
-        shopCards={shopCards}
-        variant="titan"
-      />
-    ))}
+  {titanItems.length > 0 && (
+    <>
+      {Array.from({ length: titanRows }).map((_, i) => (
+        <DiscountGridRow
+          bot={titanBots[i]}
+          titanWeapon={assignedTitanWeapons[i]}
+          shopCards={shopCards}
+          variant="titan"
+          sidebarLabel={i === 0 ? 'Titans' : null}
+        />
+      ))}
+    </>
+  )}
 </div>
 
 <style>
@@ -69,7 +74,7 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
     );
     --module-cell-height: var(--module-card-height);
     display: grid;
-    grid-template-columns: repeat(4, 1fr) 16px repeat(4, 1fr);
+    grid-template-columns: 40px repeat(4, 1fr) 16px repeat(4, 1fr);
     grid-template-rows: auto;
     grid-auto-rows: minmax(var(--module-cell-height), auto);
     gap: 8px;
@@ -77,21 +82,5 @@ const titanRows = countTitanRows(titanBots, titanWeapons);
     padding: 16px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  }
-
-  .titan-divider {
-    grid-column: 1 / -1;
-    margin-top: 20px;
-    margin-bottom: 12px;
-    text-align: center;
-    border-top: 2px solid #333;
-    padding-top: 16px;
-  }
-
-  .titan-divider h2 {
-    margin: 0;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 2px;
   }
 </style>
