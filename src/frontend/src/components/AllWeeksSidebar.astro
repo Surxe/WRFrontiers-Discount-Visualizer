@@ -2,7 +2,7 @@
 import '../styles/all-weeks-sidebar.css';
 import { getWeekStatus, getCurrentOrLatestWeek } from '../utils/dateValidator.js';
 
-const { weeks, currentSlug, baseUrl } = Astro.props;
+const { weeks, currentSlug, baseUrl, nextWeek, nextWeekHref } = Astro.props;
 const activeWeek = getCurrentOrLatestWeek(weeks);
 ---
 

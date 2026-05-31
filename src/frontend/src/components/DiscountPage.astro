@@ -7,7 +7,7 @@ import GitHubHistory from './GitHubHistory.astro';
 import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
-import { getCurrentOrLatestWeek, parseDateRange, getWeekStatus } from '../utils/dateValidator.js';
+import { getCurrentOrLatestWeek, getNextWeek, parseDateRange, getWeekStatus } from '../utils/dateValidator.js';
 
 const { dateRange, items, shopCards, catIcons, weeks, currentSlug } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
@@ -20,6 +20,12 @@ for (const week of weekEntries) {
     break;
   }
 }
+const nextWeek = getNextWeek(weeks, currentSlug);
+const nextWeekHref = nextWeek
+  ? activeWeek && nextWeek.slug === activeWeek.slug
+    ? baseUrl
+    : `${baseUrl}week/${nextWeek.slug}`
+  : null;
 
 /**
  * @param {{name:string; category?:string; vbot?:string}[]} itemsToSummarize
@@ -42,15 +48,24 @@ const summarizeItems = (itemsToSummarize) => {
   }
 
   return {
-    bots: Array.from(botSet).sort().join(', ') || 'None',
-    weapons: Array.from(weaponSet).sort().join(', ') || 'None',
-    gear: Array.from(gearSet).sort().join(', ') || 'None',
+    bots: Array.from(botSet).sort().join(', ') || '',
+    weapons: Array.from(weaponSet).sort().join(', ') || '',
+    gear: Array.from(gearSet).sort().join(', ') || '',
   };
 };
 
 const currentSummary = summarizeItems(items);
+let nextSummary = { bots: '', weapons: '', gear: '', dateRange: nextWeek?.date_range || '' };
+if (nextWeek?.file) {
+  const nextData = fetchEnrichedDiscounts(nextWeek.file);
+  nextSummary = {
+    ...summarizeItems(nextData.items),
+    dateRange: nextData.dateRange || nextWeek.date_range || '',
+  };
+}
 
-const metaDescription = `${dateRange || currentWeek?.date_range || 'Current Discounts'}\nBots: ${currentSummary.bots}\nWeapons: ${currentSummary.weapons}\nGear: ${currentSummary.gear}`;
+const metaDescription = `${dateRange || currentWeek?.date_range || 'Current Discounts'}\nBots: ${currentSummary.bots}\nWeapons: ${currentSummary.weapons}\nGear: ${currentSummary.gear}` +
+  (nextWeek ? `\n\n${nextSummary.dateRange || nextWeek.date_range || 'Upcoming'}\nBots: ${nextSummary.bots}\nWeapons: ${nextSummary.weapons}\nGear: ${nextSummary.gear}` : '');
 
 // Extract unique names for Discord embed
 const vbots = new Set();
@@ -90,17 +105,19 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		<!-- Open Graph / Discord Embed -->
 		<meta property="og:title" content="WRF Discounts" />
 		<meta name="description" content={metaDescription} />
-		<meta property="og:description" content={ogDescription} />
+		<meta property="og:description" content={metaDescription} />
 		<meta property="og:type" content="website" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content="WRF Discounts" />
-		<meta name="twitter:description" content={ogDescription} />
+		<meta name="twitter:description" content={metaDescription} />
 	</head>
 	<body>
 		<AllWeeksSidebar
 			weeks={weeks}
 			currentSlug={currentSlug}
 			baseUrl={baseUrl}
+			nextWeek={nextWeek}
+			nextWeekHref={nextWeekHref}
 		>
 			<div class="app-content">
 				<header>
