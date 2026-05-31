@@ -2,14 +2,32 @@
 import '../styles/all-weeks-sidebar.css';
 import { getWeekStatus, getCurrentOrLatestWeek } from '../utils/dateValidator.js';
 
-const { weeks, currentSlug, baseUrl, nextWeek, nextWeekHref } = Astro.props;
+const { weeks, currentSlug, baseUrl } = Astro.props;
 const activeWeek = getCurrentOrLatestWeek(weeks);
 ---
 
 <div class="layout-container" id="layout-container">
+  <button
+    id="sidebar-toggle"
+    class="sidebar-toggle"
+    type="button"
+    aria-label="Toggle sidebar"
+    aria-expanded="true"
+  >
+    <span class="toggle-label">All Weeks</span>
+    <svg class="icon-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+    <svg class="icon-close" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-content">
-      <h3>All Weeks</h3>
       <ul class="week-list">
         {weeks && weeks.map((week) => {
           let isActive = false;
@@ -41,50 +59,6 @@ const activeWeek = getCurrentOrLatestWeek(weeks);
   </aside>
 
   <main class="all-weeks-sidebar__main">
-    <div class="sidebar-controls" id="sidebar-controls">
-      <button
-        id="sidebar-toggle"
-        class="sidebar-toggle"
-        type="button"
-        aria-label="Toggle All Weeks navigation"
-        aria-expanded="false"
-        aria-controls="sidebar"
-      >
-        <span class="toggle-label">All Weeks</span>
-        <svg class="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-        <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-
-      {nextWeek && nextWeekHref && (
-        <div
-          class="next-week-popup"
-          id="next-week-popup"
-          data-next-slug={nextWeek.slug}
-          role="status"
-        >
-          <button
-            type="button"
-            class="next-week-popup__close"
-            id="next-week-popup-close"
-            aria-label="Dismiss"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-          <a href={nextWeekHref} class="next-week-popup__link">See next week?</a>
-        </div>
-      )}
-    </div>
-
     <slot />
   </main>
 </div>
@@ -94,11 +68,3 @@ const activeWeek = getCurrentOrLatestWeek(weeks);
 
   initAllWeeksSidebar();
 </script>
-
-<style>
-  .layout-container {
-    display: flex;
-    min-height: 100vh;
-    position: relative;
-  }
-</style>

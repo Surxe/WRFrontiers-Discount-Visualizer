@@ -2,42 +2,51 @@
   --sidebar-width: 0px;
 }
 
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  padding-top: 3rem;
+}
+
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  width: max-content;
-  max-width: min(85vw, 11rem);
+  width: 9rem;
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--sidebar-border);
   z-index: 100;
-  transform: translateX(-100%);
+  transform: translateX(0);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
 }
 
-.layout-container.sidebar-open .sidebar {
-  transform: translateX(0);
+.layout-container.sidebar-hidden .sidebar {
+  transform: translateX(-100%);
 }
 
-.sidebar-controls {
+.sidebar-content {
   position: sticky;
-  top: 1rem;
-  z-index: 110;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  width: fit-content;
+  top: 0;
+  width: max-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 3.5rem 0.45rem;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 .sidebar-toggle {
-  flex-shrink: 0;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 150;
   background: var(--sidebar-bg);
   border: 1px solid var(--sidebar-border);
   color: var(--text-color);
-  padding: 0.75rem 0.65rem;
+  padding: 0.5rem;
   border-radius: 6px;
   cursor: pointer;
   display: flex;
@@ -45,6 +54,12 @@
   justify-content: center;
   gap: 0.5rem;
   transition: background-color 0.2s ease;
+  width: fit-content;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--accent-color);
 }
 
 .toggle-label {
@@ -56,91 +71,16 @@
   white-space: nowrap;
 }
 
-.layout-container.sidebar-open .toggle-label {
+.sidebar-toggle .icon-open {
   display: none;
 }
 
-.sidebar-toggle:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--accent-color);
-}
-
-.next-week-popup {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.5rem 0.65rem;
-  background: var(--sidebar-bg);
-  border: 1px solid var(--sidebar-border);
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-  white-space: nowrap;
-}
-
-.next-week-popup[hidden] {
-  display: none;
-}
-
-.next-week-popup__link {
-  color: var(--accent-color);
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.next-week-popup__link:hover {
-  color: var(--accent-hover);
-  text-decoration: underline;
-}
-
-.next-week-popup__close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  margin: 0;
-  border: none;
-  background: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  line-height: 1;
-}
-
-.next-week-popup__close:hover {
-  color: var(--text-color);
-}
-
-.sidebar-toggle .icon-close {
-  display: none;
-}
-
-.layout-container.sidebar-open .sidebar-toggle .icon-open {
-  display: none;
-}
-
-.layout-container.sidebar-open .sidebar-toggle .icon-close {
+.layout-container.sidebar-hidden .sidebar-toggle .icon-open {
   display: block;
 }
 
-.sidebar-content {
-  position: sticky;
-  top: 0;
-  width: max-content;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: 1.75rem 0.45rem;
-  max-height: 100vh;
-  overflow-y: auto;
-}
-
-.sidebar h3 {
-  color: var(--text-muted);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  margin-top: 0;
-  margin-bottom: 0.75rem;
-  padding-inline: 0.15rem;
+.layout-container.sidebar-hidden .sidebar-toggle .icon-close {
+  display: none;
 }
 
 .week-list {
@@ -225,25 +165,9 @@
   padding: 1.25rem 1rem 2rem;
   overflow-x: hidden;
   box-sizing: border-box;
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.layout-container.sidebar-open .all-weeks-sidebar__main {
-  margin-left: var(--sidebar-width);
 }
 
 @media (max-width: 900px) {
-  .layout-container.sidebar-open .all-weeks-sidebar__main {
-    margin-left: 0;
-  }
-
-  .layout-container.sidebar-open .sidebar-controls {
-    position: fixed;
-    left: min(85vw, 11rem);
-    top: 1rem;
-    z-index: 120;
-  }
-
   .all-weeks-sidebar__main {
     padding: 1rem 0.75rem 1.5rem;
   }
