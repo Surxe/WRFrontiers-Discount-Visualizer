@@ -1,0 +1,47 @@
+---
+import '../../styles/module-icon.css';
+import '../../styles/module-card.css';
+import ObjectBox from './ObjectBox.astro';
+import { getRarityBackgroundUrl } from '../../utils/textures.js';
+
+const { modules = [], shopCards } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
+
+// Use rarity from first module for the shared background
+const backgroundUrl = modules.length > 0
+  ? getRarityBackgroundUrl(modules[0].rarity, shopCards, baseUrl)
+  : null;
+const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
+---
+
+<div class="modules-box" style={bgStyle || undefined}>
+  {modules.map((module) => (
+    <ObjectBox module={module} shopCards={shopCards} showName={false} disableBackground={true} />
+  ))}
+</div>
+
+<style>
+  .modules-box {
+    display: flex;
+    gap: 0;
+    background-size: cover;
+    background-position: left center;
+    background-repeat: no-repeat;
+    border-radius: var(--module-card-radius, 8px);
+    overflow: hidden;
+    grid-column: span 3;
+  }
+
+  .modules-box :global(.object-box) {
+    flex: 1;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .modules-box :global(.object-box:last-child) {
+    border-right: none;
+  }
+
+  .modules-box :global(.module-card) {
+    background: none !important;
+  }
+</style>

@@ -3,11 +3,11 @@ import '../../styles/module-icon.css';
 import '../../styles/module-card.css';
 import { getTexturePath, getRarityBackgroundUrl } from '../../utils/textures.js';
 
-const { module, shopCards, showName = true, showBadges = false, style: inlineStyle } = Astro.props;
+const { module, shopCards, showName = true, showBadges = false, style: inlineStyle, disableBackground = false } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 
 const iconSrc = getTexturePath(module.icon_path, baseUrl);
-const backgroundUrl = getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
+const backgroundUrl = disableBackground ? null : getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
 const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
 
 const factionIconSrc = module.faction_icon_path
