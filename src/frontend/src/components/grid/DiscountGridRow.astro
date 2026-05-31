@@ -1,5 +1,6 @@
 ---
 import ObjectBox from '../module/ObjectBox.astro';
+import ModulesBox from '../module/ModulesBox.astro';
 import EmptyCell from './EmptyCell.astro';
 
 const {
@@ -38,9 +39,7 @@ const {
             showName={true}
             showBadges={true}
           />
-          <ObjectBox module={bot.torso[0]} shopCards={shopCards} showName={false} />
-          <ObjectBox module={bot.shoulder[0]} shopCards={shopCards} showName={false} />
-          <ObjectBox module={bot.chassis[0]} shopCards={shopCards} showName={false} />
+          <ModulesBox modules={[bot.torso[0], bot.shoulder[0], bot.chassis[0]]} shopCards={shopCards} />
         </>
       ) : (
         <>
@@ -98,9 +97,7 @@ const {
             showName={true}
             showBadges={true}
           />
-          <ObjectBox module={bot.torso[0]} shopCards={shopCards} showName={false} />
-          <ObjectBox module={bot.shoulder[0]} shopCards={shopCards} showName={false} />
-          <ObjectBox module={bot.chassis[0]} shopCards={shopCards} showName={false} />
+          <ModulesBox modules={[bot.torso[0], bot.shoulder[0], bot.chassis[0]]} shopCards={shopCards} />
         </>
       ) : (
         <>
