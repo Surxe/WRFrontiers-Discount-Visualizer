@@ -54,6 +54,7 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
       </div>
     )}
   </div>
+  <div class="object-box__tooltip">{module.name}</div>
 </div>
 
 <style>
@@ -63,6 +64,7 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
     height: 100%;
     text-align: center;
     overflow: visible;
+    position: relative;
   }
 
   .object-box__card {
@@ -73,6 +75,35 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
 
   .object-box:hover .object-box__card {
     transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  }
+
+  .object-box__tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%) translateY(6px);
+    width: calc(100% - 16px);
+    opacity: 0;
+    pointer-events: none;
+    white-space: normal;
+    background: rgba(20, 20, 20, 0.95);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 2;
+    max-width: none;
+    overflow-wrap: anywhere;
+  }
+
+  .object-box:hover .object-box__tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
 
   .object-box__card .module-card__icon {
