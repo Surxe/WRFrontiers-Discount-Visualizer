@@ -3,6 +3,7 @@ import DiscountGrid from './grid/DiscountGrid.astro';
 import DiscordFeedback from './DiscordFeedback.astro';
 import LegalDisclaimer from './LegalDisclaimer.astro';
 import AllWeeksSidebar from './AllWeeksSidebar.astro';
+import GitHubHistory from './GitHubHistory.astro';
 import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
@@ -134,7 +135,10 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 			</div>
 
 			<div class="page-footer">
-				<DiscordFeedback />
+				<div class="footer-links">
+					<DiscordFeedback />
+					<GitHubHistory />
+				</div>
 				<LegalDisclaimer />
 			</div>
 		</AllWeeksSidebar>
@@ -177,6 +181,14 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 		padding-top: 3rem;
 		padding-bottom: 2rem;
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.footer-links {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 2rem;
+		margin-bottom: 2rem;
 	}
 
 	header {
