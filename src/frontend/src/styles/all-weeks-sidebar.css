@@ -237,6 +237,13 @@
     margin-left: 0;
   }
 
+  .layout-container.sidebar-open .sidebar-controls {
+    position: fixed;
+    left: min(85vw, 11rem);
+    top: 1rem;
+    z-index: 120;
+  }
+
   .all-weeks-sidebar__main {
     padding: 1rem 0.75rem 1.5rem;
   }
