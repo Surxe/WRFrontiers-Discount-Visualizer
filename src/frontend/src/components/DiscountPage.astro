@@ -48,17 +48,22 @@ const summarizeItems = (itemsToSummarize) => {
 };
 
 const currentSummary = summarizeItems(items);
-let nextSummary = { bots: '', weapons: '', gear: '', dateRange: nextWeek?.date_range || '' };
-if (nextWeek?.file) {
-  const nextData = fetchEnrichedDiscounts(nextWeek.file);
-  nextSummary = {
-    ...summarizeItems(nextData.items),
-    dateRange: nextData.dateRange || nextWeek.date_range || '',
-  };
+
+// Get summary for second latest week for meta descriptions
+let secondWeekSummary = { bots: '', weapons: '', gear: '', dateRange: '' };
+if (weekEntries.length > 1) {
+  const secondWeek = weekEntries[1];
+  if (secondWeek?.file) {
+    const secondWeekData = fetchEnrichedDiscounts(secondWeek.file);
+    secondWeekSummary = {
+      ...summarizeItems(secondWeekData.items),
+      dateRange: secondWeekData.dateRange || secondWeek.date_range || '',
+    };
+  }
 }
 
 const metaDescription = `${dateRange || 'Latest Discounts'}\nBots: ${currentSummary.bots}\nWeapons: ${currentSummary.weapons}\nGear: ${currentSummary.gear}` +
-  (nextWeek ? `\n\n${nextSummary.dateRange || nextWeek.date_range || 'Next Week'}\nBots: ${nextSummary.bots}\nWeapons: ${nextSummary.weapons}\nGear: ${nextSummary.gear}` : '');
+  (secondWeekSummary.dateRange ? `\n\n${secondWeekSummary.dateRange}\nBots: ${secondWeekSummary.bots}\nWeapons: ${secondWeekSummary.weapons}\nGear: ${secondWeekSummary.gear}` : '');
 
 // Extract unique names for Discord embed
 const vbots = new Set();
