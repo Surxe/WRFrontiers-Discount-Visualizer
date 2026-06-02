@@ -7,19 +7,12 @@ import GitHubHistory from './GitHubHistory.astro';
 import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
-import { getCurrentOrLatestWeek, getNextWeek, parseDateRange, getWeekStatus } from '../utils/dateValidator.js';
+import { getCurrentOrLatestWeek, getNextWeek } from '../utils/dateValidator.js';
 
 const { dateRange, items, shopCards, catIcons, weeks, currentSlug } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const weekEntries = /** @type {{date_range: string; file: string; slug: string;}[]} */ (weeks || []);
 const activeWeek = getCurrentOrLatestWeek(weekEntries);
-let currentWeek = activeWeek;
-for (const week of weekEntries) {
-  if (getWeekStatus(week.date_range) === 'current') {
-    currentWeek = week;
-    break;
-  }
-}
 const nextWeek = getNextWeek(weeks, currentSlug);
 const nextWeekHref = nextWeek
   ? activeWeek && nextWeek.slug === activeWeek.slug
@@ -55,17 +48,22 @@ const summarizeItems = (itemsToSummarize) => {
 };
 
 const currentSummary = summarizeItems(items);
-let nextSummary = { bots: '', weapons: '', gear: '', dateRange: nextWeek?.date_range || '' };
-if (nextWeek?.file) {
-  const nextData = fetchEnrichedDiscounts(nextWeek.file);
-  nextSummary = {
-    ...summarizeItems(nextData.items),
-    dateRange: nextData.dateRange || nextWeek.date_range || '',
-  };
+
+// Get summary for second latest week for meta descriptions
+let secondWeekSummary = { bots: '', weapons: '', gear: '', dateRange: '' };
+if (weekEntries.length > 1) {
+  const secondWeek = weekEntries[1];
+  if (secondWeek?.file) {
+    const secondWeekData = fetchEnrichedDiscounts(secondWeek.file);
+    secondWeekSummary = {
+      ...summarizeItems(secondWeekData.items),
+      dateRange: secondWeekData.dateRange || secondWeek.date_range || '',
+    };
+  }
 }
 
-const metaDescription = `${dateRange || currentWeek?.date_range || 'Current Discounts'}\nBots: ${currentSummary.bots}\nWeapons: ${currentSummary.weapons}\nGear: ${currentSummary.gear}` +
-  (nextWeek ? `\n\n${nextSummary.dateRange || nextWeek.date_range || 'Upcoming'}\nBots: ${nextSummary.bots}\nWeapons: ${nextSummary.weapons}\nGear: ${nextSummary.gear}` : '');
+const metaDescription = `${dateRange || 'Latest Discounts'}\nBots: ${currentSummary.bots}\nWeapons: ${currentSummary.weapons}\nGear: ${currentSummary.gear}` +
+  (secondWeekSummary.dateRange ? `\n\n${secondWeekSummary.dateRange}\nBots: ${secondWeekSummary.bots}\nWeapons: ${secondWeekSummary.weapons}\nGear: ${secondWeekSummary.gear}` : '');
 
 // Extract unique names for Discord embed
 const vbots = new Set();
