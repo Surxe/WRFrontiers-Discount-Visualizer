@@ -1,6 +1,6 @@
 ---
 import '../styles/all-weeks-sidebar.css';
-import { getWeekStatus, getCurrentOrLatestWeek } from '../utils/dateValidator.js';
+import { getCurrentOrLatestWeek } from '../utils/dateValidator.js';
 
 const { weeks, currentSlug, baseUrl, nextWeek, nextWeekHref } = Astro.props;
 const activeWeek = getCurrentOrLatestWeek(weeks);
@@ -38,17 +38,10 @@ const activeWeek = getCurrentOrLatestWeek(weeks);
           }
           const isMainPageWeek = activeWeek && week.slug === activeWeek.slug;
           const href = isMainPageWeek ? baseUrl : `${baseUrl}week/${week.slug}`;
-          const status = getWeekStatus(week.date_range);
 
           return (
             <li>
               <a href={href} class={`week-link ${isActive ? 'active' : ''}`}>
-                {(status === 'current' || status === 'upcoming') && (
-                  <span class="week-link__badge">
-                    {status === 'current' && <span class="badge current">Current</span>}
-                    {status === 'upcoming' && <span class="badge upcoming">Upcoming</span>}
-                  </span>
-                )}
                 <span class="week-link__label">{week.date_range}</span>
               </a>
             </li>

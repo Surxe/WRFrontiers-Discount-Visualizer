@@ -7,19 +7,12 @@ import GitHubHistory from './GitHubHistory.astro';
 import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
-import { getCurrentOrLatestWeek, getNextWeek, parseDateRange, getWeekStatus } from '../utils/dateValidator.js';
+import { getCurrentOrLatestWeek, getNextWeek } from '../utils/dateValidator.js';
 
 const { dateRange, items, shopCards, catIcons, weeks, currentSlug } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const weekEntries = /** @type {{date_range: string; file: string; slug: string;}[]} */ (weeks || []);
 const activeWeek = getCurrentOrLatestWeek(weekEntries);
-let currentWeek = activeWeek;
-for (const week of weekEntries) {
-  if (getWeekStatus(week.date_range) === 'current') {
-    currentWeek = week;
-    break;
-  }
-}
 const nextWeek = getNextWeek(weeks, currentSlug);
 const nextWeekHref = nextWeek
   ? activeWeek && nextWeek.slug === activeWeek.slug
@@ -64,8 +57,8 @@ if (nextWeek?.file) {
   };
 }
 
-const metaDescription = `${dateRange || currentWeek?.date_range || 'Current Discounts'}\nBots: ${currentSummary.bots}\nWeapons: ${currentSummary.weapons}\nGear: ${currentSummary.gear}` +
-  (nextWeek ? `\n\n${nextSummary.dateRange || nextWeek.date_range || 'Upcoming'}\nBots: ${nextSummary.bots}\nWeapons: ${nextSummary.weapons}\nGear: ${nextSummary.gear}` : '');
+const metaDescription = `${dateRange || 'Latest Discounts'}\nBots: ${currentSummary.bots}\nWeapons: ${currentSummary.weapons}\nGear: ${currentSummary.gear}` +
+  (nextWeek ? `\n\n${nextSummary.dateRange || nextWeek.date_range || 'Next Week'}\nBots: ${nextSummary.bots}\nWeapons: ${nextSummary.weapons}\nGear: ${nextSummary.gear}` : '');
 
 // Extract unique names for Discord embed
 const vbots = new Set();
