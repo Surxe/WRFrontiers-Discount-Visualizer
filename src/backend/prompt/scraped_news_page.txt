@@ -13,15 +13,18 @@ This week, the Tortuga engineers invite Pilots to take a closer look at the foll
 
 
 War Robot Modules
-: Scorpion, Lancelot, Raven
+: Griffin, Phantom, Cyclops
 
 
 Weapons
-: Cascade, Gozer, Punisher, Tusk
+: Quantum, Lighter, Gemini
 
 
 Gear
-: Blast Wave, Reflector, Infinite Ammo, Repulsor, Sprint Reactor, Gamma Beam
+: Holofield, Umbrella, Energy Wall, Minefield, Blink, Homing Missile
+
+Titan
+: Scrubber
 
 
 

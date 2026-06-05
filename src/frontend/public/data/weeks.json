@@ -1,6 +1,11 @@
 {
   "weeks": [
     {
+      "date_range": "June 9 - June 16",
+      "file": "discounts_june-9-june-16.json",
+      "slug": "june-9-june-16"
+    },
+    {
       "date_range": "June 2 - June 9",
       "file": "discounts_june-2-june-9.json",
       "slug": "june-2-june-9"
