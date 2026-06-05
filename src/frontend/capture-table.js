@@ -12,7 +12,7 @@
  */
 
 import puppeteer from 'puppeteer';
-import { spawn } from 'child_process';
+import http from 'http';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
@@ -27,32 +27,69 @@ const PREVIEW_PORT = 4321;
 const PREVIEW_URL = `http://localhost:${PREVIEW_PORT}/WRFrontiers-Discount-Visualizer/`;
 const GRID_SELECTOR = '#discount-grid';
 
-/** Start `astro preview` and resolve when the server is listening. */
-function startPreviewServer() {
-  return new Promise((resolve, reject) => {
-    const server = spawn('node_modules/.bin/astro', ['preview', '--port', String(PREVIEW_PORT)], {
-      cwd: FRONTEND_DIR,
-      shell: true,
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
+/** Start local HTTP server to serve dist/ and resolve when listening. */
+function startPreviewServer(distDir) {
+  const server = http.createServer((req, res) => {
+    let reqUrl = req.url || '/';
+    // Strip query strings and hashes
+    const urlPath = reqUrl.split('?')[0].split('#')[0];
 
-    const timeout = setTimeout(() => {
-      server.kill();
-      reject(new Error('Timed out waiting for astro preview to start'));
-    }, 30_000);
+    const base = '/WRFrontiers-Discount-Visualizer/';
+    let relativePath = urlPath;
 
-    const onData = (chunk) => {
-      const text = chunk.toString();
-      // astro preview prints the URL once it's listening
-      if (text.includes('localhost') || text.includes('Local')) {
-        clearTimeout(timeout);
-        resolve(server);
-      }
+    if (urlPath.startsWith(base)) {
+      relativePath = urlPath.substring(base.length);
+    } else if (urlPath === '/' || urlPath === '') {
+      res.writeHead(302, { Location: base });
+      res.end();
+      return;
+    }
+
+    // Resolve file path in dist/
+    const safePath = path.normalize(relativePath).replace(/^(\.\.[\/\\])+/, '');
+    let filePath = path.join(distDir, safePath);
+
+    // If filePath is a directory, look for index.html
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+      filePath = path.join(filePath, 'index.html');
+    }
+
+    if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('404 Not Found');
+      return;
+    }
+
+    // Determine content type
+    const ext = path.extname(filePath).toLowerCase();
+    const mimeTypes = {
+      '.html': 'text/html',
+      '.css': 'text/css',
+      '.js': 'application/javascript',
+      '.json': 'application/json',
+      '.png': 'image/png',
+      '.jpg': 'image/jpeg',
+      '.gif': 'image/gif',
+      '.svg': 'image/svg+xml',
+      '.ico': 'image/x-icon',
+      '.webp': 'image/webp',
+      '.woff': 'font/woff',
+      '.woff2': 'font/woff2',
+      '.ttf': 'font/ttf',
     };
+    const contentType = mimeTypes[ext] || 'application/octet-stream';
 
-    server.stdout.on('data', onData);
-    server.stderr.on('data', onData);
-    server.on('error', (err) => { clearTimeout(timeout); reject(err); });
+    res.writeHead(200, { 'Content-Type': contentType });
+    fs.createReadStream(filePath).pipe(res);
+  });
+
+  return new Promise((resolve, reject) => {
+    server.on('error', (err) => {
+      reject(err);
+    });
+    server.listen(PREVIEW_PORT, '127.0.0.1', () => {
+      resolve(server);
+    });
   });
 }
 
@@ -65,8 +102,8 @@ async function main() {
     process.exit(1);
   }
 
-  console.log('Starting astro preview server...');
-  const server = await startPreviewServer();
+  console.log('Starting preview server...');
+  const server = await startPreviewServer(distDir);
   console.log(`Preview server ready at ${PREVIEW_URL}`);
 
   let browser;
@@ -99,7 +136,7 @@ async function main() {
     console.log(`Screenshot saved -> ${OUT_PATH}`);
   } finally {
     if (browser) await browser.close();
-    server.kill();
+    server.close();
     console.log('Preview server stopped');
   }
 }
