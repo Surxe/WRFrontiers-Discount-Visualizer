@@ -19,6 +19,14 @@ runs:
       with:
         python-version: '3.12'
 
+    - name: Checkout Data Repo
+      uses: actions/checkout@v4
+      with:
+        repository: Surxe/WRFrontiersDB-Data
+        token: ${{ env.DATA_REPO_PAT }}
+        path: WRFrontiersDB-Data
+        ref: main
+
     - name: Install Python dependencies
       shell: bash
       run: pip install -r src/backend/requirements.txt

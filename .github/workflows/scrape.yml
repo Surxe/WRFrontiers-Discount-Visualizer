@@ -14,6 +14,8 @@ permissions:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    env:
+      DATA_REPO_PAT: ${{ secrets.DATA_REPO_PAT }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4

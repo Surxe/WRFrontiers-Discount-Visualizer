@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      DATA_REPO_PAT: ${{ secrets.DATA_REPO_PAT }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
