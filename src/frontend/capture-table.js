@@ -124,6 +124,9 @@ async function main() {
     console.log(`Waiting for ${GRID_SELECTOR}...`);
     await page.waitForSelector(GRID_SELECTOR, { visible: true, timeout: 15_000 });
 
+    // Force grid scale to 1 to bypass container query circular dependencies in headless Chrome
+    await page.addStyleTag({ content: `${GRID_SELECTOR} { --grid-scale: 1 !important; }` });
+
     // Extra settle time for icon images, fonts, etc.
     await new Promise((r) => setTimeout(r, 1000));
 
