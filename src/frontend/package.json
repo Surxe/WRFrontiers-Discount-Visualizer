@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "capture": "node ../../scripts/capture-table.js"
+    "capture": "node capture-table.js"
   },
   "dependencies": {
     "astro": "^6.3.8"

@@ -3,13 +3,12 @@
  *
  * Boots `astro preview` (serving the already-built dist/), waits for the
  * discount grid to render, screenshots just that element, and writes the PNG
- * to src/frontend/public/discount-table.png so the next `astro build` will
- * deploy it as a static asset.
+ * to public/discount-table.png so the next `astro build` will deploy it as
+ * a static asset.
  *
  * Prerequisites:
- *   1. Run `npm run build` inside src/frontend/ first.
- *   2. Run this script from the repo root: `node scripts/capture-table.js`
- *      or via npm: `cd src/frontend && npm run capture`
+ *   1. Run `npm run build` first.
+ *   2. Run `npm run capture` (or `node capture-table.js` from src/frontend/).
  */
 
 import puppeteer from 'puppeteer';
@@ -19,8 +18,9 @@ import path from 'path';
 import fs from 'fs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = path.resolve(__dirname, '..');
-const FRONTEND_DIR = path.join(REPO_ROOT, 'src', 'frontend');
+
+// This script lives in src/frontend/, so __dirname IS the frontend dir.
+const FRONTEND_DIR = __dirname;
 const OUT_PATH = path.join(FRONTEND_DIR, 'public', 'discount-table.png');
 
 const PREVIEW_PORT = 4321;
@@ -60,14 +60,14 @@ async function main() {
   // Verify dist/ exists
   const distDir = path.join(FRONTEND_DIR, 'dist');
   if (!fs.existsSync(distDir)) {
-    console.error(`❌ dist/ not found at ${distDir}`);
-    console.error('   Run "npm run build" inside src/frontend/ first.');
+    console.error(`dist/ not found at ${distDir}`);
+    console.error('Run "npm run build" first.');
     process.exit(1);
   }
 
-  console.log('▶  Starting astro preview server…');
+  console.log('Starting astro preview server...');
   const server = await startPreviewServer();
-  console.log(`✅ Preview server ready at ${PREVIEW_URL}`);
+  console.log(`Preview server ready at ${PREVIEW_URL}`);
 
   let browser;
   try {
@@ -81,10 +81,10 @@ async function main() {
     // Wide viewport so the grid renders at full 1× scale (intrinsic width ~938px)
     await page.setViewport({ width: 1400, height: 900, deviceScaleFactor: 2 });
 
-    console.log('▶  Navigating to page…');
+    console.log('Navigating to page...');
     await page.goto(PREVIEW_URL, { waitUntil: 'networkidle0', timeout: 30_000 });
 
-    console.log(`▶  Waiting for ${GRID_SELECTOR}…`);
+    console.log(`Waiting for ${GRID_SELECTOR}...`);
     await page.waitForSelector(GRID_SELECTOR, { visible: true, timeout: 15_000 });
 
     // Extra settle time for icon images, fonts, etc.
@@ -93,18 +93,18 @@ async function main() {
     const element = await page.$(GRID_SELECTOR);
     if (!element) throw new Error(`Element "${GRID_SELECTOR}" not found after waiting`);
 
-    console.log('▶  Taking screenshot…');
+    console.log('Taking screenshot...');
     await element.screenshot({ path: OUT_PATH });
 
-    console.log(`✅ Screenshot saved → ${OUT_PATH}`);
+    console.log(`Screenshot saved -> ${OUT_PATH}`);
   } finally {
     if (browser) await browser.close();
     server.kill();
-    console.log('✅ Preview server stopped');
+    console.log('Preview server stopped');
   }
 }
 
 main().catch((err) => {
-  console.error('❌ capture-table.js failed:', err.message);
+  console.error('capture-table.js failed:', err.message);
   process.exit(1);
 });
