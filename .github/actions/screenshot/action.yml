@@ -1,0 +1,48 @@
+name: Screenshot discount table
+description: Build the Astro site, boot astro preview, capture the discount grid via Puppeteer, and upload the PNG as a workflow artifact.
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout Data Repo
+      uses: actions/checkout@v4
+      with:
+        repository: Surxe/WRFrontiersDB-Data
+        token: ${{ env.DATA_REPO_PAT }}
+        path: src/frontend/public/WRFrontiersDB-Data
+        ref: main
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+
+    - name: Install frontend dependencies (includes puppeteer)
+      shell: bash
+      working-directory: src/frontend
+      run: npm install
+
+    - name: Install Chromium dependencies (Ubuntu)
+      shell: bash
+      run: npx --prefix src/frontend puppeteer browsers install chrome
+
+    - name: Verify WRFrontiersDB-Data checkout
+      shell: bash
+      run: test -f src/frontend/public/WRFrontiersDB-Data/current/Objects/Module.json
+
+    - name: Build frontend (needed for astro preview)
+      shell: bash
+      working-directory: src/frontend
+      run: npm run build
+
+    - name: Capture discount table screenshot
+      shell: bash
+      working-directory: src/frontend
+      run: npm run capture
+
+    - name: Upload screenshot artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: discount-table
+        path: src/frontend/public/discount-table.png
+        retention-days: 7
