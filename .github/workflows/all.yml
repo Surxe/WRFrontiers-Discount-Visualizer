@@ -62,7 +62,7 @@ jobs:
         with:
           target_date_range: ${{ github.event.inputs.target_date_range }}
 
-  build:
+  screenshot:
     if: ${{ !inputs.skip_deploy }}
     runs-on: ubuntu-latest
     needs: map
@@ -77,6 +77,31 @@ jobs:
       - name: Pull map commit
         shell: bash
         run: git pull origin "${{ github.ref_name }}"
+
+      - name: Capture discount table screenshot
+        uses: ./.github/actions/screenshot
+
+  build:
+    if: ${{ !inputs.skip_deploy }}
+    runs-on: ubuntu-latest
+    needs: screenshot
+    env:
+      DATA_REPO_PAT: ${{ secrets.DATA_REPO_PAT }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull map commit
+        shell: bash
+        run: git pull origin "${{ github.ref_name }}"
+
+      - name: Download table screenshot
+        uses: actions/download-artifact@v4
+        with:
+          name: discount-table
+          path: src/frontend/public/
 
       - name: Build frontend
         uses: ./.github/actions/build

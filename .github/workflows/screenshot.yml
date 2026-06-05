@@ -1,0 +1,23 @@
+name: Screenshot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: screenshot
+  cancel-in-progress: true
+
+jobs:
+  screenshot:
+    runs-on: ubuntu-latest
+    env:
+      DATA_REPO_PAT: ${{ secrets.DATA_REPO_PAT }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Capture discount table screenshot
+        uses: ./.github/actions/screenshot
