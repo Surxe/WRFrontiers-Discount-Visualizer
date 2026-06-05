@@ -72,6 +72,10 @@
     {
       "id": "DA_Module_Ability_Homing.1",
       "name": "Homing Missile"
+    },
+    {
+      "id": "DA_Module_Weapon_Scrubber.0",
+      "name": "Scrubber"
     }
   ]
 }

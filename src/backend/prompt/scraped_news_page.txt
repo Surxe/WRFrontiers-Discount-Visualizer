@@ -17,14 +17,11 @@ War Robot Modules
 
 
 Weapons
-: Quantum, Lighter, Gemini
+: Scrubber, Quantum, Lighter, Gemini
 
 
 Gear
 : Holofield, Umbrella, Energy Wall, Minefield, Blink, Homing Missile
-
-Titan
-: Scrubber
 
 
 

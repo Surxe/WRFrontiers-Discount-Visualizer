@@ -12,6 +12,7 @@
     "OBJID_Module::DA_Module_Ability_BlockingField.1",
     "OBJID_Module::DA_Module_Ability_MineField.1",
     "OBJID_Module::DA_Module_Ability_DashBlinkedVisible.1",
-    "OBJID_Module::DA_Module_Ability_Homing.1"
+    "OBJID_Module::DA_Module_Ability_Homing.1",
+    "OBJID_Module::DA_Module_Weapon_Scrubber.0"
   ]
 }
