@@ -44,7 +44,7 @@ def call_gemini_cli(target_date_range: str | None = None):
             cwd=str(PROMPT_DIR),
             capture_output=True,
             text=True,
-            timeout=120,
+            timeout=300,
         )
         if result.returncode != 0:
             print(f"  [ERROR] Gemini CLI exited with code {result.returncode}")
@@ -64,7 +64,7 @@ def call_gemini_cli(target_date_range: str | None = None):
         )
         sys.exit(1)
     except subprocess.TimeoutExpired:
-        print("  [ERROR] Gemini CLI timed out after 120 seconds.")
+        print("  [ERROR] Gemini CLI timed out after 300 seconds.")
         sys.exit(1)
 
 
