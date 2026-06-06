@@ -227,19 +227,19 @@ def load_discounts() -> list[dict]:
 
     # Sort weeks helper (optional, but nice) - parse start date from date_range if possible
     def get_sort_key(week_entry):
-        # date_range looks like: "June 2 - June 9" or "May 26 - June 2"
-        # We can extract the first month and day to sort roughly.
+        # date_range looks like: "June 2 - June 9" or "May 26 - June 2" or "June 9, 2026 - June 16, 2026"
         dr = week_entry.get("date_range", "")
         months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
-        match = re.match(r'([A-Za-z]+)\s+(\d+)', dr)
+        match = re.search(r'([A-Za-z]+)\s+(\d+)(?:,?\s*(\d{4}))?', dr)
         if match:
-            m_name, d_val = match.groups()
+            m_name, d_val, y_val = match.groups()
             try:
                 m_idx = months.index(m_name.lower()[:3])
-                return (m_idx, int(d_val))
+                year = int(y_val) if y_val else 0
+                return (year, m_idx, int(d_val))
             except ValueError:
                 pass
-        return (99, 99)
+        return (0, 0, 0)
 
     # Sort descending (most recent first)
     manifest_data["weeks"].sort(key=get_sort_key, reverse=True)
