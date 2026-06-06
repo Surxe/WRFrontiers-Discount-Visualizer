@@ -29,6 +29,7 @@ else:
 
 MODULE_JSON = DATA_REPO / "current" / "Objects" / "Module.json"
 VIRTUAL_BOT_JSON = DATA_REPO / "current" / "Objects" / "VirtualBot.json"
+MODULE_TYPE_JSON = DATA_REPO / "current" / "Objects" / "ModuleType.json"
 
 PROMPT_DIR = SCRIPT_DIR / "prompt"
 OUTPUT_DIR = PROMPT_DIR / "output"

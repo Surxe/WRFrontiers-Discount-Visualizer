@@ -6,12 +6,14 @@ from config import (
     DISCOUNTS_OUTPUT,
     MODULE_JSON,
     VIRTUAL_BOT_JSON,
+    MODULE_TYPE_JSON,
     REPO_ROOT,
     FRONTEND_DATA_DIR,
     STANDALONE_MODULE_GROUPS,
     WEEKS_MANIFEST,
     date_range_to_slug
 )
+import grid_generator
 
 def parse_ref(ref: str) -> tuple[str, str]:
     """
@@ -99,7 +101,7 @@ def load_discounts() -> list[dict]:
     print(f"  -> Found {len(discount_refs)} valid ID matches for date range '{date_range}'.")
 
     # Load constant JSONs
-    if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists():
+    if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists() or not MODULE_TYPE_JSON.exists():
         print(f"  [ERROR] Database JSONs not found.")
         sys.exit(1)
 
@@ -108,6 +110,9 @@ def load_discounts() -> list[dict]:
 
     with open(VIRTUAL_BOT_JSON, encoding="utf-8") as f:
         virtual_bots_data = json.load(f)
+
+    with open(MODULE_TYPE_JSON, encoding="utf-8") as f:
+        module_types_data = json.load(f)
 
     discounts = []
     for m_ref in discount_refs:
@@ -163,6 +168,23 @@ def load_discounts() -> list[dict]:
     with open(frontend_output, "w", encoding="utf-8") as f:
         json.dump(frontend_data, f, indent=2, ensure_ascii=False)
     print(f"  -> Wrote {len(discounts)} items to {frontend_output.relative_to(REPO_ROOT)}")
+
+    # Build and write grid layout data
+    module_ids_for_grid = [item["id"] for item in discounts]
+    grid_data = grid_generator.build_grid(module_ids_for_grid, modules_data, module_types_data)
+    
+    grid_filename = f"grid_{slug}.json"
+    grid_output = FRONTEND_DATA_DIR / grid_filename
+    with open(grid_output, "w", encoding="utf-8") as f:
+        json.dump(grid_data, f, indent=2, ensure_ascii=False)
+    print(f"  -> Wrote grid layout to {grid_output.relative_to(REPO_ROOT)}")
+    
+    # Write columns definitions
+    columns_filename = "columns.json"
+    columns_output = FRONTEND_DATA_DIR / columns_filename
+    with open(columns_output, "w", encoding="utf-8") as f:
+        json.dump(grid_generator.STANDARD_SOCKETS, f, indent=2, ensure_ascii=False)
+    print(f"  -> Wrote columns definitions to {columns_output.relative_to(REPO_ROOT)}")
 
     # Update manifest weeks.json
     manifest_data = {"weeks": []}
