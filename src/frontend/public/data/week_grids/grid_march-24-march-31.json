@@ -33,13 +33,8 @@
         "2": "OBJID_Module::DA_Module_TorsoGrim.0",
         "3": "OBJID_Module::DA_Module_ShoulderLGrim.0",
         "4": "OBJID_Module::DA_Module_ChassisGrim.1",
-        "5": "OBJID_Module::DA_Module_Weapon_Katzbalger.0"
-      }
-    },
-    {
-      "botId": null,
-      "cells": {
-        "5": "OBJID_Module::DA_Module_Weapon_Jigsaw.0"
+        "5": "OBJID_Module::DA_Module_Weapon_Katzbalger.0",
+        "6": "OBJID_Module::DA_Module_Weapon_Jigsaw.0"
       }
     }
   ]

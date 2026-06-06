@@ -11,6 +11,7 @@ const {
   cycle,
   shopCards,
   titanWeapon,
+  titanWeapon2,
   variant = 'standard',
   sidebarLabel,
   sectionTopDivider = false,
@@ -114,7 +115,14 @@ const {
         <EmptyCell />
       )}
 
-      <EmptyCell />
+      {titanWeapon2 ? (
+        <ObjectBox
+          module={titanWeapon2}
+          shopCards={shopCards}
+        />
+      ) : (
+        <EmptyCell />
+      )}
       <EmptyCell />
       <EmptyCell />
       <EmptyCell />
