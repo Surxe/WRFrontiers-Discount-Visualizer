@@ -17,9 +17,9 @@ function buildBot(botId, cells) {
     rarity: meta.rarity,
     faction_icon_path: meta.faction_icon_path,
     class_icon_path: meta.class_icon_path,
-    torso: [cells["1"]],
-    shoulder: [cells["2"]],
-    chassis: [cells["3"]]
+    torso: [cells["2"]],
+    shoulder: [cells["3"]],
+    chassis: [cells["4"]]
   };
 }
 ---
@@ -31,10 +31,10 @@ function buildBot(botId, cells) {
   {standardRows.map((row, i) => (
     <DiscountGridRow
       bot={buildBot(row.botId, row.cells)}
-      lightWep={row.cells["4"]}
-      heavyWep={row.cells["5"]}
-      supply={row.cells["6"]}
-      cycle={row.cells["7"]}
+      lightWep={row.cells["5"]}
+      heavyWep={row.cells["6"]}
+      supply={row.cells["7"]}
+      cycle={row.cells["8"]}
       shopCards={shopCards}
       variant="standard"
       sidebarLabel={i === Math.floor((standardRows.length - 1) / 2) ? 'Mechs' : null}
@@ -46,7 +46,7 @@ function buildBot(botId, cells) {
       {titanRows.map((row, i) => (
         <DiscountGridRow
           bot={buildBot(row.botId, row.cells)}
-          titanWeapon={row.cells["4"]}
+          titanWeapon={row.cells["5"]}
           shopCards={shopCards}
           variant="titan"
           sidebarLabel={i === Math.floor((titanRows.length - 1) / 2) ? 'Titans' : null}

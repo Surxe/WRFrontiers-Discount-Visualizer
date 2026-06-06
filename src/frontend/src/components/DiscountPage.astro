@@ -32,11 +32,11 @@ const summarizeGrid = (grid, metaById) => {
       botSet.add(metaById[row.botId].name);
     }
     
-    if (row.cells["4"]) weaponSet.add(row.cells["4"].name);
     if (row.cells["5"]) weaponSet.add(row.cells["5"].name);
+    if (row.cells["6"]) weaponSet.add(row.cells["6"].name);
     
-    if (row.cells["6"]) gearSet.add(row.cells["6"].name);
     if (row.cells["7"]) gearSet.add(row.cells["7"].name);
+    if (row.cells["8"]) gearSet.add(row.cells["8"].name);
   }
 
   return {

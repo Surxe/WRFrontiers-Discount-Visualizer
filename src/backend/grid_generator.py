@@ -1,14 +1,15 @@
 import json
 import collections
 
-STANDARD_SOCKETS = [
-    "DA_ModuleSocketType_Torso.0",
-    "DA_ModuleSocketType_ShoulderL.0",
-    "DA_ModuleCategory_Chassis.0",
-    "DA_ModuleSocketType_Weapon.0",
-    "DA_ModuleSocketType_WeaponHeavy.0",
-    "DA_ModuleSocketType_Ability3.0",
-    "DA_ModuleSocketType_Ability4.0"
+COL_HEADER_REPRESENTATIVES = [
+    "VirtualBots",
+    "OBJID_ModuleSocketType::DA_ModuleSocketType_Torso.0",
+    "OBJID_ModuleSocketType::DA_ModuleSocketType_ShoulderL.0",
+    "OBJID_ModuleCategory::DA_ModuleCategory_Chassis.0",
+    "OBJID_ModuleSocketType::DA_ModuleSocketType_Weapon.0",
+    "OBJID_ModuleSocketType::DA_ModuleSocketType_WeaponHeavy.0",
+    "OBJID_ModuleSocketType::DA_ModuleSocketType_Ability3.0",
+    "OBJID_ModuleSocketType::DA_ModuleSocketType_Ability4.0"
 ]
 
 TITAN_SOCKET_MAP = {
@@ -49,8 +50,13 @@ def resolve_module_column(module, module_types_data: dict) -> int:
             if cat_ref:
                 _, socket = parse_ref(cat_ref)
                 
-    if socket in STANDARD_SOCKETS:
-        return STANDARD_SOCKETS.index(socket) + 1
+    # Search for the socket ID within the references in COL_HEADER_REPRESENTATIVES
+    for idx, rep in enumerate(COL_HEADER_REPRESENTATIVES):
+        if rep == "VirtualBots": continue
+        _, rep_id = parse_ref(rep)
+        if rep_id == socket:
+            return idx + 1 # 1-based index
+            
     return -1
 
 def assign_items_to_bots(bots: list[dict], items: list[dict]) -> list:
@@ -147,19 +153,19 @@ def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dic
     
     def process_items(items):
         # group bots
-        bot_parts = [i for i in items if i["col"] in (1, 2, 3)]
+        bot_parts = [i for i in items if i["col"] in (2, 3, 4)]
         bots_map = {}
         for part in bot_parts:
             vbot = part["vbot"] or part["id"] # fallback
             if vbot not in bots_map:
-                bots_map[vbot] = {"vbot": vbot, 1: None, 2: None, 3: None}
+                bots_map[vbot] = {"vbot": vbot, 2: None, 3: None, 4: None}
             if not bots_map[vbot][part["col"]]:
                 bots_map[vbot][part["col"]] = part["id"]
         
         bots = list(bots_map.values())
         
         # separate columns for weapons/gear
-        cols = {4: [], 5: [], 6: [], 7: []}
+        cols = {5: [], 6: [], 7: [], 8: []}
         for item in items:
             c = item["col"]
             if c in cols:
@@ -179,11 +185,14 @@ def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dic
             
         rows = []
         for i in range(max_rows):
-            row = {"botId": bots[i]["vbot"] if i < len(bots) else None, "cells": {}}
+            bot_id = bots[i]["vbot"] if i < len(bots) else None
+            row = {"botId": bot_id, "cells": {}}
+            if bot_id:
+                row["cells"]["1"] = bot_id # VirtualBot cell
             if i < len(bots):
-                row["cells"]["1"] = bots[i][1]
                 row["cells"]["2"] = bots[i][2]
                 row["cells"]["3"] = bots[i][3]
+                row["cells"]["4"] = bots[i][4]
             for c in cols.keys():
                 if i < len(assignments[c]) and assignments[c][i]:
                     row["cells"][str(c)] = assignments[c][i]["id"]

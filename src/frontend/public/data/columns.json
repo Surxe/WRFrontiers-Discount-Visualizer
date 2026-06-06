@@ -1,9 +1,10 @@
 [
-  "DA_ModuleSocketType_Torso.0",
-  "DA_ModuleSocketType_ShoulderL.0",
-  "DA_ModuleCategory_Chassis.0",
-  "DA_ModuleSocketType_Weapon.0",
-  "DA_ModuleSocketType_WeaponHeavy.0",
-  "DA_ModuleSocketType_Ability3.0",
-  "DA_ModuleSocketType_Ability4.0"
+  "VirtualBots",
+  "OBJID_ModuleSocketType::DA_ModuleSocketType_Torso.0",
+  "OBJID_ModuleSocketType::DA_ModuleSocketType_ShoulderL.0",
+  "OBJID_ModuleCategory::DA_ModuleCategory_Chassis.0",
+  "OBJID_ModuleSocketType::DA_ModuleSocketType_Weapon.0",
+  "OBJID_ModuleSocketType::DA_ModuleSocketType_WeaponHeavy.0",
+  "OBJID_ModuleSocketType::DA_ModuleSocketType_Ability3.0",
+  "OBJID_ModuleSocketType::DA_ModuleSocketType_Ability4.0"
 ]

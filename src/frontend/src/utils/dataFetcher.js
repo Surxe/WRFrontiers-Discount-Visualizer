@@ -89,7 +89,11 @@ export function fetchEnrichedDiscounts(filename = null) {
   };
 
   // Build catIcons array from columns.json
-  const catIcons = columnsList.map(colId => {
+  const catIcons = columnsList.map(colRef => {
+    if (colRef === "VirtualBots") {
+      return "Bot";
+    }
+    const colId = parseRef(colRef);
     let iconPath = null;
     if (ModuleSocketTypeDB[colId]) {
       iconPath = ModuleSocketTypeDB[colId].icon_path;

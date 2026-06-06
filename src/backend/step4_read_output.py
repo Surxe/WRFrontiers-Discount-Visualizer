@@ -183,7 +183,7 @@ def load_discounts() -> list[dict]:
     columns_filename = "columns.json"
     columns_output = FRONTEND_DATA_DIR / columns_filename
     with open(columns_output, "w", encoding="utf-8") as f:
-        json.dump(grid_generator.STANDARD_SOCKETS, f, indent=2, ensure_ascii=False)
+        json.dump(grid_generator.COL_HEADER_REPRESENTATIVES, f, indent=2, ensure_ascii=False)
     print(f"  -> Wrote columns definitions to {columns_output.relative_to(REPO_ROOT)}")
 
     # Update manifest weeks.json
