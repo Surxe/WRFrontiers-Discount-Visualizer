@@ -12,32 +12,32 @@ const icon = (path) => getTexturePath(path, baseUrl);
   <span class="header-label">Bot</span>
 </div>
 <div class="grid-header bot-col">
-  {catIcons?.torso && <img src={icon(catIcons.torso)} class="header-icon" alt="" />}
+  {catIcons?.[1] && <img src={icon(catIcons[1])} class="header-icon" alt="" />}
   <span class="header-label">Torso</span>
 </div>
 <div class="grid-header bot-col">
-  {catIcons?.shoulder && <img src={icon(catIcons.shoulder)} class="header-icon" alt="" />}
+  {catIcons?.[2] && <img src={icon(catIcons[2])} class="header-icon" alt="" />}
   <span class="header-label">Shoulder</span>
 </div>
 <div class="grid-header bot-col">
-  {catIcons?.chassis && <img src={icon(catIcons.chassis)} class="header-icon" alt="" />}
+  {catIcons?.[3] && <img src={icon(catIcons[3])} class="header-icon" alt="" />}
   <span class="header-label">Chassis</span>
 </div>
 <div class="grid-spacer"></div>
 <div class="grid-header">
-  {catIcons?.lightWep && <img src={icon(catIcons.lightWep)} class="header-icon" alt="" />}
+  {catIcons?.[4] && <img src={icon(catIcons[4])} class="header-icon" alt="" />}
   <span class="header-label">Light Wep</span>
 </div>
 <div class="grid-header">
-  {catIcons?.heavyWep && <img src={icon(catIcons.heavyWep)} class="header-icon" alt="" />}
+  {catIcons?.[5] && <img src={icon(catIcons[5])} class="header-icon" alt="" />}
   <span class="header-label">Heavy Wep</span>
 </div>
 <div class="grid-header">
-  {catIcons?.supplyGear && <img src={icon(catIcons.supplyGear)} class="header-icon" alt="" />}
+  {catIcons?.[6] && <img src={icon(catIcons[6])} class="header-icon" alt="" />}
   <span class="header-label">Supply Gear</span>
 </div>
 <div class="grid-header">
-  {catIcons?.cycleGear && <img src={icon(catIcons.cycleGear)} class="header-icon" alt="" />}
+  {catIcons?.[7] && <img src={icon(catIcons[7])} class="header-icon" alt="" />}
   <span class="header-label">Cycle Gear</span>
 </div>
 

@@ -188,14 +188,14 @@ def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dic
             bot_id = bots[i]["vbot"] if i < len(bots) else None
             row = {"botId": bot_id, "cells": {}}
             if bot_id:
-                row["cells"]["1"] = bot_id # VirtualBot cell
+                row["cells"]["1"] = f"OBJID_VirtualBot::{bot_id}"
             if i < len(bots):
-                row["cells"]["2"] = bots[i][2]
-                row["cells"]["3"] = bots[i][3]
-                row["cells"]["4"] = bots[i][4]
+                if bots[i][2]: row["cells"]["2"] = f"OBJID_Module::{bots[i][2]}"
+                if bots[i][3]: row["cells"]["3"] = f"OBJID_Module::{bots[i][3]}"
+                if bots[i][4]: row["cells"]["4"] = f"OBJID_Module::{bots[i][4]}"
             for c in cols.keys():
                 if i < len(assignments[c]) and assignments[c][i]:
-                    row["cells"][str(c)] = assignments[c][i]["id"]
+                    row["cells"][str(c)] = f"OBJID_Module::{assignments[c][i]['id']}"
             rows.append(row)
         return rows
 

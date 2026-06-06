@@ -103,19 +103,40 @@ export function fetchEnrichedDiscounts(filename = null) {
     return iconPath;
   });
 
-  const enrichModuleId = (moduleId) => {
-    if (!moduleId) return null;
-    const module = ModuleDB[moduleId];
-    if (!module) return null;
-    
-    const rarityRef = parseRef(module.module_rarity_ref);
-    const moduleRarity = ModuleRarityDB[rarityRef];
-    const baseRarityRef = moduleRarity ? parseRef(moduleRarity.rarity_ref) : null;
+  const enrichModuleId = (ref) => {
+    if (!ref) return null;
+    const moduleId = parseRef(ref);
+    let name = moduleId;
+    let icon_path = null;
+    let baseRarityRef = null;
+
+    if (ref.startsWith("OBJID_VirtualBot")) {
+      const vbot = VirtualBotDB[moduleId];
+      if (vbot) {
+        name = vbot.name?.en || moduleId;
+        icon_path = vbot.icon_path;
+        const rarityRef = parseRef(vbot.rarity_ref);
+        const moduleRarity = ModuleRarityDB[rarityRef];
+        baseRarityRef = moduleRarity ? parseRef(moduleRarity.rarity_ref) : null;
+      }
+    } else {
+      const module = ModuleDB[moduleId];
+      if (module) {
+        name = module.name?.en || moduleId;
+        icon_path = module.inventory_icon_path;
+        const rarityRef = parseRef(module.module_rarity_ref);
+        const moduleRarity = ModuleRarityDB[rarityRef];
+        baseRarityRef = moduleRarity ? parseRef(moduleRarity.rarity_ref) : null;
+      } else {
+        return null;
+      }
+    }
     
     return {
       id: moduleId,
-      name: module.name?.en || moduleId,
-      icon_path: module.inventory_icon_path,
+      ref: ref,
+      name: name,
+      icon_path: icon_path,
       rarity: baseRarityRef
     };
   };
