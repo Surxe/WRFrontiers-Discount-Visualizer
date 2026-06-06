@@ -5,7 +5,7 @@
       "cells": {
         "1": "DA_Module_TorsoGriffin.1",
         "2": "DA_Module_ShoulderGriffin.0",
-        "3": null,
+        "3": "DA_Module_ChassisGriffin.2",
         "4": "DA_Module_Weapon_Buckshot.0",
         "5": "DA_Module_Weapon_Twinflare.0",
         "6": "DA_Module_Ability_SmokeWall.1",
@@ -17,7 +17,7 @@
       "cells": {
         "1": "DA_Module_TorsoPhantom.1",
         "2": "DA_Module_ShoulderPhantom.0",
-        "3": null,
+        "3": "DA_Module_ChassisPhantom.2",
         "4": "DA_Module_Weapon_Toxin.0",
         "6": "DA_Module_Ability_BlockingField.1",
         "7": "DA_Module_Ability_MineField.1"
@@ -28,7 +28,7 @@
       "cells": {
         "1": "DA_Module_TorsoCyclops.1",
         "2": "DA_Module_ShoulderCyclops.0",
-        "3": null,
+        "3": "DA_Module_ChassisCyclops.2",
         "6": "DA_Module_Ability_DashBlinkedVisible.1",
         "7": "DA_Module_Ability_Homing.1"
       }

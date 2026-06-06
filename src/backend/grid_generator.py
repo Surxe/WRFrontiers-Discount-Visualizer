@@ -45,7 +45,7 @@ def resolve_module_column(module, module_types_data: dict) -> int:
         if socket_ref:
             _, socket = parse_ref(socket_ref)
         else:
-            cat_ref = module.get("module_category_ref", "")
+            cat_ref = module_type.get("module_category_ref", "")
             if cat_ref:
                 _, socket = parse_ref(cat_ref)
                 
