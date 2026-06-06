@@ -10,36 +10,43 @@ export const categorize = (item) => {
 };
 
 export const assignWeaponTypeToBots = (bots, weapons) => {
-  // Assign a single weapon type to bots based on preferred_vbot
   const botIds = new Set(bots.map(b => b.vbot));
   const weaponsByVbot = new Map();
-  const unmatchedWeapons = [];
+  const unmatchedWeapons = new Set(weapons);
   
   for (const weapon of weapons) {
-    // Only consider preferred_vbot if that bot exists in the current list
-    if (weapon.preferred_vbot && botIds.has(weapon.preferred_vbot)) {
-      if (!weaponsByVbot.has(weapon.preferred_vbot)) {
-        weaponsByVbot.set(weapon.preferred_vbot, []);
+    let hasPreference = false;
+    const prefs = Array.isArray(weapon.preferred_vbot) ? weapon.preferred_vbot : (weapon.preferred_vbot ? [weapon.preferred_vbot] : []);
+    
+    for (const vbot of prefs) {
+      if (botIds.has(vbot)) {
+        if (!weaponsByVbot.has(vbot)) {
+          weaponsByVbot.set(vbot, []);
+        }
+        weaponsByVbot.get(vbot).push(weapon);
+        hasPreference = true;
       }
-      weaponsByVbot.get(weapon.preferred_vbot).push(weapon);
-    } else {
-      unmatchedWeapons.push(weapon);
+    }
+    
+    if (hasPreference) {
+      unmatchedWeapons.delete(weapon);
     }
   }
   
   // Assign weapons to their preferred bots
   const assignedWeapons = new Set();
   const botWeapons = bots.map(bot => {
-    // Use the vbot ID stored in the bot object
     const botId = bot.vbot;
     const preferredWeapons = weaponsByVbot.get(botId) || [];
-    const assigned = preferredWeapons.slice(0, 1); // Take first preferred weapon
-    assigned.forEach(w => assignedWeapons.add(w.id));
-    return assigned[0] || null;
+    const assigned = preferredWeapons[0] || null;
+    if (assigned) {
+       assignedWeapons.add(assigned.id);
+    }
+    return assigned;
   });
   
   // Fill remaining slots with unmatched weapons
-  const remainingUnmatched = unmatchedWeapons.filter(w => !assignedWeapons.has(w.id));
+  const remainingUnmatched = Array.from(unmatchedWeapons);
   let unmatchedIndex = 0;
   
   for (let i = 0; i < botWeapons.length; i++) {
@@ -50,10 +57,12 @@ export const assignWeaponTypeToBots = (bots, weapons) => {
     }
   }
   
-  // Create slots for all remaining unmatched weapons
-  while (unmatchedIndex < remainingUnmatched.length) {
-    botWeapons.push(remainingUnmatched[unmatchedIndex]);
-    unmatchedIndex++;
+  // Create slots for all remaining unplaced weapons
+  const allWeapons = new Set(weapons);
+  const unplacedWeapons = Array.from(allWeapons).filter(w => !assignedWeapons.has(w.id));
+  
+  for (const w of unplacedWeapons) {
+    botWeapons.push(w);
   }
   
   return botWeapons;

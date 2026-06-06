@@ -170,7 +170,10 @@ export function fetchEnrichedDiscounts(filename = null) {
         if (preset && preset.modules) {
           for (const moduleData of preset.modules) {
             const moduleId = parseRef(moduleData.module_ref);
-            moduleToVbotMap.set(moduleId, vbotId);
+            if (!moduleToVbotMap.has(moduleId)) {
+              moduleToVbotMap.set(moduleId, new Set());
+            }
+            moduleToVbotMap.get(moduleId).add(vbotId);
           }
         }
       }
@@ -180,7 +183,9 @@ export function fetchEnrichedDiscounts(filename = null) {
   // Now set preferred_vbot for items that match the mapping
   for (const item of enrichedDiscounts) {
     if (moduleToVbotMap.has(item.id)) {
-      item.preferred_vbot = moduleToVbotMap.get(item.id);
+      item.preferred_vbot = Array.from(moduleToVbotMap.get(item.id));
+    } else {
+      item.preferred_vbot = [];
     }
   }
 
