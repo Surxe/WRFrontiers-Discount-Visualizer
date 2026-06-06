@@ -158,20 +158,21 @@ def load_discounts() -> list[dict]:
         else:
             print(f"     [!] Warning: Unknown objtype {obj_type} in ref {m_ref}")
 
-    # Write the full discounts data to date-keyed file in frontend
-    FRONTEND_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    # Write the full discounts data to archive directory
+    archive_output_dir = REPO_ROOT / "archive" / "discounts"
+    archive_output_dir.mkdir(parents=True, exist_ok=True)
     slug = date_range_to_slug(date_range)
     filename = f"discounts_{slug}.json"
-    frontend_output = FRONTEND_DATA_DIR / filename
+    archive_output = archive_output_dir / filename
     
     frontend_data = {
         "date_range": date_range,
         "items": discounts
     }
     
-    with open(frontend_output, "w", encoding="utf-8") as f:
+    with open(archive_output, "w", encoding="utf-8") as f:
         json.dump(frontend_data, f, indent=2, ensure_ascii=False)
-    print(f"  -> Wrote {len(discounts)} items to {frontend_output.relative_to(REPO_ROOT)}")
+    print(f"  -> Wrote {len(discounts)} items to {archive_output.relative_to(REPO_ROOT)}")
 
     # Build and write grid layout data
     module_ids_for_grid = [item["id"] for item in discounts]
@@ -183,8 +184,10 @@ def load_discounts() -> list[dict]:
         presets_data
     )
     
+    week_grids_dir = FRONTEND_DATA_DIR / "week_grids"
+    week_grids_dir.mkdir(parents=True, exist_ok=True)
     grid_filename = f"grid_{slug}.json"
-    grid_output = FRONTEND_DATA_DIR / grid_filename
+    grid_output = week_grids_dir / grid_filename
     with open(grid_output, "w", encoding="utf-8") as f:
         json.dump(grid_data, f, indent=2, ensure_ascii=False)
     print(f"  -> Wrote grid layout to {grid_output.relative_to(REPO_ROOT)}")
@@ -207,16 +210,18 @@ def load_discounts() -> list[dict]:
         except Exception as e:
             print(f"  [!] Warning parsing weeks.json manifest: {e}. Recreating manifest.")
 
+    grid_manifest_path = f"week_grids/grid_{slug}.json"
+
     # Remove existing entry if we are overwriting it
     manifest_data["weeks"] = [
         w for w in manifest_data["weeks"] 
-        if w.get("date_range") != date_range and w.get("file") != filename
+        if w.get("date_range") != date_range and w.get("file") != grid_manifest_path
     ]
 
     # Add the new week entry
     manifest_data["weeks"].append({
         "date_range": date_range,
-        "file": filename,
+        "file": grid_manifest_path,
         "slug": slug
     })
 

@@ -61,7 +61,7 @@ export function fetchEnrichedDiscounts(filename = null) {
   const slug = targetWeek.slug;
   const dateRange = targetWeek.date_range || "";
   
-  const gridData = readJson(`grid_${slug}.json`, frontendDataDir);
+  const gridData = readJson(targetWeek.file, frontendDataDir);
   const columnsList = readJson('columns.json', frontendDataDir) || [];
   
   if (!gridData || (!gridData.standardRows && !gridData.titanRows)) {
