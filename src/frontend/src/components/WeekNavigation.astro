@@ -1,0 +1,60 @@
+---
+const { prevWeekHref, nextWeekHref } = Astro.props;
+---
+
+<div class="week-navigation">
+  <div class="nav-container prev-container">
+    {prevWeekHref && (
+      <a href={prevWeekHref} class="nav-arrow prev" aria-label="Previous week">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </a>
+    )}
+  </div>
+  <div class="date-container">
+    <slot />
+  </div>
+  <div class="nav-container next-container">
+    {nextWeekHref && (
+      <a href={nextWeekHref} class="nav-arrow next" aria-label="Next week">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+    )}
+  </div>
+</div>
+
+<style>
+  .week-navigation {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .nav-container,
+  .date-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+  }
+
+  .nav-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: var(--accent-color, #3a86ff);
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .nav-arrow:hover {
+    background-color: var(--active-bg, rgba(58, 134, 255, 0.1));
+    color: var(--accent-hover, #2b65cc);
+  }
+</style>
