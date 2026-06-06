@@ -7,6 +7,7 @@ from config import (
     MODULE_JSON,
     VIRTUAL_BOT_JSON,
     MODULE_TYPE_JSON,
+    CHARACTER_PRESET_JSON,
     REPO_ROOT,
     FRONTEND_DATA_DIR,
     STANDALONE_MODULE_GROUPS,
@@ -101,7 +102,7 @@ def load_discounts() -> list[dict]:
     print(f"  -> Found {len(discount_refs)} valid ID matches for date range '{date_range}'.")
 
     # Load constant JSONs
-    if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists() or not MODULE_TYPE_JSON.exists():
+    if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists() or not MODULE_TYPE_JSON.exists() or not CHARACTER_PRESET_JSON.exists():
         print(f"  [ERROR] Database JSONs not found.")
         sys.exit(1)
 
@@ -113,6 +114,9 @@ def load_discounts() -> list[dict]:
 
     with open(MODULE_TYPE_JSON, encoding="utf-8") as f:
         module_types_data = json.load(f)
+
+    with open(CHARACTER_PRESET_JSON, encoding="utf-8") as f:
+        presets_data = json.load(f)
 
     discounts = []
     for m_ref in discount_refs:
@@ -171,7 +175,13 @@ def load_discounts() -> list[dict]:
 
     # Build and write grid layout data
     module_ids_for_grid = [item["id"] for item in discounts]
-    grid_data = grid_generator.build_grid(module_ids_for_grid, modules_data, module_types_data)
+    grid_data = grid_generator.build_grid(
+        module_ids_for_grid,
+        modules_data,
+        module_types_data,
+        virtual_bots_data,
+        presets_data
+    )
     
     grid_filename = f"grid_{slug}.json"
     grid_output = FRONTEND_DATA_DIR / grid_filename

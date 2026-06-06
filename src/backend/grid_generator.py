@@ -126,7 +126,25 @@ def assign_items_to_bots(bots: list[dict], items: list[dict]) -> list:
                 
     return bot_items
 
-def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dict):
+def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dict, virtual_bots_data: dict, presets_data: dict):
+    # Build module-to-vbot mapping from factory presets
+    module_to_vbot_map = collections.defaultdict(list)
+    for vbot_id, vbot_data in virtual_bots_data.items():
+        if not vbot_data:
+            continue
+        presets = vbot_data.get("factory_preset_refs", [])
+        if isinstance(presets, str):
+            presets = [presets]
+        for preset_ref in presets:
+            _, preset_id = parse_ref(preset_ref)
+            preset = presets_data.get(preset_id)
+            if preset and preset.get("modules"):
+                for module_data in preset["modules"]:
+                    module_ref = module_data.get("module_ref", "")
+                    _, module_id = parse_ref(module_ref)
+                    if module_id and vbot_id not in module_to_vbot_map[module_id]:
+                        module_to_vbot_map[module_id].append(vbot_id)
+
     # Enrich modules with grid info
     enriched_modules = []
     for mid in module_ids:
@@ -139,11 +157,13 @@ def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dic
         mt = module_types_data.get(parse_ref(m.get("module_type_ref", ""))[1], {})
         is_titan = mt.get("character_type") == "Titan"
         
+        preferred_vbot = module_to_vbot_map.get(mid, [])
+        
         enriched_modules.append({
             "id": mid,
             "col": col,
             "vbot": vbot,
-            "preferred_vbot": m.get("preferred_vbot", []),
+            "preferred_vbot": preferred_vbot,
             "is_titan": is_titan,
             "raw": m
         })
