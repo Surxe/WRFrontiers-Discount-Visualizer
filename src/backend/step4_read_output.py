@@ -86,6 +86,21 @@ def load_discounts() -> list[dict]:
         print("  [ERROR] Output date_range is empty or missing.")
         sys.exit(1)
 
+    import datetime
+    import re
+    current_year = datetime.datetime.now().year
+    
+    parts = date_range.split("-")
+    if len(parts) == 2:
+        start = parts[0].strip()
+        end = parts[1].strip()
+        if not re.search(r'\d{4}', start):
+            start += f", {current_year}"
+        if not re.search(r'\d{4}', end):
+            end += f", {current_year}"
+        date_range = f"{start} - {end}"
+        output_data["date_range"] = date_range
+
     discount_refs = output_data.get("items", [])
     if not isinstance(discount_refs, list):
         print("  [ERROR] 'items' must be a list.")
