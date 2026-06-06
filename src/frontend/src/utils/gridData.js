@@ -57,12 +57,33 @@ export const assignWeaponTypeToBots = (bots, weapons) => {
     }
   }
   
-  // Create slots for all remaining unplaced weapons
+  // Create slots for all remaining unplaced weapons, replacing duplicates if the column is full
   const allWeapons = new Set(weapons);
   const unplacedWeapons = Array.from(allWeapons).filter(w => !assignedWeapons.has(w.id));
+  const targetLength = Math.max(bots.length, weapons.length);
   
   for (const w of unplacedWeapons) {
-    botWeapons.push(w);
+    if (botWeapons.length < targetLength) {
+      botWeapons.push(w);
+      assignedWeapons.add(w.id);
+    } else {
+      const counts = {};
+      for (let i = 0; i < botWeapons.length; i++) {
+        if (botWeapons[i]) {
+          counts[botWeapons[i].id] = (counts[botWeapons[i].id] || 0) + 1;
+        }
+      }
+      
+      const duplicateId = Object.keys(counts).find(id => counts[id] > 1);
+      
+      if (duplicateId) {
+        const lastIndex = botWeapons.map(bw => bw ? bw.id : null).lastIndexOf(duplicateId);
+        botWeapons[lastIndex] = w;
+        assignedWeapons.add(w.id);
+      } else {
+        throw new Error(`Cannot place ${w.name} (${w.id}): No duplicate modules to replace, and grid column is full!`);
+      }
+    }
   }
   
   return botWeapons;
