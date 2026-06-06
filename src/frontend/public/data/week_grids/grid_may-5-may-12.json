@@ -43,6 +43,7 @@
       "botId": "alpha",
       "cells": {
         "1": "OBJID_VirtualBot::alpha",
+        "2": "OBJID_Module::DA_Module_TorsoAlpha.0",
         "3": "OBJID_Module::DA_Module_ShoulderLAlpha.0",
         "4": "OBJID_Module::DA_Module_ChassisAlpha.1",
         "5": "OBJID_Module::DA_Module_Weapon_Callisto.0"

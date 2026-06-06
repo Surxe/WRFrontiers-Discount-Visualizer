@@ -42,6 +42,7 @@
       "botId": "matriarch",
       "cells": {
         "1": "OBJID_VirtualBot::matriarch",
+        "2": "OBJID_Module::DA_Module_TorsoMatriarch.0",
         "3": "OBJID_Module::DA_Module_ShoulderLMatriarch.0",
         "4": "OBJID_Module::DA_Module_ChassisMatriarch.1",
         "5": "OBJID_Module::DA_Module_Weapon_Hive.0"

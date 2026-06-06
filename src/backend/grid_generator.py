@@ -13,7 +13,7 @@ COL_HEADER_REPRESENTATIVES = [
 ]
 
 TITAN_SOCKET_MAP = {
-    "titan-torso": "DA_ModuleSocketType_Torso.0",
+    "titan-torsos": "DA_ModuleSocketType_Torso.0",
     "titan-chassis": "DA_ModuleCategory_Chassis.0",
     "titan-shoulder": "DA_ModuleSocketType_ShoulderL.0",
     "titan-weapon": "DA_ModuleSocketType_Weapon.0"
