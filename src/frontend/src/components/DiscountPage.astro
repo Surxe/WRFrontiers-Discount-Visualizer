@@ -9,7 +9,7 @@ import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 import { getCurrentOrLatestWeek, getNextWeek } from '../utils/dateValidator.js';
 
-const { dateRange, items, shopCards, catIcons, weeks, currentSlug } = Astro.props;
+const { dateRange, gridData, shopCards, catIcons, weeks, currentSlug, vbotMetaById } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const weekEntries = /** @type {{date_range: string; file: string; slug: string;}[]} */ (weeks || []);
 const mainPageWeek = weekEntries.length > 0 ? weekEntries[0] : null;
@@ -20,24 +20,23 @@ const nextWeekHref = nextWeek
     : `${baseUrl}week/${nextWeek.slug}`
   : null;
 
-/**
- * @param {{name:string; category?:string; vbot?:string}[]} itemsToSummarize
- */
-// @ts-ignore: implicit any is acceptable for this helper
-const summarizeItems = (itemsToSummarize) => {
+const summarizeGrid = (grid, metaById) => {
+  if (!grid) return { bots: '', weapons: '', gear: '' };
   const botSet = new Set();
   const weaponSet = new Set();
   const gearSet = new Set();
 
-  for (const item of itemsToSummarize) {
-    const cat = categorize(item);
-    if (cat === 'chassis' || cat === 'torso' || cat === 'shoulder') {
-      if (item.vbot) botSet.add(item.name);
-    } else if (item.category?.toLowerCase().includes('weapon')) {
-      weaponSet.add(item.name);
-    } else if (item.category?.toLowerCase().includes('ability')) {
-      gearSet.add(item.name);
+  const allRows = [...(grid.standardRows || []), ...(grid.titanRows || [])];
+  for (const row of allRows) {
+    if (row.botId && metaById && metaById[row.botId]) {
+      botSet.add(metaById[row.botId].name);
     }
+    
+    if (row.cells["5"]) weaponSet.add(row.cells["5"].name);
+    if (row.cells["6"]) weaponSet.add(row.cells["6"].name);
+    
+    if (row.cells["7"]) gearSet.add(row.cells["7"].name);
+    if (row.cells["8"]) gearSet.add(row.cells["8"].name);
   }
 
   return {
@@ -47,7 +46,7 @@ const summarizeItems = (itemsToSummarize) => {
   };
 };
 
-const currentSummary = summarizeItems(items);
+const currentSummary = summarizeGrid(gridData, vbotMetaById);
 
 // Get summary for second latest week for meta descriptions
 let secondWeekSummary = { bots: '', weapons: '', gear: '', dateRange: '' };
@@ -56,7 +55,7 @@ if (weekEntries.length > 1) {
   if (secondWeek?.file) {
     const secondWeekData = fetchEnrichedDiscounts(secondWeek.file);
     secondWeekSummary = {
-      ...summarizeItems(secondWeekData.items),
+      ...summarizeGrid(secondWeekData.gridData, secondWeekData.vbotMetaById),
       dateRange: secondWeekData.dateRange || secondWeek.date_range || '',
     };
   }
@@ -65,30 +64,7 @@ if (weekEntries.length > 1) {
 const metaDescription = `${dateRange || 'Latest Discounts'}\nBots: ${currentSummary.bots}\nWeapons: ${currentSummary.weapons}\nGear: ${currentSummary.gear}` +
   (secondWeekSummary.dateRange ? `\n\n${secondWeekSummary.dateRange}\nBots: ${secondWeekSummary.bots}\nWeapons: ${secondWeekSummary.weapons}\nGear: ${secondWeekSummary.gear}` : '');
 
-// Extract unique names for Discord embed
-const vbots = new Set();
-const weapons = new Set();
-const gear = new Set();
-
-for (const item of items) {
-  const cat = categorize(item);
-  if (cat === 'chassis' || cat === 'torso' || cat === 'shoulder') {
-    // Bot parts - extract vbot name
-    if (item.vbot) {
-      vbots.add(item.name);
-    }
-  } else if (item.category?.toLowerCase().includes('weapon')) {
-    weapons.add(item.name);
-  } else if (item.category?.toLowerCase().includes('ability')) {
-    gear.add(item.name);
-  }
-}
-
-const botNames = Array.from(vbots).sort().join(', ');
-const weaponNames = Array.from(weapons).sort().join(', ');
-const gearNames = Array.from(gear).sort().join(', ');
-
-const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames || 'None'} | Weapons: ${weaponNames || 'None'} | Gear: ${gearNames || 'None'}`;
+const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSummary.bots || 'None'} | Weapons: ${currentSummary.weapons || 'None'} | Gear: ${currentSummary.gear || 'None'}`;
 ---
 
 <html lang="en">
@@ -130,7 +106,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${botNames ||
 					)}
 				</header>
 
-				<DiscountGrid items={items} shopCards={shopCards} catIcons={catIcons} vbotMetaById={Astro.props.vbotMetaById} />
+				<DiscountGrid gridData={gridData} shopCards={shopCards} catIcons={catIcons} vbotMetaById={vbotMetaById} />
 
 				<div class="discount-info">
 					<p><img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_AlloysLarge', baseUrl)} class="currency-icon" alt="Salvage" /> Salvage is 50% reduced and <img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_IntelLarge', baseUrl)} class="currency-icon" alt="Intel" /> Intel is ~62% reduced</p>

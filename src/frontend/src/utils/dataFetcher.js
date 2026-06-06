@@ -3,7 +3,6 @@ import path from 'path';
 import { getCurrentOrLatestWeek } from './dateValidator.js';
 import { buildVbotMetaById } from './vbotMeta.js';
 
-// Helper to strip "OBJID_Type::" prefixes
 const parseRef = (ref) => {
   if (!ref) return null;
   const parts = ref.split('::');
@@ -46,35 +45,36 @@ export function fetchEnrichedDiscounts(filename = null) {
     }
   };
 
-  let targetFilename = filename;
-  if (!targetFilename) {
-    const manifest = readJson('weeks.json', frontendDataDir);
-    if (manifest && manifest.weeks && manifest.weeks.length > 0) {
-      const currentOrLatest = getCurrentOrLatestWeek(manifest.weeks);
-      targetFilename = currentOrLatest ? currentOrLatest.file : manifest.weeks[0].file;
-    } else {
-      targetFilename = 'discounts.json'; // Fallback just in case
-    }
+  const manifest = readJson('weeks.json', frontendDataDir);
+  let targetWeek = null;
+  
+  if (filename) {
+    targetWeek = manifest.weeks?.find(w => w.file === filename || w.slug === filename);
+  } else if (manifest && manifest.weeks && manifest.weeks.length > 0) {
+    targetWeek = getCurrentOrLatestWeek(manifest.weeks) || manifest.weeks[0];
+  }
+  
+  if (!targetWeek) {
+    return { dateRange: "", gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
   }
 
-  const discountsOutput = readJson(targetFilename, frontendDataDir);
-  const itemsArray = Array.isArray(discountsOutput.items) ? discountsOutput.items : [];
-  const dateRange = discountsOutput.date_range || "";
-
-  if (itemsArray.length === 0) {
-    return { dateRange, items: [], shopCards: {}, catIcons: {}, vbotMetaById: {} };
+  const slug = targetWeek.slug;
+  const dateRange = targetWeek.date_range || "";
+  
+  const gridData = readJson(targetWeek.file, frontendDataDir);
+  const columnsList = readJson('columns.json', frontendDataDir) || [];
+  
+  if (!gridData || (!gridData.standardRows && !gridData.titanRows)) {
+    return { dateRange, gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
   }
 
   const ModuleDB = readJson('Module.json');
   const ModuleRarityDB = readJson('ModuleRarity.json');
-  const RarityDB = readJson('Rarity.json');
   const ModuleTypeDB = readJson('ModuleType.json');
   const ModuleCategoryDB = readJson('ModuleCategory.json');
-  const ModuleGroupDB = readJson('ModuleGroup.json');
   const ModuleSocketTypeDB = readJson('ModuleSocketType.json');
   const ShopCardDB = readJson('ShopCard.json');
   const VirtualBotDB = readJson('VirtualBot.json');
-  const CharacterPresetDB = readJson('CharacterPreset.json');
   const FactionDB = readJson('Faction.json');
   const ModuleClassDB = readJson('ModuleClass.json');
   const CharacterClassDB = readJson('CharacterClass.json');
@@ -88,135 +88,81 @@ export function fetchEnrichedDiscounts(filename = null) {
     CharacterClassDB,
   };
 
-  const getSocketIcon = (moduleTypeId) => {
-    const fullRef = `OBJID_ModuleType::${moduleTypeId}`;
-    for (const socket of Object.values(ModuleSocketTypeDB)) {
-      if (socket.compatible_module_types_refs?.includes(fullRef)) {
-        return socket.icon_path;
+  // Build catIcons array from columns.json
+  const catIcons = columnsList.map(colRef => {
+    if (colRef === "VirtualBots") {
+      return "Bot";
+    }
+    const colId = parseRef(colRef);
+    let iconPath = null;
+    if (ModuleSocketTypeDB[colId]) {
+      iconPath = ModuleSocketTypeDB[colId].icon_path;
+    } else if (ModuleCategoryDB[colId]) {
+      iconPath = ModuleCategoryDB[colId].icon_path;
+    }
+    return iconPath;
+  });
+
+  const enrichModuleId = (ref) => {
+    if (!ref) return null;
+    const moduleId = parseRef(ref);
+    let name = moduleId;
+    let icon_path = null;
+    let baseRarityRef = null;
+
+    if (ref.startsWith("OBJID_VirtualBot")) {
+      const vbot = VirtualBotDB[moduleId];
+      if (vbot) {
+        name = vbot.name?.en || moduleId;
+        icon_path = vbot.icon_path;
+        const rarityRef = parseRef(vbot.rarity_ref);
+        const moduleRarity = ModuleRarityDB[rarityRef];
+        baseRarityRef = moduleRarity ? parseRef(moduleRarity.rarity_ref) : null;
       }
-    }
-    // Fallback to Category icon if not found
-    const typeObj = ModuleTypeDB[moduleTypeId];
-    if (typeObj && typeObj.module_category_ref) {
-      const catRef = parseRef(typeObj.module_category_ref);
-      return ModuleCategoryDB[catRef]?.icon_path;
-    }
-    return null;
-  };
-
-  const catIcons = {
-    torso: getSocketIcon('DA_ModuleType_Torso.0'),
-    shoulder: getSocketIcon('DA_ModuleType_Shoulder.0'),
-    chassis: getSocketIcon('DA_ModuleType_Chassis.0'),
-    lightWep: getSocketIcon('DA_ModuleType_Weapon.0'),
-    heavyWep: getSocketIcon('DA_ModuleType_WeaponHeavy.0'),
-    supplyGear: getSocketIcon('DA_ModuleType_Ability3.0'),
-    cycleGear: getSocketIcon('DA_ModuleType_Ability4.0')
-  };
-
-  const enrichedDiscounts = itemsArray.map(item => {
-    const moduleId = item.id;
-    const module = ModuleDB[moduleId];
-    
-    if (!module) {
-      return { ...item, _missing: true };
-    }
-
-    // Resolve Rarity
-    const rarityRef = parseRef(module.module_rarity_ref);
-    const moduleRarity = ModuleRarityDB[rarityRef];
-    const baseRarityRef = moduleRarity ? parseRef(moduleRarity.rarity_ref) : null;
-    const rarityObj = baseRarityRef ? RarityDB[baseRarityRef] : null;
-
-    // Resolve Category
-    const typeRef = parseRef(module.module_type_ref);
-    const moduleType = ModuleTypeDB[typeRef];
-    const categoryRef = moduleType ? parseRef(moduleType.module_category_ref) : null;
-    const categoryObj = categoryRef ? ModuleCategoryDB[categoryRef] : null;
-
-    // Resolve Group
-    const groupRef = parseRef(module.module_group_ref);
-    const groupObj = groupRef ? ModuleGroupDB[groupRef] : null;
-
-    // Resolve Virtual Bot directly from module's virtual_bot_ref field
-    const vbotRef = parseRef(module.virtual_bot_ref);
-    const vbotObj = vbotRef ? VirtualBotDB[vbotRef] : null;
-    const vbotIconPath = vbotObj?.icon_path || null;
-
-    return {
-      ...item,
-      name: item.name,
-      icon_path: module.inventory_icon_path,
-      rarity: baseRarityRef,
-      category: categoryRef,
-      group: groupRef,
-      vbot: vbotRef,
-      vbot_icon_path: vbotIconPath,
-      preferred_vbot: null // Will be set after we know which vbots are in the data
-    };
-  }).filter(item => !item._missing);
-
-  // Build module-to-vbot mapping for ALL virtual bots in the database
-  // This ensures weapons can be matched to their vbots even if the bot itself isn't discounted
-  const moduleToVbotMap = new Map();
-  
-  // For each virtual bot in the database, extract modules from its factory presets
-  for (const vbotId of Object.keys(VirtualBotDB)) {
-    const vbotData = VirtualBotDB[vbotId];
-    if (vbotData && vbotData.factory_preset_refs) {
-      for (const presetRef of vbotData.factory_preset_refs) {
-        const presetId = parseRef(presetRef);
-        const preset = CharacterPresetDB[presetId];
-        if (preset && preset.modules) {
-          for (const moduleData of preset.modules) {
-            const moduleId = parseRef(moduleData.module_ref);
-            if (!moduleToVbotMap.has(moduleId)) {
-              moduleToVbotMap.set(moduleId, new Set());
-            }
-            moduleToVbotMap.get(moduleId).add(vbotId);
-          }
-        }
-      }
-    }
-  }
-  
-  // Now set preferred_vbot for items that match the mapping
-  for (const item of enrichedDiscounts) {
-    if (moduleToVbotMap.has(item.id)) {
-      item.preferred_vbot = Array.from(moduleToVbotMap.get(item.id));
     } else {
-      item.preferred_vbot = [];
-    }
-  }
-
-  // Identify which virtual bots are in the current discount data
-  const botParts = enrichedDiscounts.filter(item => ['Chassis', 'Torso', 'Shoulder'].some(c => item.category && item.category.includes(c)));
-
-  // Grouping by vbot for chassis/torso/shoulder and validating rarity
-  const botsMap = {};
-  for (const part of botParts) {
-    if (part.vbot) {
-      if (!botsMap[part.vbot]) {
-        botsMap[part.vbot] = { rarities: new Set(), parts: [] };
+      const module = ModuleDB[moduleId];
+      if (module) {
+        name = module.name?.en || moduleId;
+        icon_path = module.inventory_icon_path;
+        const rarityRef = parseRef(module.module_rarity_ref);
+        const moduleRarity = ModuleRarityDB[rarityRef];
+        baseRarityRef = moduleRarity ? parseRef(moduleRarity.rarity_ref) : null;
+      } else {
+        return null;
       }
-      botsMap[part.vbot].rarities.add(part.rarity);
-      botsMap[part.vbot].parts.push(part);
     }
-  }
+    
+    return {
+      id: moduleId,
+      ref: ref,
+      name: name,
+      icon_path: icon_path,
+      rarity: baseRarityRef
+    };
+  };
 
-  // Validate rarities
-  for (const [vbot, data] of Object.entries(botsMap)) {
-    if (data.rarities.size > 1) {
-      throw new Error(`Rarity mismatch for Virtual Bot ${vbot}. Found rarities: ${Array.from(data.rarities).join(', ')}`);
+  const vbotIds = new Set();
+  
+  const enrichRow = (row) => {
+    if (row.botId) vbotIds.add(row.botId);
+    const enrichedCells = {};
+    for (const [col, moduleId] of Object.entries(row.cells || {})) {
+      enrichedCells[col] = enrichModuleId(moduleId);
     }
-  }
+    return { botId: row.botId, cells: enrichedCells };
+  };
 
-  const vbotIdsInDiscount = [...new Set(botParts.map((p) => p.vbot).filter(Boolean))];
-  const vbotMetaById = buildVbotMetaById(vbotIdsInDiscount, databases, parseRef);
+  const enrichedStandardRows = (gridData.standardRows || []).map(enrichRow);
+  const enrichedTitanRows = (gridData.titanRows || []).map(enrichRow);
+
+  const vbotMetaById = buildVbotMetaById(Array.from(vbotIds), databases, parseRef);
 
   return {
     dateRange,
-    items: enrichedDiscounts,
+    gridData: {
+      standardRows: enrichedStandardRows,
+      titanRows: enrichedTitanRows
+    },
     shopCards: ShopCardDB,
     catIcons,
     vbotMetaById,

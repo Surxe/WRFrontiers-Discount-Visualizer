@@ -1,64 +1,59 @@
 ---
 import GridHeader from './GridHeader.astro';
 import DiscountGridRow from './DiscountGridRow.astro';
-import {
-  isTitan,
-  categorize,
-  processBots,
-  getWeaponAndGear,
-  assignWeaponTypeToBots,
-  countStandardRows,
-  countTitanRows,
-} from '../../utils/gridData.js';
 
-const { items, shopCards, catIcons, vbotMetaById = {} } = Astro.props;
+const { gridData, shopCards, catIcons, vbotMetaById = {} } = Astro.props;
 
-const standardItems = items.filter((i) => !isTitan(i));
-const titanItems = items.filter((i) => isTitan(i));
+const standardRows = gridData?.standardRows || [];
+const titanRows = gridData?.titanRows || [];
 
-const standardBots = processBots(standardItems, vbotMetaById);
-const titanBots = titanItems.length > 0 ? processBots(titanItems, vbotMetaById) : [];
-const stdWeapons = getWeaponAndGear(standardItems);
-const titanWeapons = titanItems.length > 0 ? titanItems.filter((i) => categorize(i) === null) : [];
-
-// Assign weapons to their preferred bot rows
-const assignedLightWep = assignWeaponTypeToBots(standardBots, stdWeapons.lightWep);
-const assignedHeavyWep = assignWeaponTypeToBots(standardBots, stdWeapons.heavyWep);
-const assignedSupply = assignWeaponTypeToBots(standardBots, stdWeapons.supply);
-const assignedCycle = assignWeaponTypeToBots(standardBots, stdWeapons.cycle);
-const assignedTitanWeapons = assignWeaponTypeToBots(titanBots, titanWeapons);
-
-const stdRows = countStandardRows(standardBots, stdWeapons);
-const titanRows = countTitanRows(titanBots, titanWeapons);
+// Helper to construct bot object expected by DiscountGridRow
+function buildBot(botId, cells) {
+  if (!botId) return null;
+  const meta = vbotMetaById[botId] || {};
+  const botCell = cells["1"] || {};
+  const primaryModule = cells["2"] || cells["3"] || cells["4"] || {};
+  
+  return {
+    icon_path: botCell.icon_path,
+    name: botCell.name || meta.name,
+    rarity: botCell.rarity || primaryModule.rarity,
+    faction_icon_path: meta.faction_icon_path,
+    class_icon_path: meta.class_icon_path,
+    torso: [cells["2"]],
+    shoulder: [cells["3"]],
+    chassis: [cells["4"]]
+  };
+}
 ---
 
 <div class="grid-scale-host">
 <div class="grid-container" id="discount-grid">
   <GridHeader catIcons={catIcons} />
 
-  {Array.from({ length: stdRows }).map((_, i) => (
+  {standardRows.map((row, i) => (
     <DiscountGridRow
-      bot={standardBots[i]}
-      lightWep={assignedLightWep[i]}
-      heavyWep={assignedHeavyWep[i]}
-      supply={assignedSupply[i]}
-      cycle={assignedCycle[i]}
+      bot={buildBot(row.botId, row.cells)}
+      lightWep={row.cells["5"]}
+      heavyWep={row.cells["6"]}
+      supply={row.cells["7"]}
+      cycle={row.cells["8"]}
       shopCards={shopCards}
       variant="standard"
-      sidebarLabel={i === Math.floor((stdRows - 1) / 2) ? 'Mechs' : null}
+      sidebarLabel={i === Math.floor((standardRows.length - 1) / 2) ? 'Mechs' : null}
     />
   ))}
 
-  {titanItems.length > 0 && titanRows > 0 ? (
+  {titanRows.length > 0 ? (
     <>
-      {Array.from({ length: titanRows }).map((_, i) => (
+      {titanRows.map((row, i) => (
         <DiscountGridRow
-          bot={titanBots[i]}
-          titanWeapon={assignedTitanWeapons[i]}
+          bot={buildBot(row.botId, row.cells)}
+          titanWeapon={row.cells["5"]}
           shopCards={shopCards}
           variant="titan"
-          sidebarLabel={i === 0 ? 'Titans' : null}
-          sectionTopDivider={stdRows > 0 && i === 0}
+          sidebarLabel={i === Math.floor((titanRows.length - 1) / 2) ? 'Titans' : null}
+          sectionTopDivider={standardRows.length > 0 && i === 0}
         />
       ))}
     </>
