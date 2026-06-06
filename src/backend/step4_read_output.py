@@ -84,8 +84,19 @@ def load_discounts() -> list[dict]:
         sys.exit(1)
 
     discount_refs = output_data.get("items", [])
+    if not isinstance(discount_refs, list):
+        print("  [ERROR] 'items' must be a list.")
+        sys.exit(1)
 
-    print(f"  -> Found {len(discount_refs)} ID matches for date range '{date_range}'.")
+    for m_ref in discount_refs:
+        if not isinstance(m_ref, str):
+            print(f"  [ERROR] Invalid item format. Expected string, got {type(m_ref).__name__}: {m_ref}")
+            sys.exit(1)
+        if not (m_ref.startswith("OBJID_VirtualBot::") or m_ref.startswith("OBJID_Module::")):
+            print(f"  [ERROR] Invalid item format. Expected string starting with 'OBJID_VirtualBot::' or 'OBJID_Module::', got: {m_ref}")
+            sys.exit(1)
+
+    print(f"  -> Found {len(discount_refs)} valid ID matches for date range '{date_range}'.")
 
     # Load constant JSONs
     if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists():
