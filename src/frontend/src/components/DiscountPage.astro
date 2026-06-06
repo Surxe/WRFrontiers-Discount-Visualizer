@@ -12,10 +12,10 @@ import { getCurrentOrLatestWeek, getNextWeek } from '../utils/dateValidator.js';
 const { dateRange, items, shopCards, catIcons, weeks, currentSlug } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const weekEntries = /** @type {{date_range: string; file: string; slug: string;}[]} */ (weeks || []);
-const activeWeek = getCurrentOrLatestWeek(weekEntries);
+const mainPageWeek = weekEntries.length > 0 ? weekEntries[0] : null;
 const nextWeek = getNextWeek(weeks, currentSlug);
 const nextWeekHref = nextWeek
-  ? activeWeek && nextWeek.slug === activeWeek.slug
+  ? mainPageWeek && nextWeek.slug === mainPageWeek.slug
     ? baseUrl
     : `${baseUrl}week/${nextWeek.slug}`
   : null;

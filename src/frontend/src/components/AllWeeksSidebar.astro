@@ -3,7 +3,7 @@ import '../styles/all-weeks-sidebar.css';
 import { getCurrentOrLatestWeek } from '../utils/dateValidator.js';
 
 const { weeks, currentSlug, baseUrl, nextWeek, nextWeekHref } = Astro.props;
-const activeWeek = getCurrentOrLatestWeek(weeks);
+const mainPageWeek = weeks && weeks.length > 0 ? weeks[0] : null;
 ---
 
 <div class="layout-container" id="layout-container">
@@ -34,9 +34,9 @@ const activeWeek = getCurrentOrLatestWeek(weeks);
           if (currentSlug) {
             isActive = week.slug === currentSlug;
           } else {
-            isActive = activeWeek ? week.slug === activeWeek.slug : false;
+            isActive = mainPageWeek ? week.slug === mainPageWeek.slug : false;
           }
-          const isMainPageWeek = activeWeek && week.slug === activeWeek.slug;
+          const isMainPageWeek = mainPageWeek && week.slug === mainPageWeek.slug;
           const href = isMainPageWeek ? baseUrl : `${baseUrl}week/${week.slug}`;
 
           return (
