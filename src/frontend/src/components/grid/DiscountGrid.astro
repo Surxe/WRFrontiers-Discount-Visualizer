@@ -50,6 +50,7 @@ function buildBot(botId, cells) {
         <DiscountGridRow
           bot={buildBot(row.botId, row.cells)}
           titanWeapon={row.cells["5"]}
+          titanWeapon2={row.cells["6"]}
           shopCards={shopCards}
           variant="titan"
           sidebarLabel={i === Math.floor((titanRows.length - 1) / 2) ? 'Titans' : null}

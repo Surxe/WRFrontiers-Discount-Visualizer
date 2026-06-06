@@ -42,6 +42,7 @@
       "botId": "norna",
       "cells": {
         "1": "OBJID_VirtualBot::norna",
+        "2": "OBJID_Module::DA_Module_TorsoNorna.0",
         "3": "OBJID_Module::DA_Module_ShoulderLNorna.0",
         "4": "OBJID_Module::DA_Module_ChassisNorna.2",
         "5": "OBJID_Module::DA_Module_Weapon_Coriolis.0"

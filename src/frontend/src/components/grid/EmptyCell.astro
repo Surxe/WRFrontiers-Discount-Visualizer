@@ -1,8 +1,9 @@
 ---
-const { style: inlineStyle } = Astro.props;
+const { style: inlineStyle, span } = Astro.props;
+const spanStyle = span ? `grid-column: span ${span};` : '';
 ---
 
-<div class="empty-cell" style={inlineStyle}></div>
+<div class="empty-cell" style={[spanStyle, inlineStyle].filter(Boolean).join(' ')}></div>
 
 <style>
   .empty-cell {

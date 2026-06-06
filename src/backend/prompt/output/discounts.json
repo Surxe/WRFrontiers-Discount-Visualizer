@@ -1,18 +1,16 @@
 {
-  "date_range": "June 9 - June 16",
+  "date_range": "March 24 - March 31",
   "items": [
-    "OBJID_VirtualBot::griffin",
-    "OBJID_VirtualBot::phantom",
-    "OBJID_VirtualBot::cyclops",
-    "OBJID_Module::DA_Module_Weapon_Buckshot.0",
-    "OBJID_Module::DA_Module_Weapon_Toxin.0",
-    "OBJID_Module::DA_Module_Weapon_Twinflare.0",
-    "OBJID_Module::DA_Module_Ability_SmokeWall.1",
-    "OBJID_Module::DA_Module_Ability_Umbrella.1",
-    "OBJID_Module::DA_Module_Ability_BlockingField.1",
-    "OBJID_Module::DA_Module_Ability_MineField.1",
-    "OBJID_Module::DA_Module_Ability_DashBlinkedVisible.1",
-    "OBJID_Module::DA_Module_Ability_Homing.1",
-    "OBJID_Module::DA_Module_Weapon_Scrubber.0"
+    "OBJID_VirtualBot::scorpion",
+    "OBJID_VirtualBot::lancelot",
+    "OBJID_VirtualBot::grim",
+    "OBJID_Module::DA_Module_Weapon_Tusk.0",
+    "OBJID_Module::DA_Module_Weapon_Punisher.0",
+    "OBJID_Module::DA_Module_Weapon_Katzbalger.0",
+    "OBJID_Module::DA_Module_Weapon_Jigsaw.0",
+    "OBJID_Module::DA_Module_Ability_Repulsor.1",
+    "OBJID_Module::DA_Module_Ability_TensionLink.1",
+    "OBJID_Module::DA_Module_Ability_SpeedBoost.1",
+    "OBJID_Module::DA_Module_Ability_CounterAttack.1"
   ]
 }

@@ -13,7 +13,7 @@ COL_HEADER_REPRESENTATIVES = [
 ]
 
 TITAN_SOCKET_MAP = {
-    "titan-torso": "DA_ModuleSocketType_Torso.0",
+    "titan-torsos": "DA_ModuleSocketType_Torso.0",
     "titan-chassis": "DA_ModuleCategory_Chassis.0",
     "titan-shoulder": "DA_ModuleSocketType_ShoulderL.0",
     "titan-weapon": "DA_ModuleSocketType_Weapon.0"
@@ -171,7 +171,7 @@ def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dic
     standard_modules = [m for m in enriched_modules if not m["is_titan"]]
     titan_modules = [m for m in enriched_modules if m["is_titan"]]
     
-    def process_items(items):
+    def process_items(items, is_titan=False):
         # group bots
         bot_parts = [i for i in items if i["col"] in (2, 3, 4)]
         bots_map = {}
@@ -184,23 +184,46 @@ def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dic
         
         bots = list(bots_map.values())
         
-        # separate columns for weapons/gear
-        cols = {5: [], 6: [], 7: [], 8: []}
-        for item in items:
-            c = item["col"]
-            if c in cols:
-                cols[c].append(item)
-                
-        # assign
+        # For titans, spill any second weapon preferred by the same bot into col 6
+        # instead of letting it overflow to a new row.
+        items_by_col = {5: [], 6: [], 7: [], 8: []}
+        if is_titan:
+            # Separate all titan-weapon items
+            weapon_items = [i for i in items if i["col"] == 5]
+            bot_ids = {b["vbot"] for b in bots}
+            col5_used_bots = set()
+            for item in weapon_items:
+                prefs = item.get("preferred_vbot", [])
+                if isinstance(prefs, str):
+                    prefs = [prefs]
+                matched_bot = next((v for v in prefs if v in bot_ids), None)
+                if matched_bot and matched_bot not in col5_used_bots:
+                    items_by_col[5].append(item)
+                    col5_used_bots.add(matched_bot)
+                else:
+                    # Overflow second+ weapon for same bot to col 6
+                    items_by_col[6].append(item)
+            # Non-weapon cols stay as-is
+            for item in items:
+                c = item["col"]
+                if c in (7, 8):
+                    items_by_col[c].append(item)
+        else:
+            for item in items:
+                c = item["col"]
+                if c in items_by_col:
+                    items_by_col[c].append(item)
+                    
+        # assign each column
         assignments = {}
-        for c, list_items in cols.items():
+        for c, list_items in items_by_col.items():
             if list_items:
                 assignments[c] = assign_items_to_bots(bots, list_items)
             else:
                 assignments[c] = []
                 
         max_rows = len(bots)
-        for c in cols.keys():
+        for c in items_by_col.keys():
             max_rows = max(max_rows, len(assignments[c]))
             
         rows = []
@@ -213,13 +236,13 @@ def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dic
                 if bots[i][2]: row["cells"]["2"] = f"OBJID_Module::{bots[i][2]}"
                 if bots[i][3]: row["cells"]["3"] = f"OBJID_Module::{bots[i][3]}"
                 if bots[i][4]: row["cells"]["4"] = f"OBJID_Module::{bots[i][4]}"
-            for c in cols.keys():
+            for c in items_by_col.keys():
                 if i < len(assignments[c]) and assignments[c][i]:
                     row["cells"][str(c)] = f"OBJID_Module::{assignments[c][i]['id']}"
             rows.append(row)
         return rows
 
     return {
-        "standardRows": process_items(standard_modules),
-        "titanRows": process_items(titan_modules)
+        "standardRows": process_items(standard_modules, is_titan=False),
+        "titanRows": process_items(titan_modules, is_titan=True)
     }
