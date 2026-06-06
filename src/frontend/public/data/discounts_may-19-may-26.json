@@ -1,0 +1,61 @@
+{
+  "date_range": "May 19 - May 26",
+  "items": [
+    {
+      "id": "DA_Module_ChassisHeike.2",
+      "name": "Heike"
+    },
+    {
+      "id": "DA_Module_TorsoHeike.1",
+      "name": "Heike"
+    },
+    {
+      "id": "DA_Module_ShoulderHeike.0",
+      "name": "Heike"
+    },
+    {
+      "id": "DA_Module_ChassisOrochi.2",
+      "name": "Orochi"
+    },
+    {
+      "id": "DA_Module_TorsoOrochi.1",
+      "name": "Orochi"
+    },
+    {
+      "id": "DA_Module_ShoulderOrochi.0",
+      "name": "Orochi"
+    },
+    {
+      "id": "DA_Module_Weapon_Slugger.0",
+      "name": "Slugger"
+    },
+    {
+      "id": "DA_Module_Weapon_Thunder.0",
+      "name": "Thunder"
+    },
+    {
+      "id": "DA_Module_Weapon_Zeus.0",
+      "name": "Zeus"
+    },
+    {
+      "id": "DA_Module_Weapon_Gimcoil.0",
+      "name": "Apollo"
+    },
+    {
+      "id": "DA_Module_Ability_TensionLink.1",
+      "name": "Gamma Beam"
+    },
+    {
+      "id": "DA_Module_Ability_Spotlight.1",
+      "name": "Recon Mode"
+    },
+    {
+      "id": "DA_Module_Ability_GhostTurret.1",
+      "name": "Ghost Turret"
+    },
+    {
+      "id": "DA_Module_Ability_BlastWave.1",
+      "name": "Blast Wave"
+    }
+  ]
+}

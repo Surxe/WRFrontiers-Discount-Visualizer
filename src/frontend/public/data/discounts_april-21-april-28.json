@@ -1,0 +1,77 @@
+{
+  "date_range": "April 21 - April 28",
+  "items": [
+    {
+      "id": "DA_Module_ChassisRavana.2",
+      "name": "Ravana"
+    },
+    {
+      "id": "DA_Module_TorsoRavana.1",
+      "name": "Ravana"
+    },
+    {
+      "id": "DA_Module_ShoulderRavana.0",
+      "name": "Ravana"
+    },
+    {
+      "id": "DA_Module_ChassisAnansi.2",
+      "name": "Anansi"
+    },
+    {
+      "id": "DA_Module_TorsoAnansi.1",
+      "name": "Anansi"
+    },
+    {
+      "id": "DA_Module_ShoulderAnansi.0",
+      "name": "Anansi"
+    },
+    {
+      "id": "DA_Module_ChassisKumo.2",
+      "name": "Kumo"
+    },
+    {
+      "id": "DA_Module_TorsoKumo.1",
+      "name": "Kumo"
+    },
+    {
+      "id": "DA_Module_ShoulderKumo.0",
+      "name": "Kumo"
+    },
+    {
+      "id": "DA_Module_Weapon_StickyGun.0",
+      "name": "Magneto"
+    },
+    {
+      "id": "DA_Module_Weapon_MLx2.0",
+      "name": "MLx2"
+    },
+    {
+      "id": "DA_Module_Weapon_Horde.0",
+      "name": "Horde"
+    },
+    {
+      "id": "DA_Module_Weapon_Conflux.0",
+      "name": "Conflux"
+    },
+    {
+      "id": "DA_Module_Ability_SpeedBoost.1",
+      "name": "Sprint Reactor"
+    },
+    {
+      "id": "DA_Module_Ability_RegenerationFull.1",
+      "name": "Nanite Repair"
+    },
+    {
+      "id": "DA_Module_Ability_Atrophy.1",
+      "name": "Suppressor"
+    },
+    {
+      "id": "DA_Module_Ability_Dazzle.1",
+      "name": "Flashbang"
+    },
+    {
+      "id": "DA_Module_Ability_TensionLink.1",
+      "name": "Gamma Beam"
+    }
+  ]
+}
