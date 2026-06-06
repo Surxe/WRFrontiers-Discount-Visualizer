@@ -11,10 +11,13 @@ const titanRows = gridData?.titanRows || [];
 function buildBot(botId, cells) {
   if (!botId) return null;
   const meta = vbotMetaById[botId] || {};
+  const botCell = cells["1"] || {};
+  const primaryModule = cells["2"] || cells["3"] || cells["4"] || {};
+  
   return {
-    icon_path: meta.icon_path,
-    name: meta.name,
-    rarity: meta.rarity,
+    icon_path: botCell.icon_path,
+    name: botCell.name || meta.name,
+    rarity: botCell.rarity || primaryModule.rarity,
     faction_icon_path: meta.faction_icon_path,
     class_icon_path: meta.class_icon_path,
     torso: [cells["2"]],
