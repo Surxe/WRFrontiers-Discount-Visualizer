@@ -29,24 +29,45 @@ const mainPageWeek = weeks && weeks.length > 0 ? weeks[0] : null;
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-content">
       <ul class="week-list">
-        {weeks && weeks.map((week) => {
-          let isActive = false;
-          if (currentSlug) {
-            isActive = week.slug === currentSlug;
-          } else {
-            isActive = mainPageWeek ? week.slug === mainPageWeek.slug : false;
-          }
-          const isMainPageWeek = mainPageWeek && week.slug === mainPageWeek.slug;
-          const href = isMainPageWeek ? baseUrl : `${baseUrl}week/${week.slug}`;
+        {(() => {
+          const groupedWeeks = {};
+          (weeks || []).forEach(week => {
+            const match = week.date_range.match(/\b(\d{4})\b/);
+            const year = match ? match[1] : new Date().getFullYear().toString();
+            if (!groupedWeeks[year]) groupedWeeks[year] = [];
+            
+            const displayLabel = week.date_range.replace(/,?\s*\b\d{4}\b/g, '').trim();
+            groupedWeeks[year].push({ ...week, displayLabel });
+          });
+          
+          const sortedYears = Object.keys(groupedWeeks).sort((a, b) => b - a);
+          
+          return sortedYears.map(year => (
+            <li class="year-group">
+              <div class="year-label">{year}</div>
+              <ul class="year-weeks">
+                {groupedWeeks[year].map(week => {
+                  let isActive = false;
+                  if (currentSlug) {
+                    isActive = week.slug === currentSlug;
+                  } else {
+                    isActive = mainPageWeek ? week.slug === mainPageWeek.slug : false;
+                  }
+                  const isMainPageWeek = mainPageWeek && week.slug === mainPageWeek.slug;
+                  const href = isMainPageWeek ? baseUrl : `${baseUrl}week/${week.slug}`;
 
-          return (
-            <li>
-              <a href={href} class={`week-link ${isActive ? 'active' : ''}`}>
-                <span class="week-link__label">{week.date_range}</span>
-              </a>
+                  return (
+                    <li>
+                      <a href={href} class={`week-link ${isActive ? 'active' : ''}`}>
+                        <span class="week-link__label">{week.displayLabel}</span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
             </li>
-          );
-        })}
+          ));
+        })()}
       </ul>
     </div>
   </aside>

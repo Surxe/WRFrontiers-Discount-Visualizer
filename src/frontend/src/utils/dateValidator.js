@@ -4,13 +4,22 @@ export function parseDateRange(dateRangeStr) {
   const currentYear = new Date().getFullYear();
   const cleaned = dateRangeStr.replace(/\s+/g, ' ').trim();
   
-  let year = currentYear;
-  const yearMatch = cleaned.match(/,\s*(\d{4})/);
-  if (yearMatch) {
-    year = parseInt(yearMatch[1], 10);
+  // Find all 4-digit years
+  const yearMatches = cleaned.match(/\b(\d{4})\b/g);
+  let startYear = currentYear;
+  let endYear = currentYear;
+  
+  if (yearMatches) {
+    if (yearMatches.length === 1) {
+      startYear = parseInt(yearMatches[0], 10);
+      endYear = startYear;
+    } else {
+      startYear = parseInt(yearMatches[0], 10);
+      endYear = parseInt(yearMatches[yearMatches.length - 1], 10);
+    }
   }
   
-  const withoutYear = cleaned.replace(/,\s*\d{4}/, '');
+  const withoutYear = cleaned.replace(/,?\s*\b\d{4}\b/g, '');
   const parts = withoutYear.split('-');
   if (parts.length !== 2) return null;
   
@@ -50,11 +59,13 @@ export function parseDateRange(dateRangeStr) {
   const startMonth = getMonthIndex(startMonthStr);
   const endMonth = getMonthIndex(endMonthStr);
   
-  const startDate = new Date(year, startMonth, startDay, 0, 0, 0);
-  let endDate = new Date(year, endMonth, endDay, 23, 59, 59);
+  const startDate = new Date(startYear, startMonth, startDay, 0, 0, 0);
+  let endDate = new Date(endYear, endMonth, endDay, 23, 59, 59);
   
-  if (endMonth < startMonth && !yearMatch) {
-    endDate = new Date(year + 1, endMonth, endDay, 23, 59, 59);
+  if (endDate < startDate) {
+    if (!yearMatches || yearMatches.length < 2) {
+      endDate = new Date(endYear + 1, endMonth, endDay, 23, 59, 59);
+    }
   }
   
   return { start: startDate, end: endDate };

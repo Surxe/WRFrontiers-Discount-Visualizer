@@ -14,7 +14,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: 9rem;
+  width: 10rem;
   background-color: var(--sidebar-bg);
   border-right: 1px solid var(--sidebar-border);
   z-index: 100;
@@ -90,10 +90,32 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 1rem;
+}
+
+.year-group {
+  width: 100%;
+}
+
+.year-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.year-weeks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
   gap: 0.35rem;
 }
 
-.week-list li {
+.year-weeks li {
   max-width: 100%;
 }
 

@@ -1,64 +1,64 @@
 {
   "weeks": [
     {
-      "date_range": "June 9 - June 16",
-      "file": "week_grids/grid_june-9-june-16.json",
-      "slug": "june-9-june-16"
+      "date_range": "June 9, 2026 - June 16, 2026",
+      "file": "week_grids/grid_june-9-2026-june-16-2026.json",
+      "slug": "june-9-2026-june-16-2026"
     },
     {
-      "date_range": "June 2 - June 9",
-      "file": "week_grids/grid_june-2-june-9.json",
-      "slug": "june-2-june-9"
+      "date_range": "June 2, 2026 - June 9, 2026",
+      "file": "week_grids/grid_june-2-2026-june-9-2026.json",
+      "slug": "june-2-2026-june-9-2026"
     },
     {
-      "date_range": "May 26 - June 2",
-      "file": "week_grids/grid_may-26-june-2.json",
-      "slug": "may-26-june-2"
+      "date_range": "May 26, 2026 - June 2, 2026",
+      "file": "week_grids/grid_may-26-2026-june-2-2026.json",
+      "slug": "may-26-2026-june-2-2026"
     },
     {
-      "date_range": "May 19 - May 26",
-      "file": "week_grids/grid_may-19-may-26.json",
-      "slug": "may-19-may-26"
+      "date_range": "May 19, 2026 - May 26, 2026",
+      "file": "week_grids/grid_may-19-2026-may-26-2026.json",
+      "slug": "may-19-2026-may-26-2026"
     },
     {
-      "date_range": "May 12 - May 19",
-      "file": "week_grids/grid_may-12-may-19.json",
-      "slug": "may-12-may-19"
+      "date_range": "May 12, 2026 - May 19, 2026",
+      "file": "week_grids/grid_may-12-2026-may-19-2026.json",
+      "slug": "may-12-2026-may-19-2026"
     },
     {
-      "date_range": "May 5 - May 12",
-      "file": "week_grids/grid_may-5-may-12.json",
-      "slug": "may-5-may-12"
+      "date_range": "May 5, 2026 - May 12, 2026",
+      "file": "week_grids/grid_may-5-2026-may-12-2026.json",
+      "slug": "may-5-2026-may-12-2026"
     },
     {
-      "date_range": "April 28 - May 5",
-      "file": "week_grids/grid_april-28-may-5.json",
-      "slug": "april-28-may-5"
+      "date_range": "April 28, 2026 - May 5, 2026",
+      "file": "week_grids/grid_april-28-2026-may-5-2026.json",
+      "slug": "april-28-2026-may-5-2026"
     },
     {
-      "date_range": "April 21 - April 28",
-      "file": "week_grids/grid_april-21-april-28.json",
-      "slug": "april-21-april-28"
+      "date_range": "April 21, 2026 - April 28, 2026",
+      "file": "week_grids/grid_april-21-2026-april-28-2026.json",
+      "slug": "april-21-2026-april-28-2026"
     },
     {
-      "date_range": "April 14 - April 21",
-      "file": "week_grids/grid_april-14-april-21.json",
-      "slug": "april-14-april-21"
+      "date_range": "April 14, 2026 - April 21, 2026",
+      "file": "week_grids/grid_april-14-2026-april-21-2026.json",
+      "slug": "april-14-2026-april-21-2026"
     },
     {
-      "date_range": "April 7 - April 14",
-      "file": "week_grids/grid_april-7-april-14.json",
-      "slug": "april-7-april-14"
+      "date_range": "April 7, 2026 - April 14, 2026",
+      "file": "week_grids/grid_april-7-2026-april-14-2026.json",
+      "slug": "april-7-2026-april-14-2026"
     },
     {
-      "date_range": "March 31 - April 7",
-      "file": "week_grids/grid_march-31-april-7.json",
-      "slug": "march-31-april-7"
+      "date_range": "March 31, 2026 - April 7, 2026",
+      "file": "week_grids/grid_march-31-2026-april-7-2026.json",
+      "slug": "march-31-2026-april-7-2026"
     },
     {
-      "date_range": "March 24 - March 31",
-      "file": "week_grids/grid_march-24-march-31.json",
-      "slug": "march-24-march-31"
+      "date_range": "March 24, 2026 - March 31, 2026",
+      "file": "week_grids/grid_march-24-2026-march-31-2026.json",
+      "slug": "march-24-2026-march-31-2026"
     }
   ]
 }

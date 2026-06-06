@@ -50,6 +50,7 @@ def run():
     print()
 
     WEEK_GRIDS_DIR.mkdir(parents=True, exist_ok=True)
+    manifest_entries = []
 
     for f in discount_files:
         data = json.load(open(f, encoding="utf-8"))
@@ -70,6 +71,32 @@ def run():
         std = len(grid_data.get("standardRows", []))
         titan = len(grid_data.get("titanRows", []))
         print(f"  {slug}: {std} standard row(s), {titan} titan row(s) -> {out.name}")
+        
+        manifest_entries.append({
+            "date_range": date_range,
+            "file": f"week_grids/{out.name}",
+            "slug": slug
+        })
+
+    def get_sort_key(week_entry):
+        dr = week_entry.get("date_range", "")
+        months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+        import re
+        match = re.search(r'([A-Za-z]+)\s+(\d+)(?:,?\s*(\d{4}))?', dr)
+        if match:
+            m_name, d_val, y_val = match.groups()
+            try:
+                m_idx = months.index(m_name.lower()[:3])
+                year = int(y_val) if y_val else 0
+                return (year, m_idx, int(d_val))
+            except ValueError:
+                pass
+        return (0, 0, 0)
+        
+    manifest_entries.sort(key=get_sort_key, reverse=True)
+    with open(FRONTEND_DATA_DIR / "weeks.json", "w", encoding="utf-8") as f:
+        json.dump({"weeks": manifest_entries}, f, indent=2, ensure_ascii=False)
+    print(f"  -> Rebuilt weeks.json manifest")
 
     print()
     print(f"Done. Regenerated {len(discount_files)} grid(s).")
