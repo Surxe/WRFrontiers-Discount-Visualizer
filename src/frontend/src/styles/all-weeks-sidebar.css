@@ -102,7 +102,7 @@
   font-weight: 700;
   color: var(--text-muted);
   margin-bottom: 0.35rem;
-  padding-left: 0.25rem;
+  text-align: center;
   letter-spacing: 0.5px;
 }
 
