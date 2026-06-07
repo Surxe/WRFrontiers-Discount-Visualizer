@@ -75,6 +75,26 @@ export function normalizeWeek(value) {
     };
   }
 
+  const hasStructuredFields = [
+    'start_year',
+    'start_month',
+    'start_day',
+    'end_year',
+    'end_month',
+    'end_day',
+  ].every((key) => week[key] !== undefined && week[key] !== null);
+
+  if (hasStructuredFields) {
+    return {
+      start_year: Number(week.start_year),
+      start_month: monthNumber(week.start_month),
+      start_day: Number(week.start_day),
+      end_year: Number(week.end_year),
+      end_month: monthNumber(week.end_month),
+      end_day: Number(week.end_day),
+    };
+  }
+
   const dateRange = value.date_range || value.dateRange;
   if (!dateRange) return null;
 
