@@ -1,6 +1,7 @@
 ---
 import '../styles/all-weeks-sidebar.css';
 import { getCurrentOrLatestWeek } from '../utils/dateValidator.js';
+import { formatWeek, weekYear } from '../utils/weekDates.js';
 
 const { weeks, currentSlug, baseUrl, nextWeek, nextWeekHref } = Astro.props;
 const mainPageWeek = weeks && weeks.length > 0 ? weeks[0] : null;
@@ -35,11 +36,10 @@ const mainPageWeek = weeks && weeks.length > 0 ? weeks[0] : null;
         {(() => {
           const groupedWeeks = {};
           (weeks || []).forEach(week => {
-            const match = week.date_range.match(/\b(\d{4})\b/);
-            const year = match ? match[1] : new Date().getFullYear().toString();
+            const year = weekYear(week);
             if (!groupedWeeks[year]) groupedWeeks[year] = [];
             
-            const displayLabel = week.date_range.replace(/,?\s*\b\d{4}\b/g, '').trim();
+            const displayLabel = formatWeek(week, 'short');
             groupedWeeks[year].push({ ...week, displayLabel });
           });
           

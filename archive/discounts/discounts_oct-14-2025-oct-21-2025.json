@@ -97,5 +97,13 @@
       "id": "DA_Module_Ability_DashBlinkedVisible.1",
       "name": "Blink"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2025,
+    "start_month": 10,
+    "start_day": 14,
+    "end_year": 2025,
+    "end_month": 10,
+    "end_day": 21
+  }
 }

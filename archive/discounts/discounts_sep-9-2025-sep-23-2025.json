@@ -97,5 +97,13 @@
       "id": "DA_Module_Ability_RegenerationFull.1",
       "name": "Nanite Repair"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2025,
+    "start_month": 9,
+    "start_day": 9,
+    "end_year": 2025,
+    "end_month": 9,
+    "end_day": 23
+  }
 }

@@ -1,0 +1,62 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 5,
+    "start_day": 12,
+    "end_year": 2026,
+    "end_month": 5,
+    "end_day": 19
+  },
+  "grid": {
+    "standardRows": [
+      {
+        "botId": "fenrir",
+        "cells": {
+          "1": "OBJID_VirtualBot::fenrir",
+          "2": "OBJID_Module::DA_Module_TorsoFenrir.1",
+          "3": "OBJID_Module::DA_Module_ShoulderFenrir.0",
+          "4": "OBJID_Module::DA_Module_ChassisFenrir.2",
+          "6": "OBJID_Module::DA_Module_Weapon_Fowler.0",
+          "7": "OBJID_Module::DA_Module_Ability_Regeneration.1",
+          "8": "OBJID_Module::DA_Module_Ability_CounterAttack.1"
+        }
+      },
+      {
+        "botId": "mesa",
+        "cells": {
+          "1": "OBJID_VirtualBot::mesa",
+          "2": "OBJID_Module::DA_Module_TorsoMesa.1",
+          "3": "OBJID_Module::DA_Module_ShoulderMesa.0",
+          "4": "OBJID_Module::DA_Module_ChassisMesa.2",
+          "5": "OBJID_Module::DA_Module_Weapon_Locust.0",
+          "7": "OBJID_Module::DA_Module_Ability_AmmoGenerator.1",
+          "8": "OBJID_Module::DA_Module_Ability_TensionLink.1"
+        }
+      },
+      {
+        "botId": "purifier",
+        "cells": {
+          "1": "OBJID_VirtualBot::purifier",
+          "2": "OBJID_Module::DA_Module_TorsoInquisitor.1",
+          "3": "OBJID_Module::DA_Module_ShoulderInquisitor.0",
+          "4": "OBJID_Module::DA_Module_ChassisInquisitor.2",
+          "6": "OBJID_Module::DA_Module_Weapon_Incinerator.0",
+          "7": "OBJID_Module::DA_Module_Ability_FuelReserve.1",
+          "8": "OBJID_Module::DA_Module_Ability_CounterAttack.1"
+        }
+      }
+    ],
+    "titanRows": [
+      {
+        "botId": "matriarch",
+        "cells": {
+          "1": "OBJID_VirtualBot::matriarch",
+          "2": "OBJID_Module::DA_Module_TorsoMatriarch.0",
+          "3": "OBJID_Module::DA_Module_ShoulderLMatriarch.0",
+          "4": "OBJID_Module::DA_Module_ChassisMatriarch.1",
+          "5": "OBJID_Module::DA_Module_Weapon_Hive.0"
+        }
+      }
+    ]
+  }
+}

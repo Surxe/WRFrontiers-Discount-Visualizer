@@ -1,0 +1,89 @@
+{
+  "date_range": "June 2 - 9 (2026)",
+  "items": [
+    {
+      "id": "DA_Module_ChassisScorpion.2",
+      "name": "Scorpion"
+    },
+    {
+      "id": "DA_Module_TorsoScorpion.1",
+      "name": "Scorpion"
+    },
+    {
+      "id": "DA_Module_ShoulderScorpion.0",
+      "name": "Scorpion"
+    },
+    {
+      "id": "DA_Module_ChassisLancelot.2",
+      "name": "Lancelot"
+    },
+    {
+      "id": "DA_Module_TorsoLancelot.1",
+      "name": "Lancelot"
+    },
+    {
+      "id": "DA_Module_ShoulderLancelot.0",
+      "name": "Lancelot"
+    },
+    {
+      "id": "DA_Module_ChassisRaven.2",
+      "name": "Raven"
+    },
+    {
+      "id": "DA_Module_TorsoRaven.1",
+      "name": "Raven"
+    },
+    {
+      "id": "DA_Module_ShoulderRaven.0",
+      "name": "Raven"
+    },
+    {
+      "id": "DA_Module_Weapon_Cascade.0",
+      "name": "Cascade"
+    },
+    {
+      "id": "DA_Module_Weapon_Gozer.0",
+      "name": "Gozer"
+    },
+    {
+      "id": "DA_Module_Weapon_Punisher.0",
+      "name": "Punisher"
+    },
+    {
+      "id": "DA_Module_Weapon_Tusk.0",
+      "name": "Tusk"
+    },
+    {
+      "id": "DA_Module_Ability_BlastWave.1",
+      "name": "Blast Wave"
+    },
+    {
+      "id": "DA_Module_Ability_CounterAttack.1",
+      "name": "Reflector"
+    },
+    {
+      "id": "DA_Module_Ability_InfiniteAmmo.1",
+      "name": "Infinite Ammo"
+    },
+    {
+      "id": "DA_Module_Ability_Repulsor.1",
+      "name": "Repulsor"
+    },
+    {
+      "id": "DA_Module_Ability_SpeedBoost.1",
+      "name": "Sprint Reactor"
+    },
+    {
+      "id": "DA_Module_Ability_TensionLink.1",
+      "name": "Gamma Beam"
+    }
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 6,
+    "start_day": 2,
+    "end_year": 2026,
+    "end_month": 6,
+    "end_day": 9
+  }
+}

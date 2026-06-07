@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { getCurrentOrLatestWeek } from './dateValidator.js';
+import { formatWeek } from './weekDates.js';
 import { buildVbotMetaById } from './vbotMeta.js';
 
 const parseRef = (ref) => {
@@ -55,17 +56,31 @@ export function fetchEnrichedDiscounts(filename = null) {
   }
   
   if (!targetWeek) {
-    return { dateRange: "", gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
+    return { dateRange: "", week: null, gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
   }
 
   const slug = targetWeek.slug;
-  const dateRange = targetWeek.date_range || "";
+  const week = targetWeek.week || null;
+  const dateRange = formatWeek(targetWeek, 'long') || targetWeek.date_range || "";
   
-  const gridData = readJson(targetWeek.file, frontendDataDir);
+  const gridFileData = readJson(targetWeek.file, frontendDataDir);
   const columnsList = readJson('columns.json', frontendDataDir) || [];
-  
+
+  // Handle new grid format with week data embedded
+  let gridData;
+  let weekFromGrid = null;
+  if (gridFileData && gridFileData.grid && gridFileData.week) {
+    gridData = gridFileData.grid;
+    weekFromGrid = gridFileData.week;
+  } else {
+    gridData = gridFileData;
+  }
+
+  // Use week data from grid file if available, otherwise fall back to manifest
+  const finalWeek = weekFromGrid || week;
+
   if (!gridData || (!gridData.standardRows && !gridData.titanRows)) {
-    return { dateRange, gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
+    return { dateRange, week: finalWeek, gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
   }
 
   const ModuleDB = readJson('Module.json');
@@ -159,6 +174,7 @@ export function fetchEnrichedDiscounts(filename = null) {
 
   return {
     dateRange,
+    week: finalWeek,
     gridData: {
       standardRows: enrichedStandardRows,
       titanRows: enrichedTitanRows

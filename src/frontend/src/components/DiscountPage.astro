@@ -9,10 +9,11 @@ import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 import { getCurrentOrLatestWeek, getNextWeek, getPreviousWeek } from '../utils/dateValidator.js';
+import { formatWeek } from '../utils/weekDates.js';
 
 const { dateRange, gridData, shopCards, catIcons, weeks, currentSlug, vbotMetaById } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
-const weekEntries = /** @type {{date_range: string; file: string; slug: string;}[]} */ (weeks || []);
+const weekEntries = /** @type {{week?: object; date_range?: string; file: string; slug: string;}[]} */ (weeks || []);
 const mainPageWeek = weekEntries.length > 0 ? weekEntries[0] : null;
 const nextWeek = getNextWeek(weeks, currentSlug);
 const nextWeekHref = nextWeek
@@ -63,7 +64,7 @@ if (weekEntries.length > 1) {
     const secondWeekData = fetchEnrichedDiscounts(secondWeek.file);
     secondWeekSummary = {
       ...summarizeGrid(secondWeekData.gridData, secondWeekData.vbotMetaById),
-      dateRange: secondWeekData.dateRange || secondWeek.date_range || '',
+      dateRange: secondWeekData.dateRange || formatWeek(secondWeek, 'long') || secondWeek.date_range || '',
     };
   }
 }

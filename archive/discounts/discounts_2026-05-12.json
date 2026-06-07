@@ -1,0 +1,101 @@
+{
+  "date_range": "May 12 - 19 (2026)",
+  "items": [
+    {
+      "id": "DA_Module_ChassisFenrir.2",
+      "name": "Fenrir"
+    },
+    {
+      "id": "DA_Module_TorsoFenrir.1",
+      "name": "Fenrir"
+    },
+    {
+      "id": "DA_Module_ShoulderFenrir.0",
+      "name": "Fenrir"
+    },
+    {
+      "id": "DA_Module_ChassisMesa.2",
+      "name": "Mesa"
+    },
+    {
+      "id": "DA_Module_TorsoMesa.1",
+      "name": "Mesa"
+    },
+    {
+      "id": "DA_Module_ShoulderMesa.0",
+      "name": "Mesa"
+    },
+    {
+      "id": "DA_Module_ChassisInquisitor.2",
+      "name": "Purifier"
+    },
+    {
+      "id": "DA_Module_TorsoInquisitor.1",
+      "name": "Purifier"
+    },
+    {
+      "id": "DA_Module_ShoulderInquisitor.0",
+      "name": "Purifier"
+    },
+    {
+      "id": "DA_Module_ChassisMatriarch.1",
+      "name": "Matriarch"
+    },
+    {
+      "id": "DA_Module_TorsoMatriarch.0",
+      "name": "Matriarch"
+    },
+    {
+      "id": "DA_Module_ShoulderLMatriarch.0",
+      "name": "Matriarch"
+    },
+    {
+      "id": "DA_Module_ShoulderRMatriarch.0",
+      "name": "Matriarch"
+    },
+    {
+      "id": "DA_Module_Weapon_Fowler.0",
+      "name": "Fowler"
+    },
+    {
+      "id": "DA_Module_Weapon_Incinerator.0",
+      "name": "Incinerator"
+    },
+    {
+      "id": "DA_Module_Weapon_Locust.0",
+      "name": "Locust"
+    },
+    {
+      "id": "DA_Module_Weapon_Hive.0",
+      "name": "Hive"
+    },
+    {
+      "id": "DA_Module_Ability_AmmoGenerator.1",
+      "name": "Ammo Fabricator"
+    },
+    {
+      "id": "DA_Module_Ability_CounterAttack.1",
+      "name": "Reflector"
+    },
+    {
+      "id": "DA_Module_Ability_FuelReserve.1",
+      "name": "Fuel Reserve"
+    },
+    {
+      "id": "DA_Module_Ability_Regeneration.1",
+      "name": "Quick Repair"
+    },
+    {
+      "id": "DA_Module_Ability_TensionLink.1",
+      "name": "Gamma Beam"
+    }
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 5,
+    "start_day": 12,
+    "end_year": 2026,
+    "end_month": 5,
+    "end_day": 19
+  }
+}

@@ -7,6 +7,7 @@ Step 3: Call the Gemini CLI with access to prompt/ directory to map items.
 import sys
 import shutil
 import subprocess
+from datetime import datetime
 from config import PROMPT_DIR, OUTPUT_DIR, DISCOUNTS_OUTPUT
 
 def call_gemini_cli(target_date_range: str | None = None):
@@ -19,10 +20,14 @@ def call_gemini_cli(target_date_range: str | None = None):
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # Build the prompt message that references the files
+    current_year = datetime.now().year
+
     prompt_message = (
         "Follow the instructions at prompt.md in src/backend/prompt/. "
         "Read scraped_news_page.txt and game_data.json from the current directory, "
-        "and output the resulting JSON directly to stdout without using file editing tools."
+        "and output the resulting JSON directly to stdout without using file editing tools. "
+        f"The current year for date normalization is {current_year}. "
+        "If a discount range starts in December and ends in January, use the following year for the end date."
     )
     if target_date_range:
         prompt_message += (

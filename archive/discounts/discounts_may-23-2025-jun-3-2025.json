@@ -49,5 +49,13 @@
       "id": "DA_Module_Ability_MineField.1",
       "name": "Minefield"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2025,
+    "start_month": 5,
+    "start_day": 23,
+    "end_year": 2025,
+    "end_month": 6,
+    "end_day": 3
+  }
 }

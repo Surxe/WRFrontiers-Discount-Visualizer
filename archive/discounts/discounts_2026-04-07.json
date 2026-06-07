@@ -1,0 +1,89 @@
+{
+  "date_range": "April 7 - 14 (2026)",
+  "items": [
+    {
+      "id": "DA_Module_ChassisGriffin.2",
+      "name": "Griffin"
+    },
+    {
+      "id": "DA_Module_TorsoGriffin.1",
+      "name": "Griffin"
+    },
+    {
+      "id": "DA_Module_ShoulderGriffin.0",
+      "name": "Griffin"
+    },
+    {
+      "id": "DA_Module_ChassisKernel.2",
+      "name": "Decker"
+    },
+    {
+      "id": "DA_Module_TorsoKernel.1",
+      "name": "Decker"
+    },
+    {
+      "id": "DA_Module_ShoulderKernel.0",
+      "name": "Decker"
+    },
+    {
+      "id": "DA_Module_ChassisDemeter.2",
+      "name": "Ceres"
+    },
+    {
+      "id": "DA_Module_TorsoDemeter.1",
+      "name": "Ceres"
+    },
+    {
+      "id": "DA_Module_ShoulderDemeter.0",
+      "name": "Ceres"
+    },
+    {
+      "id": "DA_Module_Weapon_Buckshot.0",
+      "name": "Quantum"
+    },
+    {
+      "id": "DA_Module_Weapon_Hefty.0",
+      "name": "Hefty"
+    },
+    {
+      "id": "DA_Module_Weapon_Bisector.0",
+      "name": "Bisector"
+    },
+    {
+      "id": "DA_Module_Weapon_Zenit.0",
+      "name": "Zenit"
+    },
+    {
+      "id": "DA_Module_Ability_SmokeWall.1",
+      "name": "Holofield"
+    },
+    {
+      "id": "DA_Module_Ability_Umbrella.1",
+      "name": "Umbrella"
+    },
+    {
+      "id": "DA_Module_Ability_ArmorShield.1",
+      "name": "Emergency Shield"
+    },
+    {
+      "id": "DA_Module_Ability_SupplySurge.1",
+      "name": "Supply Surge"
+    },
+    {
+      "id": "DA_Module_Ability_GhostTurret.1",
+      "name": "Ghost Turret"
+    },
+    {
+      "id": "DA_Module_Ability_CounterAttack.1",
+      "name": "Reflector"
+    }
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 4,
+    "start_day": 7,
+    "end_year": 2026,
+    "end_month": 4,
+    "end_day": 14
+  }
+}

@@ -22,8 +22,8 @@ from config import (
     VIRTUAL_BOT_JSON,
     MODULE_TYPE_JSON,
     CHARACTER_PRESET_JSON,
-    date_range_to_slug,
 )
+from week_dates import format_week, normalize_week, week_slug, week_sort_key
 import grid_generator
 
 ARCHIVE_DIR = REPO_ROOT / "archive" / "discounts"
@@ -54,9 +54,19 @@ def run():
 
     for f in discount_files:
         data = json.load(open(f, encoding="utf-8"))
-        date_range = data.get("date_range", "")
-        if not date_range:
-            print(f"  [SKIP] {f.name}: no date_range")
+        try:
+            week = normalize_week(data.get("week"))
+        except (ValueError, TypeError):
+            date_range = data.get("date_range", "")
+            if not date_range:
+                print(f"  [SKIP] {f.name}: no week/date_range")
+                continue
+            try:
+                week = normalize_week(date_range)
+            except ValueError:
+                print(f"  [SKIP] {f.name}: could not parse date_range")
+                continue
+        if not week:
             continue
 
         module_ids = [item["id"] for item in data.get("items", []) if item.get("id")]
@@ -64,36 +74,27 @@ def run():
             module_ids, modules_data, module_types_data, virtual_bots_data, presets_data
         )
 
-        slug = date_range_to_slug(date_range)
+        slug = week_slug(week)
         out = WEEK_GRIDS_DIR / f"grid_{slug}.json"
-        json.dump(grid_data, open(out, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+        
+        # Add week data to grid output for frontend consumption
+        grid_data_with_week = {
+            "week": week,
+            "grid": grid_data
+        }
+        json.dump(grid_data_with_week, open(out, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
         std = len(grid_data.get("standardRows", []))
         titan = len(grid_data.get("titanRows", []))
-        print(f"  {slug}: {std} standard row(s), {titan} titan row(s) -> {out.name}")
+        print(f"  {slug}: {format_week(week, 'long')} - {std} standard row(s), {titan} titan row(s) -> {out.name}")
         
         manifest_entries.append({
-            "date_range": date_range,
+            "week": week,
             "file": f"week_grids/{out.name}",
             "slug": slug
         })
 
-    def get_sort_key(week_entry):
-        dr = week_entry.get("date_range", "")
-        months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
-        import re
-        match = re.search(r'([A-Za-z]+)\s+(\d+)(?:,?\s*(\d{4}))?', dr)
-        if match:
-            m_name, d_val, y_val = match.groups()
-            try:
-                m_idx = months.index(m_name.lower()[:3])
-                year = int(y_val) if y_val else 0
-                return (year, m_idx, int(d_val))
-            except ValueError:
-                pass
-        return (0, 0, 0)
-        
-    manifest_entries.sort(key=get_sort_key, reverse=True)
+    manifest_entries.sort(key=lambda entry: week_sort_key(entry.get("week")), reverse=True)
     with open(FRONTEND_DATA_DIR / "weeks.json", "w", encoding="utf-8") as f:
         json.dump({"weeks": manifest_entries}, f, indent=2, ensure_ascii=False)
     print(f"  -> Rebuilt weeks.json manifest")

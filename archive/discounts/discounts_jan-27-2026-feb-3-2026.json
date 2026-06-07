@@ -93,5 +93,13 @@
       "id": "DA_Module_Ability_Grounded.1",
       "name": "Fuel Burn"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 1,
+    "start_day": 27,
+    "end_year": 2026,
+    "end_month": 2,
+    "end_day": 3
+  }
 }

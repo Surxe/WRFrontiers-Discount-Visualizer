@@ -73,5 +73,13 @@
       "id": "DA_Module_Ability_GhostTurret.1",
       "name": "Ghost Turret"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2025,
+    "start_month": 11,
+    "start_day": 11,
+    "end_year": 2025,
+    "end_month": 11,
+    "end_day": 18
+  }
 }

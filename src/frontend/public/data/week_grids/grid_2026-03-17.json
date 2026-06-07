@@ -1,0 +1,52 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 3,
+    "start_day": 17,
+    "end_year": 2026,
+    "end_month": 3,
+    "end_day": 24
+  },
+  "grid": {
+    "standardRows": [
+      {
+        "botId": "hitcher",
+        "cells": {
+          "1": "OBJID_VirtualBot::hitcher",
+          "2": "OBJID_Module::DA_Module_TorsoHitcher.1",
+          "3": "OBJID_Module::DA_Module_ShoulderHitcher.0",
+          "4": "OBJID_Module::DA_Module_ChassisHitcher.2",
+          "6": "OBJID_Module::DA_Module_Weapon_Nucleon.0",
+          "7": "OBJID_Module::DA_Module_Ability_ArmorShield_Tutorial.1",
+          "8": "OBJID_Module::DA_Module_Ability_RegenerationFull.1"
+        }
+      },
+      {
+        "botId": "pursuer",
+        "cells": {
+          "1": "OBJID_VirtualBot::pursuer",
+          "2": "OBJID_Module::DA_Module_TorsoPursuer.1",
+          "3": "OBJID_Module::DA_Module_ShoulderPursuer.0",
+          "4": "OBJID_Module::DA_Module_ChassisPursuer.2",
+          "5": "OBJID_Module::DA_Module_Weapon_Scatter.0",
+          "7": "OBJID_Module::DA_Module_Ability_BlockingField.1",
+          "8": "OBJID_Module::DA_Module_Ability_Spotlight.1"
+        }
+      }
+    ],
+    "titanRows": [
+      {
+        "botId": null,
+        "cells": {
+          "6": "OBJID_Module::DA_Module_Weapon_Bayonet.0"
+        }
+      },
+      {
+        "botId": null,
+        "cells": {
+          "6": "OBJID_Module::DA_Module_Weapon_Scrubber.0"
+        }
+      }
+    ]
+  }
+}

@@ -141,5 +141,13 @@
       "id": "DA_Module_Ability_InfiniteAmmo_Tutorial.1",
       "name": "Infinite Ammo"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 3,
+    "start_day": 3,
+    "end_year": 2026,
+    "end_month": 3,
+    "end_day": 10
+  }
 }

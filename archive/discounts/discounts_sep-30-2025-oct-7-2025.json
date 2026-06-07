@@ -89,5 +89,13 @@
       "id": "DA_Module_Ability_CounterAttack.1",
       "name": "Reflector"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2025,
+    "start_month": 9,
+    "start_day": 30,
+    "end_year": 2025,
+    "end_month": 10,
+    "end_day": 7
+  }
 }

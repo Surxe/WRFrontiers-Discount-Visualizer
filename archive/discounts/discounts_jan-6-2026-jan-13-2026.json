@@ -73,5 +73,13 @@
       "id": "DA_Module_Ability_Atrophy.1",
       "name": "Suppressor"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 1,
+    "start_day": 6,
+    "end_year": 2026,
+    "end_month": 1,
+    "end_day": 13
+  }
 }
