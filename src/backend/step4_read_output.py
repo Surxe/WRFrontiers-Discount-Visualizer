@@ -80,19 +80,16 @@ def load_discounts() -> list[dict]:
         print("  [ERROR] Output is not a JSON object containing 'items'.")
         sys.exit(1)
 
+    week = output_data.get("week")
+    if not week:
+        print("  [ERROR] Output 'week' field is missing.")
+        sys.exit(1)
 
     try:
-        week = normalize_week(output_data.get("week") or output_data)
-    except ValueError:
-        date_range = output_data.get("date_range", "")
-        if not date_range:
-            print("  [ERROR] Output week/date_range is empty or missing.")
-            sys.exit(1)
-        try:
-            week = normalize_week(date_range)
-        except ValueError as e:
-            print(f"  [ERROR] Could not parse output date range: {e}")
-            sys.exit(1)
+        week = normalize_week(week)
+    except (ValueError, TypeError) as e:
+        print(f"  [ERROR] Could not parse week: {e}")
+        sys.exit(1)
 
     display_name = format_week(week, "long")
 
