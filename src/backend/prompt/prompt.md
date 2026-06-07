@@ -31,11 +31,9 @@ The output must be exactly in this format:
 
 {
   "week": {
-    "start_year": 2026,
-    "start_month": 5,
+    "start_month": "May",
     "start_day": 26,
-    "end_year": 2026,
-    "end_month": 6,
+    "end_month": "June",
     "end_day": 2
   },
   "items": [
@@ -51,13 +49,12 @@ The output must be exactly in this format:
 - Output only `week` and `items`; do not add extra fields.
 - **Date Normalization**:
   - Output date fields in the `week` object, not a date range string.
-  - Use integer month numbers from `1` to `12`.
-  - Use the current year provided in your instructions for dates that do not explicitly include a year.
-  - If the start date is in December and the end date is in January, set `end_year` to the following year.
+  - Use full month names (e.g., "January", "February", etc.).
+  - Do not output `start_year` or `end_year` - these will be computed at runtime.
   - Fill in the end month from the start month if the end month is not explicitly written.
   - Examples:
-    - `May 26 - June 2` -> `start_month: 5`, `start_day: 26`, `end_month: 6`, `end_day: 2`
-    - `May 19 - 26` -> `start_month: 5`, `start_day: 19`, `end_month: 5`, `end_day: 26`
-    - `June 2 - 9` -> `start_month: 6`, `start_day: 2`, `end_month: 6`, `end_day: 9`
-    - `December 30 - January 6` in current year `2026` -> `start_year: 2026`, `end_year: 2027`
+    - `May 26 - June 2` -> `start_month: "May"`, `start_day: 26`, `end_month: "June"`, `end_day: 2`
+    - `May 19 - 26` -> `start_month: "May"`, `start_day: 19`, `end_month: "May"`, `end_day: 26`
+    - `June 2 - 9` -> `start_month: "June"`, `start_day: 2`, `end_month: "June"`, `end_day: 9`
+    - `December 30 - January 6` -> `start_month: "December"`, `start_day: 30`, `end_month: "January"`, `end_day: 6`
 - Output only the raw JSON object string. Do not wrap it in a markdown code block.

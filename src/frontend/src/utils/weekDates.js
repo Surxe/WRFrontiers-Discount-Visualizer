@@ -44,22 +44,33 @@ export function normalizeWeek(value) {
   if (!value) return null;
 
   const week = value.week || value;
-  const hasStructuredFields = [
-    'start_year',
+  
+  const hasMonthNamesWithoutYears = [
     'start_month',
     'start_day',
-    'end_year',
     'end_month',
     'end_day',
-  ].every((key) => week[key] !== undefined && week[key] !== null);
+  ].every((key) => week[key] !== undefined && week[key] !== null) &&
+  week.start_year === undefined && week.end_year === undefined;
 
-  if (hasStructuredFields) {
+  if (hasMonthNamesWithoutYears) {
+    const currentYear = new Date().getFullYear();
+    const startMonth = monthNumber(week.start_month);
+    const endMonth = monthNumber(week.end_month);
+    
+    let startYear = currentYear;
+    let endYear = currentYear;
+    
+    if (endMonth < startMonth) {
+      endYear = startYear + 1;
+    }
+    
     return {
-      start_year: Number(week.start_year),
-      start_month: monthNumber(week.start_month),
+      start_year: startYear,
+      start_month: startMonth,
       start_day: Number(week.start_day),
-      end_year: Number(week.end_year),
-      end_month: monthNumber(week.end_month),
+      end_year: endYear,
+      end_month: endMonth,
       end_day: Number(week.end_day),
     };
   }
