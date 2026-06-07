@@ -97,7 +97,7 @@ Gear: Energy Wall, Recon Mode, Fuel Burn, Flash Bang, Blink, Homing Missile
 
 October 14 - 21
 Robots: Bulgasari, Cyclops, Siren, Grim
-Weapons: Shredder, Gemini, Trident, Ktabalger, Jigsaw (note to user, not agent: DOUBLE CHECK Jigsaw)
+Weapons: Shredder, Gemini, Trident, Katzbalger, Jigsaw
 Gear: Umbrella, Energy Wall, Emergency Shield, Homing Missile, Infinite Ammo, Blink
 
 Octtober 7 - 14
@@ -106,55 +106,45 @@ Weapons: Quantum, Shocktrain, Incinerator
 Gear: Umbrella, Reflector, Holofield, Ghost Turret, Fuel Reserve
 
 September 30 - October 7
-Ares, Anansi, Lancelot and Alpha, along with their gear and weapons, now have reduced Intel upgrade costs.
+Robots: Ares, Anansi, Lancelot, Alpha
+Weapons: Scourge, MLx2, Punisher, Callisto
+Gear: Holofield, Flashbang, Suppressor, Sprint Reactor, Reflector
 
 September 23 - 30
 War Robot Modules: Orochi, Ravana, Fenrir 
 Weapons: Zeus, Fowler, Magneto
 Gear: Blast Wave, Recon Mode, Quick Repair, Reflector, Sprint Reactor, Nanite Repair
 
-September 9–23, the Intel cost for upgrading Modules, Weapons, and Gear for Harpy, Ceres, Bulwark, and Matriarch will be reduced
+September 9–23
+Robots: Harpy, Ceres, Bulwark, Matriarch
+Weapons: Trebuchet, Railgun, Bisector, Thunder, Hive
+Gear: Fuel Reserve, Flashbang, Ghost Turret, Reflector, Holofield, Nanite Repair
 
 August 26 - September 9
-War Robots
-Raven
-Loki
-Phantom
-
-Weapons
-Lighter
-Gozer
-Halo
-
-Gear
-Energy Wall
-Blast Wave
-Fuel Burn
-Recon Mode
-Infinite Ammo
+Robots: Raven, Loki, Phantom
+Weapons: Lighter, Gozer, Halo
+Gear: Energy Wall, Blast Wave, Fuel Burn, Recon Mode, Infinite Ammo
 
 August 12 - 26
-War Robot Modules: Tyr, Fury, Scorpion
-Titan: Grim
+Robots: Tyr, Fury, Scorpion, Grim
 Weapons: Pulsar, Tusk, Jigsaw, Katzbalger, Vortex
 Gear: Repulsor, Homing Missile, Blink, Gamma Beam, Ghost Turret
 
 July 29 - August 12
-War Robot Modules: Siren, Cyclops, Pursuer
+Robots: Siren, Cyclops, Pursuer
 Weapons: Trident, Railgun, Gemini, Scatter
 Gear: Energy Wall (Supply Gear), Homing Missile (Cycle Gear), Umbrella (Cycle Gear), Supply Gear: Blink (Supply Gear), Recon Mode (Cycle Gear)
 
 July 15 - 29
-For these robots and their parts:
-War Robot: Lancelot (Common)
-War Robot: Ares (Common)
-War Robot: Varangian (Uncommon)
-War Robot: Ravana (Uncommon)
-War Robot: Typhon (Rare)
-Titan: Alpha (Uncommon)
+Robots: Lancelot, Ares, Varangian, Ravana, Typhon, Alpha
+Weapons: Punisher, Scourge, Magneto, Shocktrain
+Gear: Sprint Reactor, Reflector, Holofield, Flashbang, Sprint Reactor, Nanite Repair, Ghost Turret, Umbrella
 
 May 23 - June 3
 Orochi and Phantom Modules, Weapons, and Supply and Cycle Gear will be reduced. 
+Robots: Orochi, Phantom
+Weapons: Zeus, Lighter
+Gear: Blast Wave, Recon Mode, Energy Wall, Minefield
 
 NOTE TO USER: 
 * No more intel or salvage discounts spotted for several pages from May 23 all the way to this post in November 2024, I will assume there are no other discount weeks so I can sleep easy. 
