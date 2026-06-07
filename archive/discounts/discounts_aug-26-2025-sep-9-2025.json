@@ -1,17 +1,17 @@
 {
-  "date_range": "Nov 11, 2026 - Nov 18, 2026",
+  "date_range": "Aug 26, 2025 - Sep 9, 2025",
   "items": [
     {
-      "id": "DA_Module_ChassisTyr.2",
-      "name": "Tyr"
+      "id": "DA_Module_ChassisRaven.2",
+      "name": "Raven"
     },
     {
-      "id": "DA_Module_TorsoTyr.1",
-      "name": "Tyr"
+      "id": "DA_Module_TorsoRaven.1",
+      "name": "Raven"
     },
     {
-      "id": "DA_Module_ShoulderTyr.0",
-      "name": "Tyr"
+      "id": "DA_Module_ShoulderRaven.0",
+      "name": "Raven"
     },
     {
       "id": "DA_Module_ChassisLoki.2",
@@ -42,24 +42,20 @@
       "name": "Lighter"
     },
     {
-      "id": "DA_Module_Weapon_Glory.0",
-      "name": "Halo"
+      "id": "DA_Module_Weapon_Gozer.0",
+      "name": "Gozer"
     },
     {
-      "id": "DA_Module_Weapon_Vortex.0",
-      "name": "Vortex"
+      "id": "DA_Module_Weapon_Glory.0",
+      "name": "Halo"
     },
     {
       "id": "DA_Module_Ability_BlockingField.1",
       "name": "Energy Wall"
     },
     {
-      "id": "DA_Module_Ability_MineField.1",
-      "name": "Minefield"
-    },
-    {
-      "id": "DA_Module_Ability_Homing.1",
-      "name": "Homing Missile"
+      "id": "DA_Module_Ability_BlastWave.1",
+      "name": "Blast Wave"
     },
     {
       "id": "DA_Module_Ability_Grounded.1",
@@ -70,8 +66,8 @@
       "name": "Recon Mode"
     },
     {
-      "id": "DA_Module_Ability_GhostTurret.1",
-      "name": "Ghost Turret"
+      "id": "DA_Module_Ability_InfiniteAmmo_Tutorial.1",
+      "name": "Infinite Ammo"
     }
   ]
 }
