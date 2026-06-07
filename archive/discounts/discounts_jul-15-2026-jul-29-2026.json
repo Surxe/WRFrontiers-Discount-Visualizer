@@ -126,6 +126,10 @@
       "name": "Ghost Turret"
     },
     {
+      "id": "DA_Module_Ability_Grounded.1",
+      "name": "Fuel Burn"
+    },
+    {
       "id": "DA_Module_Ability_Umbrella.1",
       "name": "Umbrella"
     }
