@@ -66,6 +66,33 @@ def _parse_date_part(part: str, fallback_month: int | None = None, fallback_year
 
 
 def normalize_week(value: dict[str, Any] | str) -> dict[str, int]:
+    # Handle new format: month names without years (from Gemini CLI)
+    if isinstance(value, dict) and all(
+        key in value
+        for key in ("start_month", "start_day", "end_month", "end_day")
+    ) and "start_year" not in value:
+        start_month = _month_number(value["start_month"])
+        end_month = _month_number(value["end_month"])
+        current_year = datetime.now().year
+        
+        # Compute years at runtime
+        start_year = current_year
+        end_year = current_year
+        
+        # Handle year rollover (e.g., December to January)
+        if end_month < start_month:
+            end_year = start_year + 1
+        
+        return {
+            "start_year": start_year,
+            "start_month": start_month,
+            "start_day": int(value["start_day"]),
+            "end_year": end_year,
+            "end_month": end_month,
+            "end_day": int(value["end_day"]),
+        }
+
+    # Handle legacy format with years
     if isinstance(value, dict) and all(
         key in value
         for key in ("start_year", "start_month", "start_day", "end_year", "end_month", "end_day")

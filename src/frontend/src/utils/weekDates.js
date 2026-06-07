@@ -44,6 +44,41 @@ export function normalizeWeek(value) {
   if (!value) return null;
 
   const week = value.week || value;
+  
+  // Handle new format: month names without years (from Gemini CLI)
+  const hasMonthNamesWithoutYears = [
+    'start_month',
+    'start_day',
+    'end_month',
+    'end_day',
+  ].every((key) => week[key] !== undefined && week[key] !== null) &&
+  week.start_year === undefined && week.end_year === undefined;
+
+  if (hasMonthNamesWithoutYears) {
+    const currentYear = new Date().getFullYear();
+    const startMonth = monthNumber(week.start_month);
+    const endMonth = monthNumber(week.end_month);
+    
+    // Compute years at runtime
+    let startYear = currentYear;
+    let endYear = currentYear;
+    
+    // Handle year rollover (e.g., December to January)
+    if (endMonth < startMonth) {
+      endYear = startYear + 1;
+    }
+    
+    return {
+      start_year: startYear,
+      start_month: startMonth,
+      start_day: Number(week.start_day),
+      end_year: endYear,
+      end_month: endMonth,
+      end_day: Number(week.end_day),
+    };
+  }
+
+  // Handle legacy format with years
   const hasStructuredFields = [
     'start_year',
     'start_month',
