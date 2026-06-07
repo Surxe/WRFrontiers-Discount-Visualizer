@@ -29,6 +29,7 @@ export function initAllWeeksSidebar() {
       const scrollHeight = sidebarContent.scrollHeight;
       const clientHeight = sidebarContent.clientHeight;
       const scrollTop = sidebarContent.scrollTop;
+      const trackHeight = scrollbarTrack.clientHeight;
       
       if (scrollHeight <= clientHeight) {
         scrollbarThumb.style.display = 'none';
@@ -37,8 +38,8 @@ export function initAllWeeksSidebar() {
       
       scrollbarThumb.style.display = 'block';
       
-      const thumbHeight = (clientHeight / scrollHeight) * scrollbarTrack.clientHeight;
-      const thumbPosition = (scrollTop / (scrollHeight - clientHeight)) * (scrollbarTrack.clientHeight - thumbHeight);
+      const thumbHeight = (clientHeight / scrollHeight) * trackHeight;
+      const thumbPosition = (scrollTop / (scrollHeight - clientHeight)) * (trackHeight - thumbHeight);
       
       scrollbarThumb.style.height = `${thumbHeight}px`;
       scrollbarThumb.style.transform = `translateY(${thumbPosition}px)`;

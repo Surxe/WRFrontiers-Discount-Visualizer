@@ -34,7 +34,7 @@
   max-width: 100%;
   box-sizing: border-box;
   padding: 3.5rem 0.45rem;
-  max-height: 100vh;
+  height: 100vh;
   overflow-y: auto;
   /* Hide default scrollbar */
   scrollbar-width: none; /* Firefox */
@@ -48,10 +48,10 @@
 /* Custom scrollbar track */
 .custom-scrollbar-track {
   position: absolute;
-  top: 3.5rem;
+  top: 0;
   right: 0.25rem;
+  bottom: 0;
   width: 4px;
-  height: calc(100vh - 3.5rem);
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 2px;
   pointer-events: none;
