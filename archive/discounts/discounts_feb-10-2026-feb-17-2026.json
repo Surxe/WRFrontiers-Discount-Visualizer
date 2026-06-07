@@ -1,0 +1,97 @@
+{
+  "date_range": "Feb 10, 2026 - Feb 17, 2026",
+  "items": [
+    {
+      "id": "DA_Module_ChassisLoki.2",
+      "name": "Loki"
+    },
+    {
+      "id": "DA_Module_TorsoLoki.1",
+      "name": "Loki"
+    },
+    {
+      "id": "DA_Module_ShoulderLoki.0",
+      "name": "Loki"
+    },
+    {
+      "id": "DA_Module_ChassisTyr.2",
+      "name": "Tyr"
+    },
+    {
+      "id": "DA_Module_TorsoTyr.1",
+      "name": "Tyr"
+    },
+    {
+      "id": "DA_Module_ShoulderTyr.0",
+      "name": "Tyr"
+    },
+    {
+      "id": "DA_Module_ChassisScorpion.2",
+      "name": "Scorpion"
+    },
+    {
+      "id": "DA_Module_TorsoScorpion.1",
+      "name": "Scorpion"
+    },
+    {
+      "id": "DA_Module_ShoulderScorpion.0",
+      "name": "Scorpion"
+    },
+    {
+      "id": "DA_Module_ChassisNorna.2",
+      "name": "Norna"
+    },
+    {
+      "id": "DA_Module_TorsoNorna.0",
+      "name": "Norna"
+    },
+    {
+      "id": "DA_Module_ShoulderLNorna.0",
+      "name": "Norna"
+    },
+    {
+      "id": "DA_Module_ShoulderRNorna.0",
+      "name": "Norna"
+    },
+    {
+      "id": "DA_Module_Weapon_Glory.0",
+      "name": "Halo"
+    },
+    {
+      "id": "DA_Module_Weapon_Vortex.0",
+      "name": "Vortex"
+    },
+    {
+      "id": "DA_Module_Weapon_Tusk.0",
+      "name": "Tusk"
+    },
+    {
+      "id": "DA_Module_Weapon_Coriolis.0",
+      "name": "Coriolis"
+    },
+    {
+      "id": "DA_Module_Ability_Grounded.1",
+      "name": "Fuel Burn"
+    },
+    {
+      "id": "DA_Module_Ability_Spotlight.1",
+      "name": "Recon Mode"
+    },
+    {
+      "id": "DA_Module_Ability_GhostTurret.1",
+      "name": "Ghost Turret"
+    },
+    {
+      "id": "DA_Module_Ability_Homing.1",
+      "name": "Homing Missile"
+    },
+    {
+      "id": "DA_Module_Ability_Repulsor.1",
+      "name": "Repulsor"
+    },
+    {
+      "id": "DA_Module_Ability_TensionLink.1",
+      "name": "Gamma Beam"
+    }
+  ]
+}

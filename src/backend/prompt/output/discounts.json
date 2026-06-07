@@ -1,16 +1,18 @@
 {
-  "date_range": "March 24 - March 31",
+  "date_range": "Dec 30, 2026 - Jan 6, 2026",
   "items": [
-    "OBJID_VirtualBot::scorpion",
-    "OBJID_VirtualBot::lancelot",
-    "OBJID_VirtualBot::grim",
-    "OBJID_Module::DA_Module_Weapon_Tusk.0",
-    "OBJID_Module::DA_Module_Weapon_Punisher.0",
-    "OBJID_Module::DA_Module_Weapon_Katzbalger.0",
-    "OBJID_Module::DA_Module_Weapon_Jigsaw.0",
-    "OBJID_Module::DA_Module_Ability_Repulsor.1",
-    "OBJID_Module::DA_Module_Ability_TensionLink.1",
-    "OBJID_Module::DA_Module_Ability_SpeedBoost.1",
-    "OBJID_Module::DA_Module_Ability_CounterAttack.1"
+    "OBJID_VirtualBot::raven",
+    "OBJID_VirtualBot::loki",
+    "OBJID_VirtualBot::phantom",
+    "OBJID_Module::DA_Module_Weapon_Gozer.0",
+    "OBJID_Module::DA_Module_Weapon_Glory.0",
+    "OBJID_Module::DA_Module_Weapon_Toxin.0",
+    "OBJID_Module::DA_Module_Weapon_Gimcoil.0",
+    "OBJID_Module::DA_Module_Ability_InfiniteAmmo_Tutorial.1",
+    "OBJID_Module::DA_Module_Ability_BlastWave.1",
+    "OBJID_Module::DA_Module_Ability_BlockingField.1",
+    "OBJID_Module::DA_Module_Ability_MineField.1",
+    "OBJID_Module::DA_Module_Ability_Grounded.1",
+    "OBJID_Module::DA_Module_Ability_Spotlight.1"
   ]
 }

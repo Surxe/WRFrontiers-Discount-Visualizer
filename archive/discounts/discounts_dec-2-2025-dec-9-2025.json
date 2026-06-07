@@ -1,0 +1,69 @@
+{
+  "date_range": "Dec 2, 2025 - Dec 9, 2025",
+  "items": [
+    {
+      "id": "DA_Module_ChassisHarpy.2",
+      "name": "Harpy"
+    },
+    {
+      "id": "DA_Module_TorsoHarpy.1",
+      "name": "Harpy"
+    },
+    {
+      "id": "DA_Module_ShoulderHarpy.0",
+      "name": "Harpy"
+    },
+    {
+      "id": "DA_Module_ChassisMesa.2",
+      "name": "Mesa"
+    },
+    {
+      "id": "DA_Module_TorsoMesa.1",
+      "name": "Mesa"
+    },
+    {
+      "id": "DA_Module_ShoulderMesa.0",
+      "name": "Mesa"
+    },
+    {
+      "id": "DA_Module_ChassisFenrir.2",
+      "name": "Fenrir"
+    },
+    {
+      "id": "DA_Module_TorsoFenrir.1",
+      "name": "Fenrir"
+    },
+    {
+      "id": "DA_Module_ShoulderFenrir.0",
+      "name": "Fenrir"
+    },
+    {
+      "id": "DA_Module_Ability_FuelReserve.1",
+      "name": "Fuel Reserve"
+    },
+    {
+      "id": "DA_Module_Ability_Dazzle.1",
+      "name": "Flashbang"
+    },
+    {
+      "id": "DA_Module_Ability_AmmoGenerator.1",
+      "name": "Ammo Fabricator"
+    },
+    {
+      "id": "DA_Module_Ability_TensionLink.1",
+      "name": "Gamma Beam"
+    },
+    {
+      "id": "DA_Module_Ability_Regeneration.1",
+      "name": "Quick Repair"
+    },
+    {
+      "id": "DA_Module_Ability_CounterAttack.1",
+      "name": "Reflector"
+    },
+    {
+      "id": "DA_Module_Ability_MineField.1",
+      "name": "Minefield"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "date_range": "Mar 17, 2026 - Mar 24, 2026",
+  "items": [
+    {
+      "id": "DA_Module_ChassisHitcher.2",
+      "name": "Hitcher"
+    },
+    {
+      "id": "DA_Module_TorsoHitcher.1",
+      "name": "Hitcher"
+    },
+    {
+      "id": "DA_Module_ShoulderHitcher.0",
+      "name": "Hitcher"
+    },
+    {
+      "id": "DA_Module_ChassisPursuer.2",
+      "name": "Pursuer"
+    },
+    {
+      "id": "DA_Module_TorsoPursuer.1",
+      "name": "Pursuer"
+    },
+    {
+      "id": "DA_Module_ShoulderPursuer.0",
+      "name": "Pursuer"
+    },
+    {
+      "id": "DA_Module_Weapon_Nucleon.0",
+      "name": "Nucleon"
+    },
+    {
+      "id": "DA_Module_Weapon_Scatter.0",
+      "name": "Scatter"
+    },
+    {
+      "id": "DA_Module_Weapon_Bayonet.0",
+      "name": "Bayonet"
+    },
+    {
+      "id": "DA_Module_Weapon_Scrubber.0",
+      "name": "Scrubber"
+    },
+    {
+      "id": "DA_Module_Ability_ArmorShield_Tutorial.1",
+      "name": "Emergency Shield"
+    },
+    {
+      "id": "DA_Module_Ability_RegenerationFull.1",
+      "name": "Nanite Repair"
+    },
+    {
+      "id": "DA_Module_Ability_BlockingField.1",
+      "name": "Energy Wall"
+    },
+    {
+      "id": "DA_Module_Ability_Spotlight.1",
+      "name": "Recon Mode"
+    }
+  ]
+}
