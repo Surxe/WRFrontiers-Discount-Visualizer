@@ -69,5 +69,13 @@
       "id": "DA_Module_Ability_Spotlight.1",
       "name": "Recon Mode"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2025,
+    "start_month": 7,
+    "start_day": 29,
+    "end_year": 2025,
+    "end_month": 8,
+    "end_day": 12
+  }
 }

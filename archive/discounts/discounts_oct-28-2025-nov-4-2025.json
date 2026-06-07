@@ -73,5 +73,13 @@
       "id": "DA_Module_Ability_Homing.1",
       "name": "Homing Missile"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2025,
+    "start_month": 10,
+    "start_day": 28,
+    "end_year": 2025,
+    "end_month": 11,
+    "end_day": 4
+  }
 }

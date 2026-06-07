@@ -1,249 +1,352 @@
 {
   "weeks": [
     {
-      "date_range": "Mar 17, 2026 - 24, 2026",
-      "file": "week_grids/grid_mar-17-2026-24-2026.json",
-      "slug": "mar-17-2026-24-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 3,
+        "start_day": 17,
+        "end_year": 2026,
+        "end_month": 3,
+        "end_day": 24
+      },
+      "file": "week_grids/grid_2026-03-17.json",
+      "slug": "2026-03-17"
     },
     {
-      "date_range": "Mar 17, 2026 - Mar 24, 2026",
-      "file": "week_grids/grid_mar-17-2026-mar-24-2026.json",
-      "slug": "mar-17-2026-mar-24-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 3,
+        "start_day": 10,
+        "end_year": 2026,
+        "end_month": 3,
+        "end_day": 17
+      },
+      "file": "week_grids/grid_2026-03-10.json",
+      "slug": "2026-03-10"
     },
     {
-      "date_range": "Mar 10, 2026 - 17, 2026",
-      "file": "week_grids/grid_mar-10-2026-17-2026.json",
-      "slug": "mar-10-2026-17-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 3,
+        "start_day": 3,
+        "end_year": 2026,
+        "end_month": 3,
+        "end_day": 10
+      },
+      "file": "week_grids/grid_2026-03-03.json",
+      "slug": "2026-03-03"
     },
     {
-      "date_range": "Mar 10, 2026 - Mar 17, 2026",
-      "file": "week_grids/grid_mar-10-2026-mar-17-2026.json",
-      "slug": "mar-10-2026-mar-17-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 2,
+        "start_day": 24,
+        "end_year": 2026,
+        "end_month": 3,
+        "end_day": 3
+      },
+      "file": "week_grids/grid_2026-02-24.json",
+      "slug": "2026-02-24"
     },
     {
-      "date_range": "Mar 3, 2026 - 10, 2026",
-      "file": "week_grids/grid_mar-3-2026-10-2026.json",
-      "slug": "mar-3-2026-10-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 2,
+        "start_day": 17,
+        "end_year": 2026,
+        "end_month": 2,
+        "end_day": 24
+      },
+      "file": "week_grids/grid_2026-02-17.json",
+      "slug": "2026-02-17"
     },
     {
-      "date_range": "Mar 3, 2026 - Mar 10, 2026",
-      "file": "week_grids/grid_mar-3-2026-mar-10-2026.json",
-      "slug": "mar-3-2026-mar-10-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 2,
+        "start_day": 10,
+        "end_year": 2026,
+        "end_month": 2,
+        "end_day": 17
+      },
+      "file": "week_grids/grid_2026-02-10.json",
+      "slug": "2026-02-10"
     },
     {
-      "date_range": "Feb 24, 2026 - Mar 3, 2026",
-      "file": "week_grids/grid_feb-24-2026-mar-3-2026.json",
-      "slug": "feb-24-2026-mar-3-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 2,
+        "start_day": 3,
+        "end_year": 2026,
+        "end_month": 2,
+        "end_day": 10
+      },
+      "file": "week_grids/grid_2026-02-03.json",
+      "slug": "2026-02-03"
     },
     {
-      "date_range": "Feb 17, 2026 - 24, 2026",
-      "file": "week_grids/grid_feb-17-2026-24-2026.json",
-      "slug": "feb-17-2026-24-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 1,
+        "start_day": 27,
+        "end_year": 2026,
+        "end_month": 2,
+        "end_day": 3
+      },
+      "file": "week_grids/grid_2026-01-27.json",
+      "slug": "2026-01-27"
     },
     {
-      "date_range": "Feb 17, 2026 - Feb 24, 2026",
-      "file": "week_grids/grid_feb-17-2026-feb-24-2026.json",
-      "slug": "feb-17-2026-feb-24-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 1,
+        "start_day": 20,
+        "end_year": 2026,
+        "end_month": 1,
+        "end_day": 27
+      },
+      "file": "week_grids/grid_2026-01-20.json",
+      "slug": "2026-01-20"
     },
     {
-      "date_range": "Feb 10, 2026 - 17, 2026",
-      "file": "week_grids/grid_feb-10-2026-17-2026.json",
-      "slug": "feb-10-2026-17-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 1,
+        "start_day": 13,
+        "end_year": 2026,
+        "end_month": 1,
+        "end_day": 20
+      },
+      "file": "week_grids/grid_2026-01-13.json",
+      "slug": "2026-01-13"
     },
     {
-      "date_range": "Feb 10, 2026 - Feb 17, 2026",
-      "file": "week_grids/grid_feb-10-2026-feb-17-2026.json",
-      "slug": "feb-10-2026-feb-17-2026"
+      "week": {
+        "start_year": 2026,
+        "start_month": 1,
+        "start_day": 6,
+        "end_year": 2026,
+        "end_month": 1,
+        "end_day": 13
+      },
+      "file": "week_grids/grid_2026-01-06.json",
+      "slug": "2026-01-06"
     },
     {
-      "date_range": "Feb 3, 2026 - 10, 2026",
-      "file": "week_grids/grid_feb-3-2026-10-2026.json",
-      "slug": "feb-3-2026-10-2026"
+      "week": {
+        "start_year": 2025,
+        "start_month": 12,
+        "start_day": 30,
+        "end_year": 2026,
+        "end_month": 1,
+        "end_day": 6
+      },
+      "file": "week_grids/grid_2025-12-30.json",
+      "slug": "2025-12-30"
     },
     {
-      "date_range": "Feb 3, 2026 - Feb 10, 2026",
-      "file": "week_grids/grid_feb-3-2026-feb-10-2026.json",
-      "slug": "feb-3-2026-feb-10-2026"
+      "week": {
+        "start_year": 2025,
+        "start_month": 12,
+        "start_day": 23,
+        "end_year": 2025,
+        "end_month": 12,
+        "end_day": 30
+      },
+      "file": "week_grids/grid_2025-12-23.json",
+      "slug": "2025-12-23"
     },
     {
-      "date_range": "Jan 27, 2026 - Feb 3, 2026",
-      "file": "week_grids/grid_jan-27-2026-feb-3-2026.json",
-      "slug": "jan-27-2026-feb-3-2026"
+      "week": {
+        "start_year": 2025,
+        "start_month": 12,
+        "start_day": 16,
+        "end_year": 2025,
+        "end_month": 12,
+        "end_day": 23
+      },
+      "file": "week_grids/grid_2025-12-16.json",
+      "slug": "2025-12-16"
     },
     {
-      "date_range": "Jan 20, 2026 - 27, 2026",
-      "file": "week_grids/grid_jan-20-2026-27-2026.json",
-      "slug": "jan-20-2026-27-2026"
+      "week": {
+        "start_year": 2025,
+        "start_month": 12,
+        "start_day": 9,
+        "end_year": 2025,
+        "end_month": 12,
+        "end_day": 16
+      },
+      "file": "week_grids/grid_2025-12-09.json",
+      "slug": "2025-12-09"
     },
     {
-      "date_range": "Jan 20, 2026 - Jan 27, 2026",
-      "file": "week_grids/grid_jan-20-2026-jan-27-2026.json",
-      "slug": "jan-20-2026-jan-27-2026"
+      "week": {
+        "start_year": 2025,
+        "start_month": 12,
+        "start_day": 2,
+        "end_year": 2025,
+        "end_month": 12,
+        "end_day": 9
+      },
+      "file": "week_grids/grid_2025-12-02.json",
+      "slug": "2025-12-02"
     },
     {
-      "date_range": "Jan 13, 2026 - 20, 2026",
-      "file": "week_grids/grid_jan-13-2026-20-2026.json",
-      "slug": "jan-13-2026-20-2026"
+      "week": {
+        "start_year": 2025,
+        "start_month": 11,
+        "start_day": 25,
+        "end_year": 2025,
+        "end_month": 12,
+        "end_day": 2
+      },
+      "file": "week_grids/grid_2025-11-25.json",
+      "slug": "2025-11-25"
     },
     {
-      "date_range": "Jan 13, 2026 - Jan 20, 2026",
-      "file": "week_grids/grid_jan-13-2026-jan-20-2026.json",
-      "slug": "jan-13-2026-jan-20-2026"
+      "week": {
+        "start_year": 2025,
+        "start_month": 11,
+        "start_day": 11,
+        "end_year": 2025,
+        "end_month": 11,
+        "end_day": 18
+      },
+      "file": "week_grids/grid_2025-11-11.json",
+      "slug": "2025-11-11"
     },
     {
-      "date_range": "Jan 6, 2026 - 13, 2026",
-      "file": "week_grids/grid_jan-6-2026-13-2026.json",
-      "slug": "jan-6-2026-13-2026"
+      "week": {
+        "start_year": 2025,
+        "start_month": 10,
+        "start_day": 28,
+        "end_year": 2025,
+        "end_month": 11,
+        "end_day": 4
+      },
+      "file": "week_grids/grid_2025-10-28.json",
+      "slug": "2025-10-28"
     },
     {
-      "date_range": "Jan 6, 2026 - Jan 13, 2026",
-      "file": "week_grids/grid_jan-6-2026-jan-13-2026.json",
-      "slug": "jan-6-2026-jan-13-2026"
+      "week": {
+        "start_year": 2025,
+        "start_month": 10,
+        "start_day": 14,
+        "end_year": 2025,
+        "end_month": 10,
+        "end_day": 21
+      },
+      "file": "week_grids/grid_2025-10-14.json",
+      "slug": "2025-10-14"
     },
     {
-      "date_range": "Dec 30, 2025 - Jan 6, 2026",
-      "file": "week_grids/grid_dec-30-2025-jan-6-2026.json",
-      "slug": "dec-30-2025-jan-6-2026"
+      "week": {
+        "start_year": 2025,
+        "start_month": 10,
+        "start_day": 7,
+        "end_year": 2025,
+        "end_month": 10,
+        "end_day": 14
+      },
+      "file": "week_grids/grid_2025-10-07.json",
+      "slug": "2025-10-07"
     },
     {
-      "date_range": "Dec 23, 2025 - 30, 2025",
-      "file": "week_grids/grid_dec-23-2025-30-2025.json",
-      "slug": "dec-23-2025-30-2025"
+      "week": {
+        "start_year": 2025,
+        "start_month": 9,
+        "start_day": 30,
+        "end_year": 2025,
+        "end_month": 10,
+        "end_day": 7
+      },
+      "file": "week_grids/grid_2025-09-30.json",
+      "slug": "2025-09-30"
     },
     {
-      "date_range": "Dec 23, 2025 - Dec 30, 2025",
-      "file": "week_grids/grid_dec-23-2025-dec-30-2025.json",
-      "slug": "dec-23-2025-dec-30-2025"
+      "week": {
+        "start_year": 2025,
+        "start_month": 9,
+        "start_day": 23,
+        "end_year": 2025,
+        "end_month": 9,
+        "end_day": 30
+      },
+      "file": "week_grids/grid_2025-09-23.json",
+      "slug": "2025-09-23"
     },
     {
-      "date_range": "Dec 16, 2025 - 23, 2025",
-      "file": "week_grids/grid_dec-16-2025-23-2025.json",
-      "slug": "dec-16-2025-23-2025"
+      "week": {
+        "start_year": 2025,
+        "start_month": 9,
+        "start_day": 9,
+        "end_year": 2025,
+        "end_month": 9,
+        "end_day": 23
+      },
+      "file": "week_grids/grid_2025-09-09.json",
+      "slug": "2025-09-09"
     },
     {
-      "date_range": "Dec 16, 2025 - Dec 23, 2025",
-      "file": "week_grids/grid_dec-16-2025-dec-23-2025.json",
-      "slug": "dec-16-2025-dec-23-2025"
+      "week": {
+        "start_year": 2025,
+        "start_month": 8,
+        "start_day": 26,
+        "end_year": 2025,
+        "end_month": 9,
+        "end_day": 9
+      },
+      "file": "week_grids/grid_2025-08-26.json",
+      "slug": "2025-08-26"
     },
     {
-      "date_range": "Dec 9, 2025 - 16, 2025",
-      "file": "week_grids/grid_dec-9-2025-16-2025.json",
-      "slug": "dec-9-2025-16-2025"
+      "week": {
+        "start_year": 2025,
+        "start_month": 8,
+        "start_day": 12,
+        "end_year": 2025,
+        "end_month": 8,
+        "end_day": 26
+      },
+      "file": "week_grids/grid_2025-08-12.json",
+      "slug": "2025-08-12"
     },
     {
-      "date_range": "Dec 9, 2025 - Dec 16, 2025",
-      "file": "week_grids/grid_dec-9-2025-dec-16-2025.json",
-      "slug": "dec-9-2025-dec-16-2025"
+      "week": {
+        "start_year": 2025,
+        "start_month": 7,
+        "start_day": 29,
+        "end_year": 2025,
+        "end_month": 8,
+        "end_day": 12
+      },
+      "file": "week_grids/grid_2025-07-29.json",
+      "slug": "2025-07-29"
     },
     {
-      "date_range": "Dec 2, 2025 - 9, 2025",
-      "file": "week_grids/grid_dec-2-2025-9-2025.json",
-      "slug": "dec-2-2025-9-2025"
+      "week": {
+        "start_year": 2025,
+        "start_month": 7,
+        "start_day": 15,
+        "end_year": 2025,
+        "end_month": 7,
+        "end_day": 29
+      },
+      "file": "week_grids/grid_2025-07-15.json",
+      "slug": "2025-07-15"
     },
     {
-      "date_range": "Dec 2, 2025 - Dec 9, 2025",
-      "file": "week_grids/grid_dec-2-2025-dec-9-2025.json",
-      "slug": "dec-2-2025-dec-9-2025"
-    },
-    {
-      "date_range": "Nov 25, 2025 - Dec 2, 2025",
-      "file": "week_grids/grid_nov-25-2025-dec-2-2025.json",
-      "slug": "nov-25-2025-dec-2-2025"
-    },
-    {
-      "date_range": "Nov 11, 2025 - 18, 2025",
-      "file": "week_grids/grid_nov-11-2025-18-2025.json",
-      "slug": "nov-11-2025-18-2025"
-    },
-    {
-      "date_range": "Nov 11, 2025 - Nov 18, 2025",
-      "file": "week_grids/grid_nov-11-2025-nov-18-2025.json",
-      "slug": "nov-11-2025-nov-18-2025"
-    },
-    {
-      "date_range": "Oct 28, 2025 - Nov 4, 2025",
-      "file": "week_grids/grid_oct-28-2025-nov-4-2025.json",
-      "slug": "oct-28-2025-nov-4-2025"
-    },
-    {
-      "date_range": "Oct 14, 2025 - 21, 2025",
-      "file": "week_grids/grid_oct-14-2025-21-2025.json",
-      "slug": "oct-14-2025-21-2025"
-    },
-    {
-      "date_range": "Oct 14, 2025 - Oct 21, 2025",
-      "file": "week_grids/grid_oct-14-2025-oct-21-2025.json",
-      "slug": "oct-14-2025-oct-21-2025"
-    },
-    {
-      "date_range": "Oct 7, 2025 - 14, 2025",
-      "file": "week_grids/grid_oct-7-2025-14-2025.json",
-      "slug": "oct-7-2025-14-2025"
-    },
-    {
-      "date_range": "Oct 7, 2025 - Oct 14, 2025",
-      "file": "week_grids/grid_oct-7-2025-oct-14-2025.json",
-      "slug": "oct-7-2025-oct-14-2025"
-    },
-    {
-      "date_range": "Sep 30, 2025 - Oct 7, 2025",
-      "file": "week_grids/grid_sep-30-2025-oct-7-2025.json",
-      "slug": "sep-30-2025-oct-7-2025"
-    },
-    {
-      "date_range": "Sep 23, 2025 - 30, 2025",
-      "file": "week_grids/grid_sep-23-2025-30-2025.json",
-      "slug": "sep-23-2025-30-2025"
-    },
-    {
-      "date_range": "Sep 23, 2025 - Sep 30, 2025",
-      "file": "week_grids/grid_sep-23-2025-sep-30-2025.json",
-      "slug": "sep-23-2025-sep-30-2025"
-    },
-    {
-      "date_range": "Sep 9, 2025 - 23, 2025",
-      "file": "week_grids/grid_sep-9-2025-23-2025.json",
-      "slug": "sep-9-2025-23-2025"
-    },
-    {
-      "date_range": "Sep 9, 2025 - Sep 23, 2025",
-      "file": "week_grids/grid_sep-9-2025-sep-23-2025.json",
-      "slug": "sep-9-2025-sep-23-2025"
-    },
-    {
-      "date_range": "Aug 26, 2025 - Sep 9, 2025",
-      "file": "week_grids/grid_aug-26-2025-sep-9-2025.json",
-      "slug": "aug-26-2025-sep-9-2025"
-    },
-    {
-      "date_range": "Aug 12, 2025 - 26, 2025",
-      "file": "week_grids/grid_aug-12-2025-26-2025.json",
-      "slug": "aug-12-2025-26-2025"
-    },
-    {
-      "date_range": "Aug 12, 2025 - Aug 26, 2025",
-      "file": "week_grids/grid_aug-12-2025-aug-26-2025.json",
-      "slug": "aug-12-2025-aug-26-2025"
-    },
-    {
-      "date_range": "Jul 29, 2025 - Aug 12, 2025",
-      "file": "week_grids/grid_jul-29-2025-aug-12-2025.json",
-      "slug": "jul-29-2025-aug-12-2025"
-    },
-    {
-      "date_range": "Jul 15, 2025 - 29, 2025",
-      "file": "week_grids/grid_jul-15-2025-29-2025.json",
-      "slug": "jul-15-2025-29-2025"
-    },
-    {
-      "date_range": "Jul 15, 2025 - Jul 29, 2025",
-      "file": "week_grids/grid_jul-15-2025-jul-29-2025.json",
-      "slug": "jul-15-2025-jul-29-2025"
-    },
-    {
-      "date_range": "May 23, 2025 - Jun 3, 2025",
-      "file": "week_grids/grid_may-23-2025-jun-3-2025.json",
-      "slug": "may-23-2025-jun-3-2025"
+      "week": {
+        "start_year": 2025,
+        "start_month": 5,
+        "start_day": 23,
+        "end_year": 2025,
+        "end_month": 6,
+        "end_day": 3
+      },
+      "file": "week_grids/grid_2025-05-23.json",
+      "slug": "2025-05-23"
     }
   ]
 }

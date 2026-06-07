@@ -41,5 +41,13 @@
       "id": "DA_Module_Ability_SupplySurge.1",
       "name": "Supply Surge"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 1,
+    "start_day": 20,
+    "end_year": 2026,
+    "end_month": 1,
+    "end_day": 27
+  }
 }

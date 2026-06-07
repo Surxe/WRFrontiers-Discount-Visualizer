@@ -63,11 +63,24 @@ export function fetchEnrichedDiscounts(filename = null) {
   const week = targetWeek.week || null;
   const dateRange = formatWeek(targetWeek, 'long') || targetWeek.date_range || "";
   
-  const gridData = readJson(targetWeek.file, frontendDataDir);
+  const gridFileData = readJson(targetWeek.file, frontendDataDir);
   const columnsList = readJson('columns.json', frontendDataDir) || [];
-  
+
+  // Handle new grid format with week data embedded
+  let gridData;
+  let weekFromGrid = null;
+  if (gridFileData && gridFileData.grid && gridFileData.week) {
+    gridData = gridFileData.grid;
+    weekFromGrid = gridFileData.week;
+  } else {
+    gridData = gridFileData;
+  }
+
+  // Use week data from grid file if available, otherwise fall back to manifest
+  const finalWeek = weekFromGrid || week;
+
   if (!gridData || (!gridData.standardRows && !gridData.titanRows)) {
-    return { dateRange, week, gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
+    return { dateRange, week: finalWeek, gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
   }
 
   const ModuleDB = readJson('Module.json');
@@ -161,7 +174,7 @@ export function fetchEnrichedDiscounts(filename = null) {
 
   return {
     dateRange,
-    week,
+    week: finalWeek,
     gridData: {
       standardRows: enrichedStandardRows,
       titanRows: enrichedTitanRows

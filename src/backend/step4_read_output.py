@@ -198,8 +198,14 @@ def load_discounts() -> list[dict]:
     week_grids_dir.mkdir(parents=True, exist_ok=True)
     grid_filename = f"grid_{slug}.json"
     grid_output = week_grids_dir / grid_filename
+    # Add week data to grid output for frontend consumption
+    grid_data_with_week = {
+        "week": week,
+        "grid": grid_data
+    }
+
     with open(grid_output, "w", encoding="utf-8") as f:
-        json.dump(grid_data, f, indent=2, ensure_ascii=False)
+        json.dump(grid_data_with_week, f, indent=2, ensure_ascii=False)
     print(f"  -> Wrote grid layout to {grid_output.relative_to(REPO_ROOT)}")
     
     # Write columns definitions

@@ -57,5 +57,13 @@
       "id": "DA_Module_Ability_Umbrella.1",
       "name": "Umbrella"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 2,
+    "start_day": 24,
+    "end_year": 2026,
+    "end_month": 3,
+    "end_day": 3
+  }
 }

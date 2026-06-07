@@ -55,13 +55,17 @@ def run():
     for f in discount_files:
         data = json.load(open(f, encoding="utf-8"))
         try:
-            week = normalize_week(data.get("week") or data)
-        except ValueError:
+            week = normalize_week(data.get("week"))
+        except (ValueError, TypeError):
             date_range = data.get("date_range", "")
             if not date_range:
                 print(f"  [SKIP] {f.name}: no week/date_range")
                 continue
-            week = normalize_week(date_range)
+            try:
+                week = normalize_week(date_range)
+            except ValueError:
+                print(f"  [SKIP] {f.name}: could not parse date_range")
+                continue
         if not week:
             continue
 
@@ -72,7 +76,13 @@ def run():
 
         slug = week_slug(week)
         out = WEEK_GRIDS_DIR / f"grid_{slug}.json"
-        json.dump(grid_data, open(out, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+        
+        # Add week data to grid output for frontend consumption
+        grid_data_with_week = {
+            "week": week,
+            "grid": grid_data
+        }
+        json.dump(grid_data_with_week, open(out, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
         std = len(grid_data.get("standardRows", []))
         titan = len(grid_data.get("titanRows", []))
@@ -84,7 +94,7 @@ def run():
             "slug": slug
         })
 
-    manifest_entries.sort(key=week_sort_key, reverse=True)
+    manifest_entries.sort(key=lambda entry: week_sort_key(entry.get("week")), reverse=True)
     with open(FRONTEND_DATA_DIR / "weeks.json", "w", encoding="utf-8") as f:
         json.dump({"weeks": manifest_entries}, f, indent=2, ensure_ascii=False)
     print(f"  -> Rebuilt weeks.json manifest")
