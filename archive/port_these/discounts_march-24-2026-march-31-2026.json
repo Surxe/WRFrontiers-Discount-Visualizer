@@ -1,0 +1,77 @@
+{
+  "date_range": "March 24, 2026 - March 31, 2026",
+  "items": [
+    {
+      "id": "DA_Module_ChassisScorpion.2",
+      "name": "Scorpion"
+    },
+    {
+      "id": "DA_Module_TorsoScorpion.1",
+      "name": "Scorpion"
+    },
+    {
+      "id": "DA_Module_ShoulderScorpion.0",
+      "name": "Scorpion"
+    },
+    {
+      "id": "DA_Module_ChassisLancelot.2",
+      "name": "Lancelot"
+    },
+    {
+      "id": "DA_Module_TorsoLancelot.1",
+      "name": "Lancelot"
+    },
+    {
+      "id": "DA_Module_ShoulderLancelot.0",
+      "name": "Lancelot"
+    },
+    {
+      "id": "DA_Module_ChassisGrim.1",
+      "name": "Grim"
+    },
+    {
+      "id": "DA_Module_TorsoGrim.0",
+      "name": "Grim"
+    },
+    {
+      "id": "DA_Module_ShoulderLGrim.0",
+      "name": "Grim"
+    },
+    {
+      "id": "DA_Module_ShoulderRGrim.0",
+      "name": "Grim"
+    },
+    {
+      "id": "DA_Module_Weapon_Tusk.0",
+      "name": "Tusk"
+    },
+    {
+      "id": "DA_Module_Weapon_Punisher.0",
+      "name": "Punisher"
+    },
+    {
+      "id": "DA_Module_Weapon_Katzbalger.0",
+      "name": "Katzbalger"
+    },
+    {
+      "id": "DA_Module_Weapon_Jigsaw.0",
+      "name": "Jigsaw"
+    },
+    {
+      "id": "DA_Module_Ability_Repulsor.1",
+      "name": "Repulsor"
+    },
+    {
+      "id": "DA_Module_Ability_TensionLink.1",
+      "name": "Gamma Beam"
+    },
+    {
+      "id": "DA_Module_Ability_SpeedBoost.1",
+      "name": "Sprint Reactor"
+    },
+    {
+      "id": "DA_Module_Ability_CounterAttack.1",
+      "name": "Reflector"
+    }
+  ]
+}
