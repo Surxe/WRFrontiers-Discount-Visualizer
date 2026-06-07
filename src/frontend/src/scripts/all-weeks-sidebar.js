@@ -113,7 +113,7 @@ export function initAllWeeksSidebar() {
     sidebarContent.addEventListener('wheel', (e) => {
       e.preventDefault();
       const delta = e.deltaY;
-      const scrollAmount = delta * 0.5; // Adjust scroll speed
+      const scrollAmount = delta * 2.0; // Adjust scroll speed
       sidebarContent.scrollBy({
         top: scrollAmount,
         behavior: 'smooth'
