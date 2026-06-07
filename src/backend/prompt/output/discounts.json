@@ -1,13 +1,18 @@
 {
-  "date_range": "May 23 - June 3",
+  "date_range": "Dec 30, 2026 - Jan 6, 2026",
   "items": [
-    "OBJID_VirtualBot::orochi",
+    "OBJID_VirtualBot::raven",
+    "OBJID_VirtualBot::loki",
     "OBJID_VirtualBot::phantom",
-    "OBJID_Module::DA_Module_Weapon_Zeus.0",
+    "OBJID_Module::DA_Module_Weapon_Gozer.0",
+    "OBJID_Module::DA_Module_Weapon_Glory.0",
     "OBJID_Module::DA_Module_Weapon_Toxin.0",
+    "OBJID_Module::DA_Module_Weapon_Gimcoil.0",
+    "OBJID_Module::DA_Module_Ability_InfiniteAmmo_Tutorial.1",
     "OBJID_Module::DA_Module_Ability_BlastWave.1",
-    "OBJID_Module::DA_Module_Ability_Spotlight.1",
     "OBJID_Module::DA_Module_Ability_BlockingField.1",
-    "OBJID_Module::DA_Module_Ability_MineField.1"
+    "OBJID_Module::DA_Module_Ability_MineField.1",
+    "OBJID_Module::DA_Module_Ability_Grounded.1",
+    "OBJID_Module::DA_Module_Ability_Spotlight.1"
   ]
 }

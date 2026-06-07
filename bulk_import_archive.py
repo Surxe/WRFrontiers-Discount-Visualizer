@@ -3,10 +3,76 @@ import subprocess
 import os
 import re
 from pathlib import Path
+from datetime import datetime
 
 # Load Module.json and VirtualBot.json to create name-to-OBJID mappings
 MODULE_JSON_PATH = Path("WRFrontiersDB-Data/current/Objects/Module.json")
 VIRTUAL_BOT_JSON_PATH = Path("WRFrontiersDB-Data/current/Objects/VirtualBot.json")
+
+# Month abbreviation mapping
+MONTH_ABBR = {
+    "January": "Jan", "February": "Feb", "March": "Mar", "April": "Apr",
+    "May": "May", "June": "Jun", "July": "Jul", "August": "Aug",
+    "September": "Sep", "October": "Oct", "November": "Nov", "December": "Dec"
+}
+
+def standardize_date_format(date_range):
+    """Standardize date format to use abbreviated months and consistent format."""
+    # Replace full month names with abbreviations
+    for full_month, abbr in MONTH_ABBR.items():
+        date_range = date_range.replace(full_month, abbr)
+    
+    # Remove "th", "st", "nd", "rd" suffixes from dates
+    date_range = re.sub(r'(\d+)(th|st|nd|rd)', r'\1', date_range)
+    
+    # Normalize to format: "MMM DD, YYYY - MMM DD, YYYY"
+    # First, try to parse and reconstruct
+    parts = date_range.split('-')
+    if len(parts) == 2:
+        start_part = parts[0].strip()
+        end_part = parts[1].strip()
+        
+        # Extract year from end part if present
+        year = ""
+        year_match = re.search(r',\s*(\d{4})', end_part)
+        if year_match:
+            year = year_match.group(1)
+            # Remove year but keep the rest of the end part
+            end_part = end_part[:year_match.start()].strip()
+        
+        # Extract year from start part if present
+        start_year = ""
+        start_year_match = re.search(r',\s*(\d{4})', start_part)
+        if start_year_match:
+            start_year = start_year_match.group(1)
+            # Remove year but keep the rest of the start part
+            start_part = start_part[:start_year_match.start()].strip()
+        
+        # Extract month from start part
+        start_month_match = re.match(r'^([A-Za-z]+)', start_part)
+        start_month = start_month_match.group(1) if start_month_match else ""
+        
+        # If end part is just a number (no month), add the month from start
+        if re.match(r'^\d+$', end_part) and start_month:
+            end_part = f"{start_month} {end_part}"
+        
+        # Use the year from start part if end part doesn't have one
+        if not year and start_year:
+            year = start_year
+        # Use the year from end part if start part doesn't have one
+        elif year and not start_year:
+            start_year = year
+        
+        # Default to 2026 if no year found
+        if not year:
+            year = "2026"
+        if not start_year:
+            start_year = year
+        
+        # Reconstruct with year on both dates
+        date_range = f"{start_part}, {start_year} - {end_part}, {year}"
+    
+    return date_range
 
 def load_name_mappings():
     """Create mappings from human-readable names to OBJID format."""
@@ -69,6 +135,8 @@ def parse_old_discounts_md(file_path):
             # Normalize date range format - only replace dashes/ens/to that are between numbers
             # This prevents splitting month names like "August" or "September"
             date_range = re.sub(r'(\d+)\s*[-–to]+\s*(\d+)', r'\1 - \2', date_range)
+            # Standardize date format with abbreviated months
+            date_range = standardize_date_format(date_range)
             current_week = {
                 "date_range": date_range,
                 "items": []
@@ -103,6 +171,30 @@ def parse_old_discounts_md(file_path):
         weeks.append(current_week)
     
     return weeks
+
+def parse_date_for_sorting(date_range):
+    """Parse a date range string into a sortable tuple (year, month, day)."""
+    # Extract the first date from the range
+    # Format examples: "Jan 6, 2026 - Jan 13, 2026" or "Dec 30, 2026 - Jan 6, 2026"
+    match = re.match(r'([A-Za-z]+)\s+(\d+),?\s*(\d{4})?', date_range)
+    if match:
+        month_str = match.group(1)
+        day = int(match.group(2))
+        year_str = match.group(3)
+        
+        # Default to 2026 if year not specified
+        year = int(year_str) if year_str else 2026
+        
+        # Map abbreviated month to number
+        month_map = {
+            "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6,
+            "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12
+        }
+        month = month_map.get(month_str, 1)
+        
+        return (year, month, day)
+    
+    return (9999, 12, 31)  # Default to end of time if parsing fails
 
 def convert_names_to_objids(weeks, module_name_to_id, bot_name_to_id):
     """Convert human-readable names to OBJID format."""
@@ -144,6 +236,10 @@ def main():
     print("\nParsing archive/old_discounts.md...")
     weeks = parse_old_discounts_md("archive/old_discounts.md")
     print(f"  -> Found {len(weeks)} weeks")
+    
+    # Sort weeks chronologically
+    weeks.sort(key=lambda w: parse_date_for_sorting(w["date_range"]))
+    print(f"  -> Sorted weeks chronologically")
     
     print("\nConverting human-readable names to OBJID format...")
     converted_weeks = convert_names_to_objids(weeks, module_name_to_id, bot_name_to_id)

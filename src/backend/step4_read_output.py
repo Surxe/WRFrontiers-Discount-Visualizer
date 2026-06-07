@@ -94,10 +94,24 @@ def load_discounts() -> list[dict]:
     if len(parts) == 2:
         start = parts[0].strip()
         end = parts[1].strip()
-        if not re.search(r'\d{4}', start):
-            start += f", {current_year}"
-        if not re.search(r'\d{4}', end):
-            end += f", {current_year}"
+        
+        # Extract year from start if present
+        start_year_match = re.search(r',\s*(\d{4})', start)
+        start_year = start_year_match.group(1) if start_year_match else None
+        
+        # Extract year from end if present
+        end_year_match = re.search(r',\s*(\d{4})', end)
+        end_year = end_year_match.group(1) if end_year_match else None
+        
+        # Use the year from the part that has it, or default to current year
+        year_to_use = start_year or end_year or str(current_year)
+        
+        # Ensure both dates have the year
+        if not start_year:
+            start += f", {year_to_use}"
+        if not end_year:
+            end += f", {year_to_use}"
+        
         date_range = f"{start} - {end}"
         output_data["date_range"] = date_range
 
