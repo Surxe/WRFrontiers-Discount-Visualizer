@@ -1,5 +1,4 @@
 {
-  "date_range": "Mar 10, 2026 - Mar 17, 2026",
   "items": [
     {
       "id": "DA_Module_ChassisOrochi.2",
@@ -30,6 +29,18 @@
       "name": "Varangian Mk. I"
     },
     {
+      "id": "DA_Module_ChassisLancelot.2",
+      "name": "Lancelot"
+    },
+    {
+      "id": "DA_Module_TorsoLancelot.1",
+      "name": "Lancelot"
+    },
+    {
+      "id": "DA_Module_ShoulderLancelot.0",
+      "name": "Lancelot"
+    },
+    {
       "id": "DA_Module_ChassisSpire.2",
       "name": "Volta"
     },
@@ -46,24 +57,28 @@
       "name": "Volta"
     },
     {
-      "id": "DA_Module_Weapon_Slugger.0",
-      "name": "Slugger"
-    },
-    {
       "id": "DA_Module_Weapon_Zeus.0",
       "name": "Zeus"
+    },
+    {
+      "id": "DA_Module_Weapon_Orkan.0",
+      "name": "Orkan"
+    },
+    {
+      "id": "DA_Module_Weapon_Punisher.0",
+      "name": "Punisher"
     },
     {
       "id": "DA_Module_Weapon_Cascade.0",
       "name": "Cascade"
     },
     {
-      "id": "DA_Module_Ability_BlastWave.1",
-      "name": "Blast Wave"
-    },
-    {
       "id": "DA_Module_Ability_Spotlight.1",
       "name": "Recon Mode"
+    },
+    {
+      "id": "DA_Module_Ability_BlastWave.1",
+      "name": "Blast Wave"
     },
     {
       "id": "DA_Module_Ability_Grounded.1",
@@ -72,14 +87,26 @@
     {
       "id": "DA_Module_Ability_Dazzle.1",
       "name": "Flashbang"
+    },
+    {
+      "id": "DA_Module_Ability_SpeedBoost.1",
+      "name": "Sprint Reactor"
+    },
+    {
+      "id": "DA_Module_Ability_CounterAttack.1",
+      "name": "Reflector"
+    },
+    {
+      "id": "DA_Module_Ability_IronVeil.1",
+      "name": "Iron Veil"
     }
   ],
   "week": {
-    "start_year": 2026,
-    "start_month": 3,
-    "start_day": 10,
-    "end_year": 2026,
-    "end_month": 3,
-    "end_day": 17
+    "start_year": 2025,
+    "start_month": 12,
+    "start_day": 9,
+    "end_year": 2025,
+    "end_month": 12,
+    "end_day": 16
   }
 }

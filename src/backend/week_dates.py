@@ -89,6 +89,21 @@ def normalize_week(value: dict[str, Any] | str) -> dict[str, int]:
             "end_day": int(value["end_day"]),
         }
 
+    if isinstance(value, dict) and all(
+        key in value
+        for key in ("start_year", "start_month", "start_day", "end_year", "end_month", "end_day")
+    ):
+        start_month = _month_number(value["start_month"])
+        end_month = _month_number(value["end_month"])
+        return {
+            "start_year": int(value["start_year"]),
+            "start_month": start_month,
+            "start_day": int(value["start_day"]),
+            "end_year": int(value["end_year"]),
+            "end_month": end_month,
+            "end_day": int(value["end_day"]),
+        }
+
     if isinstance(value, dict) and "date_range" in value:
         value = value["date_range"]
 

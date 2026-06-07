@@ -54,19 +54,15 @@ def run():
 
     for f in discount_files:
         data = json.load(open(f, encoding="utf-8"))
-        try:
-            week = normalize_week(data.get("week"))
-        except (ValueError, TypeError):
-            date_range = data.get("date_range", "")
-            if not date_range:
-                print(f"  [SKIP] {f.name}: no week/date_range")
-                continue
-            try:
-                week = normalize_week(date_range)
-            except ValueError:
-                print(f"  [SKIP] {f.name}: could not parse date_range")
-                continue
+        week = data.get("week")
         if not week:
+            print(f"  [SKIP] {f.name}: no week field")
+            continue
+        
+        try:
+            week = normalize_week(week)
+        except (ValueError, TypeError) as e:
+            print(f"  [SKIP] {f.name}: could not parse week: {e}")
             continue
 
         module_ids = [item["id"] for item in data.get("items", []) if item.get("id")]
