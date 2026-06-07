@@ -36,6 +36,47 @@
   padding: 3.5rem 0.45rem;
   max-height: 100vh;
   overflow-y: auto;
+  /* Hide default scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.sidebar-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Custom scrollbar track */
+.custom-scrollbar-track {
+  position: absolute;
+  top: 3.5rem;
+  right: 0.25rem;
+  width: 4px;
+  height: calc(100vh - 3.5rem);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Custom scrollbar thumb */
+.custom-scrollbar-thumb {
+  position: absolute;
+  right: 0;
+  width: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  transform-origin: top center;
+}
+
+.custom-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.custom-scrollbar-thumb:active {
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .sidebar-toggle {
@@ -198,5 +239,25 @@
 @media (max-width: 480px) and (orientation: portrait) {
   .all-weeks-sidebar__main {
     padding: 0.85rem 0.5rem 1.25rem;
+  }
+
+  .custom-scrollbar-track {
+    width: 3px;
+    right: 0.15rem;
+  }
+
+  .custom-scrollbar-thumb {
+    width: 3px;
+  }
+}
+
+@media (max-width: 375px) {
+  .custom-scrollbar-track {
+    width: 3px;
+    right: 0.1rem;
+  }
+
+  .custom-scrollbar-thumb {
+    width: 3px;
   }
 }
