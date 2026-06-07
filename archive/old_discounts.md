@@ -100,7 +100,7 @@ Robots: Bulgasari, Cyclops, Siren, Grim
 Weapons: Shredder, Gemini, Trident, Katzbalger, Jigsaw
 Gear: Umbrella, Energy Wall, Emergency Shield, Homing Missile, Infinite Ammo, Blink
 
-Octtober 7 - 14
+October 7 - 14
 Robots: Griffin, Typhon, Purifier
 Weapons: Quantum, Shocktrain, Incinerator
 Gear: Umbrella, Reflector, Holofield, Ghost Turret, Fuel Reserve

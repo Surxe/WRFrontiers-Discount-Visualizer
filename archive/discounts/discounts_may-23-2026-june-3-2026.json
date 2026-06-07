@@ -1,0 +1,53 @@
+{
+  "date_range": "May 23, 2026 - June 3, 2026",
+  "items": [
+    {
+      "id": "DA_Module_ChassisOrochi.2",
+      "name": "Orochi"
+    },
+    {
+      "id": "DA_Module_TorsoOrochi.1",
+      "name": "Orochi"
+    },
+    {
+      "id": "DA_Module_ShoulderOrochi.0",
+      "name": "Orochi"
+    },
+    {
+      "id": "DA_Module_ChassisPhantom.2",
+      "name": "Phantom"
+    },
+    {
+      "id": "DA_Module_TorsoPhantom.1",
+      "name": "Phantom"
+    },
+    {
+      "id": "DA_Module_ShoulderPhantom.0",
+      "name": "Phantom"
+    },
+    {
+      "id": "DA_Module_Weapon_Zeus.0",
+      "name": "Zeus"
+    },
+    {
+      "id": "DA_Module_Weapon_Toxin.0",
+      "name": "Lighter"
+    },
+    {
+      "id": "DA_Module_Ability_BlastWave.1",
+      "name": "Blast Wave"
+    },
+    {
+      "id": "DA_Module_Ability_Spotlight.1",
+      "name": "Recon Mode"
+    },
+    {
+      "id": "DA_Module_Ability_BlockingField.1",
+      "name": "Energy Wall"
+    },
+    {
+      "id": "DA_Module_Ability_MineField.1",
+      "name": "Minefield"
+    }
+  ]
+}

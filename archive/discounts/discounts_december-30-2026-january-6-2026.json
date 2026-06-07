@@ -1,5 +1,5 @@
 {
-  "date_range": "March 31, 2026 - April 7, 2026",
+  "date_range": "December 30, 2026 - January 6, 2026",
   "items": [
     {
       "id": "DA_Module_ChassisRaven.2",
@@ -14,16 +14,16 @@
       "name": "Raven"
     },
     {
-      "id": "DA_Module_ChassisCyclops.2",
-      "name": "Cyclops"
+      "id": "DA_Module_ChassisLoki.2",
+      "name": "Loki"
     },
     {
-      "id": "DA_Module_TorsoCyclops.1",
-      "name": "Cyclops"
+      "id": "DA_Module_TorsoLoki.1",
+      "name": "Loki"
     },
     {
-      "id": "DA_Module_ShoulderCyclops.0",
-      "name": "Cyclops"
+      "id": "DA_Module_ShoulderLoki.0",
+      "name": "Loki"
     },
     {
       "id": "DA_Module_ChassisPhantom.2",
@@ -42,40 +42,40 @@
       "name": "Gozer"
     },
     {
+      "id": "DA_Module_Weapon_Glory.0",
+      "name": "Halo"
+    },
+    {
       "id": "DA_Module_Weapon_Toxin.0",
       "name": "Lighter"
     },
     {
-      "id": "DA_Module_Weapon_Twinflare.0",
-      "name": "Gemini"
+      "id": "DA_Module_Weapon_Gimcoil.0",
+      "name": "Apollo"
+    },
+    {
+      "id": "DA_Module_Ability_InfiniteAmmo_Tutorial.1",
+      "name": "Infinite Ammo"
     },
     {
       "id": "DA_Module_Ability_BlastWave.1",
       "name": "Blast Wave"
     },
     {
-      "id": "DA_Module_Ability_InfiniteAmmo.1",
-      "name": "Infinite Ammo"
+      "id": "DA_Module_Ability_BlockingField.1",
+      "name": "Energy Wall"
     },
     {
       "id": "DA_Module_Ability_MineField.1",
       "name": "Minefield"
     },
     {
-      "id": "DA_Module_Ability_BlockingField.1",
-      "name": "Energy Wall"
+      "id": "DA_Module_Ability_Grounded.1",
+      "name": "Fuel Burn"
     },
     {
-      "id": "DA_Module_Ability_DashBlinkedVisible.1",
-      "name": "Blink"
-    },
-    {
-      "id": "DA_Module_Ability_Homing.1",
-      "name": "Homing Missile"
-    },
-    {
-      "id": "DA_Module_Ability_IronVeil.1",
-      "name": "Iron Veil"
+      "id": "DA_Module_Ability_Spotlight.1",
+      "name": "Recon Mode"
     }
   ]
 }

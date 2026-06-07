@@ -1,0 +1,97 @@
+{
+  "date_range": "November 25, 2026 - December 2, 2026",
+  "items": [
+    {
+      "id": "DA_Module_ChassisRaven.2",
+      "name": "Raven"
+    },
+    {
+      "id": "DA_Module_TorsoRaven.1",
+      "name": "Raven"
+    },
+    {
+      "id": "DA_Module_ShoulderRaven.0",
+      "name": "Raven"
+    },
+    {
+      "id": "DA_Module_ChassisBulwark.2",
+      "name": "Bulwark"
+    },
+    {
+      "id": "DA_Module_TorsoBulwark.1",
+      "name": "Bulwark"
+    },
+    {
+      "id": "DA_Module_ShoulderBulwark.0",
+      "name": "Bulwark"
+    },
+    {
+      "id": "DA_Module_ChassisDemeter.2",
+      "name": "Ceres"
+    },
+    {
+      "id": "DA_Module_TorsoDemeter.1",
+      "name": "Ceres"
+    },
+    {
+      "id": "DA_Module_ShoulderDemeter.0",
+      "name": "Ceres"
+    },
+    {
+      "id": "DA_Module_ChassisMatriarch.1",
+      "name": "Matriarch"
+    },
+    {
+      "id": "DA_Module_TorsoMatriarch.0",
+      "name": "Matriarch"
+    },
+    {
+      "id": "DA_Module_ShoulderLMatriarch.0",
+      "name": "Matriarch"
+    },
+    {
+      "id": "DA_Module_ShoulderRMatriarch.0",
+      "name": "Matriarch"
+    },
+    {
+      "id": "DA_Module_Weapon_Gozer.0",
+      "name": "Gozer"
+    },
+    {
+      "id": "DA_Module_Weapon_Thunder.0",
+      "name": "Thunder"
+    },
+    {
+      "id": "DA_Module_Weapon_Bisector.0",
+      "name": "Bisector"
+    },
+    {
+      "id": "DA_Module_Weapon_Hive.0",
+      "name": "Hive"
+    },
+    {
+      "id": "DA_Module_Ability_BlastWave.1",
+      "name": "Blast Wave"
+    },
+    {
+      "id": "DA_Module_Ability_InfiniteAmmo_Tutorial.1",
+      "name": "Infinite Ammo"
+    },
+    {
+      "id": "DA_Module_Ability_SmokeWall.1",
+      "name": "Holofield"
+    },
+    {
+      "id": "DA_Module_Ability_RegenerationFull.1",
+      "name": "Nanite Repair"
+    },
+    {
+      "id": "DA_Module_Ability_GhostTurret.1",
+      "name": "Ghost Turret"
+    },
+    {
+      "id": "DA_Module_Ability_CounterAttack.1",
+      "name": "Reflector"
+    }
+  ]
+}
