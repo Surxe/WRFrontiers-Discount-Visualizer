@@ -27,10 +27,10 @@ const mainPageWeek = weeks && weeks.length > 0 ? weeks[0] : null;
   </button>
 
   <aside class="sidebar" id="sidebar">
+    <div class="custom-scrollbar-track" id="custom-scrollbar-track">
+      <div class="custom-scrollbar-thumb" id="custom-scrollbar-thumb"></div>
+    </div>
     <div class="sidebar-content" id="sidebar-content">
-      <div class="custom-scrollbar-track" id="custom-scrollbar-track">
-        <div class="custom-scrollbar-thumb" id="custom-scrollbar-thumb"></div>
-      </div>
       <ul class="week-list">
         {(() => {
           const groupedWeeks = {};

@@ -34,7 +34,7 @@
   max-width: 100%;
   box-sizing: border-box;
   padding: 3.5rem 0.45rem;
-  height: 100vh;
+  max-height: 100vh;
   overflow-y: auto;
   /* Hide default scrollbar */
   scrollbar-width: none; /* Firefox */
@@ -47,15 +47,15 @@
 
 /* Custom scrollbar track */
 .custom-scrollbar-track {
-  position: absolute;
+  position: fixed;
   top: 0;
-  right: 0.25rem;
+  left: 10rem;
   bottom: 0;
   width: 4px;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 2px;
   pointer-events: none;
-  z-index: 10;
+  z-index: 101;
 }
 
 /* Custom scrollbar thumb */
@@ -243,7 +243,7 @@
 
   .custom-scrollbar-track {
     width: 3px;
-    right: 0.15rem;
+    left: 10rem;
   }
 
   .custom-scrollbar-thumb {
@@ -254,7 +254,7 @@
 @media (max-width: 375px) {
   .custom-scrollbar-track {
     width: 3px;
-    right: 0.1rem;
+    left: 10rem;
   }
 
   .custom-scrollbar-thumb {

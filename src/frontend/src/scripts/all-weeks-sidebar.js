@@ -29,7 +29,7 @@ export function initAllWeeksSidebar() {
       const scrollHeight = sidebarContent.scrollHeight;
       const clientHeight = sidebarContent.clientHeight;
       const scrollTop = sidebarContent.scrollTop;
-      const trackHeight = scrollbarTrack.clientHeight;
+      const trackHeight = window.innerHeight; // Track is fixed to viewport
       
       if (scrollHeight <= clientHeight) {
         scrollbarThumb.style.display = 'none';
@@ -69,7 +69,7 @@ export function initAllWeeksSidebar() {
       const deltaY = e.clientY - startY;
       const scrollHeight = sidebarContent.scrollHeight;
       const clientHeight = sidebarContent.clientHeight;
-      const trackHeight = scrollbarTrack.clientHeight;
+      const trackHeight = window.innerHeight;
       const thumbHeight = (clientHeight / scrollHeight) * trackHeight;
       
       const scrollDelta = (deltaY / (trackHeight - thumbHeight)) * (scrollHeight - clientHeight);
@@ -91,15 +91,16 @@ export function initAllWeeksSidebar() {
       const clickY = e.clientY - trackRect.top;
       const scrollHeight = sidebarContent.scrollHeight;
       const clientHeight = sidebarContent.clientHeight;
-      const thumbHeight = (clientHeight / scrollHeight) * trackRect.height;
+      const trackHeight = window.innerHeight;
+      const thumbHeight = (clientHeight / scrollHeight) * trackHeight;
       
       let targetScrollTop;
       if (clickY < parseFloat(scrollbarThumb.style.transform.replace('translateY(', '').replace('px)', '')) || 0) {
         // Click above thumb
-        targetScrollTop = (clickY / trackRect.height) * scrollHeight - (clientHeight / 2);
+        targetScrollTop = (clickY / trackHeight) * scrollHeight - (clientHeight / 2);
       } else {
         // Click below thumb
-        targetScrollTop = (clickY / trackRect.height) * scrollHeight - (clientHeight / 2);
+        targetScrollTop = (clickY / trackHeight) * scrollHeight - (clientHeight / 2);
       }
       
       sidebarContent.scrollTo({
