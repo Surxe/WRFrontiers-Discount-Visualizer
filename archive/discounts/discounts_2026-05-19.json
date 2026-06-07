@@ -1,5 +1,5 @@
 {
-  "date_range": "May 19, 2026 - May 26, 2026",
+  "date_range": "May 19 - 26 (2026)",
   "items": [
     {
       "id": "DA_Module_ChassisHeike.2",
@@ -57,5 +57,13 @@
       "id": "DA_Module_Ability_BlastWave.1",
       "name": "Blast Wave"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 5,
+    "start_day": 19,
+    "end_year": 2026,
+    "end_month": 5,
+    "end_day": 26
+  }
 }

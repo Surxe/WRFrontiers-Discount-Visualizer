@@ -1,5 +1,5 @@
 {
-  "date_range": "May 26, 2026 - June 2, 2026",
+  "date_range": "May 26 - June 2 (2026)",
   "items": [
     {
       "id": "DA_Module_ChassisVityaz.2",
@@ -97,5 +97,13 @@
       "id": "DA_Module_Ability_RegenerationFull.1",
       "name": "Nanite Repair"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 5,
+    "start_day": 26,
+    "end_year": 2026,
+    "end_month": 6,
+    "end_day": 2
+  }
 }

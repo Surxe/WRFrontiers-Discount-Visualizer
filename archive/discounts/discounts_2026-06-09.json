@@ -1,5 +1,5 @@
 {
-  "date_range": "June 9, 2026 - June 16, 2026",
+  "date_range": "June 9 - 16 (2026)",
   "items": [
     {
       "id": "DA_Module_ChassisGriffin.2",
@@ -77,5 +77,13 @@
       "id": "DA_Module_Weapon_Scrubber.0",
       "name": "Scrubber"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 6,
+    "start_day": 9,
+    "end_year": 2026,
+    "end_month": 6,
+    "end_day": 16
+  }
 }

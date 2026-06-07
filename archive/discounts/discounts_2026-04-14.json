@@ -1,5 +1,5 @@
 {
-  "date_range": "April 14, 2026 - April 21, 2026",
+  "date_range": "April 14 - 21 (2026)",
   "items": [
     {
       "id": "DA_Module_ChassisBulwark.2",
@@ -73,5 +73,13 @@
       "id": "DA_Module_Ability_KineticPulse.1",
       "name": "Kinetic Pulse"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 4,
+    "start_day": 14,
+    "end_year": 2026,
+    "end_month": 4,
+    "end_day": 21
+  }
 }

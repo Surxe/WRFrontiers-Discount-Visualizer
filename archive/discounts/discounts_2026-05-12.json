@@ -1,5 +1,5 @@
 {
-  "date_range": "May 12, 2026 - May 19, 2026",
+  "date_range": "May 12 - 19 (2026)",
   "items": [
     {
       "id": "DA_Module_ChassisFenrir.2",
@@ -89,5 +89,13 @@
       "id": "DA_Module_Ability_TensionLink.1",
       "name": "Gamma Beam"
     }
-  ]
+  ],
+  "week": {
+    "start_year": 2026,
+    "start_month": 5,
+    "start_day": 12,
+    "end_year": 2026,
+    "end_month": 5,
+    "end_day": 19
+  }
 }

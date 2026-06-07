@@ -3,6 +3,150 @@
     {
       "week": {
         "start_year": 2026,
+        "start_month": 6,
+        "start_day": 9,
+        "end_year": 2026,
+        "end_month": 6,
+        "end_day": 16
+      },
+      "file": "week_grids/grid_2026-06-09.json",
+      "slug": "2026-06-09"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 6,
+        "start_day": 2,
+        "end_year": 2026,
+        "end_month": 6,
+        "end_day": 9
+      },
+      "file": "week_grids/grid_2026-06-02.json",
+      "slug": "2026-06-02"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 5,
+        "start_day": 26,
+        "end_year": 2026,
+        "end_month": 6,
+        "end_day": 2
+      },
+      "file": "week_grids/grid_2026-05-26.json",
+      "slug": "2026-05-26"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 5,
+        "start_day": 19,
+        "end_year": 2026,
+        "end_month": 5,
+        "end_day": 26
+      },
+      "file": "week_grids/grid_2026-05-19.json",
+      "slug": "2026-05-19"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 5,
+        "start_day": 12,
+        "end_year": 2026,
+        "end_month": 5,
+        "end_day": 19
+      },
+      "file": "week_grids/grid_2026-05-12.json",
+      "slug": "2026-05-12"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 5,
+        "start_day": 5,
+        "end_year": 2026,
+        "end_month": 5,
+        "end_day": 12
+      },
+      "file": "week_grids/grid_2026-05-05.json",
+      "slug": "2026-05-05"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 4,
+        "start_day": 28,
+        "end_year": 2026,
+        "end_month": 5,
+        "end_day": 5
+      },
+      "file": "week_grids/grid_2026-04-28.json",
+      "slug": "2026-04-28"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 4,
+        "start_day": 21,
+        "end_year": 2026,
+        "end_month": 4,
+        "end_day": 28
+      },
+      "file": "week_grids/grid_2026-04-21.json",
+      "slug": "2026-04-21"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 4,
+        "start_day": 14,
+        "end_year": 2026,
+        "end_month": 4,
+        "end_day": 21
+      },
+      "file": "week_grids/grid_2026-04-14.json",
+      "slug": "2026-04-14"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 4,
+        "start_day": 7,
+        "end_year": 2026,
+        "end_month": 4,
+        "end_day": 14
+      },
+      "file": "week_grids/grid_2026-04-07.json",
+      "slug": "2026-04-07"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 3,
+        "start_day": 31,
+        "end_year": 2026,
+        "end_month": 4,
+        "end_day": 7
+      },
+      "file": "week_grids/grid_2026-03-31.json",
+      "slug": "2026-03-31"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 3,
+        "start_day": 24,
+        "end_year": 2026,
+        "end_month": 3,
+        "end_day": 31
+      },
+      "file": "week_grids/grid_2026-03-24.json",
+      "slug": "2026-03-24"
+    },
+    {
+      "week": {
+        "start_year": 2026,
         "start_month": 3,
         "start_day": 17,
         "end_year": 2026,
