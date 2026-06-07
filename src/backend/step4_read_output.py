@@ -12,8 +12,8 @@ from config import (
     FRONTEND_DATA_DIR,
     STANDALONE_MODULE_GROUPS,
     WEEKS_MANIFEST,
-    date_range_to_slug
 )
+from week_dates import format_week, normalize_week, week_slug, week_sort_key
 import grid_generator
 
 def parse_ref(ref: str) -> tuple[str, str]:
@@ -81,39 +81,20 @@ def load_discounts() -> list[dict]:
         sys.exit(1)
 
 
-    date_range = output_data.get("date_range", "")
-    if not date_range:
-        print("  [ERROR] Output date_range is empty or missing.")
-        sys.exit(1)
+    try:
+        week = normalize_week(output_data.get("week") or output_data)
+    except ValueError:
+        date_range = output_data.get("date_range", "")
+        if not date_range:
+            print("  [ERROR] Output week/date_range is empty or missing.")
+            sys.exit(1)
+        try:
+            week = normalize_week(date_range)
+        except ValueError as e:
+            print(f"  [ERROR] Could not parse output date range: {e}")
+            sys.exit(1)
 
-    import datetime
-    import re
-    current_year = datetime.datetime.now().year
-    
-    parts = date_range.split("-")
-    if len(parts) == 2:
-        start = parts[0].strip()
-        end = parts[1].strip()
-        
-        # Extract year from start if present
-        start_year_match = re.search(r',\s*(\d{4})', start)
-        start_year = start_year_match.group(1) if start_year_match else None
-        
-        # Extract year from end if present
-        end_year_match = re.search(r',\s*(\d{4})', end)
-        end_year = end_year_match.group(1) if end_year_match else None
-        
-        # Use the year from the part that has it, or default to current year
-        year_to_use = start_year or end_year or str(current_year)
-        
-        # Ensure both dates have the year
-        if not start_year:
-            start += f", {year_to_use}"
-        if not end_year:
-            end += f", {year_to_use}"
-        
-        date_range = f"{start} - {end}"
-        output_data["date_range"] = date_range
+    display_name = format_week(week, "long")
 
     discount_refs = output_data.get("items", [])
     if not isinstance(discount_refs, list):
@@ -128,7 +109,7 @@ def load_discounts() -> list[dict]:
             print(f"  [ERROR] Invalid item format. Expected string starting with 'OBJID_VirtualBot::' or 'OBJID_Module::', got: {m_ref}")
             sys.exit(1)
 
-    print(f"  -> Found {len(discount_refs)} valid ID matches for date range '{date_range}'.")
+    print(f"  -> Found {len(discount_refs)} valid ID matches for week '{display_name}'.")
 
     # Load constant JSONs
     if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists() or not MODULE_TYPE_JSON.exists() or not CHARACTER_PRESET_JSON.exists():
@@ -190,12 +171,12 @@ def load_discounts() -> list[dict]:
     # Write the full discounts data to archive directory
     archive_output_dir = REPO_ROOT / "archive" / "discounts"
     archive_output_dir.mkdir(parents=True, exist_ok=True)
-    slug = date_range_to_slug(date_range)
+    slug = week_slug(week)
     filename = f"discounts_{slug}.json"
     archive_output = archive_output_dir / filename
     
     frontend_data = {
-        "date_range": date_range,
+        "week": week,
         "items": discounts
     }
     
@@ -243,35 +224,19 @@ def load_discounts() -> list[dict]:
 
     # Remove existing entry if we are overwriting it
     manifest_data["weeks"] = [
-        w for w in manifest_data["weeks"] 
-        if w.get("date_range") != date_range and w.get("file") != grid_manifest_path
+        w for w in manifest_data["weeks"]
+        if w.get("slug") != slug and w.get("file") != grid_manifest_path
     ]
 
     # Add the new week entry
     manifest_data["weeks"].append({
-        "date_range": date_range,
+        "week": week,
         "file": grid_manifest_path,
         "slug": slug
     })
 
-    # Sort weeks helper (optional, but nice) - parse start date from date_range if possible
-    def get_sort_key(week_entry):
-        # date_range looks like: "June 2 - June 9" or "May 26 - June 2" or "June 9, 2026 - June 16, 2026"
-        dr = week_entry.get("date_range", "")
-        months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
-        match = re.search(r'([A-Za-z]+)\s+(\d+)(?:,?\s*(\d{4}))?', dr)
-        if match:
-            m_name, d_val, y_val = match.groups()
-            try:
-                m_idx = months.index(m_name.lower()[:3])
-                year = int(y_val) if y_val else 0
-                return (year, m_idx, int(d_val))
-            except ValueError:
-                pass
-        return (0, 0, 0)
-
     # Sort descending (most recent first)
-    manifest_data["weeks"].sort(key=get_sort_key, reverse=True)
+    manifest_data["weeks"].sort(key=week_sort_key, reverse=True)
 
     with open(WEEKS_MANIFEST, "w", encoding="utf-8") as f:
         json.dump(manifest_data, f, indent=2, ensure_ascii=False)

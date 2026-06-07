@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { getCurrentOrLatestWeek } from './dateValidator.js';
+import { formatWeek } from './weekDates.js';
 import { buildVbotMetaById } from './vbotMeta.js';
 
 const parseRef = (ref) => {
@@ -55,17 +56,18 @@ export function fetchEnrichedDiscounts(filename = null) {
   }
   
   if (!targetWeek) {
-    return { dateRange: "", gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
+    return { dateRange: "", week: null, gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
   }
 
   const slug = targetWeek.slug;
-  const dateRange = targetWeek.date_range || "";
+  const week = targetWeek.week || null;
+  const dateRange = formatWeek(targetWeek, 'long') || targetWeek.date_range || "";
   
   const gridData = readJson(targetWeek.file, frontendDataDir);
   const columnsList = readJson('columns.json', frontendDataDir) || [];
   
   if (!gridData || (!gridData.standardRows && !gridData.titanRows)) {
-    return { dateRange, gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
+    return { dateRange, week, gridData: { standardRows: [], titanRows: [] }, shopCards: {}, catIcons: [], vbotMetaById: {} };
   }
 
   const ModuleDB = readJson('Module.json');
@@ -159,6 +161,7 @@ export function fetchEnrichedDiscounts(filename = null) {
 
   return {
     dateRange,
+    week,
     gridData: {
       standardRows: enrichedStandardRows,
       titanRows: enrichedTitanRows

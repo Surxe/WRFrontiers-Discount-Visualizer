@@ -44,11 +44,9 @@ FRONTEND_DATA_DIR = REPO_ROOT / "src" / "frontend" / "public" / "data"
 WEEKS_MANIFEST = FRONTEND_DATA_DIR / "weeks.json"
 
 def date_range_to_slug(date_range: str) -> str:
-    """Convert 'May 26 - June 2' to 'may-26-june-2' for use in filenames."""
-    import re
-    slug = date_range.lower()
-    slug = re.sub(r'[^a-z0-9]+', '-', slug)
-    return slug.strip('-')
+    """Convert a legacy date range to the start-date slug used for week filenames."""
+    from week_dates import normalize_week, week_slug
+    return week_slug(normalize_week(date_range))
 
 # Module groups that appear as standalone discountable items (weapons / gear).
 # step2 INCLUDES only these groups when building game_data for the LLM.
