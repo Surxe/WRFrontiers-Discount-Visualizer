@@ -65,9 +65,9 @@ def run():
             print(f"  [SKIP] {f.name}: could not parse week: {e}")
             continue
 
-        module_ids = [item["id"] for item in data.get("items", []) if item.get("id")]
+        item_refs = data.get("items", [])
         grid_data = grid_generator.build_grid(
-            module_ids, modules_data, module_types_data, virtual_bots_data, presets_data
+            item_refs, modules_data, module_types_data, virtual_bots_data, presets_data
         )
 
         slug = week_slug(week)

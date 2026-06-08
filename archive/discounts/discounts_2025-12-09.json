@@ -1,105 +1,30 @@
 {
   "items": [
-    {
-      "id": "DA_Module_ChassisOrochi.2",
-      "name": "Orochi"
-    },
-    {
-      "id": "DA_Module_TorsoOrochi.1",
-      "name": "Orochi"
-    },
-    {
-      "id": "DA_Module_ShoulderOrochi.0",
-      "name": "Orochi"
-    },
-    {
-      "id": "DA_Module_ChassisVityaz.2",
-      "name": "Varangian"
-    },
-    {
-      "id": "DA_Module_TorsoVityaz.1",
-      "name": "Varangian"
-    },
-    {
-      "id": "DA_Module_ShoulderVityaz01.0",
-      "name": "Varangian Mk. II"
-    },
-    {
-      "id": "DA_Module_ShoulderVityaz02.0",
-      "name": "Varangian Mk. I"
-    },
-    {
-      "id": "DA_Module_ChassisLancelot.2",
-      "name": "Lancelot"
-    },
-    {
-      "id": "DA_Module_TorsoLancelot.1",
-      "name": "Lancelot"
-    },
-    {
-      "id": "DA_Module_ShoulderLancelot.0",
-      "name": "Lancelot"
-    },
-    {
-      "id": "DA_Module_ChassisSpire.2",
-      "name": "Volta"
-    },
-    {
-      "id": "DA_Module_TorsoSpire.0",
-      "name": "Volta"
-    },
-    {
-      "id": "DA_Module_ShoulderLSpire.0",
-      "name": "Volta"
-    },
-    {
-      "id": "DA_Module_ShoulderRSpire.0",
-      "name": "Volta"
-    },
-    {
-      "id": "DA_Module_Weapon_Zeus.0",
-      "name": "Zeus"
-    },
-    {
-      "id": "DA_Module_Weapon_Orkan.0",
-      "name": "Orkan"
-    },
-    {
-      "id": "DA_Module_Weapon_Punisher.0",
-      "name": "Punisher"
-    },
-    {
-      "id": "DA_Module_Weapon_Cascade.0",
-      "name": "Cascade"
-    },
-    {
-      "id": "DA_Module_Ability_Spotlight.1",
-      "name": "Recon Mode"
-    },
-    {
-      "id": "DA_Module_Ability_BlastWave.1",
-      "name": "Blast Wave"
-    },
-    {
-      "id": "DA_Module_Ability_Grounded.1",
-      "name": "Fuel Burn"
-    },
-    {
-      "id": "DA_Module_Ability_Dazzle.1",
-      "name": "Flashbang"
-    },
-    {
-      "id": "DA_Module_Ability_SpeedBoost.1",
-      "name": "Sprint Reactor"
-    },
-    {
-      "id": "DA_Module_Ability_CounterAttack.1",
-      "name": "Reflector"
-    },
-    {
-      "id": "DA_Module_Ability_IronVeil.1",
-      "name": "Iron Veil"
-    }
+    "DA_Module_ChassisOrochi.2",
+    "DA_Module_TorsoOrochi.1",
+    "DA_Module_ShoulderOrochi.0",
+    "DA_Module_ChassisVityaz.2",
+    "DA_Module_TorsoVityaz.1",
+    "DA_Module_ShoulderVityaz01.0",
+    "DA_Module_ShoulderVityaz02.0",
+    "DA_Module_ChassisLancelot.2",
+    "DA_Module_TorsoLancelot.1",
+    "DA_Module_ShoulderLancelot.0",
+    "DA_Module_ChassisSpire.2",
+    "DA_Module_TorsoSpire.0",
+    "DA_Module_ShoulderLSpire.0",
+    "DA_Module_ShoulderRSpire.0",
+    "DA_Module_Weapon_Zeus.0",
+    "DA_Module_Weapon_Orkan.0",
+    "DA_Module_Weapon_Punisher.0",
+    "DA_Module_Weapon_Cascade.0",
+    "DA_Module_Ability_Spotlight.1",
+    "DA_Module_Ability_BlastWave.1",
+    "DA_Module_Ability_Grounded.1",
+    "DA_Module_Ability_Dazzle.1",
+    "DA_Module_Ability_SpeedBoost.1",
+    "DA_Module_Ability_CounterAttack.1",
+    "DA_Module_Ability_IronVeil.1"
   ],
   "week": {
     "start_year": 2025,

@@ -46,9 +46,9 @@ runs:
         GEMINI_API_KEY: ${{ env.GEMINI_API_KEY }}
       run: python -c "import sys; sys.path.append('src/backend'); from step3_call_gemini import run_step; run_step('${{ inputs.target_date_range }}')"
 
-    - name: Run Step 4 (Read Output)
+    - name: Run Step 4 (Archive and Generate Grid)
       shell: bash
-      run: python -c "import sys; sys.path.append('src/backend'); from step4_read_output import run_step; run_step()"
+      run: python -c "import sys; sys.path.append('src/backend'); from step4_archive_gen_grid import run_step; run_step()"
 
     - name: Commit and push changes
       if: inputs.commit == 'true'

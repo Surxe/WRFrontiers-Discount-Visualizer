@@ -1,85 +1,25 @@
 {
   "items": [
-    {
-      "id": "DA_Module_ChassisPursuer.2",
-      "name": "Pursuer"
-    },
-    {
-      "id": "DA_Module_TorsoPursuer.1",
-      "name": "Pursuer"
-    },
-    {
-      "id": "DA_Module_ShoulderPursuer.0",
-      "name": "Pursuer"
-    },
-    {
-      "id": "DA_Module_ChassisCyclops.2",
-      "name": "Cyclops"
-    },
-    {
-      "id": "DA_Module_TorsoCyclops.1",
-      "name": "Cyclops"
-    },
-    {
-      "id": "DA_Module_ShoulderCyclops.0",
-      "name": "Cyclops"
-    },
-    {
-      "id": "DA_Module_ChassisSiren.2",
-      "name": "Siren"
-    },
-    {
-      "id": "DA_Module_TorsoSiren.1",
-      "name": "Siren"
-    },
-    {
-      "id": "DA_Module_ShoulderSiren.0",
-      "name": "Siren"
-    },
-    {
-      "id": "DA_Module_Weapon_Scatter.0",
-      "name": "Scatter"
-    },
-    {
-      "id": "DA_Module_Weapon_Twinflare.0",
-      "name": "Gemini"
-    },
-    {
-      "id": "DA_Module_Weapon_Trident.0",
-      "name": "Trident"
-    },
-    {
-      "id": "DA_Module_Weapon_Railgun.0",
-      "name": "Railgun"
-    },
-    {
-      "id": "DA_Module_Weapon_Dragoon.0",
-      "name": "Dragoon"
-    },
-    {
-      "id": "DA_Module_Weapon_Noricum.0",
-      "name": "Noricum"
-    },
-    {
-      "id": "DA_Module_Ability_BlockingField.1",
-      "name": "Energy Wall"
-    },
-    {
-      "id": "DA_Module_Ability_Spotlight.1",
-      "name": "Recon Mode"
-    },
-    {
-      "id": "DA_Module_Ability_DashBlinkedVisible.1",
-      "name": "Blink"
-    },
-    {
-      "id": "DA_Module_Ability_Homing.1",
-      "name": "Homing Missile"
-    },
-    {
-      "id": "DA_Module_Ability_Umbrella.1",
-      "name": "Umbrella"
-    }
+    "DA_Module_ChassisPursuer.2",
+    "DA_Module_TorsoPursuer.1",
+    "DA_Module_ShoulderPursuer.0",
+    "DA_Module_ChassisCyclops.2",
+    "DA_Module_TorsoCyclops.1",
+    "DA_Module_ShoulderCyclops.0",
+    "DA_Module_ChassisSiren.2",
+    "DA_Module_TorsoSiren.1",
+    "DA_Module_ShoulderSiren.0",
+    "DA_Module_Weapon_Scatter.0",
+    "DA_Module_Weapon_Twinflare.0",
+    "DA_Module_Weapon_Trident.0",
+    "DA_Module_Weapon_Railgun.0",
+    "DA_Module_Weapon_Dragoon.0",
+    "DA_Module_Weapon_Noricum.0",
+    "DA_Module_Ability_BlockingField.1",
+    "DA_Module_Ability_Spotlight.1",
+    "DA_Module_Ability_DashBlinkedVisible.1",
+    "DA_Module_Ability_Homing.1",
+    "DA_Module_Ability_Umbrella.1"
   ],
   "week": {
     "start_year": 2025,

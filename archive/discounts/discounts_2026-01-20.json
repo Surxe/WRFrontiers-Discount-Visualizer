@@ -1,45 +1,15 @@
 {
   "items": [
-    {
-      "id": "DA_Module_Weapon_Toxin.0",
-      "name": "Lighter"
-    },
-    {
-      "id": "DA_Module_Weapon_Buckshot.0",
-      "name": "Quantum"
-    },
-    {
-      "id": "DA_Module_Weapon_Hefty.0",
-      "name": "Hefty"
-    },
-    {
-      "id": "DA_Module_Weapon_Jigsaw.0",
-      "name": "Jigsaw"
-    },
-    {
-      "id": "DA_Module_Ability_SmokeWall.1",
-      "name": "Holofield"
-    },
-    {
-      "id": "DA_Module_Ability_Umbrella.1",
-      "name": "Umbrella"
-    },
-    {
-      "id": "DA_Module_Ability_MineField.1",
-      "name": "Minefield"
-    },
-    {
-      "id": "DA_Module_Ability_BlockingField.1",
-      "name": "Energy Wall"
-    },
-    {
-      "id": "DA_Module_Ability_ArmorShield_Tutorial.1",
-      "name": "Emergency Shield"
-    },
-    {
-      "id": "DA_Module_Ability_SupplySurge.1",
-      "name": "Supply Surge"
-    }
+    "DA_Module_Weapon_Toxin.0",
+    "DA_Module_Weapon_Buckshot.0",
+    "DA_Module_Weapon_Hefty.0",
+    "DA_Module_Weapon_Jigsaw.0",
+    "DA_Module_Ability_SmokeWall.1",
+    "DA_Module_Ability_Umbrella.1",
+    "DA_Module_Ability_MineField.1",
+    "DA_Module_Ability_BlockingField.1",
+    "DA_Module_Ability_ArmorShield_Tutorial.1",
+    "DA_Module_Ability_SupplySurge.1"
   ],
   "week": {
     "start_year": 2026,

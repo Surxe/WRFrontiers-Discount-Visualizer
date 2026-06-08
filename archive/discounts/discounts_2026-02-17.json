@@ -1,81 +1,24 @@
 {
   "items": [
-    {
-      "id": "DA_Module_ChassisFury.2",
-      "name": "Fury"
-    },
-    {
-      "id": "DA_Module_TorsoFury.1",
-      "name": "Fury"
-    },
-    {
-      "id": "DA_Module_ShoulderFury.0",
-      "name": "Fury"
-    },
-    {
-      "id": "DA_Module_ChassisCyclops.2",
-      "name": "Cyclops"
-    },
-    {
-      "id": "DA_Module_TorsoCyclops.1",
-      "name": "Cyclops"
-    },
-    {
-      "id": "DA_Module_ShoulderCyclops.0",
-      "name": "Cyclops"
-    },
-    {
-      "id": "DA_Module_ChassisPursuer.2",
-      "name": "Pursuer"
-    },
-    {
-      "id": "DA_Module_TorsoPursuer.1",
-      "name": "Pursuer"
-    },
-    {
-      "id": "DA_Module_ShoulderPursuer.0",
-      "name": "Pursuer"
-    },
-    {
-      "id": "DA_Module_Weapon_Pulsar.0",
-      "name": "Pulsar"
-    },
-    {
-      "id": "DA_Module_Weapon_Twinflare.0",
-      "name": "Gemini"
-    },
-    {
-      "id": "DA_Module_Weapon_Scatter.0",
-      "name": "Scatter"
-    },
-    {
-      "id": "DA_Module_Weapon_Nucleon.0",
-      "name": "Nucleon"
-    },
-    {
-      "id": "DA_Module_Ability_SpeedBoost.1",
-      "name": "Sprint Reactor"
-    },
-    {
-      "id": "DA_Module_Ability_CounterAttack.1",
-      "name": "Reflector"
-    },
-    {
-      "id": "DA_Module_Ability_DashBlinkedVisible.1",
-      "name": "Blink"
-    },
-    {
-      "id": "DA_Module_Ability_Homing.1",
-      "name": "Homing Missile"
-    },
-    {
-      "id": "DA_Module_Ability_BlockingField.1",
-      "name": "Energy Wall"
-    },
-    {
-      "id": "DA_Module_Ability_Spotlight.1",
-      "name": "Recon Mode"
-    }
+    "DA_Module_ChassisFury.2",
+    "DA_Module_TorsoFury.1",
+    "DA_Module_ShoulderFury.0",
+    "DA_Module_ChassisCyclops.2",
+    "DA_Module_TorsoCyclops.1",
+    "DA_Module_ShoulderCyclops.0",
+    "DA_Module_ChassisPursuer.2",
+    "DA_Module_TorsoPursuer.1",
+    "DA_Module_ShoulderPursuer.0",
+    "DA_Module_Weapon_Pulsar.0",
+    "DA_Module_Weapon_Twinflare.0",
+    "DA_Module_Weapon_Scatter.0",
+    "DA_Module_Weapon_Nucleon.0",
+    "DA_Module_Ability_SpeedBoost.1",
+    "DA_Module_Ability_CounterAttack.1",
+    "DA_Module_Ability_DashBlinkedVisible.1",
+    "DA_Module_Ability_Homing.1",
+    "DA_Module_Ability_BlockingField.1",
+    "DA_Module_Ability_Spotlight.1"
   ],
   "week": {
     "start_year": 2026,

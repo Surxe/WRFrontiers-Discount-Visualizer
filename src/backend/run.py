@@ -15,7 +15,7 @@ import sys
 from step1_scrape import run_step as run_step1
 from step2_build_game_data import run_step as run_step2
 from step3_call_gemini import run_step as run_step3
-from step4_read_output import run_step as run_step4
+from step4_archive_gen_grid import run_step as run_step4
 
 def main():
     if len(sys.argv) < 2:

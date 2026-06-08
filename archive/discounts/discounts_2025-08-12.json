@@ -1,97 +1,28 @@
 {
   "items": [
-    {
-      "id": "DA_Module_ChassisTyr.2",
-      "name": "Tyr"
-    },
-    {
-      "id": "DA_Module_TorsoTyr.1",
-      "name": "Tyr"
-    },
-    {
-      "id": "DA_Module_ShoulderTyr.0",
-      "name": "Tyr"
-    },
-    {
-      "id": "DA_Module_ChassisFury.2",
-      "name": "Fury"
-    },
-    {
-      "id": "DA_Module_TorsoFury.1",
-      "name": "Fury"
-    },
-    {
-      "id": "DA_Module_ShoulderFury.0",
-      "name": "Fury"
-    },
-    {
-      "id": "DA_Module_ChassisScorpion.2",
-      "name": "Scorpion"
-    },
-    {
-      "id": "DA_Module_TorsoScorpion.1",
-      "name": "Scorpion"
-    },
-    {
-      "id": "DA_Module_ShoulderScorpion.0",
-      "name": "Scorpion"
-    },
-    {
-      "id": "DA_Module_ChassisGrim.1",
-      "name": "Grim"
-    },
-    {
-      "id": "DA_Module_TorsoGrim.0",
-      "name": "Grim"
-    },
-    {
-      "id": "DA_Module_ShoulderLGrim.0",
-      "name": "Grim"
-    },
-    {
-      "id": "DA_Module_ShoulderRGrim.0",
-      "name": "Grim"
-    },
-    {
-      "id": "DA_Module_Weapon_Pulsar.0",
-      "name": "Pulsar"
-    },
-    {
-      "id": "DA_Module_Weapon_Tusk.0",
-      "name": "Tusk"
-    },
-    {
-      "id": "DA_Module_Weapon_Jigsaw.0",
-      "name": "Jigsaw"
-    },
-    {
-      "id": "DA_Module_Weapon_Katzbalger.0",
-      "name": "Katzbalger"
-    },
-    {
-      "id": "DA_Module_Weapon_Vortex.0",
-      "name": "Vortex"
-    },
-    {
-      "id": "DA_Module_Ability_Repulsor.1",
-      "name": "Repulsor"
-    },
-    {
-      "id": "DA_Module_Ability_Homing.1",
-      "name": "Homing Missile"
-    },
-    {
-      "id": "DA_Module_Ability_DashBlinkedVisible.1",
-      "name": "Blink"
-    },
-    {
-      "id": "DA_Module_Ability_TensionLink.1",
-      "name": "Gamma Beam"
-    },
-    {
-      "id": "DA_Module_Ability_GhostTurret.1",
-      "name": "Ghost Turret"
-    }
+    "DA_Module_ChassisTyr.2",
+    "DA_Module_TorsoTyr.1",
+    "DA_Module_ShoulderTyr.0",
+    "DA_Module_ChassisFury.2",
+    "DA_Module_TorsoFury.1",
+    "DA_Module_ShoulderFury.0",
+    "DA_Module_ChassisScorpion.2",
+    "DA_Module_TorsoScorpion.1",
+    "DA_Module_ShoulderScorpion.0",
+    "DA_Module_ChassisGrim.1",
+    "DA_Module_TorsoGrim.0",
+    "DA_Module_ShoulderLGrim.0",
+    "DA_Module_ShoulderRGrim.0",
+    "DA_Module_Weapon_Pulsar.0",
+    "DA_Module_Weapon_Tusk.0",
+    "DA_Module_Weapon_Jigsaw.0",
+    "DA_Module_Weapon_Katzbalger.0",
+    "DA_Module_Weapon_Vortex.0",
+    "DA_Module_Ability_Repulsor.1",
+    "DA_Module_Ability_Homing.1",
+    "DA_Module_Ability_DashBlinkedVisible.1",
+    "DA_Module_Ability_TensionLink.1",
+    "DA_Module_Ability_GhostTurret.1"
   ],
   "week": {
     "start_year": 2025,

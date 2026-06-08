@@ -1,97 +1,28 @@
 {
   "items": [
-    {
-      "id": "DA_Module_ChassisInquisitor.2",
-      "name": "Purifier"
-    },
-    {
-      "id": "DA_Module_TorsoInquisitor.1",
-      "name": "Purifier"
-    },
-    {
-      "id": "DA_Module_ShoulderInquisitor.0",
-      "name": "Purifier"
-    },
-    {
-      "id": "DA_Module_ChassisBulgasari.2",
-      "name": "Bulgasari"
-    },
-    {
-      "id": "DA_Module_TorsoBulgasari.1",
-      "name": "Bulgasari"
-    },
-    {
-      "id": "DA_Module_ShoulderBulgasari.0",
-      "name": "Bulgasari"
-    },
-    {
-      "id": "DA_Module_ChassisNipper.2",
-      "name": "Crix"
-    },
-    {
-      "id": "DA_Module_TorsoNipper.1",
-      "name": "Crix"
-    },
-    {
-      "id": "DA_Module_ShoulderNipper.0",
-      "name": "Crix"
-    },
-    {
-      "id": "DA_Module_ChassisAlpha.1",
-      "name": "Alpha"
-    },
-    {
-      "id": "DA_Module_TorsoAlpha.0",
-      "name": "Alpha"
-    },
-    {
-      "id": "DA_Module_ShoulderLAlpha.0",
-      "name": "Alpha"
-    },
-    {
-      "id": "DA_Module_ShoulderRAlpha.0",
-      "name": "Alpha"
-    },
-    {
-      "id": "DA_Module_Weapon_Incinerator.0",
-      "name": "Incinerator"
-    },
-    {
-      "id": "DA_Module_Weapon_Shredder_Tutorial.0",
-      "name": "Shredder"
-    },
-    {
-      "id": "DA_Module_Weapon_Stormpike.0",
-      "name": "Stormpike"
-    },
-    {
-      "id": "DA_Module_Weapon_Callisto.0",
-      "name": "Callisto"
-    },
-    {
-      "id": "DA_Module_Ability_InfiniteAmmo_Tutorial.1",
-      "name": "Infinite Ammo"
-    },
-    {
-      "id": "DA_Module_Ability_FuelReserve.1",
-      "name": "Fuel Reserve"
-    },
-    {
-      "id": "DA_Module_Ability_CounterAttack.1",
-      "name": "Reflector"
-    },
-    {
-      "id": "DA_Module_Ability_MineField.1",
-      "name": "Minefield"
-    },
-    {
-      "id": "DA_Module_Ability_ArmorShield_Tutorial.1",
-      "name": "Emergency Shield"
-    },
-    {
-      "id": "DA_Module_Ability_Grounded.1",
-      "name": "Fuel Burn"
-    }
+    "DA_Module_ChassisInquisitor.2",
+    "DA_Module_TorsoInquisitor.1",
+    "DA_Module_ShoulderInquisitor.0",
+    "DA_Module_ChassisBulgasari.2",
+    "DA_Module_TorsoBulgasari.1",
+    "DA_Module_ShoulderBulgasari.0",
+    "DA_Module_ChassisNipper.2",
+    "DA_Module_TorsoNipper.1",
+    "DA_Module_ShoulderNipper.0",
+    "DA_Module_ChassisAlpha.1",
+    "DA_Module_TorsoAlpha.0",
+    "DA_Module_ShoulderLAlpha.0",
+    "DA_Module_ShoulderRAlpha.0",
+    "DA_Module_Weapon_Incinerator.0",
+    "DA_Module_Weapon_Shredder_Tutorial.0",
+    "DA_Module_Weapon_Stormpike.0",
+    "DA_Module_Weapon_Callisto.0",
+    "DA_Module_Ability_InfiniteAmmo_Tutorial.1",
+    "DA_Module_Ability_FuelReserve.1",
+    "DA_Module_Ability_CounterAttack.1",
+    "DA_Module_Ability_MineField.1",
+    "DA_Module_Ability_ArmorShield_Tutorial.1",
+    "DA_Module_Ability_Grounded.1"
   ],
   "week": {
     "start_year": 2026,

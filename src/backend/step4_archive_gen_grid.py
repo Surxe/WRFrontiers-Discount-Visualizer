@@ -1,6 +1,5 @@
 import sys
 import json
-import re
 from pathlib import Path
 from config import (
     DISCOUNTS_OUTPUT,
@@ -10,48 +9,17 @@ from config import (
     CHARACTER_PRESET_JSON,
     REPO_ROOT,
     FRONTEND_DATA_DIR,
-    STANDALONE_MODULE_GROUPS,
     WEEKS_MANIFEST,
 )
 from week_dates import format_week, normalize_week, week_slug, week_sort_key
 import grid_generator
 
-def parse_ref(ref: str) -> tuple[str, str]:
-    """
-    Converts a reference like 'OBJID_VirtualBot::varangian' 
-    to a tuple of (objtype, id), e.g., ('VirtualBot', 'varangian').
-    """
-    if "::" in ref:
-        prefix, obj_id = ref.split("::", 1)
-        obj_type = prefix.replace("OBJID_", "")
-        return obj_type, obj_id
-    return "", ref
-
-def get_module_info(module_id: str, modules_data: dict) -> dict | None:
-    """
-    Extracts id and name from a Module dictionary.
-    """
-    module = modules_data.get(module_id)
-    if not module:
-        return None
-    
-    name_field = module.get("name", {})
-    english_name = name_field.get("en", "")
-    
-    if english_name:
-        return {
-            "id": module_id,
-            "name": english_name
-        }
-    return None
-
-def load_discounts() -> list[dict]:
+def process_discount():
     """
     Reads the LLM-generated discounts.json output (which is a list of refs).
-    Reconstitutes the full metadata by looking them up directly in Module.json and VirtualBot.json.
-    For VirtualBot objtypes, expands to its core modules.
-    Writes the result to a date-keyed JSON file in frontend public/data/
-    and registers it in the weeks.json manifest.
+    Writes the result to a date-keyed JSON file in archive/discounts/
+    and generates the grid layout for that week.
+    Updates the weeks.json manifest.
     """
     print("[4/4] Reading LLM output from prompt/output/discounts.json...")
 
@@ -106,9 +74,9 @@ def load_discounts() -> list[dict]:
             print(f"  [ERROR] Invalid item format. Expected string starting with 'OBJID_VirtualBot::' or 'OBJID_Module::', got: {m_ref}")
             sys.exit(1)
 
-    print(f"  -> Found {len(discount_refs)} valid ID matches for week '{display_name}'.")
+    print(f"  -> Found {len(discount_refs)} items for week '{display_name}'.")
 
-    # Load constant JSONs
+    # Load database JSONs for grid generation
     if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists() or not MODULE_TYPE_JSON.exists() or not CHARACTER_PRESET_JSON.exists():
         print(f"  [ERROR] Database JSONs not found.")
         sys.exit(1)
@@ -125,66 +93,25 @@ def load_discounts() -> list[dict]:
     with open(CHARACTER_PRESET_JSON, encoding="utf-8") as f:
         presets_data = json.load(f)
 
-    discounts = []
-    for m_ref in discount_refs:
-        if not isinstance(m_ref, str):
-            continue
-        
-        obj_type, obj_id = parse_ref(m_ref)
-        
-        if obj_type == "VirtualBot":
-            vbot = virtual_bots_data.get(obj_id)
-            if vbot:
-                print(f"     • Resolved VirtualBot: {obj_id}")
-                # STANDALONE_MODULE_GROUPS are included as standalone items in step2;
-                # exclude them here so built-in weapons (e.g. Norna's Coriolis)
-                # are not listed as robot frame parts.
-                for core_ref in vbot.get("core_module_refs", []):
-                    c_type, c_id = parse_ref(core_ref)
-                    module = modules_data.get(c_id)
-                    if not module:
-                        continue
-                    group_ref = module.get("module_group_ref", "")
-                    if any(group in group_ref for group in STANDALONE_MODULE_GROUPS):
-                        print(f"       - Skipping weapon/gear core module: {c_id}")
-                        continue
-                    minfo = get_module_info(c_id, modules_data)
-                    if minfo:
-                        discounts.append(minfo)
-                        print(f"       + Extracted Core Module: {minfo['name']}")
-            else:
-                print(f"     [!] Warning: VirtualBot ID {obj_id} not found.")
-
-        elif obj_type == "Module":
-            minfo = get_module_info(obj_id, modules_data)
-            if minfo:
-                discounts.append(minfo)
-                print(f"     • Resolved Module: {minfo['name']} ({minfo['id']})")
-            else:
-                print(f"     [!] Warning: Module ID {obj_id} not found.")
-        else:
-            print(f"     [!] Warning: Unknown objtype {obj_type} in ref {m_ref}")
-
-    # Write the full discounts data to archive directory
+    # Write the discounts data to archive directory (just the list of IDs)
     archive_output_dir = REPO_ROOT / "archive" / "discounts"
     archive_output_dir.mkdir(parents=True, exist_ok=True)
     slug = week_slug(week)
     filename = f"discounts_{slug}.json"
     archive_output = archive_output_dir / filename
     
-    frontend_data = {
+    archive_data = {
         "week": week,
-        "items": discounts
+        "items": discount_refs
     }
     
     with open(archive_output, "w", encoding="utf-8") as f:
-        json.dump(frontend_data, f, indent=2, ensure_ascii=False)
-    print(f"  -> Wrote {len(discounts)} items to {archive_output.relative_to(REPO_ROOT)}")
+        json.dump(archive_data, f, indent=2, ensure_ascii=False)
+    print(f"  -> Wrote {len(discount_refs)} items to {archive_output.relative_to(REPO_ROOT)}")
 
     # Build and write grid layout data
-    module_ids_for_grid = [item["id"] for item in discounts]
     grid_data = grid_generator.build_grid(
-        module_ids_for_grid,
+        discount_refs,
         modules_data,
         module_types_data,
         virtual_bots_data,
@@ -195,6 +122,7 @@ def load_discounts() -> list[dict]:
     week_grids_dir.mkdir(parents=True, exist_ok=True)
     grid_filename = f"grid_{slug}.json"
     grid_output = week_grids_dir / grid_filename
+    
     # Add week data to grid output for frontend consumption
     grid_data_with_week = {
         "week": week,
@@ -245,11 +173,10 @@ def load_discounts() -> list[dict]:
         json.dump(manifest_data, f, indent=2, ensure_ascii=False)
     print(f"  -> Updated manifest at {WEEKS_MANIFEST.relative_to(REPO_ROOT)}")
 
-    return frontend_data
+    return archive_data
 
-def run_step() -> list[dict]:
-    return load_discounts()
+def run_step():
+    return process_discount()
 
 if __name__ == "__main__":
     run_step()
-

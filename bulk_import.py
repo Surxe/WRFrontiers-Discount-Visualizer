@@ -112,4 +112,4 @@ for week in WEEKS:
     with open(output_file, "w") as f:
         json.dump(week, f, indent=2)
     print(f"Running step4 for {week['date_range']}...")
-    subprocess.run(["python", "src/backend/step4_read_output.py"], check=True)
+    subprocess.run(["python", "src/backend/step4_archive_gen_grid.py"], check=True)

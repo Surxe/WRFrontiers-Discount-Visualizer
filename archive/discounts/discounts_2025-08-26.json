@@ -1,73 +1,22 @@
 {
   "items": [
-    {
-      "id": "DA_Module_ChassisRaven.2",
-      "name": "Raven"
-    },
-    {
-      "id": "DA_Module_TorsoRaven.1",
-      "name": "Raven"
-    },
-    {
-      "id": "DA_Module_ShoulderRaven.0",
-      "name": "Raven"
-    },
-    {
-      "id": "DA_Module_ChassisLoki.2",
-      "name": "Loki"
-    },
-    {
-      "id": "DA_Module_TorsoLoki.1",
-      "name": "Loki"
-    },
-    {
-      "id": "DA_Module_ShoulderLoki.0",
-      "name": "Loki"
-    },
-    {
-      "id": "DA_Module_ChassisPhantom.2",
-      "name": "Phantom"
-    },
-    {
-      "id": "DA_Module_TorsoPhantom.1",
-      "name": "Phantom"
-    },
-    {
-      "id": "DA_Module_ShoulderPhantom.0",
-      "name": "Phantom"
-    },
-    {
-      "id": "DA_Module_Weapon_Toxin.0",
-      "name": "Lighter"
-    },
-    {
-      "id": "DA_Module_Weapon_Gozer.0",
-      "name": "Gozer"
-    },
-    {
-      "id": "DA_Module_Weapon_Glory.0",
-      "name": "Halo"
-    },
-    {
-      "id": "DA_Module_Ability_BlockingField.1",
-      "name": "Energy Wall"
-    },
-    {
-      "id": "DA_Module_Ability_BlastWave.1",
-      "name": "Blast Wave"
-    },
-    {
-      "id": "DA_Module_Ability_Grounded.1",
-      "name": "Fuel Burn"
-    },
-    {
-      "id": "DA_Module_Ability_Spotlight.1",
-      "name": "Recon Mode"
-    },
-    {
-      "id": "DA_Module_Ability_InfiniteAmmo_Tutorial.1",
-      "name": "Infinite Ammo"
-    }
+    "DA_Module_ChassisRaven.2",
+    "DA_Module_TorsoRaven.1",
+    "DA_Module_ShoulderRaven.0",
+    "DA_Module_ChassisLoki.2",
+    "DA_Module_TorsoLoki.1",
+    "DA_Module_ShoulderLoki.0",
+    "DA_Module_ChassisPhantom.2",
+    "DA_Module_TorsoPhantom.1",
+    "DA_Module_ShoulderPhantom.0",
+    "DA_Module_Weapon_Toxin.0",
+    "DA_Module_Weapon_Gozer.0",
+    "DA_Module_Weapon_Glory.0",
+    "DA_Module_Ability_BlockingField.1",
+    "DA_Module_Ability_BlastWave.1",
+    "DA_Module_Ability_Grounded.1",
+    "DA_Module_Ability_Spotlight.1",
+    "DA_Module_Ability_InfiniteAmmo_Tutorial.1"
   ],
   "week": {
     "start_year": 2025,

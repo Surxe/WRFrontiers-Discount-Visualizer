@@ -259,7 +259,7 @@ def main():
         
         # Run step4
         try:
-            subprocess.run(["python", "src/backend/step4_read_output.py"], check=True)
+            subprocess.run(["python", "src/backend/step4_archive_gen_grid.py"], check=True)
             print(f"  -> Successfully processed {week['date_range']}")
         except subprocess.CalledProcessError as e:
             print(f"  -> ERROR processing {week['date_range']}: {e}")
