@@ -7,18 +7,23 @@ export function initAllWeeksSidebar() {
 
   if (!drawerToggle || !container) return;
 
+  const SIDEBAR_HIDDEN_KEY = 'sidebar-hidden';
+  const storedSidebarHidden = localStorage.getItem(SIDEBAR_HIDDEN_KEY);
+  const isMobileDefault = window.matchMedia('(max-width: 768px)').matches;
+
   function setSidebarHidden(isHidden) {
     container.classList.toggle('sidebar-hidden', isHidden);
     drawerToggle.setAttribute('aria-expanded', String(!isHidden));
-    localStorage.setItem('sidebar-hidden', String(isHidden));
+    localStorage.setItem(SIDEBAR_HIDDEN_KEY, String(isHidden));
   }
 
-  setSidebarHidden(localStorage.getItem('sidebar-hidden') === 'true');
+  const defaultHidden = storedSidebarHidden === null ? isMobileDefault : storedSidebarHidden === 'true';
+  setSidebarHidden(defaultHidden);
 
   drawerToggle.addEventListener('click', () => {
-    setSidebarHidden(!container.classList.contains('sidebar-hidden'));
+    const willHide = !container.classList.contains('sidebar-hidden');
+    setSidebarHidden(willHide);
   });
-
   // Custom scrollbar functionality
   if (sidebarContent && scrollbarTrack && scrollbarThumb) {
     let isDragging = false;
