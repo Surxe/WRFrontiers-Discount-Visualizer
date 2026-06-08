@@ -13,7 +13,12 @@
     "DA_Module_Ability_CounterAttack.1",
     "DA_Module_Ability_Regeneration.1",
     "DA_Module_Ability_BlockingField.1",
-    "DA_Module_Ability_Umbrella.1"
+    "DA_Module_Ability_Umbrella.1",
+    "DA_Module_Weapon_Railgun.0",
+    "DA_Module_Weapon_Trident.0",
+    "DA_Module_Weapon_Punisher.0",
+    "DA_Module_Weapon_Fowler.0",
+    "DA_Module_Weapon_Gimcoil.0"
   ],
   "week": {
     "start_year": 2026,
