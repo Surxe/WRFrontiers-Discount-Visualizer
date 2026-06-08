@@ -1,5 +1,14 @@
 {
   "items": [
+    "DA_Module_ChassisPhantom.2",
+    "DA_Module_TorsoPhantom.1",
+    "DA_Module_ShoulderPhantom.0",
+    "DA_Module_ChassisGriffin.2",
+    "DA_Module_TorsoGriffin.1",
+    "DA_Module_ShoulderGriffin.0",
+    "DA_Module_ChassisKernel.2",
+    "DA_Module_TorsoKernel.1",
+    "DA_Module_ShoulderKernel.0",
     "DA_Module_Weapon_Toxin.0",
     "DA_Module_Weapon_Buckshot.0",
     "DA_Module_Weapon_Hefty.0",
