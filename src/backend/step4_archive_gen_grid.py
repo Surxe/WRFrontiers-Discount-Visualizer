@@ -166,8 +166,11 @@ def process_discount():
         "slug": slug
     })
 
-    # Sort descending (most recent first)
-    manifest_data["weeks"].sort(key=week_sort_key, reverse=True)
+    # Sort descending (most recent first), using each entry's week value.
+    manifest_data["weeks"].sort(
+        key=lambda entry: week_sort_key(entry["week"]),
+        reverse=True,
+    )
 
     with open(WEEKS_MANIFEST, "w", encoding="utf-8") as f:
         json.dump(manifest_data, f, indent=2, ensure_ascii=False)
