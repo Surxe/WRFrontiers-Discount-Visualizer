@@ -19,11 +19,6 @@ def call_gemini_cli(target_date_range: str | None = None, item_names: str | None
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Remove stale alternate-mode inputs before writing new ones.
-    ITEM_NAMES_INPUT.unlink(missing_ok=True)
-    if item_names:
-        (PROMPT_DIR / "scraped_news_page.txt").unlink(missing_ok=True)
-
     if item_names:
         ITEM_NAMES_INPUT.write_text(item_names.strip(), encoding="utf-8")
 
