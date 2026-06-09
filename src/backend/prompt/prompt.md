@@ -9,19 +9,20 @@ You are a game data analyst for War Robots: Frontiers. Your job is to read a new
 You have access to these files in the `prompt/` directory:
 
 - **`scraped_news_page.txt`**: The text content of a War Robots: Frontiers news article. It lists discounted items under sections like "War Robots", "Weapons", and "Gear", and states the discount week date range.
+- **`item_names.txt`**: An alternate input mode that contains only a list of item names, either comma-separated or one per line. When this file is present, do not expect any scraped article text or HTML content.
 - **`game_data.json`**: A JSON array of all production-ready game modules. Each entry has:
   - `ref`: The internal object reference string
   - `name`: The English display name of the object
 
 ## Your Goal
 
-1. Read `scraped_news_page.txt` and identify the Featured Items section to map.
+1. If `item_names.txt` is present, read the list of item names from that file and ignore `scraped_news_page.txt`. Otherwise, read `scraped_news_page.txt` and identify the Featured Items section to map.
    - If a target date range is specified in your instructions, locate the "Featured Items" section that matches this target, supporting minor variations in spacing, dashes, and month names.
    - If no target date range is specified, find the latest/most recent "Featured Items" section, which is the first one listed in the article.
-2. Extract that section's date range and standardize it into structured date fields.
+2. Extract the section's date range and standardize it into structured date fields.
 3. Identify all discounted items mentioned in that section under "War Robot Modules", "Weapons", and "Gear".
 4. For each discounted item name found, find the best match in `game_data.json` by comparing the item name to the `name` field.
-5. Output the structured week date and matched results in the exact order they appear in the news article.
+5. Output the structured week date and matched results in the exact order they appear in the news article or the provided item list.
 
 ## Output
 
