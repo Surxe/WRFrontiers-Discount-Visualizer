@@ -1,0 +1,42 @@
+---
+import { getTexturePath } from '../utils/textures.js';
+
+const { currentSlug, baseUrl } = Astro.props;
+const { SALVAGE_DISCOUNT_START_DATE } = await import('../utils/constants.js');
+
+const showSalvageInfo = currentSlug >= SALVAGE_DISCOUNT_START_DATE;
+---
+
+<div class="discount-info">
+	<p>
+		{showSalvageInfo && (
+			<>
+				<img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_AlloysLarge', baseUrl)} class="currency-icon" alt="Salvage" />
+				Salvage is 50% reduced and
+			</>
+		)}
+		<img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_IntelLarge', baseUrl)} class="currency-icon" alt="Intel" />
+		Intel is ~62% reduced
+	</p>
+</div>
+
+<style>
+	.discount-info {
+		text-align: center;
+		margin-top: 1rem;
+	}
+
+	.currency-icon {
+		width: 20px;
+		height: 20px;
+		object-fit: contain;
+		vertical-align: middle;
+	}
+
+	@media (max-width: 768px) {
+		.currency-icon {
+			width: 16px;
+			height: 16px;
+		}
+	}
+</style>

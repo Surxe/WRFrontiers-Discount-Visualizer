@@ -1,5 +1,6 @@
 ---
 import DiscountGrid from './grid/DiscountGrid.astro';
+import DiscountInfo from './DiscountInfo.astro';
 import DiscordFeedback from './DiscordFeedback.astro';
 import LegalDisclaimer from './LegalDisclaimer.astro';
 import AllWeeksSidebar from './AllWeeksSidebar.astro';
@@ -120,9 +121,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSumm
 
 				<DiscountGrid gridData={gridData} shopCards={shopCards} catIcons={catIcons} vbotMetaById={vbotMetaById} />
 
-				<div class="discount-info">
-					<p><img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_AlloysLarge', baseUrl)} class="currency-icon" alt="Salvage" /> Salvage is 50% reduced and <img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_IntelLarge', baseUrl)} class="currency-icon" alt="Intel" /> Intel is ~62% reduced</p>
-				</div>
+				<DiscountInfo currentSlug={currentSlug} baseUrl={baseUrl} />
 			</div>
 
 			<div class="page-footer">
@@ -160,11 +159,6 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSumm
 		flex: 1 0 auto;
 		min-height: 100vh;
 		box-sizing: border-box;
-	}
-
-	.discount-info {
-		text-align: center;
-		margin-top: 1rem;
 	}
 
 	.page-footer {
@@ -211,13 +205,6 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSumm
 		margin: 0.5rem 0;
 	}
 
-	.currency-icon {
-		width: 20px;
-		height: 20px;
-		object-fit: contain;
-		vertical-align: middle;
-	}
-
 	/* keep the date (inside <strong>) the main text color */
 	header h2 strong {
 		color: var(--text-color);
@@ -236,11 +223,6 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSumm
 
 		h2 {
 			font-size: 0.95rem;
-		}
-
-		.currency-icon {
-			width: 16px;
-			height: 16px;
 		}
 
 	}
