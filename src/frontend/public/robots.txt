@@ -1,0 +1,5 @@
+User-agent: *
+Disallow:
+
+# Please use the data from GitHub instead of scraping the website
+# https://github.com/Surxe/WRFrontiers-Discount-Visualizer/tree/main/archive/discounts
