@@ -1,12 +1,9 @@
 ---
 import DiscountGrid from './grid/DiscountGrid.astro';
 import DiscountInfo from './DiscountInfo.astro';
-import DiscordFeedback from './DiscordFeedback.astro';
-import LegalDisclaimer from './LegalDisclaimer.astro';
 import AllWeeksSidebar from './AllWeeksSidebar.astro';
-import GitHubHistory from './GitHubHistory.astro';
-import RobotsLink from './RobotsLink.astro';
 import WeekNavigation from './WeekNavigation.astro';
+import Footer from './Footer.astro';
 import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
@@ -125,14 +122,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSumm
 				<DiscountInfo currentSlug={currentSlug} baseUrl={baseUrl} />
 			</div>
 
-			<div class="page-footer">
-				<div class="footer-links">
-					<DiscordFeedback />
-					<GitHubHistory />
-					<RobotsLink />
-				</div>
-				<LegalDisclaimer />
-			</div>
+		<Footer />
 		</AllWeeksSidebar>
 	</body>
 </html>
@@ -161,21 +151,6 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSumm
 		flex: 1 0 auto;
 		min-height: 100vh;
 		box-sizing: border-box;
-	}
-
-	.page-footer {
-		flex-shrink: 0;
-		padding-top: 3rem;
-		padding-bottom: 2rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
-	}
-
-	.footer-links {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 2rem;
-		margin-bottom: 2rem;
 	}
 
 	header {
