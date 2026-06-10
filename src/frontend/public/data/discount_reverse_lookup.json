@@ -4,17 +4,10 @@
       "2026-06-16"
     ],
     "OBJID_VirtualBot::phantom": [
-      "2026-12-30",
       "2026-06-16"
     ],
     "OBJID_VirtualBot::purifier": [
       "2026-06-16"
-    ],
-    "OBJID_VirtualBot::raven": [
-      "2026-12-30"
-    ],
-    "OBJID_VirtualBot::loki": [
-      "2026-12-30"
     ]
   },
   "modules": {
@@ -22,7 +15,6 @@
       "2026-06-16"
     ],
     "OBJID_Module::DA_Module_Weapon_Toxin.0": [
-      "2026-12-30",
       "2026-06-16"
     ],
     "OBJID_Module::DA_Module_Weapon_Incinerator.0": [
@@ -35,11 +27,9 @@
       "2026-06-16"
     ],
     "OBJID_Module::DA_Module_Ability_BlockingField.1": [
-      "2026-12-30",
       "2026-06-16"
     ],
     "OBJID_Module::DA_Module_Ability_MineField.1": [
-      "2026-12-30",
       "2026-06-16"
     ],
     "OBJID_Module::DA_Module_Ability_DashBlinkedVisible.1": [
@@ -47,27 +37,6 @@
     ],
     "OBJID_Module::DA_Module_Ability_Homing.1": [
       "2026-06-16"
-    ],
-    "OBJID_Module::DA_Module_Weapon_Gozer.0": [
-      "2026-12-30"
-    ],
-    "OBJID_Module::DA_Module_Weapon_Glory.0": [
-      "2026-12-30"
-    ],
-    "OBJID_Module::DA_Module_Weapon_Gimcoil.0": [
-      "2026-12-30"
-    ],
-    "OBJID_Module::DA_Module_Ability_InfiniteAmmo_Tutorial.1": [
-      "2026-12-30"
-    ],
-    "OBJID_Module::DA_Module_Ability_BlastWave.1": [
-      "2026-12-30"
-    ],
-    "OBJID_Module::DA_Module_Ability_Grounded.1": [
-      "2026-12-30"
-    ],
-    "OBJID_Module::DA_Module_Ability_Spotlight.1": [
-      "2026-12-30"
     ]
   }
 }
