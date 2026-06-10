@@ -101,14 +101,23 @@ def process_discount():
     filename = f"discounts_{slug}.json"
     archive_output = archive_output_dir / filename
     
+    # Strip OBJID prefix from refs for archive format
+    archive_items = []
+    for ref in discount_refs:
+        if "::" in ref:
+            _, item_id = ref.split("::", 1)
+            archive_items.append(item_id)
+        else:
+            archive_items.append(ref)
+    
     archive_data = {
         "week": week,
-        "items": discount_refs
+        "items": archive_items
     }
     
     with open(archive_output, "w", encoding="utf-8") as f:
         json.dump(archive_data, f, indent=2, ensure_ascii=False)
-    print(f"  -> Wrote {len(discount_refs)} items to {archive_output.relative_to(REPO_ROOT)}")
+    print(f"  -> Wrote {len(archive_items)} items to {archive_output.relative_to(REPO_ROOT)}")
 
     # Build and write grid layout data
     grid_data = grid_generator.build_grid(
@@ -141,7 +150,7 @@ def process_discount():
         json.dump(grid_generator.COL_HEADER_REPRESENTATIVES, f, indent=2, ensure_ascii=False)
     print(f"  -> Wrote columns definitions to {columns_output.relative_to(REPO_ROOT)}")
 
-    build_reverse_lookup(archive_output_dir, modules_data)
+    build_reverse_lookup(archive_output_dir)
 
     # Update manifest weeks.json
     manifest_data = {"weeks": []}
