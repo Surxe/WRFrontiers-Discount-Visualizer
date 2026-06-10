@@ -5,7 +5,7 @@ The backend is responsible for fetching discount information from the War Robots
 
 ## Structure
 - `src/backend/`
-- `run.py`: The main orchestrator script that executes steps 1 through 4. Optionally accepts a `target_date_range` CLI parameter.
+- `run.py`: The main orchestrator script that executes steps 1 through 4. Optionally accepts a `target_date_range` CLI parameter, or `--items` for a plain item-name list input mode.
 - `config.py`: Shared configuration, slug helper, and path definitions.
 - `step1_scrape.py`: Scrapes the news URL and saves body text to `prompt/scraped_news_page.txt`.
 - `step2_build_game_data.py`: Loads `WRFrontiersDB-Data/current/Objects/Module.json` and builds `game_data.json`.

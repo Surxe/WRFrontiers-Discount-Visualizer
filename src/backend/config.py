@@ -38,6 +38,7 @@ OUTPUT_DIR = PROMPT_DIR / "output"
 
 SCRAPED_PAGE = PROMPT_DIR / "scraped_news_page.txt"
 GAME_DATA_JSON = PROMPT_DIR / "game_data.json"
+ITEM_NAMES_INPUT = PROMPT_DIR / "item_names.txt"
 DISCOUNTS_OUTPUT = OUTPUT_DIR / "discounts.json"
 
 FRONTEND_DATA_DIR = REPO_ROOT / "src" / "frontend" / "public" / "data"

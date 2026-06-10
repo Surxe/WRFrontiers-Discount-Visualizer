@@ -8,9 +8,9 @@ import sys
 import shutil
 import subprocess
 from datetime import datetime
-from config import PROMPT_DIR, OUTPUT_DIR, DISCOUNTS_OUTPUT
+from config import PROMPT_DIR, OUTPUT_DIR, DISCOUNTS_OUTPUT, ITEM_NAMES_INPUT
 
-def call_gemini_cli(target_date_range: str | None = None):
+def call_gemini_cli(target_date_range: str | None = None, item_names: str | None = None):
     """
     Invokes the Gemini CLI via subprocess.
     Captures the raw JSON printed to stdout and writes it to prompt/output/discounts.json.
@@ -19,22 +19,40 @@ def call_gemini_cli(target_date_range: str | None = None):
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
+    if item_names:
+        ITEM_NAMES_INPUT.write_text(item_names.strip(), encoding="utf-8")
+
     # Build the prompt message that references the files
     current_year = datetime.now().year
 
     prompt_message = (
         "Follow the instructions at prompt.md in src/backend/prompt/. "
-        "Read scraped_news_page.txt and game_data.json from the current directory, "
-        "and output the resulting JSON directly to stdout without using file editing tools. "
+        "Read game_data.json from the current directory. "
         f"The current year for date normalization is {current_year}. "
-        "If a discount range starts in December and ends in January, use the following year for the end date."
+        "If a discount range starts in December and ends in January, use the following year for the end date. "
     )
+
+    if item_names:
+        prompt_message += (
+            "Read item_names.txt from the current directory. "
+            "It contains only a plain list of item names, without scraped news article text or HTML content. "
+            "Do not attempt to find or interpret an article body when item_names.txt is present. "
+        )
+    else:
+        prompt_message += (
+            "Read scraped_news_page.txt from the current directory. "
+            "It contains the raw text of a War Robots: Frontiers news article. "
+        )
+
+    prompt_message += "Output the resulting JSON directly to stdout without using file editing tools. "
+
     if target_date_range:
         prompt_message += (
-            f" The target date range is: \"{target_date_range}\". "
+            f"The target date range is: \"{target_date_range}\". "
             "Locate and extract the Featured Items section matching this date range instead of the most recent one. "
             "Standardize the date range to match the formatting rules in prompt.md."
         )
+
 
     # Try 'gemini' (globally installed) then fall back to npx
     gemini_cmd = shutil.which("gemini")
@@ -73,8 +91,8 @@ def call_gemini_cli(target_date_range: str | None = None):
         sys.exit(1)
 
 
-def run_step(target_date_range: str | None = None):
-    call_gemini_cli(target_date_range)
+def run_step(target_date_range: str | None = None, item_names: str | None = None):
+    call_gemini_cli(target_date_range=target_date_range, item_names=item_names)
 
 
 if __name__ == "__main__":

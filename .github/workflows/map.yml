@@ -8,6 +8,11 @@ on:
         required: false
         type: string
         default: ''
+      items:
+        description: 'Plain list of item names to map instead of using scraped article text.'
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -26,3 +31,4 @@ jobs:
         uses: ./.github/actions/map
         with:
           target_date_range: ${{ github.event.inputs.target_date_range }}
+          items: ${{ github.event.inputs.items }}
