@@ -4,9 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       news_url:
-        description: War Robots Frontiers news article URL
-        required: true
+        description: War Robots Frontiers news article URL. Leave empty when using items.
+        required: false
         type: string
+        default: ''
+      items:
+        description: Plain list of item names to map instead of using scraped article text.
+        required: false
+        type: string
+        default: ''
       target_date_range:
         description: 'Target date range (e.g. "May 26 - June 2"). Leave empty for latest week.'
         required: false
@@ -29,6 +35,7 @@ concurrency:
 
 jobs:
   scrape:
+    if: ${{ !github.event.inputs.items }}
     runs-on: ubuntu-latest
     env:
       DATA_REPO_PAT: ${{ secrets.DATA_REPO_PAT }}
@@ -44,6 +51,7 @@ jobs:
   map:
     runs-on: ubuntu-latest
     needs: scrape
+    if: ${{ github.event.inputs.items || needs.scrape.result == 'success' }}
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       DATA_REPO_PAT: ${{ secrets.DATA_REPO_PAT }}
@@ -61,6 +69,7 @@ jobs:
         uses: ./.github/actions/map
         with:
           target_date_range: ${{ github.event.inputs.target_date_range }}
+          items: ${{ github.event.inputs.items }}
 
   screenshot:
     if: ${{ !inputs.skip_deploy }}
