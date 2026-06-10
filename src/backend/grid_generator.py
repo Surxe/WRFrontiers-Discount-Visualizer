@@ -145,13 +145,29 @@ def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dic
                     if module_id and vbot_id not in module_to_vbot_map[module_id]:
                         module_to_vbot_map[module_id].append(vbot_id)
 
+    explicit_vbots_standard = []
+    explicit_vbots_titan = []
+    for module_ref in module_ids:
+        prefix, obj_id = parse_ref(module_ref)
+        if prefix == "VirtualBot" and obj_id:
+            vbot_data = virtual_bots_data.get(obj_id, {})
+            if vbot_data.get("character_type") == "Titan":
+                if obj_id not in explicit_vbots_titan:
+                    explicit_vbots_titan.append(obj_id)
+            else:
+                if obj_id not in explicit_vbots_standard:
+                    explicit_vbots_standard.append(obj_id)
+
     # Enrich modules with grid info
     enriched_modules = []
-    for mid in module_ids:
+    for module_ref in module_ids:
+        _, mid = parse_ref(module_ref)
+        if not mid:
+            continue
         m = modules_data.get(mid)
-        if not m: continue
+        if not m:
+            continue
         col = resolve_module_column(m, module_types_data)
-        
         _, vbot = parse_ref(m.get("virtual_bot_ref", ""))
         
         mt = module_types_data.get(parse_ref(m.get("module_type_ref", ""))[1], {})
@@ -175,8 +191,11 @@ def build_grid(module_ids: list[str], modules_data: dict, module_types_data: dic
         # group bots
         bot_parts = [i for i in items if i["col"] in (2, 3, 4)]
         bots_map = {}
+        explicit_vbots_list = explicit_vbots_titan if is_titan else explicit_vbots_standard
+        for vbot in explicit_vbots_list:
+            bots_map[vbot] = {"vbot": vbot, 2: None, 3: None, 4: None}
         for part in bot_parts:
-            vbot = part["vbot"] or part["id"] # fallback
+            vbot = part["vbot"] or part["id"]
             if vbot not in bots_map:
                 bots_map[vbot] = {"vbot": vbot, 2: None, 3: None, 4: None}
             if not bots_map[vbot][part["col"]]:

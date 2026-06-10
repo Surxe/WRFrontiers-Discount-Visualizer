@@ -8,7 +8,35 @@
     "end_day": 23
   },
   "grid": {
-    "standardRows": [],
+    "standardRows": [
+      {
+        "botId": "griffin",
+        "cells": {
+          "1": "OBJID_VirtualBot::griffin",
+          "5": "OBJID_Module::DA_Module_Weapon_Buckshot.0",
+          "7": "OBJID_Module::DA_Module_Ability_SmokeWall.1",
+          "8": "OBJID_Module::DA_Module_Ability_Umbrella.1"
+        }
+      },
+      {
+        "botId": "phantom",
+        "cells": {
+          "1": "OBJID_VirtualBot::phantom",
+          "5": "OBJID_Module::DA_Module_Weapon_Toxin.0",
+          "7": "OBJID_Module::DA_Module_Ability_BlockingField.1",
+          "8": "OBJID_Module::DA_Module_Ability_MineField.1"
+        }
+      },
+      {
+        "botId": "purifier",
+        "cells": {
+          "1": "OBJID_VirtualBot::purifier",
+          "6": "OBJID_Module::DA_Module_Weapon_Incinerator.0",
+          "7": "OBJID_Module::DA_Module_Ability_DashBlinkedVisible.1",
+          "8": "OBJID_Module::DA_Module_Ability_Homing.1"
+        }
+      }
+    ],
     "titanRows": []
   }
 }
