@@ -1,42 +1,48 @@
 {
   "virtualBots": {
-    "OBJID_VirtualBot::griffin": [
-      "2026-06-16"
+    "OBJID_VirtualBot::varangian": [
+      "2026-05-26"
     ],
-    "OBJID_VirtualBot::phantom": [
-      "2026-06-16"
+    "OBJID_VirtualBot::hitcher": [
+      "2026-05-26"
     ],
-    "OBJID_VirtualBot::purifier": [
-      "2026-06-16"
+    "OBJID_VirtualBot::pursuer": [
+      "2026-05-26"
+    ],
+    "OBJID_VirtualBot::norna": [
+      "2026-05-26"
     ]
   },
   "modules": {
-    "OBJID_Module::DA_Module_Weapon_Buckshot.0": [
-      "2026-06-16"
+    "OBJID_Module::DA_Module_Weapon_Scatter.0": [
+      "2026-05-26"
     ],
-    "OBJID_Module::DA_Module_Weapon_Toxin.0": [
-      "2026-06-16"
+    "OBJID_Module::DA_Module_Weapon_Orkan.0": [
+      "2026-05-26"
     ],
-    "OBJID_Module::DA_Module_Weapon_Incinerator.0": [
-      "2026-06-16"
+    "OBJID_Module::DA_Module_Weapon_Nucleon.0": [
+      "2026-05-26"
     ],
-    "OBJID_Module::DA_Module_Ability_SmokeWall.1": [
-      "2026-06-16"
+    "OBJID_Module::DA_Module_Weapon_Coriolis.0": [
+      "2026-05-26"
     ],
-    "OBJID_Module::DA_Module_Ability_Umbrella.1": [
-      "2026-06-16"
+    "OBJID_Module::DA_Module_Ability_Spotlight.1": [
+      "2026-05-26"
+    ],
+    "OBJID_Module::DA_Module_Ability_Dazzle.1": [
+      "2026-05-26"
+    ],
+    "OBJID_Module::DA_Module_Ability_ArmorShield.1": [
+      "2026-05-26"
     ],
     "OBJID_Module::DA_Module_Ability_BlockingField.1": [
-      "2026-06-16"
+      "2026-05-26"
     ],
-    "OBJID_Module::DA_Module_Ability_MineField.1": [
-      "2026-06-16"
+    "OBJID_Module::DA_Module_Ability_Grounded.1": [
+      "2026-05-26"
     ],
-    "OBJID_Module::DA_Module_Ability_DashBlinkedVisible.1": [
-      "2026-06-16"
-    ],
-    "OBJID_Module::DA_Module_Ability_Homing.1": [
-      "2026-06-16"
+    "OBJID_Module::DA_Module_Ability_RegenerationFull.1": [
+      "2026-05-26"
     ]
   }
 }
