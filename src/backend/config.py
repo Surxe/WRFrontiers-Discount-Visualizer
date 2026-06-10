@@ -43,6 +43,7 @@ DISCOUNTS_OUTPUT = OUTPUT_DIR / "discounts.json"
 
 FRONTEND_DATA_DIR = REPO_ROOT / "src" / "frontend" / "public" / "data"
 WEEKS_MANIFEST = FRONTEND_DATA_DIR / "weeks.json"
+REVERSE_LOOKUP_OUTPUT = FRONTEND_DATA_DIR / "discount_reverse_lookup.json"
 
 def date_range_to_slug(date_range: str) -> str:
     """Convert a legacy date range to the start-date slug used for week filenames."""
