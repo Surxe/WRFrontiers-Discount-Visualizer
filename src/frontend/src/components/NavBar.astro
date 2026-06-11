@@ -1,0 +1,80 @@
+---
+const { baseUrl, currentPage } = Astro.props;
+
+const navItems = [
+	{ href: baseUrl, text: 'Discount Weeks', id: 'home' },
+	{ href: `${baseUrl}items`, text: 'Items', id: 'items' },
+];
+---
+
+<nav class="navbar">
+	<ul class="nav-list">
+		{navItems.map(item => (
+			<li>
+				<a
+					href={item.href}
+					class:list={{ active: currentPage === item.id }}
+				>
+					{item.text}
+				</a>
+			</li>
+		))}
+	</ul>
+</nav>
+
+<style>
+	.navbar {
+		position: fixed;
+		top: 1rem;
+		right: 1rem;
+		z-index: 1000;
+		background-color: var(--sidebar-bg, #161920);
+		border: 1px solid var(--sidebar-border, #232733);
+		border-radius: 0.5rem;
+		padding: 0.5rem 1rem;
+	}
+
+	.nav-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		gap: 1rem;
+	}
+
+	.nav-list li {
+		margin: 0;
+	}
+
+	.nav-list a {
+		color: var(--text-color, #ffffff);
+		text-decoration: none;
+		font-size: 0.875rem;
+		padding: 0.25rem 0.5rem;
+		border-radius: 0.25rem;
+		transition: background-color 0.2s, color 0.2s;
+	}
+
+	.nav-list a:hover {
+		background-color: var(--active-bg, #232733);
+		color: var(--accent-color, #3a86ff);
+	}
+
+	.nav-list a.active {
+		color: var(--accent-color, #3a86ff);
+		font-weight: 600;
+	}
+
+	@media (max-width: 768px) {
+		.navbar {
+			top: auto;
+			bottom: 1rem;
+			right: 1rem;
+			left: 1rem;
+		}
+
+		.nav-list {
+			justify-content: center;
+		}
+	}
+</style>

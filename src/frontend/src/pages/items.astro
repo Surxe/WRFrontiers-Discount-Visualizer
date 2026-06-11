@@ -1,12 +1,12 @@
 ---
 import GenericPage from '../components/GenericPage.astro';
+import NavBar from '../components/NavBar.astro';
 import { fetchModuleGroups, fetchCatIcons } from '../utils/moduleData.js';
 import { getTexturePath } from '../utils/textures.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const groups = fetchModuleGroups();
 const catIcons = fetchCatIcons();
-const navLinks = [{ href: baseUrl, text: 'Home' }];
 
 // Icon mapping based on GridHeader indices
 // 1: Torso, 2: Shoulder, 3: Chassis, 4: Light Wep, 5: Heavy Wep, 6: Supply Gear, 7: Cycle Gear
@@ -47,8 +47,8 @@ const allItems = [...filteredGroups, ...specialItems];
 	title="Items - WRF Discounts"
 	description="List of all items with their discount history"
 	baseUrl={baseUrl}
-	navLinks={navLinks}
 >
+	<NavBar baseUrl={baseUrl} currentPage="items" />
 	<h1>Items</h1>
 
 	<ul class="group-list">

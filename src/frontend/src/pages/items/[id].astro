@@ -1,5 +1,6 @@
 ---
 import GenericPage from '../../components/GenericPage.astro';
+import NavBar from '../../components/NavBar.astro';
 import { getTexturePath } from '../../utils/textures.js';
 import { fetchModulesByGroup, fetchModuleGroups } from '../../utils/moduleData.js';
 import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../../utils/vbotData.js';
@@ -36,11 +37,6 @@ export async function getStaticPaths() {
 const { type, id, name } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 
-const navLinks = [
-	{ href: baseUrl, text: 'Home' },
-	{ href: `${baseUrl}items`, text: 'Items' },
-];
-
 let itemsWithDiscounts: any[] = [];
 
 if (type === 'module-group') {
@@ -63,12 +59,12 @@ if (type === 'module-group') {
 }
 ---
 
-<GenericPage 
-	title={`${name} - WRF Discounts`} 
-	description={`Discount history for ${name}`} 
+<GenericPage
+	title={`${name} - WRF Discounts`}
+	description={`Discount history for ${name}`}
 	baseUrl={baseUrl}
-	navLinks={navLinks}
 >
+	<NavBar baseUrl={baseUrl} currentPage="items" />
 	<h1>{name}</h1>
 	
 	{type === 'module-group' ? (

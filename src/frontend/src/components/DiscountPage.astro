@@ -4,6 +4,7 @@ import DiscountInfo from './DiscountInfo.astro';
 import AllWeeksSidebar from './AllWeeksSidebar.astro';
 import WeekNavigation from './WeekNavigation.astro';
 import Footer from './Footer.astro';
+import NavBar from './NavBar.astro';
 import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
@@ -106,12 +107,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSumm
 			nextWeekHref={nextWeekHref}
 		>
 			<div class="app-content">
-				<nav class="top-nav">
-					<a href={`${baseUrl}`}>Home</a>
-					<a href={`${baseUrl}items`}>Items</a>
-					<a href={`${baseUrl}items/mechs`}>Mechs</a>
-					<a href={`${baseUrl}items/titans`}>Titans</a>
-				</nav>
+				<NavBar baseUrl={baseUrl} currentPage="home" />
 				<header>
 					<h1>War Robots Frontiers Upgrade Discounts</h1>
 					{dateRange && (
@@ -157,24 +153,6 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSumm
 		flex: 1 0 auto;
 		min-height: 100vh;
 		box-sizing: border-box;
-	}
-
-	.top-nav {
-		display: flex;
-		gap: 1rem;
-		margin-bottom: 1.5rem;
-		padding-bottom: 1rem;
-		border-bottom: 1px solid var(--sidebar-border);
-	}
-
-	.top-nav a {
-		color: var(--text-muted);
-		text-decoration: none;
-		transition: color 0.2s;
-	}
-
-	.top-nav a:hover {
-		color: var(--accent-color);
 	}
 
 	header {

@@ -1,15 +1,12 @@
 ---
 import GenericPage from '../../components/GenericPage.astro';
+import NavBar from '../../components/NavBar.astro';
 import { getTexturePath } from '../../utils/textures.js';
 import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../../utils/vbotData.js';
 import { getVbotDiscountWeeks } from '../../utils/discountHistory.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const vbots = fetchAllVbots();
-const navLinks = [
-	{ href: baseUrl, text: 'Home' },
-	{ href: `${baseUrl}items`, text: 'Items' },
-];
 
 // Filter to only mechs
 const mechList = Object.entries(vbots)
@@ -28,8 +25,8 @@ const mechList = Object.entries(vbots)
 	title="Mechs - WRF Discounts"
 	description="List of all mech virtual bots with their discount history"
 	baseUrl={baseUrl}
-	navLinks={navLinks}
 >
+	<NavBar baseUrl={baseUrl} currentPage="items" />
 	<h1>Mechs</h1>
 
 	<table>
