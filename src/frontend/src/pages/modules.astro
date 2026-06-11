@@ -1,11 +1,11 @@
 ---
 import GenericPage from '../components/GenericPage.astro';
 import { getTexturePath } from '../utils/textures.js';
-import { fetchAllModulesWithCategory } from '../utils/moduleData.js';
+import { fetchAllModulesWithGroup } from '../utils/moduleData.js';
 import { getModuleDiscountWeeks } from '../utils/discountHistory.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
-const modules = fetchAllModulesWithCategory();
+const modules = fetchAllModulesWithGroup();
 
 // Add discount weeks to each module
 const modulesWithDiscounts = modules.map(module => ({
@@ -26,7 +26,7 @@ const modulesWithDiscounts = modules.map(module => ({
 			<tr>
 				<th>Icon</th>
 				<th>Name</th>
-				<th>Category</th>
+				<th>Group</th>
 				<th>Discount Weeks</th>
 			</tr>
 		</thead>
@@ -43,7 +43,7 @@ const modulesWithDiscounts = modules.map(module => ({
 						)}
 					</td>
 					<td>{module.name}</td>
-					<td>{module.categoryName}</td>
+					<td>{module.groupName}</td>
 					<td>{module.discountWeeks.join(', ') || 'Never'}</td>
 				</tr>
 			))}

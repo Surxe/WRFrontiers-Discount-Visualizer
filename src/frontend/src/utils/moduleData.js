@@ -20,8 +20,7 @@ function resolveObjectsDir() {
 }
 
 let moduleCache = null;
-let moduleTypeCache = null;
-let moduleCategoryCache = null;
+let moduleGroupCache = null;
 
 export function fetchModules() {
 	if (moduleCache) {
@@ -40,67 +39,37 @@ export function fetchModules() {
 	}
 }
 
-export function fetchModuleTypes() {
-	if (moduleTypeCache) {
-		return moduleTypeCache;
+export function fetchModuleGroups() {
+	if (moduleGroupCache) {
+		return moduleGroupCache;
 	}
 
 	const objectsDir = resolveObjectsDir();
 	try {
-		const filePath = path.join(objectsDir, 'ModuleType.json');
+		const filePath = path.join(objectsDir, 'ModuleGroup.json');
 		const content = fs.readFileSync(filePath, 'utf-8');
-		moduleTypeCache = JSON.parse(content);
-		return moduleTypeCache;
+		moduleGroupCache = JSON.parse(content);
+		return moduleGroupCache;
 	} catch (e) {
-		console.error('Error reading ModuleType.json:', e);
+		console.error('Error reading ModuleGroup.json:', e);
 		return {};
 	}
 }
 
-export function fetchModuleCategories() {
-	if (moduleCategoryCache) {
-		return moduleCategoryCache;
-	}
-
-	const objectsDir = resolveObjectsDir();
-	try {
-		const filePath = path.join(objectsDir, 'ModuleCategory.json');
-		const content = fs.readFileSync(filePath, 'utf-8');
-		moduleCategoryCache = JSON.parse(content);
-		return moduleCategoryCache;
-	} catch (e) {
-		console.error('Error reading ModuleCategory.json:', e);
-		return {};
-	}
+export function getModuleGroupName(groupId) {
+	const groups = fetchModuleGroups();
+	const group = groups[groupId];
+	return group?.name?.en || 'Unknown';
 }
 
-export function getModuleCategoryName(categoryId) {
-	const categories = fetchModuleCategories();
-	const category = categories[categoryId];
-	return category?.name?.en || 'Unknown';
+export function getModuleGroupSlug(groupId) {
+	// ModuleGroup IDs are already URL-friendly (e.g., "supply-gear", "heavy-weapon")
+	return groupId || 'unknown';
 }
 
-export function getModuleCategorySlug(categoryId) {
-	// Map category ID to URL slug
-	const slugMap = {
-		'DA_ModuleCategory_Ability.0': 'ability',
-		'DA_ModuleCategory_Chassis.0': 'chassis',
-		'DA_ModuleCategory_Shoulder.0': 'shoulder',
-		'DA_ModuleCategory_Torso.0': 'torso',
-		'DA_ModuleCategory_Weapon.0': 'weapon',
-	};
-	return slugMap[categoryId] || 'unknown';
-}
-
-export function getCategoryIdFromSlug(slug) {
-	const slugMap = {
-		'ability': 'DA_ModuleCategory_Ability.0',
-		'chassis': 'DA_ModuleCategory_Chassis.0',
-		'shoulder': 'DA_ModuleCategory_Shoulder.0',
-		'torso': 'DA_ModuleCategory_Torso.0',
-		'weapon': 'DA_ModuleCategory_Weapon.0',
-	};
-	return slugMap[slug] || null;
+export function getGroupIdFromSlug(slug) {
+	// ModuleGroup IDs are already URL-friendly
+	return slug || null;
 }
 
 export function getModuleData(moduleId) {
@@ -109,68 +78,77 @@ export function getModuleData(moduleId) {
 }
 
 export function getModuleName(module) {
-	return module?.name?.en || module?.id || 'Unknown';
+	if (module?.name?.en) {
+		return module.name.en;
+	}
+	// Parse name from ID (e.g., "DA_Module_Weapon_Shredder.0" -> "Shredder")
+	const id = module?.id || '';
+	if (id) {
+		const parts = id.split('_');
+		if (parts.length >= 3) {
+			// Remove version suffix (e.g., ".0", ".1")
+			const lastPart = parts[parts.length - 1].split('.')[0];
+			// If last part is a number, use the second-to-last part
+			if (!isNaN(parseInt(lastPart))) {
+				return parts[parts.length - 2];
+			}
+			return lastPart;
+		}
+	}
+	return id || 'Unknown';
 }
 
 export function getModuleIconPath(module) {
 	return module?.inventory_icon_path || null;
 }
 
-export function getModuleCategoryForModule(module) {
-	const moduleTypes = fetchModuleTypes();
-	const moduleTypeRef = module?.module_type_ref;
+export function getModuleGroupForModule(module) {
+	const groupRef = module?.module_group_ref;
 	
-	if (!moduleTypeRef) {
+	if (!groupRef) {
 		return null;
 	}
 
-	// Extract the type ID from the ref (e.g., "OBJID_ModuleType::DA_ModuleType_Chassis.0" -> "DA_ModuleType_Chassis.0")
-	const typeId = moduleTypeRef.includes('::') 
-		? moduleTypeRef.split('::')[1] 
-		: moduleTypeRef;
+	// Extract the group ID from the ref (e.g., "OBJID_ModuleGroup::supply-gear" -> "supply-gear")
+	const groupId = groupRef.includes('::')
+		? groupRef.split('::')[1]
+		: groupRef;
 
-	const moduleType = moduleTypes[typeId];
-	if (!moduleType) {
-		return null;
-	}
-
-	const categoryRef = moduleType.module_category_ref;
-	if (!categoryRef) {
-		return null;
-	}
-
-	// Extract the category ID from the ref
-	const categoryId = categoryRef.includes('::')
-		? categoryRef.split('::')[1]
-		: categoryRef;
-
-	return categoryId;
+	return groupId;
 }
 
-export function fetchAllModulesWithCategory() {
+export function fetchAllModulesWithGroup() {
 	const modules = fetchModules();
-	const moduleTypes = fetchModuleTypes();
-	const categories = fetchModuleCategories();
+	const groups = fetchModuleGroups();
 
 	const result = [];
 
 	for (const [moduleId, module] of Object.entries(modules)) {
-		const categoryId = getModuleCategoryForModule(module);
-		const categoryName = categoryId ? getModuleCategoryName(categoryId) : 'Unknown';
+		// Filter to only production-ready modules
+		if (module.production_status !== 'Ready') {
+			continue;
+		}
+
+		const groupId = getModuleGroupForModule(module);
+		const group = groupId ? groups[groupId] : null;
 		
 		result.push({
 			id: moduleId,
 			name: getModuleName(module),
 			iconPath: getModuleIconPath(module),
-			categoryId: categoryId,
-			categoryName: categoryName,
+			groupId: groupId,
+			groupName: group?.name?.en || 'Unknown',
+			isTitan: group?.titan || false,
+			isVirtualBotModule: group?.virtual_bot_module || false,
+			sortOrder: group?.sort_order || 0,
+			groupDescription: group?.description?.en || '',
 		});
 	}
 
 	return result;
 }
 
-export function fetchModulesByCategory(categoryId) {
-	const allModules = fetchAllModulesWithCategory();
-	return allModules.filter(m => m.categoryId === categoryId);
+export function fetchModulesByGroup(groupId) {
+	const allModules = fetchAllModulesWithGroup();
+	return allModules.filter(m => m.groupId === groupId);
 }

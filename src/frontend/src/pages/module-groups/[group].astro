@@ -1,30 +1,22 @@
 ---
 import GenericPage from '../../components/GenericPage.astro';
 import { getTexturePath } from '../../utils/textures.js';
-import { fetchModulesByCategory, getCategoryIdFromSlug, getModuleCategoryName } from '../../utils/moduleData.js';
+import { fetchModulesByGroup, fetchModuleGroups } from '../../utils/moduleData.js';
 import { getModuleDiscountWeeks } from '../../utils/discountHistory.js';
 
 export async function getStaticPaths() {
-	const categories = [
-		{ slug: 'ability', id: 'DA_ModuleCategory_Ability.0', name: 'Supply Gear' },
-		{ slug: 'chassis', id: 'DA_ModuleCategory_Chassis.0', name: 'Chassis' },
-		{ slug: 'shoulder', id: 'DA_ModuleCategory_Shoulder.0', name: 'Shoulder' },
-		{ slug: 'torso', id: 'DA_ModuleCategory_Torso.0', name: 'Torso' },
-		{ slug: 'weapon', id: 'DA_ModuleCategory_Weapon.0', name: 'Weapons' },
-	];
+	const groups = fetchModuleGroups();
 
-	return categories.map(category => ({
-		params: { group: category.slug },
-		props: { category }
+	return Object.entries(groups).map(([groupId, group]) => ({
+		params: { group: groupId },
+		props: { groupId, groupName: group.name.en }
 	}));
 }
 
-const { category } = Astro.props;
+const { groupId, groupName } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 
-const categoryId = category.id;
-const categoryName = category.name;
-const modules = fetchModulesByCategory(categoryId);
+const modules = fetchModulesByGroup(groupId);
 
 // Add discount weeks to each module
 const modulesWithDiscounts = modules.map(module => ({
@@ -34,11 +26,11 @@ const modulesWithDiscounts = modules.map(module => ({
 ---
 
 <GenericPage 
-	title={`${categoryName} Modules - WRF Discounts`} 
-	description={`List of ${categoryName.toLowerCase()} modules with their discount history`} 
+	title={`${groupName} - WRF Discounts`} 
+	description={`List of ${groupName.toLowerCase()} modules with their discount history`} 
 	baseUrl={baseUrl}
 >
-	<h1>{categoryName} Modules</h1>
+	<h1>{groupName}</h1>
 	
 	<table>
 		<thead>
@@ -67,7 +59,7 @@ const modulesWithDiscounts = modules.map(module => ({
 				))
 			) : (
 				<tr>
-					<td colspan="3">No modules found in this category</td>
+					<td colspan="3">No modules found in this group</td>
 				</tr>
 			)}
 		</tbody>
