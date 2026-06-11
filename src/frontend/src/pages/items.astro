@@ -2,63 +2,80 @@
 import GenericPage from '../components/GenericPage.astro';
 import { fetchModuleGroups, fetchCatIcons } from '../utils/moduleData.js';
 import { getTexturePath } from '../utils/textures.js';
+import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
+import { getVbotDiscountWeeks } from '../utils/discountHistory.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const groups = fetchModuleGroups();
 const catIcons = fetchCatIcons();
+const vbots = fetchAllVbots();
+const navLinks = [{ href: baseUrl, text: 'Home' }];
 
 // Icon mapping based on GridHeader indices
 // 1: Torso, 2: Shoulder, 3: Chassis, 4: Light Wep, 5: Heavy Wep, 6: Supply Gear, 7: Cycle Gear
 const getIconForGroup = (groupId: string) => {
 	const iconMap: Record<string, number> = {
-		'titan-torsos': 1,
-		'titan-shoulder': 2,
-		'titan-chassis': 3,
-		'titan-weapon': 5,
-		'non-titan-torsos': 1,
-		'non-titan-shoulder': 2,
-		'non-titan-chassis': 3,
 		'light-weapon': 4,
 		'heavy-weapon': 5,
+		'titan-weapon': 5,
 		'supply-gear': 6,
 		'cycle-gear': 7,
 	};
 	return catIcons[iconMap[groupId]] || null;
 };
 
-// Convert to array and sort by sort_order
-const sortedGroups = Object.entries(groups)
+// Filter to only specific groups
+const allowedGroups = ['light-weapon', 'heavy-weapon', 'titan-weapon', 'supply-gear', 'cycle-gear'];
+const filteredGroups = Object.entries(groups)
+	.filter(([id]) => allowedGroups.includes(id))
 	.map(([id, group]: [string, any]) => ({
 		id,
 		name: group.name?.en || id,
 		sortOrder: group.sort_order || 0,
-		isTitan: group.titan || false,
-		isVirtualBotModule: group.virtual_bot_module || false,
 		iconPath: getIconForGroup(id),
 	}))
 	.sort((a, b) => a.sortOrder - b.sortOrder);
 
-// Filter to only specific groups
-const allowedGroups = ['light-weapon', 'heavy-weapon', 'titan-weapon', 'supply-gear', 'cycle-gear'];
-const filteredGroups = sortedGroups.filter(g => allowedGroups.includes(g.id));
+// Convert vbots to array
+const vbotList = Object.entries(vbots).map(([id, vbot]) => ({
+	id,
+	name: getVbotName(vbot),
+	iconPath: getVbotIconPath(vbot),
+	characterType: getVbotCharacterType(vbot),
+})).sort((a, b) => a.name.localeCompare(b.name));
 ---
 
 <GenericPage 
-	title="Module Groups - WRF Discounts" 
-	description="List of all module groups" 
+	title="Items - WRF Discounts" 
+	description="List of all items with their discount history" 
 	baseUrl={baseUrl}
-	navLinks={[{ href: baseUrl, text: 'Home' }]}
+	navLinks={navLinks}
 >
-	<h1>Module Groups</h1>
-
+	<h1>Items</h1>
+	
+	<h2 class="section-title">Module Groups</h2>
 	<ul class="group-list">
 		{filteredGroups.map(group => (
 			<li>
-				<a href={`${baseUrl}module-groups/${group.id}`}>
+				<a href={`${baseUrl}items/${group.id}`}>
 					{group.iconPath && (
 						<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
 					)}
 					<span>{group.name}</span>
+				</a>
+			</li>
+		))}
+	</ul>
+
+	<h2 class="section-title">Virtual Bots</h2>
+	<ul class="group-list">
+		{vbotList.map(vbot => (
+			<li>
+				<a href={`${baseUrl}items/${vbot.id}`}>
+					{vbot.iconPath && (
+						<img src={getTexturePath(vbot.iconPath, baseUrl)} alt="" class="group-icon" />
+					)}
+					<span>{vbot.name}</span>
 				</a>
 			</li>
 		))}
@@ -69,6 +86,15 @@ const filteredGroups = sortedGroups.filter(g => allowedGroups.includes(g.id));
 	:root {
 		--accent-color: #3a86ff;
 		--accent-hover: #2b65cc;
+	}
+
+	.section-title {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		margin-top: 2rem;
+		color: var(--text-color);
+		border-bottom: 1px solid var(--sidebar-border);
+		padding-bottom: 0.5rem;
 	}
 
 	.group-list {
