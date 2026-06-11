@@ -32,6 +32,15 @@ const filteredGroups = Object.entries(groups)
 		iconPath: getIconForGroup(id),
 	}))
 	.sort((a, b) => a.sortOrder - b.sortOrder);
+
+// Add mechs and titans as special items
+const specialItems = [
+	{ id: 'mechs', name: 'Mechs', iconPath: catIcons[1] || null }, // Use torso icon for mechs
+	{ id: 'titans', name: 'Titans', iconPath: catIcons[1] || null }, // Use torso icon for titans
+];
+
+// Combine all items
+const allItems = [...filteredGroups, ...specialItems];
 ---
 
 <GenericPage
@@ -42,15 +51,14 @@ const filteredGroups = Object.entries(groups)
 >
 	<h1>Items</h1>
 
-	<h2 class="section-title">Module Groups</h2>
 	<ul class="group-list">
-		{filteredGroups.map(group => (
+		{allItems.map(item => (
 			<li>
-				<a href={`${baseUrl}items/${group.id}`}>
-					{group.iconPath && (
-						<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
+				<a href={`${baseUrl}items/${item.id}`}>
+					{item.iconPath && (
+						<img src={getTexturePath(item.iconPath, baseUrl)} alt="" class="group-icon" />
 					)}
-					<span>{group.name}</span>
+					<span>{item.name}</span>
 				</a>
 			</li>
 		))}
@@ -61,15 +69,6 @@ const filteredGroups = Object.entries(groups)
 	:root {
 		--accent-color: #3a86ff;
 		--accent-hover: #2b65cc;
-	}
-
-	.section-title {
-		font-size: 1.5rem;
-		margin-bottom: 1rem;
-		margin-top: 2rem;
-		color: var(--text-color);
-		border-bottom: 1px solid var(--sidebar-border);
-		padding-bottom: 0.5rem;
 	}
 
 	.group-list {
