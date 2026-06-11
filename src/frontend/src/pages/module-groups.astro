@@ -1,0 +1,85 @@
+---
+import GenericPage from '../components/GenericPage.astro';
+import { fetchModuleGroups } from '../utils/moduleData.js';
+
+const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
+const groups = fetchModuleGroups();
+
+// Convert to array and sort by sort_order
+const sortedGroups = Object.entries(groups)
+	.map(([id, group]: [string, any]) => ({
+		id,
+		name: group.name?.en || id,
+		description: group.description?.en || '',
+		sortOrder: group.sort_order || 0,
+		isTitan: group.titan || false,
+		isVirtualBotModule: group.virtual_bot_module || false,
+	}))
+	.sort((a, b) => a.sortOrder - b.sortOrder);
+---
+
+<GenericPage 
+	title="Module Groups - WRF Discounts" 
+	description="List of all module groups" 
+	baseUrl={baseUrl}
+>
+	<h1>Module Groups</h1>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			{sortedGroups.map(group => (
+				<tr>
+					<td>
+						<a href={`${baseUrl}module-groups/${group.id}`}>{group.name}</a>
+					</td>
+					<td>{group.description}</td>
+					<td>
+						{group.isTitan && 'Titan '}
+						{group.isVirtualBotModule && 'Virtual Bot '}
+						{!group.isTitan && !group.isVirtualBotModule && 'General'}
+					</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+</GenericPage>
+
+<style>
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 1rem;
+	}
+
+	th, td {
+		padding: 0.75rem;
+		text-align: left;
+		border-bottom: 1px solid var(--text-muted);
+	}
+
+	th {
+		background-color: var(--sidebar-bg);
+		font-weight: 600;
+	}
+
+	tr:hover {
+		background-color: var(--active-bg);
+	}
+
+	a {
+		color: var(--accent-color);
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: var(--accent-hover);
+		text-decoration: underline;
+	}
+</style>
