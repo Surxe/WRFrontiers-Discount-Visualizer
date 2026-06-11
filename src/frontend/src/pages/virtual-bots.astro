@@ -6,6 +6,7 @@ import { getVbotDiscountWeeks } from '../utils/discountHistory.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const vbots = fetchAllVbots();
+const navLinks = [{ href: baseUrl, text: 'Home' }];
 
 // Convert to array and add discount weeks
 const vbotList = Object.entries(vbots).map(([id, vbot]) => ({
@@ -21,6 +22,7 @@ const vbotList = Object.entries(vbots).map(([id, vbot]) => ({
 	title="All Virtual Bots - WRF Discounts" 
 	description="List of all virtual bots with their discount history" 
 	baseUrl={baseUrl}
+	navLinks={navLinks}
 >
 	<h1>All Virtual Bots</h1>
 	
@@ -55,6 +57,11 @@ const vbotList = Object.entries(vbots).map(([id, vbot]) => ({
 </GenericPage>
 
 <style>
+	:root {
+		--sidebar-bg: #161920;
+		--sidebar-border: #232733;
+	}
+
 	table {
 		width: 100%;
 		border-collapse: collapse;

@@ -22,6 +22,7 @@ const sortedGroups = Object.entries(groups)
 	title="Module Groups - WRF Discounts" 
 	description="List of all module groups" 
 	baseUrl={baseUrl}
+	navLinks={[{ href: baseUrl, text: 'Home' }]}
 >
 	<h1>Module Groups</h1>
 	
@@ -52,6 +53,14 @@ const sortedGroups = Object.entries(groups)
 </GenericPage>
 
 <style>
+	:root {
+		--sidebar-bg: #161920;
+		--sidebar-border: #232733;
+		--text-muted: #8b92a5;
+		--accent-color: #3a86ff;
+		--accent-hover: #2b65cc;
+	}
+
 	table {
 		width: 100%;
 		border-collapse: collapse;

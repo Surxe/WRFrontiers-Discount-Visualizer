@@ -1,7 +1,7 @@
 ---
 import Footer from './Footer.astro';
 
-const { title, description, baseUrl } = Astro.props;
+const { title, description, baseUrl, navLinks } = Astro.props;
 ---
 
 <html lang="en">
@@ -29,6 +29,13 @@ const { title, description, baseUrl } = Astro.props;
 	</head>
 	<body>
 		<div class="app-content">
+			{navLinks && (
+				<nav class="top-nav">
+					{navLinks.map(link => (
+						<a href={link.href}>{link.text}</a>
+					))}
+				</nav>
+			)}
 			<slot />
 		</div>
 		<Footer />
@@ -62,6 +69,24 @@ const { title, description, baseUrl } = Astro.props;
 		padding: 2rem;
 		max-width: 1400px;
 		margin: 0 auto;
+	}
+
+	.top-nav {
+		display: flex;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid var(--sidebar-border);
+	}
+
+	.top-nav a {
+		color: var(--text-muted);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	.top-nav a:hover {
+		color: var(--accent-color);
 	}
 
 	h1 {

@@ -17,6 +17,10 @@ const { groupId, groupName } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 
 const modules = fetchModulesByGroup(groupId);
+const navLinks = [
+	{ href: baseUrl, text: 'Home' },
+	{ href: `${baseUrl}module-groups`, text: 'Module Groups' },
+];
 
 // Add discount weeks to each module
 const modulesWithDiscounts = modules.map(module => ({
@@ -29,6 +33,7 @@ const modulesWithDiscounts = modules.map(module => ({
 	title={`${groupName} - WRF Discounts`} 
 	description={`List of ${groupName.toLowerCase()} modules with their discount history`} 
 	baseUrl={baseUrl}
+	navLinks={navLinks}
 >
 	<h1>{groupName}</h1>
 	
@@ -67,6 +72,11 @@ const modulesWithDiscounts = modules.map(module => ({
 </GenericPage>
 
 <style>
+	:root {
+		--sidebar-bg: #161920;
+		--sidebar-border: #232733;
+	}
+
 	table {
 		width: 100%;
 		border-collapse: collapse;
