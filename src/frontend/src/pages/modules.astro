@@ -1,0 +1,88 @@
+---
+import GenericPage from '../components/GenericPage.astro';
+import { getTexturePath } from '../utils/textures.js';
+import { fetchAllModulesWithCategory } from '../utils/moduleData.js';
+import { getModuleDiscountWeeks } from '../utils/discountHistory.js';
+
+const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
+const modules = fetchAllModulesWithCategory();
+
+// Add discount weeks to each module
+const modulesWithDiscounts = modules.map(module => ({
+	...module,
+	discountWeeks: getModuleDiscountWeeks(module.id),
+}));
+---
+
+<GenericPage 
+	title="All Modules - WRF Discounts" 
+	description="List of all modules with their discount history" 
+	baseUrl={baseUrl}
+>
+	<h1>All Modules</h1>
+	
+	<table>
+		<thead>
+			<tr>
+				<th>Icon</th>
+				<th>Name</th>
+				<th>Category</th>
+				<th>Discount Weeks</th>
+			</tr>
+		</thead>
+		<tbody>
+			{modulesWithDiscounts.map(module => (
+				<tr>
+					<td>
+						{module.iconPath && (
+							<img 
+								src={getTexturePath(module.iconPath, baseUrl)} 
+								alt={module.name}
+								class="module-icon"
+							/>
+						)}
+					</td>
+					<td>{module.name}</td>
+					<td>{module.categoryName}</td>
+					<td>{module.discountWeeks.join(', ') || 'Never'}</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+</GenericPage>
+
+<style>
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 2rem;
+	}
+
+	th, td {
+		padding: 0.75rem;
+		text-align: left;
+		border-bottom: 1px solid var(--sidebar-border);
+	}
+
+	th {
+		background-color: var(--sidebar-bg);
+		font-weight: 600;
+	}
+
+	.module-icon {
+		width: 32px;
+		height: 32px;
+		object-fit: contain;
+	}
+
+	@media (max-width: 768px) {
+		table {
+			font-size: 0.875rem;
+		}
+
+		.module-icon {
+			width: 24px;
+			height: 24px;
+		}
+	}
+</style>

@@ -1,0 +1,91 @@
+---
+import Footer from './Footer.astro';
+
+const { title, description, baseUrl } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href={`${baseUrl}favicon.svg`} />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<link rel="stylesheet" href={`${baseUrl}global.css`} />
+		
+		<!-- Open Graph / Discord Embed -->
+		<meta property="og:title" content={title} />
+		<meta name="description" content={description} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content="https://surxe.github.io/WRFrontiers-Discount-Visualizer/discount-table.png" />
+		<meta property="og:image:width" content="1400" />
+		<meta property="og:image:height" content="900" />
+		<meta property="og:image:alt" content="WRF Upgrade Discounts table" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content="https://surxe.github.io/WRFrontiers-Discount-Visualizer/discount-table.png" />
+	</head>
+	<body>
+		<div class="app-content">
+			<slot />
+		</div>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	:root {
+		--bg-color: #0f1115;
+		--sidebar-bg: #161920;
+		--sidebar-border: #232733;
+		--text-color: #e0e0e0;
+		--text-muted: #8b92a5;
+		--accent-color: #3a86ff;
+		--accent-hover: #2b65cc;
+		--active-bg: rgba(58, 134, 255, 0.1);
+	}
+
+	body {
+		background-color: var(--bg-color);
+		color: var(--text-color);
+		font-family: 'Montserrat', sans-serif;
+		margin: 0;
+		padding: 0;
+	}
+
+	.app-content {
+		flex: 1 0 auto;
+		min-height: 100vh;
+		box-sizing: border-box;
+		padding: 2rem;
+		max-width: 1400px;
+		margin: 0 auto;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 1.5rem;
+		text-align: center;
+	}
+
+	h2 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+	}
+
+	@media (max-width: 768px) {
+		.app-content {
+			padding: 1rem;
+		}
+
+		h1 {
+			font-size: 1.65rem;
+		}
+
+		h2 {
+			font-size: 1.25rem;
+		}
+	}
+</style>
