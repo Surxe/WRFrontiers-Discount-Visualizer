@@ -6,11 +6,14 @@ import { getModuleDiscountWeeks } from '../../utils/discountHistory.js';
 
 export async function getStaticPaths() {
 	const groups = fetchModuleGroups();
+	const allowedGroups = ['light-weapon', 'heavy-weapon', 'titan-weapon', 'supply-gear', 'cycle-gear'];
 
-	return Object.entries(groups).map(([groupId, group]: [string, any]) => ({
-		params: { group: groupId },
-		props: { groupId, groupName: group.name.en }
-	}));
+	return Object.entries(groups)
+		.filter(([groupId]) => allowedGroups.includes(groupId))
+		.map(([groupId, group]: [string, any]) => ({
+			params: { group: groupId },
+			props: { groupId, groupName: group.name.en }
+		}));
 }
 
 const { groupId, groupName } = Astro.props;

@@ -38,10 +38,9 @@ const sortedGroups = Object.entries(groups)
 	}))
 	.sort((a, b) => a.sortOrder - b.sortOrder);
 
-// Group by type
-const titanGroups = sortedGroups.filter(g => g.isTitan);
-const virtualBotGroups = sortedGroups.filter(g => g.isVirtualBotModule);
-const generalGroups = sortedGroups.filter(g => !g.isTitan && !g.isVirtualBotModule);
+// Filter to only specific groups
+const allowedGroups = ['light-weapon', 'heavy-weapon', 'titan-weapon', 'supply-gear', 'cycle-gear'];
+const filteredGroups = sortedGroups.filter(g => allowedGroups.includes(g.id));
 ---
 
 <GenericPage 
@@ -51,78 +50,25 @@ const generalGroups = sortedGroups.filter(g => !g.isTitan && !g.isVirtualBotModu
 	navLinks={[{ href: baseUrl, text: 'Home' }]}
 >
 	<h1>Module Groups</h1>
-	
-	{titanGroups.length > 0 && (
-		<div class="group-section">
-			<h2 class="section-title">Titan</h2>
-			<ul class="group-list">
-				{titanGroups.map(group => (
-					<li>
-						<a href={`${baseUrl}module-groups/${group.id}`}>
-							{group.iconPath && (
-								<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
-							)}
-							<span>{group.name}</span>
-						</a>
-					</li>
-				))}
-			</ul>
-		</div>
-	)}
 
-	{virtualBotGroups.length > 0 && (
-		<div class="group-section">
-			<h2 class="section-title">Virtual Bot</h2>
-			<ul class="group-list">
-				{virtualBotGroups.map(group => (
-					<li>
-						<a href={`${baseUrl}module-groups/${group.id}`}>
-							{group.iconPath && (
-								<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
-							)}
-							<span>{group.name}</span>
-						</a>
-					</li>
-				))}
-			</ul>
-		</div>
-	)}
-
-	{generalGroups.length > 0 && (
-		<div class="group-section">
-			<h2 class="section-title">General</h2>
-			<ul class="group-list">
-				{generalGroups.map(group => (
-					<li>
-						<a href={`${baseUrl}module-groups/${group.id}`}>
-							{group.iconPath && (
-								<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
-							)}
-							<span>{group.name}</span>
-						</a>
-					</li>
-				))}
-			</ul>
-		</div>
-	)}
+	<ul class="group-list">
+		{filteredGroups.map(group => (
+			<li>
+				<a href={`${baseUrl}module-groups/${group.id}`}>
+					{group.iconPath && (
+						<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
+					)}
+					<span>{group.name}</span>
+				</a>
+			</li>
+		))}
+	</ul>
 </GenericPage>
 
 <style>
 	:root {
 		--accent-color: #3a86ff;
 		--accent-hover: #2b65cc;
-	}
-
-	.group-section {
-		margin-bottom: 2rem;
-	}
-
-	.section-title {
-		font-size: 1.5rem;
-		margin-bottom: 1rem;
-		color: var(--text-color);
-		border-bottom: 1px solid var(--sidebar-border);
-		padding-bottom: 0.5rem;
 	}
 
 	.group-list {
