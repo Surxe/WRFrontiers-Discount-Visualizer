@@ -2,13 +2,10 @@
 import GenericPage from '../components/GenericPage.astro';
 import { fetchModuleGroups, fetchCatIcons } from '../utils/moduleData.js';
 import { getTexturePath } from '../utils/textures.js';
-import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
-import { getVbotDiscountWeeks } from '../utils/discountHistory.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const groups = fetchModuleGroups();
 const catIcons = fetchCatIcons();
-const vbots = fetchAllVbots();
 const navLinks = [{ href: baseUrl, text: 'Home' }];
 
 // Icon mapping based on GridHeader indices
@@ -35,24 +32,16 @@ const filteredGroups = Object.entries(groups)
 		iconPath: getIconForGroup(id),
 	}))
 	.sort((a, b) => a.sortOrder - b.sortOrder);
-
-// Convert vbots to array
-const vbotList = Object.entries(vbots).map(([id, vbot]) => ({
-	id,
-	name: getVbotName(vbot),
-	iconPath: getVbotIconPath(vbot),
-	characterType: getVbotCharacterType(vbot),
-})).sort((a, b) => a.name.localeCompare(b.name));
 ---
 
-<GenericPage 
-	title="Items - WRF Discounts" 
-	description="List of all items with their discount history" 
+<GenericPage
+	title="Items - WRF Discounts"
+	description="List of all items with their discount history"
 	baseUrl={baseUrl}
 	navLinks={navLinks}
 >
 	<h1>Items</h1>
-	
+
 	<h2 class="section-title">Module Groups</h2>
 	<ul class="group-list">
 		{filteredGroups.map(group => (
@@ -62,20 +51,6 @@ const vbotList = Object.entries(vbots).map(([id, vbot]) => ({
 						<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
 					)}
 					<span>{group.name}</span>
-				</a>
-			</li>
-		))}
-	</ul>
-
-	<h2 class="section-title">Virtual Bots</h2>
-	<ul class="group-list">
-		{vbotList.map(vbot => (
-			<li>
-				<a href={`${baseUrl}items/${vbot.id}`}>
-					{vbot.iconPath && (
-						<img src={getTexturePath(vbot.iconPath, baseUrl)} alt="" class="group-icon" />
-					)}
-					<span>{vbot.name}</span>
 				</a>
 			</li>
 		))}
