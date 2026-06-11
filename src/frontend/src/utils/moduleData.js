@@ -21,6 +21,47 @@ function resolveObjectsDir() {
 
 let moduleCache = null;
 let moduleGroupCache = null;
+let catIconsCache = null;
+
+export function fetchCatIcons() {
+	if (catIconsCache) {
+		return catIconsCache;
+	}
+
+	const frontendDataDir = path.resolve('public/data');
+	try {
+		const columnsList = JSON.parse(fs.readFileSync(path.join(frontendDataDir, 'columns.json'), 'utf-8'));
+		const dataDir = resolveObjectsDir();
+
+		const ModuleSocketTypeDB = JSON.parse(fs.readFileSync(path.join(dataDir, 'ModuleSocketType.json'), 'utf-8'));
+		const ModuleCategoryDB = JSON.parse(fs.readFileSync(path.join(dataDir, 'ModuleCategory.json'), 'utf-8'));
+
+		const parseRef = (ref) => {
+			if (!ref) return null;
+			const parts = ref.split('::');
+			return parts.length > 1 ? parts[1] : parts[0];
+		};
+
+		catIconsCache = columnsList.map(colRef => {
+			if (colRef === "VirtualBots") {
+				return "Bot";
+			}
+			const colId = parseRef(colRef);
+			let iconPath = null;
+			if (ModuleSocketTypeDB[colId]) {
+				iconPath = ModuleSocketTypeDB[colId].icon_path;
+			} else if (ModuleCategoryDB[colId]) {
+				iconPath = ModuleCategoryDB[colId].icon_path;
+			}
+			return iconPath;
+		});
+
+		return catIconsCache;
+	} catch (e) {
+		console.error('Error reading columns.json:', e);
+		return [];
+	}
+}
 
 export function fetchModules() {
 	if (moduleCache) {

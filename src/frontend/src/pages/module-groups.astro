@@ -1,9 +1,30 @@
 ---
 import GenericPage from '../components/GenericPage.astro';
-import { fetchModuleGroups } from '../utils/moduleData.js';
+import { fetchModuleGroups, fetchCatIcons } from '../utils/moduleData.js';
+import { getTexturePath } from '../utils/textures.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const groups = fetchModuleGroups();
+const catIcons = fetchCatIcons();
+
+// Icon mapping based on GridHeader indices
+// 1: Torso, 2: Shoulder, 3: Chassis, 4: Light Wep, 5: Heavy Wep, 6: Supply Gear, 7: Cycle Gear
+const getIconForGroup = (groupId: string) => {
+	const iconMap: Record<string, number> = {
+		'titan-torsos': 1,
+		'titan-shoulder': 2,
+		'titan-chassis': 3,
+		'titan-weapon': 5,
+		'non-titan-torsos': 1,
+		'non-titan-shoulder': 2,
+		'non-titan-chassis': 3,
+		'light-weapon': 4,
+		'heavy-weapon': 5,
+		'supply-gear': 6,
+		'cycle-gear': 7,
+	};
+	return catIcons[iconMap[groupId]] || null;
+};
 
 // Convert to array and sort by sort_order
 const sortedGroups = Object.entries(groups)
@@ -13,8 +34,14 @@ const sortedGroups = Object.entries(groups)
 		sortOrder: group.sort_order || 0,
 		isTitan: group.titan || false,
 		isVirtualBotModule: group.virtual_bot_module || false,
+		iconPath: getIconForGroup(id),
 	}))
 	.sort((a, b) => a.sortOrder - b.sortOrder);
+
+// Group by type
+const titanGroups = sortedGroups.filter(g => g.isTitan);
+const virtualBotGroups = sortedGroups.filter(g => g.isVirtualBotModule);
+const generalGroups = sortedGroups.filter(g => !g.isTitan && !g.isVirtualBotModule);
 ---
 
 <GenericPage 
@@ -25,67 +52,119 @@ const sortedGroups = Object.entries(groups)
 >
 	<h1>Module Groups</h1>
 	
-	<table>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Type</th>
-			</tr>
-		</thead>
-		<tbody>
-			{sortedGroups.map(group => (
-				<tr>
-					<td>
-						<a href={`${baseUrl}module-groups/${group.id}`}>{group.name}</a>
-					</td>
-					<td>
-						{group.isTitan && 'Titan '}
-						{group.isVirtualBotModule && 'Virtual Bot '}
-						{!group.isTitan && !group.isVirtualBotModule && 'General'}
-					</td>
-				</tr>
-			))}
-		</tbody>
-	</table>
+	{titanGroups.length > 0 && (
+		<div class="group-section">
+			<h2 class="section-title">Titan</h2>
+			<ul class="group-list">
+				{titanGroups.map(group => (
+					<li>
+						<a href={`${baseUrl}module-groups/${group.id}`}>
+							{group.iconPath && (
+								<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
+							)}
+							<span>{group.name}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	)}
+
+	{virtualBotGroups.length > 0 && (
+		<div class="group-section">
+			<h2 class="section-title">Virtual Bot</h2>
+			<ul class="group-list">
+				{virtualBotGroups.map(group => (
+					<li>
+						<a href={`${baseUrl}module-groups/${group.id}`}>
+							{group.iconPath && (
+								<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
+							)}
+							<span>{group.name}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	)}
+
+	{generalGroups.length > 0 && (
+		<div class="group-section">
+			<h2 class="section-title">General</h2>
+			<ul class="group-list">
+				{generalGroups.map(group => (
+					<li>
+						<a href={`${baseUrl}module-groups/${group.id}`}>
+							{group.iconPath && (
+								<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
+							)}
+							<span>{group.name}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	)}
 </GenericPage>
 
 <style>
 	:root {
-		--sidebar-bg: #161920;
-		--sidebar-border: #232733;
-		--text-muted: #8b92a5;
 		--accent-color: #3a86ff;
 		--accent-hover: #2b65cc;
 	}
 
-	table {
-		width: 100%;
-		border-collapse: collapse;
-		margin-top: 1rem;
+	.group-section {
+		margin-bottom: 2rem;
 	}
 
-	th, td {
+	.section-title {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		color: var(--text-color);
+		border-bottom: 1px solid var(--sidebar-border);
+		padding-bottom: 0.5rem;
+	}
+
+	.group-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+		gap: 0.75rem;
+	}
+
+	.group-list li {
+		margin: 0;
+	}
+
+	.group-list a {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
 		padding: 0.75rem;
-		text-align: left;
-		border-bottom: 1px solid var(--text-muted);
-	}
-
-	th {
 		background-color: var(--sidebar-bg);
-		font-weight: 600;
-	}
-
-	tr:hover {
-		background-color: var(--active-bg);
-	}
-
-	a {
-		color: var(--accent-color);
+		border-radius: 0.5rem;
+		color: var(--text-color);
 		text-decoration: none;
+		transition: background-color 0.2s, color 0.2s;
 	}
 
-	a:hover {
-		color: var(--accent-hover);
-		text-decoration: underline;
+	.group-list a:hover {
+		background-color: var(--active-bg);
+		color: var(--accent-color);
+	}
+
+	.group-icon {
+		width: 32px;
+		height: 32px;
+		object-fit: contain;
+		flex-shrink: 0;
+	}
+
+	@media (max-width: 768px) {
+		.group-list {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>
