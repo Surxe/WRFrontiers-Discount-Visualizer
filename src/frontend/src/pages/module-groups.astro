@@ -10,7 +10,6 @@ const sortedGroups = Object.entries(groups)
 	.map(([id, group]: [string, any]) => ({
 		id,
 		name: group.name?.en || id,
-		description: group.description?.en || '',
 		sortOrder: group.sort_order || 0,
 		isTitan: group.titan || false,
 		isVirtualBotModule: group.virtual_bot_module || false,
@@ -30,7 +29,6 @@ const sortedGroups = Object.entries(groups)
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th>Description</th>
 				<th>Type</th>
 			</tr>
 		</thead>
@@ -40,7 +38,6 @@ const sortedGroups = Object.entries(groups)
 					<td>
 						<a href={`${baseUrl}module-groups/${group.id}`}>{group.name}</a>
 					</td>
-					<td>{group.description}</td>
 					<td>
 						{group.isTitan && 'Titan '}
 						{group.isVirtualBotModule && 'Virtual Bot '}
