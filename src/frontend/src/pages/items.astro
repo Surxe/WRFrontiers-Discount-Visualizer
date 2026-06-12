@@ -254,6 +254,7 @@ const titanList = Object.entries(vbots)
 		font-weight: 600;
 		cursor: pointer;
 		transition: background-color 0.2s;
+		position: relative;
 	}
 
 	.category-header:hover {
@@ -261,6 +262,8 @@ const titanList = Object.entries(vbots)
 	}
 
 	.category-icon {
+		position: absolute;
+		right: 1rem;
 		transition: transform 0.2s;
 	}
 
@@ -272,6 +275,15 @@ const titanList = Object.entries(vbots)
 		width: 36px;
 		height: 36px;
 		object-fit: contain;
+	}
+
+	.category-title {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		justify-content: center;
+		flex: 1;
+		padding-right: 2rem;
 	}
 
 	.module-icon {
