@@ -151,9 +151,7 @@ const titanList = Object.entries(vbots)
 									/>
 								)}
 							</td>
-							<td>
-								<a href={`${baseUrl}items/${vbot.id}`}>{vbot.name}</a>
-							</td>
+							<td>{vbot.name}</td>
 							<td>{vbot.discountWeeks.join(', ') || 'Never'}</td>
 						</tr>
 					))}
@@ -189,9 +187,7 @@ const titanList = Object.entries(vbots)
 									/>
 								)}
 							</td>
-							<td>
-								<a href={`${baseUrl}items/${vbot.id}`}>{vbot.name}</a>
-							</td>
+							<td>{vbot.name}</td>
 							<td>{vbot.discountWeeks.join(', ') || 'Never'}</td>
 						</tr>
 					))}
@@ -296,43 +292,6 @@ const titanList = Object.entries(vbots)
 		padding: 0 1rem 1rem;
 	}
 
-	.group-list {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-		gap: 0.75rem;
-	}
-
-	.group-list li {
-		margin: 0;
-	}
-
-	.group-list a {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		padding: 0.75rem;
-		background-color: var(--sidebar-bg);
-		border-radius: 0.5rem;
-		color: var(--text-color);
-		text-decoration: none;
-		transition: background-color 0.2s, color 0.2s;
-	}
-
-	.group-list a:hover {
-		background-color: var(--active-bg);
-		color: var(--accent-color);
-	}
-
-	.group-icon {
-		width: 32px;
-		height: 32px;
-		object-fit: contain;
-		flex-shrink: 0;
-	}
-
 	.category-table {
 		width: 100%;
 		border-collapse: collapse;
@@ -350,16 +309,6 @@ const titanList = Object.entries(vbots)
 		font-weight: 600;
 	}
 
-	.category-table a {
-		color: var(--accent-color);
-		text-decoration: none;
-	}
-
-	.category-table a:hover {
-		color: var(--accent-hover);
-		text-decoration: underline;
-	}
-
 	.vbot-icon {
 		width: 32px;
 		height: 32px;
@@ -367,10 +316,6 @@ const titanList = Object.entries(vbots)
 	}
 
 	@media (max-width: 768px) {
-		.group-list {
-			grid-template-columns: 1fr;
-		}
-
 		.category-table {
 			font-size: 0.875rem;
 		}
