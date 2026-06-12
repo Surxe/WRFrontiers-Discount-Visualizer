@@ -161,3 +161,30 @@ export function extractDiscountedItemsFromGrid(gridData, currentWeekSlug) {
 	
 	return uniqueItems;
 }
+
+export function transformToWeekCentric(items) {
+	// Transform item-centric data to week-centric data
+	const weekMap = new Map();
+	
+	items.forEach(item => {
+		item.discountWeeks.forEach(week => {
+			if (!weekMap.has(week)) {
+				weekMap.set(week, []);
+			}
+			weekMap.get(week).push({
+				id: item.id,
+				name: item.name,
+				iconPath: item.iconPath
+			});
+		});
+	});
+	
+	// Convert to array and sort weeks chronologically (oldest first)
+	const weekArray = Array.from(weekMap.entries()).map(([week, items]) => ({
+		week,
+		items,
+		itemsCount: items.length
+	})).sort((a, b) => new Date(a.week) - new Date(b.week));
+	
+	return weekArray;
+}
