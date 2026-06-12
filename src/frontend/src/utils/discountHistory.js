@@ -78,6 +78,20 @@ export function formatDiscountDate(dateStr) {
 	return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
+export function calculateWeeksAgo(fromDate, toDate) {
+	if (!fromDate || !toDate) return null;
+	
+	const from = new Date(fromDate);
+	const to = new Date(toDate);
+	
+	// Calculate the difference in weeks
+	const diffTime = to - from;
+	const diffDays = diffTime / (1000 * 60 * 60 * 24);
+	const weeksAgo = Math.floor(diffDays / 7);
+	
+	return weeksAgo;
+}
+
 export function extractDiscountedItemsFromGrid(gridData, currentWeekSlug) {
 	const items = [];
 	

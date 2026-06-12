@@ -1,6 +1,6 @@
 ---
 import { getTexturePath } from '../utils/textures.js';
-import { getModuleDiscountWeeks, getVbotDiscountWeeks, getLastDiscountBeforeDate, formatDiscountDate } from '../utils/discountHistory.js';
+import { getModuleDiscountWeeks, getVbotDiscountWeeks, getLastDiscountBeforeDate, formatDiscountDate, calculateWeeksAgo } from '../utils/discountHistory.js';
 
 const { items, currentWeekSlug, baseUrl } = Astro.props;
 
@@ -16,9 +16,21 @@ const itemsWithLastDiscount = items.map(item => {
 	
 	const lastDiscountDate = getLastDiscountBeforeDate(discountWeeks, currentWeekSlug);
 	
+	let formattedDate = 'Never';
+	let weeksAgo = null;
+	let dateUrl = null;
+	
+	if (lastDiscountDate) {
+		formattedDate = formatDiscountDate(lastDiscountDate);
+		weeksAgo = calculateWeeksAgo(lastDiscountDate, currentWeekSlug);
+		dateUrl = `${baseUrl}week/${lastDiscountDate}`;
+	}
+	
 	return {
 		...item,
-		lastDiscountDate: lastDiscountDate ? formatDiscountDate(lastDiscountDate) : 'Never'
+		lastDiscountDate: formattedDate,
+		weeksAgo: weeksAgo,
+		dateUrl: dateUrl
 	};
 });
 
@@ -57,7 +69,18 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 							{item.name}
 						</span>
 					</td>
-					<td class="date-cell">{item.lastDiscountDate}</td>
+					<td class="date-cell">
+						{item.dateUrl ? (
+							<a href={item.dateUrl} class="date-link">
+								{item.lastDiscountDate}
+								{item.weeksAgo !== null && (
+									<span class="weeks-ago"> ({item.weeksAgo} week{item.weeksAgo !== 1 ? 's' : ''} ago)</span>
+								)}
+							</a>
+						) : (
+							item.lastDiscountDate
+						)}
+					</td>
 				</tr>
 			))}
 		</tbody>
@@ -114,6 +137,22 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 	.date-cell {
 		width: 25%;
 		text-align: right;
+	}
+
+	.date-link {
+		color: var(--accent-color, #3a86ff);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	.date-link:hover {
+		color: var(--accent-hover, #2b65cc);
+		text-decoration: underline;
+	}
+
+	.weeks-ago {
+		color: var(--text-muted, #8b92a5);
+		font-size: 0.875em;
 	}
 
 	.name-with-icon {
