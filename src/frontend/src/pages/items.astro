@@ -91,7 +91,6 @@ const titanList = Object.entries(vbots)
 				<table class="category-table">
 					<thead>
 						<tr>
-							<th>Icon</th>
 							<th>Name</th>
 							<th>Discount Weeks</th>
 						</tr>
@@ -101,21 +100,23 @@ const titanList = Object.entries(vbots)
 							group.modules.map(module => (
 								<tr>
 									<td>
-										{module.iconPath && (
-											<img
-												src={getTexturePath(module.iconPath, baseUrl)}
-												alt={module.name}
-												class="module-icon"
-											/>
-										)}
+										<span class="name-with-icon">
+											{module.iconPath && (
+												<img
+													src={getTexturePath(module.iconPath, baseUrl)}
+													alt={module.name}
+													class="module-icon"
+												/>
+											)}
+											{module.name}
+										</span>
 									</td>
-									<td>{module.name}</td>
 									<td>{module.discountWeeks.join(', ') || 'Never'}</td>
 								</tr>
 							))
 						) : (
 							<tr>
-								<td colspan="3">No modules found in this group</td>
+								<td colspan="2">No modules found in this group</td>
 							</tr>
 						)}
 					</tbody>
@@ -134,7 +135,6 @@ const titanList = Object.entries(vbots)
 			<table class="category-table">
 				<thead>
 					<tr>
-						<th>Icon</th>
 						<th>Name</th>
 						<th>Discount Weeks</th>
 					</tr>
@@ -143,15 +143,17 @@ const titanList = Object.entries(vbots)
 					{mechList.map(vbot => (
 						<tr>
 							<td>
-								{vbot.iconPath && (
-									<img
-										src={getTexturePath(vbot.iconPath, baseUrl)}
-										alt={vbot.name}
-										class="vbot-icon"
-									/>
-								)}
+								<span class="name-with-icon">
+									{vbot.iconPath && (
+										<img
+											src={getTexturePath(vbot.iconPath, baseUrl)}
+											alt={vbot.name}
+											class="vbot-icon"
+										/>
+									)}
+									{vbot.name}
+								</span>
 							</td>
-							<td>{vbot.name}</td>
 							<td>{vbot.discountWeeks.join(', ') || 'Never'}</td>
 						</tr>
 					))}
@@ -170,7 +172,6 @@ const titanList = Object.entries(vbots)
 			<table class="category-table">
 				<thead>
 					<tr>
-						<th>Icon</th>
 						<th>Name</th>
 						<th>Discount Weeks</th>
 					</tr>
@@ -179,15 +180,17 @@ const titanList = Object.entries(vbots)
 					{titanList.map(vbot => (
 						<tr>
 							<td>
-								{vbot.iconPath && (
-									<img
-										src={getTexturePath(vbot.iconPath, baseUrl)}
-										alt={vbot.name}
-										class="vbot-icon"
-									/>
-								)}
+								<span class="name-with-icon">
+									{vbot.iconPath && (
+										<img
+											src={getTexturePath(vbot.iconPath, baseUrl)}
+											alt={vbot.name}
+											class="vbot-icon"
+										/>
+									)}
+									{vbot.name}
+								</span>
 							</td>
-							<td>{vbot.name}</td>
 							<td>{vbot.discountWeeks.join(', ') || 'Never'}</td>
 						</tr>
 					))}
@@ -315,12 +318,24 @@ const titanList = Object.entries(vbots)
 		object-fit: contain;
 	}
 
+	.name-with-icon {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.name-with-icon .module-icon,
+	.name-with-icon .vbot-icon {
+		flex-shrink: 0;
+	}
+
 	@media (max-width: 768px) {
 		.category-table {
 			font-size: 0.875rem;
 		}
 
-		.vbot-icon {
+		.vbot-icon,
+		.module-icon {
 			width: 24px;
 			height: 24px;
 		}
