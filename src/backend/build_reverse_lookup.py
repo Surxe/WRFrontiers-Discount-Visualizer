@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from config import REVERSE_LOOKUP_OUTPUT, REPO_ROOT, STANDALONE_MODULE_GROUPS
+from config import REVERSE_LOOKUP_OUTPUT, REPO_ROOT, STANDALONE_MODULE_GROUPS, VIRTUAL_BOT_JSON
 from week_dates import normalize_week, week_slug
 
 
@@ -13,6 +13,17 @@ def build_reverse_lookup(archive_output_dir: Path):
 
     vbot_history = {}
     module_history = {}
+
+    # Load virtual bot data to create module -> vbot mapping
+    module_to_vbot = {}
+    if VIRTUAL_BOT_JSON.exists():
+        with open(VIRTUAL_BOT_JSON, encoding="utf-8") as f:
+            vbot_data = json.load(f)
+        for vbot_id, vbot_info in vbot_data.items():
+            for module_ref in vbot_info.get("core_module_refs", []):
+                module_to_vbot[module_ref] = vbot_id
+    else:
+        print(f"  [WARN] VirtualBot.json not found at {VIRTUAL_BOT_JSON}")
 
     archive_files = sorted(archive_output_dir.glob("discounts_*.json"))
     for archive_file in archive_files:
@@ -49,6 +60,11 @@ def build_reverse_lookup(archive_output_dir: Path):
                     vbot_history.setdefault(item_id, []).append(week_slug_value)
                 elif item_type == "OBJID_Module":
                     module_history.setdefault(item_id, []).append(week_slug_value)
+                    # Check if this module belongs to a virtual bot
+                    if item_id in module_to_vbot:
+                        vbot_id = module_to_vbot[item_id]
+                        vbot_ref = f"OBJID_VirtualBot::{vbot_id}"
+                        vbot_history.setdefault(vbot_ref, []).append(week_slug_value)
             else:
                 # New format without OBJID prefix
                 # Determine if item is a module or vbot based on ID format
@@ -57,6 +73,11 @@ def build_reverse_lookup(archive_output_dir: Path):
                     # It's a module
                     module_ref = f"OBJID_Module::{item_id}"
                     module_history.setdefault(module_ref, []).append(week_slug_value)
+                    # Check if this module belongs to a virtual bot
+                    if module_ref in module_to_vbot:
+                        vbot_id = module_to_vbot[module_ref]
+                        vbot_ref = f"OBJID_VirtualBot::{vbot_id}"
+                        vbot_history.setdefault(vbot_ref, []).append(week_slug_value)
                 else:
                     # It's a vbot
                     vbot_ref = f"OBJID_VirtualBot::{item_id}"

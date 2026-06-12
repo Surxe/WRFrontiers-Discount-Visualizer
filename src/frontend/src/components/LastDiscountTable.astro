@@ -1,0 +1,148 @@
+---
+import { getTexturePath } from '../utils/textures.js';
+import { getModuleDiscountWeeks, getVbotDiscountWeeks, getLastDiscountBeforeDate, formatDiscountDate } from '../utils/discountHistory.js';
+
+const { items, currentWeekSlug, baseUrl } = Astro.props;
+
+// Process items to get their last discount date
+const itemsWithLastDiscount = items.map(item => {
+	let discountWeeks = [];
+	
+	if (item.itemType === 'vbot') {
+		discountWeeks = getVbotDiscountWeeks(item.id);
+	} else {
+		discountWeeks = getModuleDiscountWeeks(item.id);
+	}
+	
+	const lastDiscountDate = getLastDiscountBeforeDate(discountWeeks, currentWeekSlug);
+	
+	return {
+		...item,
+		lastDiscountDate: lastDiscountDate ? formatDiscountDate(lastDiscountDate) : 'Never'
+	};
+});
+
+// Sort by category, then by name
+const sortedItems = itemsWithLastDiscount.sort((a, b) => {
+	if (a.category !== b.category) {
+		return a.category.localeCompare(b.category);
+	}
+	return a.name.localeCompare(b.name);
+});
+---
+
+<section class="last-discount-section">
+	<h2>Last Discount History</h2>
+	<table class="last-discount-table">
+		<thead>
+			<tr>
+				<th>Category</th>
+				<th>Item</th>
+				<th>Last Discounted On</th>
+			</tr>
+		</thead>
+		<tbody>
+			{sortedItems.map(item => (
+				<tr>
+					<td class="category-cell">{item.category}</td>
+					<td class="item-cell">
+						<span class="name-with-icon">
+							{item.iconPath && (
+								<img
+									src={getTexturePath(item.iconPath, baseUrl)}
+									alt={item.name}
+									class="item-icon"
+								/>
+							)}
+							{item.name}
+						</span>
+					</td>
+					<td class="date-cell">{item.lastDiscountDate}</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+</section>
+
+<style>
+	.last-discount-section {
+		margin-top: 2rem;
+		padding: 1.5rem;
+		background-color: var(--sidebar-bg, #161920);
+		border: 1px solid var(--sidebar-border, #232733);
+		border-radius: 0.5rem;
+	}
+
+	.last-discount-section h2 {
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+		color: var(--text-color, #e0e0e0);
+	}
+
+	.last-discount-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.last-discount-table th,
+	.last-discount-table td {
+		padding: 0.75rem;
+		text-align: left;
+		border-bottom: 1px solid var(--sidebar-border, #232733);
+		color: var(--text-color, #e0e0e0);
+	}
+
+	.last-discount-table th {
+		background-color: rgba(58, 134, 255, 0.1);
+		font-weight: 600;
+		color: var(--accent-color, #3a86ff);
+	}
+
+	.last-discount-table tr:hover {
+		background-color: rgba(58, 134, 255, 0.05);
+	}
+
+	.category-cell {
+		width: 15%;
+		font-weight: 500;
+	}
+
+	.item-cell {
+		width: 60%;
+	}
+
+	.date-cell {
+		width: 25%;
+		text-align: right;
+	}
+
+	.name-with-icon {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.item-icon {
+		width: 32px;
+		height: 32px;
+		object-fit: contain;
+		flex-shrink: 0;
+	}
+
+	@media (max-width: 768px) {
+		.last-discount-section {
+			padding: 1rem;
+		}
+
+		.last-discount-table th,
+		.last-discount-table td {
+			padding: 0.5rem;
+			font-size: 0.875rem;
+		}
+
+		.item-icon {
+			width: 24px;
+			height: 24px;
+		}
+	}
+</style>
