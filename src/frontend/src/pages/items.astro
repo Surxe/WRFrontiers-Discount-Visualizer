@@ -1,10 +1,10 @@
 ---
 import GenericPage from '../components/GenericPage.astro';
 import NavBar from '../components/NavBar.astro';
-import { fetchModuleGroups, fetchCatIcons } from '../utils/moduleData.js';
+import { fetchModuleGroups, fetchCatIcons, fetchModulesByGroup } from '../utils/moduleData.js';
 import { getTexturePath } from '../utils/textures.js';
 import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
-import { getVbotDiscountWeeks } from '../utils/discountHistory.js';
+import { getVbotDiscountWeeks, getModuleDiscountWeeks } from '../utils/discountHistory.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const groups = fetchModuleGroups();
@@ -37,6 +37,10 @@ const filteredGroups = Object.entries(groups)
 		name: group.name?.en || id,
 		sortOrder: group.sort_order || 0,
 		iconPath: getIconForGroup(id),
+		modules: fetchModulesByGroup(id).map(module => ({
+			...module,
+			discountWeeks: getModuleDiscountWeeks(module.id),
+		})),
 	}))
 	.sort((a, b) => a.sortOrder - b.sortOrder);
 
@@ -71,27 +75,54 @@ const titanList = Object.entries(vbots)
 	<NavBar baseUrl={baseUrl} currentPage="items" />
 	<h1>Items</h1>
 
-	<!-- Module Groups Category -->
-	<div class="category" data-category="module-groups">
-		<button class="category-header" aria-expanded={expandedCategory === 'module-groups'}>
-			<span class="category-title">Module Groups</span>
-			<span class="category-icon">▼</span>
-		</button>
-		<div class="category-content" class:list={{ expanded: expandedCategory === 'module-groups' }}>
-			<ul class="group-list">
-				{filteredGroups.map(group => (
-					<li>
-						<a href={`${baseUrl}items/${group.id}`}>
-							{group.iconPath && (
-								<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
-							)}
-							<span>{group.name}</span>
-						</a>
-					</li>
-				))}
-			</ul>
+	<!-- Module Groups -->
+	{filteredGroups.map(group => (
+		<div class="category" data-category={group.id}>
+			<button class="category-header" aria-expanded={expandedCategory === group.id}>
+				<span class="category-title">
+					{group.iconPath && (
+						<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="category-icon-img" />
+					)}
+					{group.name}
+				</span>
+				<span class="category-icon">▼</span>
+			</button>
+			<div class="category-content" class:list={{ expanded: expandedCategory === group.id }}>
+				<table class="category-table">
+					<thead>
+						<tr>
+							<th>Icon</th>
+							<th>Name</th>
+							<th>Discount Weeks</th>
+						</tr>
+					</thead>
+					<tbody>
+						{group.modules.length > 0 ? (
+							group.modules.map(module => (
+								<tr>
+									<td>
+										{module.iconPath && (
+											<img
+												src={getTexturePath(module.iconPath, baseUrl)}
+												alt={module.name}
+												class="module-icon"
+											/>
+										)}
+									</td>
+									<td>{module.name}</td>
+									<td>{module.discountWeeks.join(', ') || 'Never'}</td>
+								</tr>
+							))
+						) : (
+							<tr>
+								<td colspan="3">No modules found in this group</td>
+							</tr>
+						)}
+					</tbody>
+				</table>
+			</div>
 		</div>
-	</div>
+	))}
 
 	<!-- Mechs Category -->
 	<div class="category" data-category="mechs">
@@ -236,6 +267,18 @@ const titanList = Object.entries(vbots)
 
 	.category-header[aria-expanded='true'] .category-icon {
 		transform: rotate(180deg);
+	}
+
+	.category-icon-img {
+		width: 24px;
+		height: 24px;
+		object-fit: contain;
+	}
+
+	.module-icon {
+		width: 32px;
+		height: 32px;
+		object-fit: contain;
 	}
 
 	.category-content {
