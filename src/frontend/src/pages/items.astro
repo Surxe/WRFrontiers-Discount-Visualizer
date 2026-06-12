@@ -54,6 +54,7 @@ const filteredGroups = Object.entries(groups)
 		name: group.name?.en || id,
 		sortOrder: group.sort_order || 0,
 		iconPath: getIconForGroup(id),
+		showVirtualBots: id !== 'titan-weapon', // Don't show virtual bots for titan weapons
 		modules: fetchModulesByGroup(id).map(module => {
 			const discountWeeks = getModuleDiscountWeeks(module.id);
 			const virtualBots = getModuleVirtualBots(module.id);
@@ -130,8 +131,20 @@ const titanList = Object.entries(vbots)
 						<tr>
 							<th>Name</th>
 							<th>Discount Weeks</th>
-							<th>Discount %</th>
-							<th>Virtual Bots</th>
+							<th>
+								<span class="header-with-tooltip">
+									Appearance Rate
+									<span class="tooltip-icon" title="Portion of weeks this item was discounted on">?</span>
+								</span>
+							</th>
+							{group.showVirtualBots && (
+								<th>
+									<span class="header-with-tooltip">
+										Bot Usage
+										<span class="tooltip-icon" title="Portion of virtual bots this item is featured in">?</span>
+									</span>
+								</th>
+							)}
 						</tr>
 					</thead>
 					<tbody>
@@ -152,12 +165,14 @@ const titanList = Object.entries(vbots)
 									</td>
 									<td>{module.discountWeeks.join(', ') || 'Never'}</td>
 									<td class="percentage-cell">{module.discountPercentage}%</td>
-									<td class="percentage-cell">{module.vbotPortion}% ({module.virtualBots.length})</td>
+									{group.showVirtualBots && (
+										<td class="percentage-cell">{module.vbotPortion}% ({module.virtualBots.length})</td>
+									)}
 								</tr>
 							))
 						) : (
 							<tr>
-								<td colspan="4">No modules found in this group</td>
+								<td colspan={group.showVirtualBots ? 4 : 3}>No modules found in this group</td>
 							</tr>
 						)}
 					</tbody>
@@ -178,7 +193,12 @@ const titanList = Object.entries(vbots)
 					<tr>
 						<th>Name</th>
 						<th>Discount Weeks</th>
-						<th>Discount %</th>
+						<th>
+							<span class="header-with-tooltip">
+								Appearance Rate
+								<span class="tooltip-icon" title="Portion of weeks this item was discounted on">?</span>
+							</span>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -217,7 +237,12 @@ const titanList = Object.entries(vbots)
 					<tr>
 						<th>Name</th>
 						<th>Discount Weeks</th>
-						<th>Discount %</th>
+						<th>
+							<span class="header-with-tooltip">
+								Appearance Rate
+								<span class="tooltip-icon" title="Portion of weeks this item was discounted on">?</span>
+							</span>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -373,6 +398,31 @@ const titanList = Object.entries(vbots)
 		text-align: center;
 		font-family: 'Courier New', monospace;
 		font-weight: 500;
+	}
+
+	.header-with-tooltip {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
+	.tooltip-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		background-color: var(--accent-color, #3a86ff);
+		color: white;
+		font-size: 11px;
+		font-weight: 700;
+		cursor: help;
+		transition: background-color 0.2s;
+	}
+
+	.tooltip-icon:hover {
+		background-color: var(--accent-hover, #2b65cc);
 	}
 
 	.vbot-icon {
