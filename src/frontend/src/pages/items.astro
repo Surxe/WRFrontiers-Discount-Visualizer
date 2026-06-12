@@ -4,7 +4,7 @@ import NavBar from '../components/NavBar.astro';
 import { fetchModuleGroups, fetchCatIcons, fetchModulesByGroup } from '../utils/moduleData.js';
 import { getTexturePath } from '../utils/textures.js';
 import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
-import { getVbotDiscountWeeks, getModuleDiscountWeeks, getModuleVirtualBots, fetchDiscountHistory, transformToWeekCentric } from '../utils/discountHistory.js';
+import { getVbotDiscountWeeks, getModuleDiscountWeeks, getModuleVirtualBots, fetchDiscountHistory, transformToWeekCentric, formatDiscountDate } from '../utils/discountHistory.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const groups = fetchModuleGroups();
@@ -252,37 +252,55 @@ const titanTimelineData = transformToWeekCentric(titanList);
 					))}
 				</tbody>
 			</table>
-		</div>
 
-		<!-- Mech Timeline -->
-		{mechTimelineData.length > 0 && (
-			<div class="timeline-section">
-				<h3>Mech Discount Timeline</h3>
-				<div class="timeline">
-					{mechTimelineData.map(({ week, items }) => (
-						<div class="timeline-column">
-							<a href={`${baseUrl}week/${week}`} class="timeline-week-link">
-								<span class="timeline-week">{week}</span>
-							</a>
-							<div class="timeline-icons">
-								{items.map(item => (
-									<a 
-										href={`${baseUrl}week/${week}`} 
-										class="timeline-icon"
-										title={item.name}
-									>
-										<img 
-											src={getTexturePath(item.iconPath, baseUrl)} 
-											alt={item.name}
-										/>
-									</a>
-								))}
-							</div>
-						</div>
-					))}
+			<!-- Mech Timeline -->
+			{mechTimelineData.length > 0 && (
+				<div class="timeline-section">
+					<h3>Mech Discount Timeline</h3>
+					<div class="timeline">
+						{(() => {
+							let lastYear = null;
+							return mechTimelineData.map(({ week, items }) => {
+								const year = week.split('-')[0];
+								const showYearHeader = year !== lastYear;
+								lastYear = year;
+								const formattedDate = week.split('-').slice(1).join('/'); // MM/DD
+								const dateObj = new Date(week);
+								const monthDay = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+								
+								return (
+									<>
+										{showYearHeader && (
+											<div class="timeline-year-header">{year}</div>
+										)}
+										<div class="timeline-column">
+											<a href={`${baseUrl}week/${week}`} class="timeline-week-link">
+												<span class="timeline-week">{monthDay}</span>
+											</a>
+											<div class="timeline-icons">
+												{items.map(item => (
+													<a 
+														href={`${baseUrl}week/${week}`} 
+														class="timeline-icon"
+														title={item.name}
+													>
+														<img 
+															src={getTexturePath(item.iconPath, baseUrl)} 
+															alt={item.name}
+														/>
+														<span class="timeline-icon-name">{item.name}</span>
+													</a>
+												))}
+											</div>
+										</div>
+									</>
+								);
+							});
+						})()}
+					</div>
 				</div>
-			</div>
-		)}
+			)}
+		</div>
 	</div>
 
 	<!-- Titans Category -->
@@ -336,37 +354,54 @@ const titanTimelineData = transformToWeekCentric(titanList);
 					))}
 				</tbody>
 			</table>
-		</div>
 
-		<!-- Titan Timeline -->
-		{titanTimelineData.length > 0 && (
-			<div class="timeline-section">
-				<h3>Titan Discount Timeline</h3>
-				<div class="timeline">
-					{titanTimelineData.map(({ week, items }) => (
-						<div class="timeline-column">
-							<a href={`${baseUrl}week/${week}`} class="timeline-week-link">
-								<span class="timeline-week">{week}</span>
-							</a>
-							<div class="timeline-icons">
-								{items.map(item => (
-									<a 
-										href={`${baseUrl}week/${week}`} 
-										class="timeline-icon"
-										title={item.name}
-									>
-										<img 
-											src={getTexturePath(item.iconPath, baseUrl)} 
-											alt={item.name}
-										/>
-									</a>
-								))}
-							</div>
-						</div>
-					))}
+			<!-- Titan Timeline -->
+			{titanTimelineData.length > 0 && (
+				<div class="timeline-section">
+					<h3>Titan Discount Timeline</h3>
+					<div class="timeline">
+						{(() => {
+							let lastYear = null;
+							return titanTimelineData.map(({ week, items }) => {
+								const year = week.split('-')[0];
+								const showYearHeader = year !== lastYear;
+								lastYear = year;
+								const dateObj = new Date(week);
+								const monthDay = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+								
+								return (
+									<>
+										{showYearHeader && (
+											<div class="timeline-year-header">{year}</div>
+										)}
+										<div class="timeline-column">
+											<a href={`${baseUrl}week/${week}`} class="timeline-week-link">
+												<span class="timeline-week">{monthDay}</span>
+											</a>
+											<div class="timeline-icons">
+												{items.map(item => (
+													<a 
+														href={`${baseUrl}week/${week}`} 
+														class="timeline-icon"
+														title={item.name}
+													>
+														<img 
+															src={getTexturePath(item.iconPath, baseUrl)} 
+															alt={item.name}
+														/>
+														<span class="timeline-icon-name">{item.name}</span>
+													</a>
+												))}
+											</div>
+										</div>
+									</>
+								);
+							});
+						})()}
+					</div>
 				</div>
-			</div>
-		)}
+			)}
+		</div>
 	</div>
 
 	<script>
@@ -409,6 +444,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 		border: 1px solid var(--sidebar-border);
 		border-radius: 0.5rem;
 		background-color: var(--sidebar-bg);
+		overflow: visible;
 	}
 
 	.category-header {
@@ -470,6 +506,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 
 	.category-content.expanded {
 		max-height: 2000px;
+		overflow: visible;
 		transition: max-height 0.5s ease-in;
 	}
 
@@ -487,6 +524,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 		padding: 0.75rem;
 		text-align: left;
 		border-bottom: 1px solid var(--sidebar-border);
+		position: relative;
 	}
 
 	.category-table th {
@@ -545,7 +583,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 		transition: opacity 0.18s ease, transform 0.18s ease;
 		opacity: 0;
 		pointer-events: none;
-		z-index: 10;
+		z-index: 9999;
 		max-width: none;
 	}
 
@@ -571,6 +609,11 @@ const titanTimelineData = transformToWeekCentric(titanList);
 		object-fit: contain;
 	}
 
+	.name-with-icon-wrapper {
+		position: relative;
+		display: inline-block;
+	}
+
 	.name-with-icon {
 		display: flex;
 		align-items: center;
@@ -580,6 +623,32 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	.name-with-icon .module-icon,
 	.name-with-icon .vbot-icon {
 		flex-shrink: 0;
+	}
+
+	.item-tooltip {
+		position: absolute;
+		left: 50%;
+		top: calc(100% + 10px);
+		transform: translateX(-50%) translateY(-6px);
+		white-space: nowrap;
+		background: rgba(20, 20, 20, 0.95);
+		color: #fff;
+		padding: 8px 12px;
+		border-radius: 999px;
+		font-size: 0.78rem;
+		line-height: 1.3;
+		text-align: center;
+		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+		transition: opacity 0.18s ease, transform 0.18s ease;
+		opacity: 0;
+		pointer-events: none;
+		z-index: 9999;
+		max-width: none;
+	}
+
+	.name-with-icon-wrapper:hover .item-tooltip {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
 	}
 
 	@media (max-width: 768px) {
@@ -616,7 +685,23 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	.timeline {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: flex-start;
 		gap: 1.5rem;
+	}
+
+	.timeline-year-header {
+		width: 100%;
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--accent-color, #3a86ff);
+		margin-top: 1rem;
+		margin-bottom: 0.5rem;
+		padding-bottom: 0.25rem;
+		border-bottom: 2px solid var(--accent-color, #3a86ff);
+	}
+
+	.timeline-year-header:first-child {
+		margin-top: 0;
 	}
 
 	.timeline-column {
@@ -624,7 +709,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 		flex-direction: column;
 		align-items: center;
 		gap: 0.5rem;
-		min-width: 80px;
+		min-width: 90px;
 	}
 
 	.timeline-week-link {
@@ -647,12 +732,14 @@ const titanTimelineData = transformToWeekCentric(titanList);
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: 0.5rem;
-		min-height: 48px;
+		gap: 0.75rem;
+		min-height: 80px;
 	}
 
 	.timeline-icon {
-		display: block;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		text-decoration: none;
 		transition: transform 0.2s;
 	}
@@ -662,13 +749,24 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	}
 
 	.timeline-icon img {
-		width: 48px;
-		height: 48px;
+		width: 56px;
+		height: 56px;
 		object-fit: contain;
 		border-radius: 0.25rem;
 		background-color: var(--sidebar-bg, #161920);
 		border: 1px solid var(--sidebar-border, #232733);
 		padding: 2px;
+	}
+
+	.timeline-icon-name {
+		font-size: 0.65rem;
+		color: var(--text-secondary, #888);
+		margin-top: 0.25rem;
+		text-align: center;
+		max-width: 70px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	@media (max-width: 768px) {
@@ -678,6 +776,10 @@ const titanTimelineData = transformToWeekCentric(titanList);
 
 		.timeline-section h3 {
 			font-size: 1rem;
+		}
+
+		.timeline-year-header {
+			font-size: 0.875rem;
 		}
 
 		.timeline {
@@ -692,9 +794,18 @@ const titanTimelineData = transformToWeekCentric(titanList);
 			font-size: 0.75rem;
 		}
 
+		.timeline-icons {
+			gap: 0.5rem;
+		}
+
 		.timeline-icon img {
-			width: 36px;
-			height: 36px;
+			width: 42px;
+			height: 42px;
+		}
+
+		.timeline-icon-name {
+			font-size: 0.55rem;
+			max-width: 60px;
 		}
 	}
 </style>
