@@ -4,12 +4,29 @@ import NavBar from '../components/NavBar.astro';
 import { fetchModuleGroups, fetchCatIcons, fetchModulesByGroup } from '../utils/moduleData.js';
 import { getTexturePath } from '../utils/textures.js';
 import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
-import { getVbotDiscountWeeks, getModuleDiscountWeeks } from '../utils/discountHistory.js';
+import { getVbotDiscountWeeks, getModuleDiscountWeeks, getModuleVirtualBots, fetchDiscountHistory } from '../utils/discountHistory.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const groups = fetchModuleGroups();
 const catIcons = fetchCatIcons();
 const vbots = fetchAllVbots();
+
+// Get total weeks and virtual bots for percentage calculations
+const discountHistory = fetchDiscountHistory();
+
+// Get all unique weeks from the discount history
+const allWeeks = new Set<string>();
+Object.values(discountHistory.modules).forEach((m: any) => {
+	const weeks = Array.isArray(m) ? m : (m.weeks || []);
+	weeks.forEach((week: string) => allWeeks.add(week));
+});
+Object.values(discountHistory.virtualBots).forEach((v: any) => {
+	const weeks = Array.isArray(v) ? v : (v.weeks || []);
+	weeks.forEach((week: string) => allWeeks.add(week));
+});
+
+const totalWeeks = allWeeks.size;
+const totalVbots = Object.keys(vbots).length;
 
 // Get expanded category from query param
 const url = new URL(Astro.request.url);
@@ -37,33 +54,53 @@ const filteredGroups = Object.entries(groups)
 		name: group.name?.en || id,
 		sortOrder: group.sort_order || 0,
 		iconPath: getIconForGroup(id),
-		modules: fetchModulesByGroup(id).map(module => ({
-			...module,
-			discountWeeks: getModuleDiscountWeeks(module.id),
-		})),
+		modules: fetchModulesByGroup(id).map(module => {
+			const discountWeeks = getModuleDiscountWeeks(module.id);
+			const virtualBots = getModuleVirtualBots(module.id);
+			const discountPercentage = totalWeeks > 0 ? ((discountWeeks.length / totalWeeks) * 100).toFixed(1) : '0';
+			const vbotPortion = totalVbots > 0 ? ((virtualBots.length / totalVbots) * 100).toFixed(1) : '0';
+			
+			return {
+				...module,
+				discountWeeks,
+				virtualBots,
+				discountPercentage,
+				vbotPortion,
+			};
+		}),
 	}))
 	.sort((a, b) => a.sortOrder - b.sortOrder);
 
 // Filter to only mechs
 const mechList = Object.entries(vbots)
 	.filter(([id, vbot]) => getVbotCharacterType(vbot) === 'Mech')
-	.map(([id, vbot]) => ({
-		id,
-		name: getVbotName(vbot),
-		iconPath: getVbotIconPath(vbot),
-		discountWeeks: getVbotDiscountWeeks(id),
-	}))
+	.map(([id, vbot]) => {
+		const discountWeeks = getVbotDiscountWeeks(id);
+		const discountPercentage = totalWeeks > 0 ? ((discountWeeks.length / totalWeeks) * 100).toFixed(1) : '0';
+		return {
+			id,
+			name: getVbotName(vbot),
+			iconPath: getVbotIconPath(vbot),
+			discountWeeks,
+			discountPercentage,
+		};
+	})
 	.sort((a, b) => a.name.localeCompare(b.name));
 
 // Filter to only titans
 const titanList = Object.entries(vbots)
 	.filter(([id, vbot]) => getVbotCharacterType(vbot) === 'Titan')
-	.map(([id, vbot]) => ({
-		id,
-		name: getVbotName(vbot),
-		iconPath: getVbotIconPath(vbot),
-		discountWeeks: getVbotDiscountWeeks(id),
-	}))
+	.map(([id, vbot]) => {
+		const discountWeeks = getVbotDiscountWeeks(id);
+		const discountPercentage = totalWeeks > 0 ? ((discountWeeks.length / totalWeeks) * 100).toFixed(1) : '0';
+		return {
+			id,
+			name: getVbotName(vbot),
+			iconPath: getVbotIconPath(vbot),
+			discountWeeks,
+			discountPercentage,
+		};
+	})
 	.sort((a, b) => a.name.localeCompare(b.name));
 ---
 
@@ -93,6 +130,8 @@ const titanList = Object.entries(vbots)
 						<tr>
 							<th>Name</th>
 							<th>Discount Weeks</th>
+							<th>Discount %</th>
+							<th>Virtual Bots</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -112,11 +151,13 @@ const titanList = Object.entries(vbots)
 										</span>
 									</td>
 									<td>{module.discountWeeks.join(', ') || 'Never'}</td>
+									<td class="percentage-cell">{module.discountPercentage}%</td>
+									<td class="percentage-cell">{module.vbotPortion}% ({module.virtualBots.length})</td>
 								</tr>
 							))
 						) : (
 							<tr>
-								<td colspan="2">No modules found in this group</td>
+								<td colspan="4">No modules found in this group</td>
 							</tr>
 						)}
 					</tbody>
@@ -137,6 +178,7 @@ const titanList = Object.entries(vbots)
 					<tr>
 						<th>Name</th>
 						<th>Discount Weeks</th>
+						<th>Discount %</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -155,6 +197,7 @@ const titanList = Object.entries(vbots)
 								</span>
 							</td>
 							<td>{vbot.discountWeeks.join(', ') || 'Never'}</td>
+							<td class="percentage-cell">{vbot.discountPercentage}%</td>
 						</tr>
 					))}
 				</tbody>
@@ -174,6 +217,7 @@ const titanList = Object.entries(vbots)
 					<tr>
 						<th>Name</th>
 						<th>Discount Weeks</th>
+						<th>Discount %</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -192,6 +236,7 @@ const titanList = Object.entries(vbots)
 								</span>
 							</td>
 							<td>{vbot.discountWeeks.join(', ') || 'Never'}</td>
+							<td class="percentage-cell">{vbot.discountPercentage}%</td>
 						</tr>
 					))}
 				</tbody>
@@ -324,6 +369,12 @@ const titanList = Object.entries(vbots)
 		font-weight: 600;
 	}
 
+	.percentage-cell {
+		text-align: center;
+		font-family: 'Courier New', monospace;
+		font-weight: 500;
+	}
+
 	.vbot-icon {
 		width: 48px;
 		height: 48px;
@@ -350,6 +401,10 @@ const titanList = Object.entries(vbots)
 		.module-icon {
 			width: 36px;
 			height: 36px;
+		}
+
+		.percentage-cell {
+			font-size: 0.8rem;
 		}
 	}
 </style>
