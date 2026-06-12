@@ -2,9 +2,28 @@
 
 import json
 from pathlib import Path
+from collections import defaultdict
 
-from config import REVERSE_LOOKUP_OUTPUT, REPO_ROOT, STANDALONE_MODULE_GROUPS, VIRTUAL_BOT_JSON
+from config import (
+    REVERSE_LOOKUP_OUTPUT,
+    REPO_ROOT,
+    STANDALONE_MODULE_GROUPS,
+    VIRTUAL_BOT_JSON,
+    MODULE_JSON,
+    CHARACTER_PRESET_JSON,
+)
 from week_dates import normalize_week, week_slug
+
+
+def parse_ref(ref: str) -> tuple[str, str]:
+    """Parse a reference string into type and ID."""
+    if not isinstance(ref, str):
+        return "", ""
+    if "::" in ref:
+        prefix, obj_id = ref.split("::", 1)
+        obj_type = prefix.replace("OBJID_", "")
+        return obj_type, obj_id
+    return "", ref
 
 
 def build_reverse_lookup(archive_output_dir: Path):
@@ -87,9 +106,98 @@ def build_reverse_lookup(archive_output_dir: Path):
         for ref, weeks in history.items():
             history[ref] = sorted(set(weeks), reverse=True)
 
+    # Build module-to-vbot mapping for standalone module categories
+    module_to_vbots = defaultdict(set)
+
+    # Load module data for category information
+    modules_data = {}
+    if MODULE_JSON.exists():
+        with open(MODULE_JSON, encoding="utf-8") as f:
+            modules_data = json.load(f)
+    else:
+        print(f"  [WARN] Module.json not found at {MODULE_JSON}")
+
+    # Load character preset data for factory preset modules
+    character_preset_data = {}
+    if CHARACTER_PRESET_JSON.exists():
+        with open(CHARACTER_PRESET_JSON, encoding="utf-8") as f:
+            character_preset_data = json.load(f)
+    else:
+        print(f"  [WARN] CharacterPreset.json not found at {CHARACTER_PRESET_JSON}")
+
+    # Load virtual bot data
+    vbot_data = {}
+    if VIRTUAL_BOT_JSON.exists():
+        with open(VIRTUAL_BOT_JSON, encoding="utf-8") as f:
+            vbot_data = json.load(f)
+    else:
+        print(f"  [WARN] VirtualBot.json not found at {VIRTUAL_BOT_JSON}")
+
+    # Build module to vbot mapping from core_module_refs and factory presets
+    for vbot_id, vbot_info in vbot_data.items():
+        if not vbot_info:
+            continue
+
+        # Get core module refs
+        core_module_refs = vbot_info.get("core_module_refs", [])
+        if isinstance(core_module_refs, str):
+            core_module_refs = [core_module_refs]
+
+        for module_ref in core_module_refs:
+            _, module_id = parse_ref(module_ref)
+            if module_id:
+                module_to_vbots[module_id].add(vbot_id)
+
+        # Also check factory presets for additional module relationships
+        factory_preset_refs = vbot_info.get("factory_preset_refs", [])
+        if isinstance(factory_preset_refs, str):
+            factory_preset_refs = [factory_preset_refs]
+
+        for preset_ref in factory_preset_refs:
+            _, preset_id = parse_ref(preset_ref)
+            preset_data = character_preset_data.get(preset_id, {})
+            preset_modules = preset_data.get("modules", [])
+
+            for module_data in preset_modules:
+                module_ref = module_data.get("module_ref", "")
+                _, module_id = parse_ref(module_ref)
+                if module_id:
+                    module_to_vbots[module_id].add(vbot_id)
+
+    # Convert sets to sorted lists for consistent output
+    module_to_vbots = {k: sorted(list(v)) for k, v in module_to_vbots.items()}
+
+    # Build enhanced module data with vbot relationships
+    enhanced_module_history = {}
+
+    for module_ref, weeks in module_history.items():
+        _, module_id = parse_ref(module_ref)
+
+        # Get module group to determine if it's a standalone module category
+        module_info = modules_data.get(module_id, {})
+        module_group_ref = module_info.get("module_group_ref", "")
+        _, module_group_id = parse_ref(module_group_ref)
+
+        # Only add vbot relationships for standalone module categories
+        virtual_bots = []
+        if module_group_id in STANDALONE_MODULE_GROUPS:
+            virtual_bots = module_to_vbots.get(module_id, [])
+
+        enhanced_module_history[module_ref] = {
+            "weeks": weeks,
+            "virtual_bots": virtual_bots
+        }
+
+    # Build enhanced vbot data (keeping existing structure for consistency)
+    enhanced_vbot_history = {}
+    for vbot_ref, weeks in vbot_history.items():
+        enhanced_vbot_history[vbot_ref] = {
+            "weeks": weeks
+        }
+
     reverse_lookup = {
-        "virtualBots": vbot_history,
-        "modules": module_history,
+        "virtualBots": enhanced_vbot_history,
+        "modules": enhanced_module_history,
     }
 
     with open(REVERSE_LOOKUP_OUTPUT, "w", encoding="utf-8") as f:

@@ -11,11 +11,11 @@ function resolveDataDir() {
 		path.resolve('../../../public/data'),
 	];
 	for (const dir of candidates) {
-		if (fs.existsSync(path.join(dir, 'discount_reverse_lookup.json'))) {
+		if (fs.existsSync(path.join(dir, 'discount_data.json'))) {
 			return dir;
 		}
 	}
-	console.warn('discount_reverse_lookup.json not found. Tried:', candidates.join(', '));
+	console.warn('discount_data.json not found. Tried:', candidates.join(', '));
 	return candidates[0];
 }
 
@@ -28,12 +28,12 @@ export function fetchDiscountHistory() {
 
 	const dataDir = resolveDataDir();
 	try {
-		const filePath = path.join(dataDir, 'discount_reverse_lookup.json');
+		const filePath = path.join(dataDir, 'discount_data.json');
 		const content = fs.readFileSync(filePath, 'utf-8');
 		reverseLookupCache = JSON.parse(content);
 		return reverseLookupCache;
 	} catch (e) {
-		console.error('Error reading discount_reverse_lookup.json:', e);
+		console.error('Error reading discount_data.json:', e);
 		return { virtualBots: {}, modules: {} };
 	}
 }
@@ -41,13 +41,34 @@ export function fetchDiscountHistory() {
 export function getModuleDiscountWeeks(moduleId) {
 	const history = fetchDiscountHistory();
 	const moduleRef = `OBJID_Module::${moduleId}`;
-	return history.modules[moduleRef] || [];
+	const moduleData = history.modules[moduleRef];
+	// Handle both old format (array) and new format (object with weeks field)
+	if (Array.isArray(moduleData)) {
+		return moduleData;
+	}
+	return moduleData?.weeks || [];
 }
 
 export function getVbotDiscountWeeks(vbotId) {
 	const history = fetchDiscountHistory();
 	const vbotRef = `OBJID_VirtualBot::${vbotId}`;
-	return history.virtualBots[vbotRef] || [];
+	const vbotData = history.virtualBots[vbotRef];
+	// Handle both old format (array) and new format (object with weeks field)
+	if (Array.isArray(vbotData)) {
+		return vbotData;
+	}
+	return vbotData?.weeks || [];
+}
+
+export function getModuleVirtualBots(moduleId) {
+	const history = fetchDiscountHistory();
+	const moduleRef = `OBJID_Module::${moduleId}`;
+	const moduleData = history.modules[moduleRef];
+	// Only return virtual_bots if it exists in the new format
+	if (moduleData && typeof moduleData === 'object' && !Array.isArray(moduleData)) {
+		return moduleData.virtual_bots || [];
+	}
+	return [];
 }
 
 export function getLastDiscountBeforeDate(discountWeeks, currentDate) {
