@@ -134,14 +134,14 @@ const titanList = Object.entries(vbots)
 							<th>
 								<span class="header-with-tooltip">
 									Appearance Rate
-									<span class="tooltip-icon" title="Portion of weeks this item was discounted on">?</span>
+									<span class="tooltip-icon" data-tooltip="Portion of weeks this item was discounted on">?</span>
 								</span>
 							</th>
 							{group.showVirtualBots && (
 								<th>
 									<span class="header-with-tooltip">
 										Bot Usage
-										<span class="tooltip-icon" title="Portion of virtual bots this item is featured in">?</span>
+										<span class="tooltip-icon" data-tooltip="Portion of virtual bots this item is featured in">?</span>
 									</span>
 								</th>
 							)}
@@ -205,7 +205,7 @@ const titanList = Object.entries(vbots)
 						<th>
 							<span class="header-with-tooltip">
 								Appearance Rate
-								<span class="tooltip-icon" title="Portion of weeks this item was discounted on">?</span>
+								<span class="tooltip-icon" data-tooltip="Portion of weeks this item was discounted on">?</span>
 							</span>
 						</th>
 					</tr>
@@ -258,7 +258,7 @@ const titanList = Object.entries(vbots)
 						<th>
 							<span class="header-with-tooltip">
 								Appearance Rate
-								<span class="tooltip-icon" title="Portion of weeks this item was discounted on">?</span>
+								<span class="tooltip-icon" data-tooltip="Portion of weeks this item was discounted on">?</span>
 							</span>
 						</th>
 					</tr>
@@ -317,6 +317,18 @@ const titanList = Object.entries(vbots)
 				}
 				window.history.replaceState({}, '', url);
 			});
+		});
+
+		// Generate custom tooltips for question mark icons
+		document.querySelectorAll('.tooltip-icon').forEach(icon => {
+			const tooltipText = icon.getAttribute('data-tooltip');
+			if (!tooltipText) return;
+
+			// Create custom tooltip element
+			const tooltip = document.createElement('span');
+			tooltip.className = 'custom-tooltip';
+			tooltip.textContent = tooltipText;
+			icon.appendChild(tooltip);
 		});
 	</script>
 </GenericPage>
@@ -431,6 +443,7 @@ const titanList = Object.entries(vbots)
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;
+		position: relative;
 	}
 
 	.tooltip-icon {
@@ -445,11 +458,39 @@ const titanList = Object.entries(vbots)
 		font-size: 11px;
 		font-weight: 700;
 		cursor: help;
-		transition: background-color 0.2s;
+		transition: transform 0.2s, box-shadow 0.2s;
+		transform: translateY(0);
+		position: relative;
 	}
 
 	.tooltip-icon:hover {
-		background-color: var(--accent-hover, #2b65cc);
+		transform: translateY(-2px);
+		box-shadow: 0 8px 20px rgba(58, 134, 255, 0.4);
+	}
+
+	.custom-tooltip {
+		position: absolute;
+		left: 50%;
+		top: calc(100% + 8px);
+		transform: translateX(-50%) translateY(-6px);
+		white-space: nowrap;
+		background: rgba(20, 20, 20, 0.95);
+		color: #fff;
+		padding: 6px 10px;
+		border-radius: 999px;
+		font-size: 0.75rem;
+		line-height: 1.3;
+		text-align: center;
+		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+		transition: opacity 0.18s ease, transform 0.18s ease;
+		opacity: 0;
+		pointer-events: none;
+		z-index: 10;
+	}
+
+	.tooltip-icon:hover .custom-tooltip {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
 	}
 
 	.week-link {
