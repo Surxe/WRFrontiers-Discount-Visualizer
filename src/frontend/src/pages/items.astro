@@ -3,10 +3,17 @@ import GenericPage from '../components/GenericPage.astro';
 import NavBar from '../components/NavBar.astro';
 import { fetchModuleGroups, fetchCatIcons } from '../utils/moduleData.js';
 import { getTexturePath } from '../utils/textures.js';
+import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
+import { getVbotDiscountWeeks } from '../utils/discountHistory.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const groups = fetchModuleGroups();
 const catIcons = fetchCatIcons();
+const vbots = fetchAllVbots();
+
+// Get expanded category from query param
+const url = new URL(Astro.request.url);
+const expandedCategory = url.searchParams.get('group');
 
 // Icon mapping based on GridHeader indices
 // 1: Torso, 2: Shoulder, 3: Chassis, 4: Light Wep, 5: Heavy Wep, 6: Supply Gear, 7: Cycle Gear
@@ -33,14 +40,27 @@ const filteredGroups = Object.entries(groups)
 	}))
 	.sort((a, b) => a.sortOrder - b.sortOrder);
 
-// Add mechs and titans as special items
-const specialItems = [
-	{ id: 'mechs', name: 'Mechs', iconPath: catIcons[1] || null }, // Use torso icon for mechs
-	{ id: 'titans', name: 'Titans', iconPath: catIcons[1] || null }, // Use torso icon for titans
-];
+// Filter to only mechs
+const mechList = Object.entries(vbots)
+	.filter(([id, vbot]) => getVbotCharacterType(vbot) === 'Mech')
+	.map(([id, vbot]) => ({
+		id,
+		name: getVbotName(vbot),
+		iconPath: getVbotIconPath(vbot),
+		discountWeeks: getVbotDiscountWeeks(id),
+	}))
+	.sort((a, b) => a.name.localeCompare(b.name));
 
-// Combine all items
-const allItems = [...filteredGroups, ...specialItems];
+// Filter to only titans
+const titanList = Object.entries(vbots)
+	.filter(([id, vbot]) => getVbotCharacterType(vbot) === 'Titan')
+	.map(([id, vbot]) => ({
+		id,
+		name: getVbotName(vbot),
+		iconPath: getVbotIconPath(vbot),
+		discountWeeks: getVbotDiscountWeeks(id),
+	}))
+	.sort((a, b) => a.name.localeCompare(b.name));
 ---
 
 <GenericPage
@@ -51,24 +71,186 @@ const allItems = [...filteredGroups, ...specialItems];
 	<NavBar baseUrl={baseUrl} currentPage="items" />
 	<h1>Items</h1>
 
-	<ul class="group-list">
-		{allItems.map(item => (
-			<li>
-				<a href={`${baseUrl}items/${item.id}`}>
-					{item.iconPath && (
-						<img src={getTexturePath(item.iconPath, baseUrl)} alt="" class="group-icon" />
-					)}
-					<span>{item.name}</span>
-				</a>
-			</li>
-		))}
-	</ul>
+	<!-- Module Groups Category -->
+	<div class="category" data-category="module-groups">
+		<button class="category-header" aria-expanded={expandedCategory === 'module-groups'}>
+			<span class="category-title">Module Groups</span>
+			<span class="category-icon">▼</span>
+		</button>
+		<div class="category-content" class:list={{ expanded: expandedCategory === 'module-groups' }}>
+			<ul class="group-list">
+				{filteredGroups.map(group => (
+					<li>
+						<a href={`${baseUrl}items/${group.id}`}>
+							{group.iconPath && (
+								<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="group-icon" />
+							)}
+							<span>{group.name}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	</div>
+
+	<!-- Mechs Category -->
+	<div class="category" data-category="mechs">
+		<button class="category-header" aria-expanded={expandedCategory === 'mechs'}>
+			<span class="category-title">Mechs</span>
+			<span class="category-icon">▼</span>
+		</button>
+		<div class="category-content" class:list={{ expanded: expandedCategory === 'mechs' }}>
+			<table class="category-table">
+				<thead>
+					<tr>
+						<th>Icon</th>
+						<th>Name</th>
+						<th>Discount Weeks</th>
+					</tr>
+				</thead>
+				<tbody>
+					{mechList.map(vbot => (
+						<tr>
+							<td>
+								{vbot.iconPath && (
+									<img
+										src={getTexturePath(vbot.iconPath, baseUrl)}
+										alt={vbot.name}
+										class="vbot-icon"
+									/>
+								)}
+							</td>
+							<td>
+								<a href={`${baseUrl}items/${vbot.id}`}>{vbot.name}</a>
+							</td>
+							<td>{vbot.discountWeeks.join(', ') || 'Never'}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Titans Category -->
+	<div class="category" data-category="titans">
+		<button class="category-header" aria-expanded={expandedCategory === 'titans'}>
+			<span class="category-title">Titans</span>
+			<span class="category-icon">▼</span>
+		</button>
+		<div class="category-content" class:list={{ expanded: expandedCategory === 'titans' }}>
+			<table class="category-table">
+				<thead>
+					<tr>
+						<th>Icon</th>
+						<th>Name</th>
+						<th>Discount Weeks</th>
+					</tr>
+				</thead>
+				<tbody>
+					{titanList.map(vbot => (
+						<tr>
+							<td>
+								{vbot.iconPath && (
+									<img
+										src={getTexturePath(vbot.iconPath, baseUrl)}
+										alt={vbot.name}
+										class="vbot-icon"
+									/>
+								)}
+							</td>
+							<td>
+								<a href={`${baseUrl}items/${vbot.id}`}>{vbot.name}</a>
+							</td>
+							<td>{vbot.discountWeeks.join(', ') || 'Never'}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script>
+		// Handle category toggle
+		document.querySelectorAll('.category-header').forEach(button => {
+			button.addEventListener('click', () => {
+				const category = button.parentElement;
+				if (!category) return;
+				const content = category.querySelector('.category-content');
+				if (!content) return;
+				const isExpanded = content.classList.toggle('expanded');
+				button.setAttribute('aria-expanded', isExpanded.toString());
+
+				// Update URL query param
+				const url = new URL(window.location.href);
+				const categoryId = category.dataset.category;
+				if (isExpanded && categoryId) {
+					url.searchParams.set('group', categoryId);
+				} else {
+					url.searchParams.delete('group');
+				}
+				window.history.replaceState({}, '', url);
+			});
+		});
+	</script>
 </GenericPage>
 
 <style>
 	:root {
 		--accent-color: #3a86ff;
 		--accent-hover: #2b65cc;
+		--sidebar-bg: #161920;
+		--sidebar-border: #232733;
+		--text-color: #e0e0e0;
+		--active-bg: rgba(58, 134, 255, 0.1);
+	}
+
+	.category {
+		margin-bottom: 1rem;
+		border: 1px solid var(--sidebar-border);
+		border-radius: 0.5rem;
+		background-color: var(--sidebar-bg);
+	}
+
+	.category-header {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem;
+		background: none;
+		border: none;
+		color: var(--text-color);
+		font-size: 1.25rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.2s;
+	}
+
+	.category-header:hover {
+		background-color: var(--active-bg);
+	}
+
+	.category-icon {
+		transition: transform 0.2s;
+	}
+
+	.category-header[aria-expanded='true'] .category-icon {
+		transform: rotate(180deg);
+	}
+
+	.category-content {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.3s ease-out;
+	}
+
+	.category-content.expanded {
+		max-height: 2000px;
+		transition: max-height 0.5s ease-in;
+	}
+
+	.category-content > * {
+		padding: 0 1rem 1rem;
 	}
 
 	.group-list {
@@ -108,9 +290,51 @@ const allItems = [...filteredGroups, ...specialItems];
 		flex-shrink: 0;
 	}
 
+	.category-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.category-table th,
+	.category-table td {
+		padding: 0.75rem;
+		text-align: left;
+		border-bottom: 1px solid var(--sidebar-border);
+	}
+
+	.category-table th {
+		background-color: var(--sidebar-bg);
+		font-weight: 600;
+	}
+
+	.category-table a {
+		color: var(--accent-color);
+		text-decoration: none;
+	}
+
+	.category-table a:hover {
+		color: var(--accent-hover);
+		text-decoration: underline;
+	}
+
+	.vbot-icon {
+		width: 32px;
+		height: 32px;
+		object-fit: contain;
+	}
+
 	@media (max-width: 768px) {
 		.group-list {
 			grid-template-columns: 1fr;
+		}
+
+		.category-table {
+			font-size: 0.875rem;
+		}
+
+		.vbot-icon {
+			width: 24px;
+			height: 24px;
 		}
 	}
 </style>
