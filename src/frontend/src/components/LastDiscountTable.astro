@@ -71,12 +71,12 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 					</td>
 					<td class="date-cell">
 						{item.dateUrl ? (
-							<a href={item.dateUrl} class="date-link">
-								{item.lastDiscountDate}
+							<>
+								<a href={item.dateUrl} class="date-link">{item.lastDiscountDate}</a>
 								{item.weeksAgo !== null && (
 									<span class="weeks-ago"> ({item.weeksAgo} week{item.weeksAgo !== 1 ? 's' : ''} ago)</span>
 								)}
-							</a>
+							</>
 						) : (
 							item.lastDiscountDate
 						)}
