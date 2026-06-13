@@ -42,10 +42,7 @@ const {
             showBadges={true}
             lastDiscountDate={botLastDiscount}
           />
-          <ModulesBox 
-            modules={bot.torso} 
-            shopCards={shopCards} 
-          />
+          <ModulesBox modules={[bot.torso[0], bot.shoulder[0], bot.chassis[0]]} shopCards={shopCards} />
         </>
       ) : (
         <>
@@ -101,10 +98,7 @@ const {
             showBadges={true}
             lastDiscountDate={botLastDiscount}
           />
-          <ModulesBox 
-            modules={bot.torso} 
-            shopCards={shopCards} 
-          />
+          <ModulesBox modules={[bot.torso[0], bot.shoulder[0], bot.chassis[0]]} shopCards={shopCards} />
         </>
       ) : (
         <>
