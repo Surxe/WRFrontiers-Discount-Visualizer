@@ -3,3 +3,16 @@
 * {
   font-family: 'Montserrat', sans-serif;
 }
+
+/* Global link styling - minimalist dotted underline */
+a {
+	color: var(--text-color, #e0e0e0);
+	text-decoration: none;
+	border-bottom: 1px dotted var(--text-muted, #8b92a5);
+	transition: border-color 0.2s, color 0.2s;
+}
+
+a:hover {
+	border-bottom-color: var(--accent-color, #3a86ff);
+	color: var(--accent-color, #3a86ff);
+}

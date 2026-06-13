@@ -140,14 +140,15 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 	}
 
 	.date-link {
-		color: var(--accent-color, #3a86ff);
+		color: var(--text-color, #e0e0e0);
 		text-decoration: none;
-		transition: color 0.2s;
+		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		transition: border-color 0.2s, color 0.2s;
 	}
 
 	.date-link:hover {
-		color: var(--accent-hover, #2b65cc);
-		text-decoration: underline;
+		border-bottom-color: var(--accent-color, #3a86ff);
+		color: var(--accent-color, #3a86ff);
 	}
 
 	.weeks-ago {

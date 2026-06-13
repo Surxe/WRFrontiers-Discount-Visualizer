@@ -28,9 +28,9 @@ Object.values(discountHistory.virtualBots).forEach((v: any) => {
 const totalWeeks = allWeeks.size;
 const totalVbots = Object.keys(vbots).length;
 
-// Get expanded category from query param
+// Get expanded category from query param (default to null for expanded all)
 const url = new URL(Astro.request.url);
-const expandedCategory = url.searchParams.get('group');
+const expandedCategory = url.searchParams.get('group') || 'all';
 
 // Icon mapping based on GridHeader indices
 // 1: Torso, 2: Shoulder, 3: Chassis, 4: Light Wep, 5: Heavy Wep, 6: Supply Gear, 7: Cycle Gear
@@ -174,11 +174,15 @@ const titanTimelineData = transformToWeekCentric(titanList);
 >
 	<NavBar baseUrl={baseUrl} currentPage="items" />
 	<h1>Items</h1>
+	<div class="action-buttons">
+		<button id="expand-all" class="action-button">Expand All</button>
+		<button id="collapse-all" class="action-button">Collapse All</button>
+	</div>
 
 	<!-- Module Groups -->
 	{filteredGroupsWithFormattedWeeks.map(group => (
 		<div class="category" data-category={group.id}>
-			<button class="category-header" aria-expanded={expandedCategory === group.id}>
+			<button class="category-header" aria-expanded={expandedCategory === 'all' || expandedCategory === group.id}>
 				<span class="category-title">
 					{group.iconPath && (
 						<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="category-icon-img" />
@@ -187,7 +191,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 				</span>
 				<span class="category-icon">▼</span>
 			</button>
-			<div class="category-content" class:list={{ expanded: expandedCategory === group.id }}>
+			<div class="category-content" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === group.id }}>
 				<table class="category-table">
 					<thead>
 						<tr>
@@ -266,11 +270,11 @@ const titanTimelineData = transformToWeekCentric(titanList);
 
 	<!-- Mechs Category -->
 	<div class="category" data-category="mechs">
-		<button class="category-header" aria-expanded={expandedCategory === 'mechs'}>
+		<button class="category-header" aria-expanded={expandedCategory === 'all' || expandedCategory === 'mechs'}>
 			<span class="category-title">Mechs</span>
 			<span class="category-icon">▼</span>
 		</button>
-		<div class="category-content" class:list={{ expanded: expandedCategory === 'mechs' }}>
+		<div class="category-content" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === 'mechs' }}>
 			<table class="category-table">
 				<thead>
 					<tr>
@@ -375,11 +379,11 @@ const titanTimelineData = transformToWeekCentric(titanList);
 
 	<!-- Titans Category -->
 	<div class="category" data-category="titans">
-		<button class="category-header" aria-expanded={expandedCategory === 'titans'}>
+		<button class="category-header" aria-expanded={expandedCategory === 'all' || expandedCategory === 'titans'}>
 			<span class="category-title">Titans</span>
 			<span class="category-icon">▼</span>
 		</button>
-		<div class="category-content" class:list={{ expanded: expandedCategory === 'titans' }}>
+		<div class="category-content" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === 'titans' }}>
 			<table class="category-table">
 				<thead>
 					<tr>
@@ -522,7 +526,19 @@ const titanTimelineData = transformToWeekCentric(titanList);
 		// Handle initial expanded state from URL
 		const urlParams = new URLSearchParams(window.location.search);
 		const initialGroup = urlParams.get('group');
-		if (initialGroup) {
+		if (initialGroup === 'all') {
+			// Expand all categories
+			document.querySelectorAll('.category-content').forEach(content => {
+				content.classList.add('expanded');
+				content.style.maxHeight = content.scrollHeight + 'px';
+				setTimeout(() => {
+					content.style.maxHeight = 'none';
+				}, 600);
+			});
+			document.querySelectorAll('.category-header').forEach(button => {
+				button.setAttribute('aria-expanded', 'true');
+			});
+		} else if (initialGroup) {
 			const initialCategory = document.querySelector(`[data-category="${initialGroup}"]`);
 			if (initialCategory) {
 				const content = initialCategory.querySelector('.category-content');
@@ -537,6 +553,39 @@ const titanTimelineData = transformToWeekCentric(titanList);
 				}
 			}
 		}
+
+		// Handle expand all button
+		document.getElementById('expand-all')?.addEventListener('click', () => {
+			document.querySelectorAll('.category-content').forEach(content => {
+				content.classList.add('expanded');
+				content.style.maxHeight = content.scrollHeight + 'px';
+				setTimeout(() => {
+					content.style.maxHeight = 'none';
+				}, 600);
+			});
+			document.querySelectorAll('.category-header').forEach(button => {
+				button.setAttribute('aria-expanded', 'true');
+			});
+			// Update URL to show all expanded
+			const url = new URL(window.location.href);
+			url.searchParams.set('group', 'all');
+			window.history.replaceState({}, '', url);
+		});
+
+		// Handle collapse all button
+		document.getElementById('collapse-all')?.addEventListener('click', () => {
+			document.querySelectorAll('.category-content').forEach(content => {
+				content.classList.remove('expanded');
+				content.style.maxHeight = '0';
+			});
+			document.querySelectorAll('.category-header').forEach(button => {
+				button.setAttribute('aria-expanded', 'false');
+			});
+			// Update URL to remove group param
+			const url = new URL(window.location.href);
+			url.searchParams.delete('group');
+			window.history.replaceState({}, '', url);
+		});
 	</script>
 </GenericPage>
 
@@ -556,6 +605,34 @@ const titanTimelineData = transformToWeekCentric(titanList);
 		border-radius: 0.5rem;
 		background-color: var(--sidebar-bg);
 		overflow: visible;
+	}
+
+	.action-buttons {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		margin-bottom: 1.5rem;
+	}
+
+	.action-button {
+		padding: 0.5rem 1rem;
+		background-color: var(--accent-color, #3a86ff);
+		color: white;
+		border: none;
+		border-radius: 0.25rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: background-color 0.2s, transform 0.1s;
+	}
+
+	.action-button:hover {
+		background-color: var(--accent-hover, #2b65cc);
+		transform: translateY(-1px);
+	}
+
+	.action-button:active {
+		transform: translateY(0);
 	}
 
 	.category-header {
@@ -723,14 +800,15 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	}
 
 	.date-link {
-		color: var(--accent-color, #3a86ff);
+		color: var(--text-color, #e0e0e0);
 		text-decoration: none;
-		transition: color 0.2s;
+		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		transition: border-color 0.2s, color 0.2s;
 	}
 
 	.date-link:hover {
-		color: var(--accent-hover, #2b65cc);
-		text-decoration: underline;
+		border-bottom-color: var(--accent-color, #3a86ff);
+		color: var(--accent-color, #3a86ff);
 	}
 
 	.vbot-icon {
@@ -844,6 +922,12 @@ const titanTimelineData = transformToWeekCentric(titanList);
 
 	.timeline-week-link {
 		text-decoration: none;
+		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		transition: border-color 0.2s, color 0.2s;
+	}
+
+	.timeline-week-link:hover {
+		border-bottom-color: var(--accent-color, #3a86ff);
 	}
 
 	.timeline-week {

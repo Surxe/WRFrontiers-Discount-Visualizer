@@ -175,6 +175,7 @@
   font-weight: 500;
   transition: all 0.2s ease;
   border: 1px solid transparent;
+  border-bottom: 1px dotted var(--text-muted, #8b92a5);
 }
 
 .week-link__label {
@@ -189,12 +190,14 @@
 
 .week-link:hover {
   background-color: rgba(255, 255, 255, 0.05);
+  border-bottom-color: var(--accent-color, #3a86ff);
 }
 
 .week-link.active {
   background-color: var(--active-bg);
   color: var(--accent-color);
   border-color: rgba(58, 134, 255, 0.3);
+  border-bottom-color: var(--accent-color, #3a86ff);
 }
 
 .badge {
