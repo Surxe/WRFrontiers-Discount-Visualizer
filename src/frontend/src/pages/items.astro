@@ -107,14 +107,16 @@ const formatDiscountWeeks = (weeks: string[]) => {
 		.sort(([a], [b]) => parseInt(b) - parseInt(a)) // Sort years descending
 		.map(([year, dates]) => {
 			const formattedDates = dates
-				.sort((a, b) => new Date(b).getTime() - new Date(a).getTime()) // Sort dates descending
+				.sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) // Sort dates chronologically (ascending)
 				.map(date => {
 					const [_, month, day] = date.split('-');
 					const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 					const monthIndex = parseInt(month) - 1;
-					return `${monthNames[monthIndex]} ${day}`;
-				})
-				.join(', ');
+					return {
+						display: `${monthNames[monthIndex]} ${day}`,
+						weekId: date
+					};
+				});
 			return { year, dates: formattedDates };
 		});
 
@@ -233,7 +235,14 @@ const titanTimelineData = transformToWeekCentric(titanList);
 											module.formattedWeeks.map((group, i) => (
 												<span class="year-group" key={group.year}>
 													<span class="year-label">{group.year}:</span>
-													<span class="year-dates">{group.dates}</span>
+													<span class="year-dates">
+														{group.dates.map((date, j) => (
+															<>
+																{j > 0 && ', '}
+																<a href={`${baseUrl}week/${date.weekId}`} class="date-link">{date.display}</a>
+															</>
+														))}
+													</span>
 												</span>
 											))
 										) : <span class="never-discounted">Never</span>}
@@ -296,7 +305,14 @@ const titanTimelineData = transformToWeekCentric(titanList);
 									vbot.formattedWeeks.map((group, i) => (
 										<span class="year-group" key={group.year}>
 											<span class="year-label">{group.year}:</span>
-											<span class="year-dates">{group.dates}</span>
+											<span class="year-dates">
+												{group.dates.map((date, j) => (
+													<>
+														{j > 0 && ', '}
+														<a href={`${baseUrl}week/${date.weekId}`} class="date-link">{date.display}</a>
+													</>
+												))}
+											</span>
 										</span>
 									))
 								) : <span class="never-discounted">Never</span>}
@@ -398,7 +414,14 @@ const titanTimelineData = transformToWeekCentric(titanList);
 									vbot.formattedWeeks.map((group, i) => (
 										<span class="year-group" key={group.year}>
 											<span class="year-label">{group.year}:</span>
-											<span class="year-dates">{group.dates}</span>
+											<span class="year-dates">
+												{group.dates.map((date, j) => (
+													<>
+														{j > 0 && ', '}
+														<a href={`${baseUrl}week/${date.weekId}`} class="date-link">{date.display}</a>
+													</>
+												))}
+											</span>
 										</span>
 									))
 								) : <span class="never-discounted">Never</span>}
@@ -691,12 +714,23 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	}
 
 	.year-dates {
-		color: var(--text-color, #e0e0e0);
+		/* Color is handled by the date-link class */
 	}
 
 	.never-discounted {
 		color: var(--text-muted, #8b92a5);
 		font-style: italic;
+	}
+
+	.date-link {
+		color: var(--accent-color, #3a86ff);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	.date-link:hover {
+		color: var(--accent-hover, #2b65cc);
+		text-decoration: underline;
 	}
 
 	.vbot-icon {
