@@ -114,7 +114,7 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
 ---
 
 <div class="grid-scale-host">
-<div class="grid-container" id="discount-grid">
+<div class:list={['grid-container', { 'has-date-header': !!dateRange }]} id="discount-grid">
   {dateRange && (
     <div class="grid-date-header">
       <h2><strong>{dateRange}</strong></h2>
@@ -217,11 +217,15 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
     box-sizing: border-box;
   }
 
+  .grid-container.has-date-header {
+    grid-template-rows: auto auto !important;
+  }
+
   .grid-date-header {
     grid-column: 1 / -1;
     text-align: center;
-    padding-top: calc(15 * var(--grid-scale-unit, 1px));
-    padding-bottom: calc(10 * var(--grid-scale-unit, 1px));
+    padding-top: calc(8 * var(--grid-scale-unit, 1px)) !important;
+    padding-bottom: 0px !important;
   }
 
   .grid-date-header h2 {
