@@ -65,6 +65,15 @@ function processRow(row) {
         if (isVbot) {
           // Vbots will be handled separately
           category = null;
+        } else if (key === "2") {
+          // Column 2 is torso - link to mechs
+          category = 'mechs';
+        } else if (key === "3") {
+          // Column 3 is shoulder - link to mechs
+          category = 'mechs';
+        } else if (key === "4") {
+          // Column 4 is chassis - link to mechs
+          category = 'mechs';
         } else if (key === "5") {
           // Column 5 is light weapon for standard, titan weapon for titan
           category = row.variant === 'titan' ? 'titan-weapon' : 'light-weapon';
