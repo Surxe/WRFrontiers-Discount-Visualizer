@@ -9,10 +9,11 @@ from config import (
     CHARACTER_PRESET_JSON,
     REPO_ROOT,
     FRONTEND_DATA_DIR,
-    WEEKS_MANIFEST,
-)
+    WEEKS_MANIFEST,    REVERSE_LOOKUP_OUTPUT,
+    STANDALONE_MODULE_GROUPS,)
 from week_dates import format_week, normalize_week, week_slug, week_sort_key
 import grid_generator
+from build_reverse_lookup import build_reverse_lookup
 
 def process_discount():
     """
@@ -100,14 +101,23 @@ def process_discount():
     filename = f"discounts_{slug}.json"
     archive_output = archive_output_dir / filename
     
+    # Strip OBJID prefix from refs for archive format
+    archive_items = []
+    for ref in discount_refs:
+        if "::" in ref:
+            _, item_id = ref.split("::", 1)
+            archive_items.append(item_id)
+        else:
+            archive_items.append(ref)
+    
     archive_data = {
         "week": week,
-        "items": discount_refs
+        "items": archive_items
     }
     
     with open(archive_output, "w", encoding="utf-8") as f:
         json.dump(archive_data, f, indent=2, ensure_ascii=False)
-    print(f"  -> Wrote {len(discount_refs)} items to {archive_output.relative_to(REPO_ROOT)}")
+    print(f"  -> Wrote {len(archive_items)} items to {archive_output.relative_to(REPO_ROOT)}")
 
     # Build and write grid layout data
     grid_data = grid_generator.build_grid(
@@ -139,6 +149,8 @@ def process_discount():
     with open(columns_output, "w", encoding="utf-8") as f:
         json.dump(grid_generator.COL_HEADER_REPRESENTATIVES, f, indent=2, ensure_ascii=False)
     print(f"  -> Wrote columns definitions to {columns_output.relative_to(REPO_ROOT)}")
+
+    build_reverse_lookup(archive_output_dir)
 
     # Update manifest weeks.json
     manifest_data = {"weeks": []}
@@ -177,6 +189,7 @@ def process_discount():
     print(f"  -> Updated manifest at {WEEKS_MANIFEST.relative_to(REPO_ROOT)}")
 
     return archive_data
+
 
 def run_step():
     return process_discount()

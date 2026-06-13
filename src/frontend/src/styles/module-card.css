@@ -15,7 +15,7 @@
   background: rgba(0, 0, 0, 0.75);
   font-size: var(--module-name-font, 0.85rem);
   font-weight: 700;
-  padding: calc(2px * var(--grid-scale, 1)) calc(8px * var(--grid-scale, 1));
+  padding: calc(2 * var(--grid-scale-unit, 1px)) calc(8 * var(--grid-scale-unit, 1px));
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
   min-height: var(--module-name-strip, 29px);
@@ -38,5 +38,6 @@
   overflow: visible;
   text-align: center;
   box-sizing: content-box;
+  min-width: 0;
 }
 

@@ -19,7 +19,14 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
 <div class="modules-box" style={bgStyle || undefined}>
   {modules.map((module) => (
     module ? (
-      <ObjectBox module={module} shopCards={shopCards} showName={false} disableBackground={true} />
+      <ObjectBox
+        module={module}
+        shopCards={shopCards}
+        showName={false}
+        disableBackground={true}
+        lastDiscountDate={module.lastDiscountDate}
+        category={module.category}
+      />
     ) : (
       <div class="object-box empty-slot" style="flex: 1;"></div>
     )
@@ -36,6 +43,8 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
     border-radius: var(--module-card-radius, 8px);
     overflow: visible;
     grid-column: span 3;
+    min-width: 0;
+    min-height: 0;
   }
 
   .modules-box :global(.object-box) {

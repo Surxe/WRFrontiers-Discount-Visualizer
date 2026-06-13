@@ -1,5 +1,23 @@
 {
+  "week": {
+    "start_year": 2026,
+    "start_month": 5,
+    "start_day": 26,
+    "end_year": 2026,
+    "end_month": 6,
+    "end_day": 2
+  },
   "items": [
+    "DA_Module_Weapon_Scatter.0",
+    "DA_Module_Weapon_Orkan.0",
+    "DA_Module_Weapon_Nucleon.0",
+    "DA_Module_Weapon_Coriolis.0",
+    "DA_Module_Ability_Spotlight.1",
+    "DA_Module_Ability_Dazzle.1",
+    "DA_Module_Ability_ArmorShield.1",
+    "DA_Module_Ability_BlockingField.1",
+    "DA_Module_Ability_Grounded.1",
+    "DA_Module_Ability_RegenerationFull.1",
     "DA_Module_ChassisVityaz.2",
     "DA_Module_TorsoVityaz.1",
     "DA_Module_ShoulderVityaz01.0",
@@ -13,24 +31,6 @@
     "DA_Module_ChassisNorna.2",
     "DA_Module_TorsoNorna.0",
     "DA_Module_ShoulderLNorna.0",
-    "DA_Module_ShoulderRNorna.0",
-    "DA_Module_Weapon_Scatter.0",
-    "DA_Module_Weapon_Orkan.0",
-    "DA_Module_Weapon_Nucleon.0",
-    "DA_Module_Weapon_Coriolis.0",
-    "DA_Module_Ability_Spotlight.1",
-    "DA_Module_Ability_Dazzle.1",
-    "DA_Module_Ability_ArmorShield.1",
-    "DA_Module_Ability_BlockingField.1",
-    "DA_Module_Ability_Grounded.1",
-    "DA_Module_Ability_RegenerationFull.1"
-  ],
-  "week": {
-    "start_year": 2026,
-    "start_month": 5,
-    "start_day": 26,
-    "end_year": 2026,
-    "end_month": 6,
-    "end_day": 2
-  }
+    "DA_Module_ShoulderRNorna.0"
+  ]
 }

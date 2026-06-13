@@ -2,11 +2,14 @@
 .module-icon {
   display: block;
   width: 100%;
+  max-width: 100%;
   height: auto;
+  max-height: 100%;
   object-fit: contain;
 }
 
 .module-card__icon .module-icon {
   width: 100%;
+  max-width: 100%;
 }
 

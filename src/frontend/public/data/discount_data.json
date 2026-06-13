@@ -1,0 +1,2181 @@
+{
+  "virtualBots": {
+    "OBJID_VirtualBot::orochi": {
+      "weeks": [
+        "2026-05-19",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-09-23",
+        "2025-05-23"
+      ]
+    },
+    "OBJID_VirtualBot::phantom": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-01-20",
+        "2025-12-30",
+        "2025-11-11",
+        "2025-08-26",
+        "2025-05-23"
+      ]
+    },
+    "OBJID_VirtualBot::lancelot": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-24",
+        "2025-12-09",
+        "2025-09-30",
+        "2025-07-15"
+      ]
+    },
+    "OBJID_VirtualBot::ares": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-06",
+        "2025-09-30",
+        "2025-07-15"
+      ]
+    },
+    "OBJID_VirtualBot::varangian": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-10-28",
+        "2025-07-15"
+      ]
+    },
+    "OBJID_VirtualBot::ravana": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-06",
+        "2025-09-23",
+        "2025-07-15"
+      ]
+    },
+    "OBJID_VirtualBot::typhon": {
+      "weeks": [
+        "2026-04-28",
+        "2026-02-03",
+        "2025-10-07",
+        "2025-07-15"
+      ]
+    },
+    "OBJID_VirtualBot::alpha": {
+      "weeks": [
+        "2026-05-05",
+        "2026-01-27",
+        "2025-09-30",
+        "2025-07-15"
+      ]
+    },
+    "OBJID_VirtualBot::siren": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-24",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-07-29"
+      ]
+    },
+    "OBJID_VirtualBot::cyclops": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-02-17",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-07-29"
+      ]
+    },
+    "OBJID_VirtualBot::pursuer": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-17",
+        "2026-02-17",
+        "2025-12-16",
+        "2025-10-28",
+        "2025-07-29"
+      ]
+    },
+    "OBJID_VirtualBot::tyr": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-11-11",
+        "2025-08-12"
+      ]
+    },
+    "OBJID_VirtualBot::fury": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-17",
+        "2025-12-23",
+        "2025-10-28",
+        "2025-08-12"
+      ]
+    },
+    "OBJID_VirtualBot::scorpion": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-08-12"
+      ]
+    },
+    "OBJID_VirtualBot::grim": {
+      "weeks": [
+        "2026-03-24",
+        "2025-12-23",
+        "2025-10-14",
+        "2025-08-12"
+      ]
+    },
+    "OBJID_VirtualBot::raven": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-31",
+        "2026-02-03",
+        "2025-12-30",
+        "2025-11-25",
+        "2025-08-26"
+      ]
+    },
+    "OBJID_VirtualBot::loki": {
+      "weeks": [
+        "2026-04-28",
+        "2026-02-10",
+        "2025-12-30",
+        "2025-11-11",
+        "2025-08-26"
+      ]
+    },
+    "OBJID_VirtualBot::harpy": {
+      "weeks": [
+        "2026-04-28",
+        "2026-03-03",
+        "2026-02-03",
+        "2025-12-02",
+        "2025-09-09"
+      ]
+    },
+    "OBJID_VirtualBot::ceres": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-13",
+        "2025-11-25",
+        "2025-09-09"
+      ]
+    },
+    "OBJID_VirtualBot::bulwark": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-13",
+        "2025-11-25",
+        "2025-09-09"
+      ]
+    },
+    "OBJID_VirtualBot::matriarch": {
+      "weeks": [
+        "2026-05-12",
+        "2026-02-03",
+        "2025-11-25",
+        "2025-09-09"
+      ]
+    },
+    "OBJID_VirtualBot::fenrir": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-02-24",
+        "2025-12-02",
+        "2025-09-23"
+      ]
+    },
+    "OBJID_VirtualBot::anansi": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-06",
+        "2025-09-30"
+      ]
+    },
+    "OBJID_VirtualBot::griffin": {
+      "weeks": [
+        "2026-06-09",
+        "2026-04-07",
+        "2026-01-20",
+        "2025-10-07"
+      ]
+    },
+    "OBJID_VirtualBot::purifier": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-01-27",
+        "2025-10-07"
+      ]
+    },
+    "OBJID_VirtualBot::bulgasari": {
+      "weeks": [
+        "2026-03-03",
+        "2026-01-27",
+        "2025-10-14"
+      ]
+    },
+    "OBJID_VirtualBot::mesa": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2025-12-02"
+      ]
+    },
+    "OBJID_VirtualBot::volta": {
+      "weeks": [
+        "2026-03-10",
+        "2025-12-09"
+      ]
+    },
+    "OBJID_VirtualBot::kumo": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-13"
+      ]
+    },
+    "OBJID_VirtualBot::decker": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-20"
+      ]
+    },
+    "OBJID_VirtualBot::crix": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-27"
+      ]
+    },
+    "OBJID_VirtualBot::norna": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-03",
+        "2026-02-10"
+      ]
+    },
+    "OBJID_VirtualBot::hitcher": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-17"
+      ]
+    },
+    "OBJID_VirtualBot::heike": {
+      "weeks": [
+        "2026-05-19"
+      ]
+    }
+  },
+  "modules": {
+    "OBJID_Module::DA_Module_ChassisOrochi.2": {
+      "weeks": [
+        "2026-05-19",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-09-23",
+        "2025-05-23"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoOrochi.1": {
+      "weeks": [
+        "2026-05-19",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-09-23",
+        "2025-05-23"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderOrochi.0": {
+      "weeks": [
+        "2026-05-19",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-09-23",
+        "2025-05-23"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisPhantom.2": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-01-20",
+        "2025-12-30",
+        "2025-11-11",
+        "2025-08-26",
+        "2025-05-23"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoPhantom.1": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-01-20",
+        "2025-12-30",
+        "2025-11-11",
+        "2025-08-26",
+        "2025-05-23"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderPhantom.0": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-01-20",
+        "2025-12-30",
+        "2025-11-11",
+        "2025-08-26",
+        "2025-05-23"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Zeus.0": {
+      "weeks": [
+        "2026-05-19",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-09-23",
+        "2025-05-23"
+      ],
+      "virtual_bots": [
+        "orochi"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Toxin.0": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-01-20",
+        "2025-12-30",
+        "2025-11-11",
+        "2025-08-26",
+        "2025-05-23"
+      ],
+      "virtual_bots": [
+        "phantom"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_BlastWave.1": {
+      "weeks": [
+        "2026-06-02",
+        "2026-05-19",
+        "2026-03-31",
+        "2026-03-10",
+        "2026-02-03",
+        "2025-12-30",
+        "2025-12-09",
+        "2025-11-25",
+        "2025-09-23",
+        "2025-08-26",
+        "2025-05-23"
+      ],
+      "virtual_bots": [
+        "orochi",
+        "raven"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_Spotlight.1": {
+      "weeks": [
+        "2026-05-26",
+        "2026-05-19",
+        "2026-04-28",
+        "2026-03-17",
+        "2026-03-10",
+        "2026-02-17",
+        "2026-02-10",
+        "2025-12-30",
+        "2025-12-16",
+        "2025-12-09",
+        "2025-11-11",
+        "2025-10-28",
+        "2025-09-23",
+        "2025-08-26",
+        "2025-07-29",
+        "2025-05-23"
+      ],
+      "virtual_bots": [
+        "loki",
+        "orochi",
+        "pursuer"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_BlockingField.1": {
+      "weeks": [
+        "2026-06-09",
+        "2026-05-26",
+        "2026-05-05",
+        "2026-03-31",
+        "2026-03-17",
+        "2026-02-24",
+        "2026-02-17",
+        "2026-01-20",
+        "2025-12-30",
+        "2025-12-16",
+        "2025-11-11",
+        "2025-10-28",
+        "2025-10-14",
+        "2025-08-26",
+        "2025-07-29",
+        "2025-05-23"
+      ],
+      "virtual_bots": [
+        "phantom",
+        "pursuer",
+        "siren"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_MineField.1": {
+      "weeks": [
+        "2026-06-09",
+        "2026-04-14",
+        "2026-03-31",
+        "2026-01-27",
+        "2026-01-20",
+        "2025-12-30",
+        "2025-12-02",
+        "2025-11-11",
+        "2025-05-23"
+      ],
+      "virtual_bots": [
+        "crix",
+        "phantom"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisLancelot.2": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-24",
+        "2025-12-09",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoLancelot.1": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-24",
+        "2025-12-09",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderLancelot.0": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-24",
+        "2025-12-09",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisAres.2": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-06",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoAres.1": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-06",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderAres.0": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-06",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisVityaz.2": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-10-28",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoVityaz.1": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-10-28",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderVityaz01.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-10-28",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderVityaz02.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-10-28",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisRavana.2": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-06",
+        "2025-09-23",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoRavana.1": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-06",
+        "2025-09-23",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderRavana.0": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-06",
+        "2025-09-23",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisTyphon.2": {
+      "weeks": [
+        "2026-04-28",
+        "2026-02-03",
+        "2025-10-07",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoTyphon.1": {
+      "weeks": [
+        "2026-04-28",
+        "2026-02-03",
+        "2025-10-07",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderTyphon.0": {
+      "weeks": [
+        "2026-04-28",
+        "2026-02-03",
+        "2025-10-07",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisAlpha.1": {
+      "weeks": [
+        "2026-05-05",
+        "2026-01-27",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoAlpha.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-01-27",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderLAlpha.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-01-27",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderRAlpha.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-01-27",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Punisher.0": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-24",
+        "2025-12-09",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "lancelot"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Scourge.0": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-06",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "ares"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_StickyGun.0": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-06",
+        "2025-09-23",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "ravana"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Shocktrain.0": {
+      "weeks": [
+        "2026-04-28",
+        "2026-02-03",
+        "2025-10-07",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "typhon"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_SpeedBoost.1": {
+      "weeks": [
+        "2026-06-02",
+        "2026-05-05",
+        "2026-04-21",
+        "2026-03-24",
+        "2026-02-24",
+        "2026-02-17",
+        "2026-01-06",
+        "2025-12-09",
+        "2025-09-30",
+        "2025-09-23",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "lancelot",
+        "ravana"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_CounterAttack.1": {
+      "weeks": [
+        "2026-06-02",
+        "2026-05-12",
+        "2026-05-05",
+        "2026-04-07",
+        "2026-03-24",
+        "2026-03-03",
+        "2026-02-24",
+        "2026-02-17",
+        "2026-01-27",
+        "2026-01-13",
+        "2025-12-09",
+        "2025-12-02",
+        "2025-11-25",
+        "2025-10-07",
+        "2025-09-30",
+        "2025-09-23",
+        "2025-09-09",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "ceres",
+        "fenrir",
+        "lancelot",
+        "purifier"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_SmokeWall.1": {
+      "weeks": [
+        "2026-06-09",
+        "2026-04-14",
+        "2026-04-07",
+        "2026-01-20",
+        "2026-01-13",
+        "2026-01-06",
+        "2025-11-25",
+        "2025-10-07",
+        "2025-09-30",
+        "2025-09-09",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "ares",
+        "bulwark",
+        "griffin"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_Dazzle.1": {
+      "weeks": [
+        "2026-05-26",
+        "2026-04-28",
+        "2026-04-21",
+        "2026-04-14",
+        "2026-03-10",
+        "2026-03-03",
+        "2026-02-03",
+        "2026-01-06",
+        "2025-12-09",
+        "2025-12-02",
+        "2025-10-28",
+        "2025-09-30",
+        "2025-09-09",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "anansi",
+        "ares",
+        "harpy",
+        "varangian"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_RegenerationFull.1": {
+      "weeks": [
+        "2026-05-26",
+        "2026-04-21",
+        "2026-04-14",
+        "2026-03-17",
+        "2026-01-13",
+        "2026-01-06",
+        "2025-11-25",
+        "2025-09-23",
+        "2025-09-09",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "bulwark",
+        "hitcher",
+        "ravana"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_GhostTurret.1": {
+      "weeks": [
+        "2026-05-19",
+        "2026-05-05",
+        "2026-04-28",
+        "2026-04-07",
+        "2026-02-10",
+        "2026-02-03",
+        "2026-01-13",
+        "2025-12-23",
+        "2025-11-25",
+        "2025-11-11",
+        "2025-10-07",
+        "2025-09-09",
+        "2025-08-12",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "ceres",
+        "heike",
+        "typhon",
+        "tyr"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_Grounded.1": {
+      "weeks": [
+        "2026-05-26",
+        "2026-04-28",
+        "2026-04-14",
+        "2026-03-10",
+        "2026-02-10",
+        "2026-01-27",
+        "2025-12-30",
+        "2025-12-09",
+        "2025-11-11",
+        "2025-10-28",
+        "2025-08-26",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "crix",
+        "loki",
+        "varangian"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_Umbrella.1": {
+      "weeks": [
+        "2026-06-09",
+        "2026-05-05",
+        "2026-04-28",
+        "2026-04-07",
+        "2026-02-24",
+        "2026-02-03",
+        "2026-01-20",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-10-07",
+        "2025-07-29",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "griffin",
+        "siren",
+        "typhon"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisSiren.2": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-24",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-07-29"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoSiren.1": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-24",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-07-29"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderSiren.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-24",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-07-29"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisCyclops.2": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-02-17",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-07-29"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoCyclops.1": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-02-17",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-07-29"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderCyclops.0": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-02-17",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-07-29"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisPursuer.2": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-17",
+        "2026-02-17",
+        "2025-12-16",
+        "2025-10-28",
+        "2025-07-29"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoPursuer.1": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-17",
+        "2026-02-17",
+        "2025-12-16",
+        "2025-10-28",
+        "2025-07-29"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderPursuer.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-17",
+        "2026-02-17",
+        "2025-12-16",
+        "2025-10-28",
+        "2025-07-29"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Trident.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-24",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-07-29"
+      ],
+      "virtual_bots": [
+        "siren"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Railgun.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-04-28",
+        "2026-03-03",
+        "2026-02-24",
+        "2026-02-03",
+        "2025-12-16",
+        "2025-12-02",
+        "2025-09-09",
+        "2025-07-29"
+      ],
+      "virtual_bots": [
+        "harpy",
+        "siren"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Twinflare.0": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-02-17",
+        "2025-12-16",
+        "2025-10-14",
+        "2025-07-29"
+      ],
+      "virtual_bots": [
+        "cyclops"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Scatter.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-17",
+        "2026-02-17",
+        "2025-12-16",
+        "2025-10-28",
+        "2025-07-29"
+      ],
+      "virtual_bots": [
+        "pursuer"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_Homing.1": {
+      "weeks": [
+        "2026-06-09",
+        "2026-05-05",
+        "2026-03-31",
+        "2026-02-17",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-12-16",
+        "2025-11-11",
+        "2025-10-28",
+        "2025-10-14",
+        "2025-08-12",
+        "2025-07-29"
+      ],
+      "virtual_bots": [
+        "cyclops",
+        "fury",
+        "tyr"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisTyr.2": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-11-11",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoTyr.1": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-11-11",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderTyr.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-11-11",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisFury.2": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-17",
+        "2025-12-23",
+        "2025-10-28",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoFury.1": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-17",
+        "2025-12-23",
+        "2025-10-28",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderFury.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-17",
+        "2025-12-23",
+        "2025-10-28",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisScorpion.2": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoScorpion.1": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderScorpion.0": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisGrim.1": {
+      "weeks": [
+        "2026-03-24",
+        "2025-12-23",
+        "2025-10-14",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoGrim.0": {
+      "weeks": [
+        "2026-03-24",
+        "2025-12-23",
+        "2025-10-14",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderLGrim.0": {
+      "weeks": [
+        "2026-03-24",
+        "2025-12-23",
+        "2025-10-14",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderRGrim.0": {
+      "weeks": [
+        "2026-03-24",
+        "2025-12-23",
+        "2025-10-14",
+        "2025-08-12"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Pulsar.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-17",
+        "2025-12-23",
+        "2025-10-28",
+        "2025-08-12"
+      ],
+      "virtual_bots": [
+        "fury"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Tusk.0": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-08-12"
+      ],
+      "virtual_bots": [
+        "scorpion"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Jigsaw.0": {
+      "weeks": [
+        "2026-03-24",
+        "2026-01-20",
+        "2025-10-14",
+        "2025-08-12"
+      ],
+      "virtual_bots": [
+        "grim"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Katzbalger.0": {
+      "weeks": [
+        "2026-03-24",
+        "2025-12-23",
+        "2025-10-14",
+        "2025-08-12"
+      ],
+      "virtual_bots": [
+        "grim"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Vortex.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-11-11",
+        "2025-08-12"
+      ],
+      "virtual_bots": [
+        "tyr"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_Repulsor.1": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-24",
+        "2026-02-10",
+        "2025-12-23",
+        "2025-08-12"
+      ],
+      "virtual_bots": [
+        "scorpion"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_DashBlinkedVisible.1": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-31",
+        "2026-02-17",
+        "2025-12-23",
+        "2025-12-16",
+        "2025-10-28",
+        "2025-10-14",
+        "2025-08-12"
+      ],
+      "virtual_bots": [
+        "cyclops",
+        "fury",
+        "garuda"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_TensionLink.1": {
+      "weeks": [
+        "2026-06-02",
+        "2026-05-19",
+        "2026-05-12",
+        "2026-04-21",
+        "2026-03-24",
+        "2026-03-03",
+        "2026-02-10",
+        "2026-01-13",
+        "2025-12-23",
+        "2025-12-02",
+        "2025-08-12"
+      ],
+      "virtual_bots": [
+        "heike",
+        "kumo",
+        "mesa",
+        "scorpion"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisRaven.2": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-31",
+        "2026-02-03",
+        "2025-12-30",
+        "2025-11-25",
+        "2025-08-26"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoRaven.1": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-31",
+        "2026-02-03",
+        "2025-12-30",
+        "2025-11-25",
+        "2025-08-26"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderRaven.0": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-31",
+        "2026-02-03",
+        "2025-12-30",
+        "2025-11-25",
+        "2025-08-26"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisLoki.2": {
+      "weeks": [
+        "2026-04-28",
+        "2026-02-10",
+        "2025-12-30",
+        "2025-11-11",
+        "2025-08-26"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoLoki.1": {
+      "weeks": [
+        "2026-04-28",
+        "2026-02-10",
+        "2025-12-30",
+        "2025-11-11",
+        "2025-08-26"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderLoki.0": {
+      "weeks": [
+        "2026-04-28",
+        "2026-02-10",
+        "2025-12-30",
+        "2025-11-11",
+        "2025-08-26"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Gozer.0": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-31",
+        "2026-02-03",
+        "2025-12-30",
+        "2025-11-25",
+        "2025-08-26"
+      ],
+      "virtual_bots": [
+        "raven"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Glory.0": {
+      "weeks": [
+        "2026-04-28",
+        "2026-02-10",
+        "2025-12-30",
+        "2025-11-11",
+        "2025-08-26"
+      ],
+      "virtual_bots": [
+        "loki"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_InfiniteAmmo_Tutorial.1": {
+      "weeks": [
+        "2026-03-03",
+        "2026-02-03",
+        "2026-01-27",
+        "2025-12-30",
+        "2025-11-25",
+        "2025-10-14",
+        "2025-08-26"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisHarpy.2": {
+      "weeks": [
+        "2026-04-28",
+        "2026-03-03",
+        "2026-02-03",
+        "2025-12-02",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoHarpy.1": {
+      "weeks": [
+        "2026-04-28",
+        "2026-03-03",
+        "2026-02-03",
+        "2025-12-02",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderHarpy.0": {
+      "weeks": [
+        "2026-04-28",
+        "2026-03-03",
+        "2026-02-03",
+        "2025-12-02",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisDemeter.2": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-13",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoDemeter.1": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-13",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderDemeter.0": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-13",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisBulwark.2": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-13",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoBulwark.1": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-13",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderBulwark.0": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-13",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisMatriarch.1": {
+      "weeks": [
+        "2026-05-12",
+        "2026-02-03",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoMatriarch.0": {
+      "weeks": [
+        "2026-05-12",
+        "2026-02-03",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderLMatriarch.0": {
+      "weeks": [
+        "2026-05-12",
+        "2026-02-03",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderRMatriarch.0": {
+      "weeks": [
+        "2026-05-12",
+        "2026-02-03",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Trebuchet.0": {
+      "weeks": [
+        "2026-04-28",
+        "2026-03-03",
+        "2026-02-03",
+        "2025-12-02",
+        "2025-09-09"
+      ],
+      "virtual_bots": [
+        "harpy"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Bisector.0": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-13",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": [
+        "ceres"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Thunder.0": {
+      "weeks": [
+        "2026-05-19",
+        "2026-04-14",
+        "2026-01-13",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": [
+        "bulwark",
+        "heike"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Hive.0": {
+      "weeks": [
+        "2026-05-12",
+        "2025-11-25",
+        "2025-09-09"
+      ],
+      "virtual_bots": [
+        "matriarch"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_FuelReserve.1": {
+      "weeks": [
+        "2026-05-12",
+        "2026-04-28",
+        "2026-03-03",
+        "2026-02-03",
+        "2026-01-27",
+        "2025-12-02",
+        "2025-10-07",
+        "2025-09-09"
+      ],
+      "virtual_bots": [
+        "harpy",
+        "purifier"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisFenrir.2": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-02-24",
+        "2025-12-02",
+        "2025-09-23"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoFenrir.1": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-02-24",
+        "2025-12-02",
+        "2025-09-23"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderFenrir.0": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-02-24",
+        "2025-12-02",
+        "2025-09-23"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Fowler.0": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-02-24",
+        "2025-12-02",
+        "2025-09-23"
+      ],
+      "virtual_bots": [
+        "fenrir"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_Regeneration.1": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-02-24",
+        "2025-12-02",
+        "2025-09-23"
+      ],
+      "virtual_bots": [
+        "fenrir"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisAnansi.2": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-06",
+        "2025-09-30"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoAnansi.1": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-06",
+        "2025-09-30"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderAnansi.0": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-06",
+        "2025-09-30"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_MLx2.0": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-06",
+        "2025-09-30"
+      ],
+      "virtual_bots": [
+        "anansi"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Callisto.0": {
+      "weeks": [
+        "2026-05-05",
+        "2026-01-27",
+        "2025-09-30"
+      ],
+      "virtual_bots": [
+        "alpha"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_Atrophy.1": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-13",
+        "2026-01-06",
+        "2025-09-30"
+      ],
+      "virtual_bots": [
+        "anansi",
+        "kumo"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisGriffin.2": {
+      "weeks": [
+        "2026-06-09",
+        "2026-04-07",
+        "2026-01-20",
+        "2025-10-07"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoGriffin.1": {
+      "weeks": [
+        "2026-06-09",
+        "2026-04-07",
+        "2026-01-20",
+        "2025-10-07"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderGriffin.0": {
+      "weeks": [
+        "2026-06-09",
+        "2026-04-07",
+        "2026-01-20",
+        "2025-10-07"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisInquisitor.2": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-01-27",
+        "2025-10-07"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoInquisitor.1": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-01-27",
+        "2025-10-07"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderInquisitor.0": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-01-27",
+        "2025-10-07"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Buckshot.0": {
+      "weeks": [
+        "2026-06-09",
+        "2026-04-07",
+        "2026-01-20",
+        "2025-10-07"
+      ],
+      "virtual_bots": [
+        "griffin"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Incinerator.0": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2026-01-27",
+        "2025-10-07"
+      ],
+      "virtual_bots": [
+        "purifier"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisBulgasari.2": {
+      "weeks": [
+        "2026-03-03",
+        "2026-01-27",
+        "2025-10-14"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoBulgasari.1": {
+      "weeks": [
+        "2026-03-03",
+        "2026-01-27",
+        "2025-10-14"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderBulgasari.0": {
+      "weeks": [
+        "2026-03-03",
+        "2026-01-27",
+        "2025-10-14"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Shredder.0": {
+      "weeks": [
+        "2026-03-03",
+        "2026-01-27",
+        "2025-10-14"
+      ],
+      "virtual_bots": [
+        "bulgasari"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_ArmorShield_Tutorial.1": {
+      "weeks": [
+        "2026-03-17",
+        "2026-03-03",
+        "2026-01-27",
+        "2026-01-20",
+        "2025-10-14"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Orkan.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-10",
+        "2025-12-09",
+        "2025-10-28"
+      ],
+      "virtual_bots": [
+        "garuda",
+        "varangian"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisMesa.2": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2025-12-02"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoMesa.1": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2025-12-02"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderMesa.0": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2025-12-02"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Locust.0": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2025-12-02"
+      ],
+      "virtual_bots": [
+        "mesa"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_GrenadeLauncher.0": {
+      "weeks": [
+        "2025-12-02"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Ability_AmmoGenerator.1": {
+      "weeks": [
+        "2026-05-12",
+        "2026-03-03",
+        "2025-12-02"
+      ],
+      "virtual_bots": [
+        "mesa"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisSpire.2": {
+      "weeks": [
+        "2026-03-10",
+        "2025-12-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoSpire.0": {
+      "weeks": [
+        "2026-03-10",
+        "2025-12-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderLSpire.0": {
+      "weeks": [
+        "2026-03-10",
+        "2025-12-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderRSpire.0": {
+      "weeks": [
+        "2026-03-10",
+        "2025-12-09"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Cascade.0": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-10",
+        "2026-03-03",
+        "2025-12-09"
+      ],
+      "virtual_bots": [
+        "volta"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_IronVeil.1": {
+      "weeks": [
+        "2026-03-31",
+        "2025-12-09"
+      ],
+      "virtual_bots": [
+        "garuda"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Dragoon.0": {
+      "weeks": [
+        "2025-12-16"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Noricum.0": {
+      "weeks": [
+        "2025-12-16"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Nucleon.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-17",
+        "2026-02-17",
+        "2025-12-23"
+      ],
+      "virtual_bots": [
+        "hitcher"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Gimcoil.0": {
+      "weeks": [
+        "2026-05-19",
+        "2026-02-24",
+        "2025-12-30"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Bayonet.0": {
+      "weeks": [
+        "2026-03-17",
+        "2026-01-06"
+      ],
+      "virtual_bots": [
+        "alpha"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisKumo.2": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-13"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoKumo.1": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-13"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderKumo.0": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-13"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Horde.0": {
+      "weeks": [
+        "2026-04-21",
+        "2026-01-13"
+      ],
+      "virtual_bots": [
+        "kumo"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Scrubber.0": {
+      "weeks": [
+        "2026-06-09",
+        "2026-03-17",
+        "2026-01-13"
+      ],
+      "virtual_bots": [
+        "matriarch"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisKernel.2": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-20"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoKernel.1": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-20"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderKernel.0": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-20"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Hefty.0": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-20"
+      ],
+      "virtual_bots": [
+        "decker"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_SupplySurge.1": {
+      "weeks": [
+        "2026-04-07",
+        "2026-01-20"
+      ],
+      "virtual_bots": [
+        "decker"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisNipper.2": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-27"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoNipper.1": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-27"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderNipper.0": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-27"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Stormpike.0": {
+      "weeks": [
+        "2026-04-14",
+        "2026-01-27"
+      ],
+      "virtual_bots": [
+        "crix"
+      ]
+    },
+    "OBJID_Module::DA_Module_ChassisNorna.2": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-03",
+        "2026-02-10"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoNorna.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-03",
+        "2026-02-10"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderLNorna.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-03",
+        "2026-02-10"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderRNorna.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-03",
+        "2026-02-10"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Coriolis.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-03",
+        "2026-02-10"
+      ],
+      "virtual_bots": [
+        "norna"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Slugger.0": {
+      "weeks": [
+        "2026-05-19",
+        "2026-03-10"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisHitcher.2": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-17"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoHitcher.1": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-17"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderHitcher.0": {
+      "weeks": [
+        "2026-05-26",
+        "2026-03-17"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Ability_InfiniteAmmo.1": {
+      "weeks": [
+        "2026-06-02",
+        "2026-03-31"
+      ],
+      "virtual_bots": [
+        "bulgasari",
+        "raven"
+      ]
+    },
+    "OBJID_Module::DA_Module_Weapon_Zenit.0": {
+      "weeks": [
+        "2026-04-07"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Ability_ArmorShield.1": {
+      "weeks": [
+        "2026-05-26",
+        "2026-04-07"
+      ],
+      "virtual_bots": [
+        "bulgasari",
+        "decker",
+        "hitcher"
+      ]
+    },
+    "OBJID_Module::DA_Module_Ability_KineticPulse.1": {
+      "weeks": [
+        "2026-04-14"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Conflux.0": {
+      "weeks": [
+        "2026-04-21"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_Weapon_Skuld.0": {
+      "weeks": [
+        "2026-04-28"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisHeike.2": {
+      "weeks": [
+        "2026-05-19"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoHeike.1": {
+      "weeks": [
+        "2026-05-19"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderHeike.0": {
+      "weeks": [
+        "2026-05-19"
+      ],
+      "virtual_bots": []
+    }
+  }
+}

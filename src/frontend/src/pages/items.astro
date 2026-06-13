@@ -1,0 +1,1065 @@
+---
+import GenericPage from '../components/GenericPage.astro';
+import NavBar from '../components/NavBar.astro';
+import { fetchModuleGroups, fetchCatIcons, fetchModulesByGroup } from '../utils/moduleData.js';
+import { getTexturePath } from '../utils/textures.js';
+import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
+import { getVbotDiscountWeeks, getModuleDiscountWeeks, getModuleVirtualBots, fetchDiscountHistory, transformToWeekCentric, formatDiscountDate } from '../utils/discountHistory.js';
+
+const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
+const groups = fetchModuleGroups();
+const catIcons = fetchCatIcons();
+const vbots = fetchAllVbots();
+
+// Get total weeks and virtual bots for percentage calculations
+const discountHistory = fetchDiscountHistory();
+
+// Get all unique weeks from the discount history
+const allWeeks = new Set<string>();
+Object.values(discountHistory.modules).forEach((m: any) => {
+	const weeks = Array.isArray(m) ? m : (m.weeks || []);
+	weeks.forEach((week: string) => allWeeks.add(week));
+});
+Object.values(discountHistory.virtualBots).forEach((v: any) => {
+	const weeks = Array.isArray(v) ? v : (v.weeks || []);
+	weeks.forEach((week: string) => allWeeks.add(week));
+});
+
+const totalWeeks = allWeeks.size;
+const totalVbots = Object.keys(vbots).length;
+
+// Default to empty string (expand all) - will be overridden by client-side logic
+const expandedCategory = '';
+
+// Icon mapping based on GridHeader indices
+// 1: Torso, 2: Shoulder, 3: Chassis, 4: Light Wep, 5: Heavy Wep, 6: Supply Gear, 7: Cycle Gear
+const getIconForGroup = (groupId: string) => {
+	const iconMap: Record<string, number> = {
+		'light-weapon': 4,
+		'heavy-weapon': 5,
+		'titan-weapon': 5,
+		'supply-gear': 6,
+		'cycle-gear': 7,
+	};
+	return catIcons[iconMap[groupId]] || null;
+};
+
+// Filter to only specific groups
+const allowedGroups = ['light-weapon', 'heavy-weapon', 'titan-weapon', 'supply-gear', 'cycle-gear'];
+const filteredGroups = Object.entries(groups)
+	.filter(([id]) => allowedGroups.includes(id))
+	.map(([id, group]: [string, any]) => ({
+		id,
+		name: group.name?.en || id,
+		sortOrder: group.sort_order || 0,
+		iconPath: getIconForGroup(id),
+		showVirtualBots: id !== 'titan-weapon', // Don't show virtual bots for titan weapons
+		modules: fetchModulesByGroup(id).map(module => {
+			const discountWeeks = getModuleDiscountWeeks(module.id);
+			const virtualBots = getModuleVirtualBots(module.id);
+			const discountPercentage = totalWeeks > 0 ? ((discountWeeks.length / totalWeeks) * 100).toFixed(1) : '0';
+			const vbotPortion = totalVbots > 0 ? ((virtualBots.length / totalVbots) * 100).toFixed(1) : '0';
+			
+			return {
+				...module,
+				discountWeeks,
+				virtualBots,
+				discountPercentage,
+				vbotPortion,
+			};
+		}),
+	}))
+	.sort((a, b) => a.sortOrder - b.sortOrder);
+
+// Filter to only mechs
+const mechList = Object.entries(vbots)
+	.filter(([id, vbot]) => getVbotCharacterType(vbot) === 'Mech')
+	.map(([id, vbot]) => {
+		const discountWeeks = getVbotDiscountWeeks(id);
+		const discountPercentage = totalWeeks > 0 ? ((discountWeeks.length / totalWeeks) * 100).toFixed(1) : '0';
+		return {
+			id,
+			name: getVbotName(vbot),
+			iconPath: getVbotIconPath(vbot),
+			discountWeeks,
+			discountPercentage,
+		};
+	})
+	.sort((a, b) => a.name.localeCompare(b.name));
+
+// Helper function to group dates by year and format them
+const formatDiscountWeeks = (weeks: string[]) => {
+	if (!weeks || weeks.length === 0) return [];
+
+	// Group by year
+	const yearGroups: Record<string, string[]> = {};
+	weeks.forEach(week => {
+		const year = week.substring(0, 4);
+		if (!yearGroups[year]) {
+			yearGroups[year] = [];
+		}
+		yearGroups[year].push(week);
+	});
+
+	// Format each group
+	const formattedGroups = Object.entries(yearGroups)
+		.sort(([a], [b]) => parseInt(b) - parseInt(a)) // Sort years descending
+		.map(([year, dates]) => {
+			const formattedDates = dates
+				.sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) // Sort dates chronologically (ascending)
+				.map(date => {
+					const [_, month, day] = date.split('-');
+					const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+					const monthIndex = parseInt(month) - 1;
+					return {
+						display: `${monthNames[monthIndex]} ${day}`,
+						weekId: date
+					};
+				});
+			return { year, dates: formattedDates };
+		});
+
+	return formattedGroups;
+};
+
+// Transform mech data to week-centric format for timeline
+const mechTimelineData = transformToWeekCentric(mechList);
+
+// Add formatted week groups to modules
+const filteredGroupsWithFormattedWeeks = filteredGroups.map(group => ({
+	...group,
+	modules: group.modules.map(module => ({
+		...module,
+		formattedWeeks: formatDiscountWeeks(module.discountWeeks),
+	}))
+}));
+
+// Add formatted week groups to mechs
+const mechListWithFormattedWeeks = mechList.map(mech => ({
+	...mech,
+	formattedWeeks: formatDiscountWeeks(mech.discountWeeks),
+}));
+
+// Filter to only titans
+const titanList = Object.entries(vbots)
+	.filter(([id, vbot]) => getVbotCharacterType(vbot) === 'Titan')
+	.map(([id, vbot]) => {
+		const discountWeeks = getVbotDiscountWeeks(id);
+		const discountPercentage = totalWeeks > 0 ? ((discountWeeks.length / totalWeeks) * 100).toFixed(1) : '0';
+		return {
+			id,
+			name: getVbotName(vbot),
+			iconPath: getVbotIconPath(vbot),
+			discountWeeks,
+			discountPercentage,
+		};
+	})
+	.sort((a, b) => a.name.localeCompare(b.name));
+
+// Add formatted week groups to titans
+const titanListWithFormattedWeeks = titanList.map(titan => ({
+	...titan,
+	formattedWeeks: formatDiscountWeeks(titan.discountWeeks),
+}));
+
+// Transform titan data to week-centric format for timeline
+const titanTimelineData = transformToWeekCentric(titanList);
+---
+
+<GenericPage
+	title="Items - WRF Discounts"
+	description="List of all items with their discount history"
+	baseUrl={baseUrl}
+>
+	<NavBar baseUrl={baseUrl} currentPage="items" />
+	<h1>Items</h1>
+	<div class="action-buttons">
+		<button id="expand-all" class="action-button">Expand All</button>
+		<button id="collapse-all" class="action-button">Collapse All</button>
+	</div>
+
+	<!-- Module Groups -->
+	{filteredGroupsWithFormattedWeeks.map(group => (
+		<div class="category" data-category={group.id}>
+			<button class="category-header" aria-expanded={expandedCategory === '' || expandedCategory === group.id}>
+				<span class="category-title">
+					{group.iconPath && (
+						<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="category-icon-img" />
+					)}
+					{group.name}
+				</span>
+				<span class="category-icon">▼</span>
+			</button>
+			<div class="category-content loading" class:list={{ expanded: expandedCategory === '' || expandedCategory === group.id }}>
+				<table class="category-table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Discount Weeks</th>
+							<th>
+								<span class="header-with-tooltip">
+									Appearance Rate
+									<span class="tooltip-icon">?</span>
+									<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
+								</span>
+							</th>
+							{group.showVirtualBots && (
+								<th>
+									<span class="header-with-tooltip">
+										Bot Usage
+										<span class="tooltip-icon">?</span>
+										<span class="custom-tooltip">Portion of virtual bots this item is featured in</span>
+									</span>
+								</th>
+							)}
+						</tr>
+					</thead>
+					<tbody>
+						{group.modules.length > 0 ? (
+							group.modules.map(module => (
+								<tr>
+									<td>
+										<div class="name-with-icon-wrapper">
+											<span class="name-with-icon">
+												{module.iconPath && (
+													<img
+														src={getTexturePath(module.iconPath, baseUrl)}
+														alt={module.name}
+														class="module-icon"
+													/>
+												)}
+												{module.name}
+											</span>
+											<span class="item-tooltip">{module.name}</span>
+										</div>
+									</td>
+									<td>
+										{module.formattedWeeks.length > 0 ? (
+											module.formattedWeeks.map((group, i) => (
+												<span class="year-group" key={group.year}>
+													<span class="year-label">{group.year}:</span>
+													<span class="year-dates">
+														{group.dates.map((date, j) => (
+															<>
+																{j > 0 && ', '}
+																<a href={`${baseUrl}week/${date.weekId}`} class="date-link">{date.display}</a>
+															</>
+														))}
+													</span>
+												</span>
+											))
+										) : <span class="never-discounted">Never</span>}
+									</td>
+									<td class="percentage-cell">{module.discountPercentage}%</td>
+									{group.showVirtualBots && (
+										<td class="percentage-cell">{module.vbotPortion}% ({module.virtualBots.length})</td>
+									)}
+								</tr>
+							))
+						) : (
+							<tr>
+								<td colspan={group.showVirtualBots ? 4 : 3}>No modules found in this group</td>
+							</tr>
+						)}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	))}
+
+	<!-- Mechs Category -->
+	<div class="category" data-category="mechs">
+		<button class="category-header" aria-expanded={expandedCategory === '' || expandedCategory === 'mechs'}>
+			<span class="category-title">Mechs</span>
+			<span class="category-icon">▼</span>
+		</button>
+		<div class="category-content loading" class:list={{ expanded: expandedCategory === '' || expandedCategory === 'mechs' }}>
+			<table class="category-table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Discount Weeks</th>
+						<th>
+							<span class="header-with-tooltip">
+								Appearance Rate
+								<span class="tooltip-icon">?</span>
+								<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
+							</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{mechListWithFormattedWeeks.map(vbot => (
+						<tr>
+							<td>
+								<span class="name-with-icon">
+									{vbot.iconPath && (
+										<img
+											src={getTexturePath(vbot.iconPath, baseUrl)}
+											alt={vbot.name}
+											class="vbot-icon"
+										/>
+									)}
+									{vbot.name}
+								</span>
+							</td>
+							<td>
+								{vbot.formattedWeeks.length > 0 ? (
+									vbot.formattedWeeks.map((group, i) => (
+										<span class="year-group" key={group.year}>
+											<span class="year-label">{group.year}:</span>
+											<span class="year-dates">
+												{group.dates.map((date, j) => (
+													<>
+														{j > 0 && ', '}
+														<a href={`${baseUrl}week/${date.weekId}`} class="date-link">{date.display}</a>
+													</>
+												))}
+											</span>
+										</span>
+									))
+								) : <span class="never-discounted">Never</span>}
+							</td>
+							<td class="percentage-cell">{vbot.discountPercentage}%</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+
+			<!-- Mech Timeline -->
+			{mechTimelineData.length > 0 && (
+				<div class="timeline-section">
+					<h3>Mech Discount Timeline</h3>
+					<div class="timeline">
+						{(() => {
+							let lastYear = null;
+							return mechTimelineData.map(({ week, items }) => {
+								const year = week.split('-')[0];
+								const showYearHeader = year !== lastYear;
+								lastYear = year;
+								const formattedDate = week.split('-').slice(1).join('/'); // MM/DD
+								const dateObj = new Date(week);
+								const monthDay = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+								
+								return (
+									<>
+										{showYearHeader && (
+											<div class="timeline-year-header">{year}</div>
+										)}
+										<div class="timeline-column">
+											<a href={`${baseUrl}week/${week}`} class="timeline-week-link">
+												<span class="timeline-week">{monthDay}</span>
+											</a>
+											<div class="timeline-icons">
+												{items.map(item => (
+													<a 
+														href={`${baseUrl}week/${week}`} 
+														class="timeline-icon"
+														title={item.name}
+													>
+														<img 
+															src={getTexturePath(item.iconPath, baseUrl)} 
+															alt={item.name}
+														/>
+														<span class="timeline-icon-name">{item.name}</span>
+													</a>
+												))}
+											</div>
+										</div>
+									</>
+								);
+							});
+						})()}
+					</div>
+				</div>
+			)}
+		</div>
+	</div>
+
+	<!-- Titans Category -->
+	<div class="category" data-category="titans">
+		<button class="category-header" aria-expanded={expandedCategory === '' || expandedCategory === 'titans'}>
+			<span class="category-title">Titans</span>
+			<span class="category-icon">▼</span>
+		</button>
+		<div class="category-content loading" class:list={{ expanded: expandedCategory === '' || expandedCategory === 'titans' }}>
+			<table class="category-table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Discount Weeks</th>
+						<th>
+							<span class="header-with-tooltip">
+								Appearance Rate
+								<span class="tooltip-icon">?</span>
+								<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
+							</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{titanListWithFormattedWeeks.map(vbot => (
+						<tr>
+							<td>
+								<span class="name-with-icon">
+									{vbot.iconPath && (
+										<img
+											src={getTexturePath(vbot.iconPath, baseUrl)}
+											alt={vbot.name}
+											class="vbot-icon"
+										/>
+									)}
+									{vbot.name}
+								</span>
+							</td>
+							<td>
+								{vbot.formattedWeeks.length > 0 ? (
+									vbot.formattedWeeks.map((group, i) => (
+										<span class="year-group" key={group.year}>
+											<span class="year-label">{group.year}:</span>
+											<span class="year-dates">
+												{group.dates.map((date, j) => (
+													<>
+														{j > 0 && ', '}
+														<a href={`${baseUrl}week/${date.weekId}`} class="date-link">{date.display}</a>
+													</>
+												))}
+											</span>
+										</span>
+									))
+								) : <span class="never-discounted">Never</span>}
+							</td>
+							<td class="percentage-cell">{vbot.discountPercentage}%</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+
+			<!-- Titan Timeline -->
+			{titanTimelineData.length > 0 && (
+				<div class="timeline-section">
+					<h3>Titan Discount Timeline</h3>
+					<div class="timeline">
+						{(() => {
+							let lastYear = null;
+							return titanTimelineData.map(({ week, items }) => {
+								const year = week.split('-')[0];
+								const showYearHeader = year !== lastYear;
+								lastYear = year;
+								const dateObj = new Date(week);
+								const monthDay = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+								
+								return (
+									<>
+										{showYearHeader && (
+											<div class="timeline-year-header">{year}</div>
+										)}
+										<div class="timeline-column">
+											<a href={`${baseUrl}week/${week}`} class="timeline-week-link">
+												<span class="timeline-week">{monthDay}</span>
+											</a>
+											<div class="timeline-icons">
+												{items.map(item => (
+													<a 
+														href={`${baseUrl}week/${week}`} 
+														class="timeline-icon"
+														title={item.name}
+													>
+														<img 
+															src={getTexturePath(item.iconPath, baseUrl)} 
+															alt={item.name}
+														/>
+														<span class="timeline-icon-name">{item.name}</span>
+													</a>
+												))}
+											</div>
+										</div>
+									</>
+								);
+							});
+						})()}
+					</div>
+				</div>
+			)}
+		</div>
+	</div>
+
+	<script>
+		// Handle query param for initial expansion state
+		const urlParams = new URLSearchParams(window.location.search);
+		const groupParam = urlParams.get('group');
+
+		// Collapse all categories first
+		document.querySelectorAll('.category-content').forEach(content => {
+			content.classList.remove('expanded');
+			content.parentElement.querySelector('.category-header').setAttribute('aria-expanded', 'false');
+		});
+
+		// If a specific group is specified, expand only that one
+		if (groupParam) {
+			const targetCategory = document.querySelector(`[data-category="${groupParam}"]`);
+			if (targetCategory) {
+				const content = targetCategory.querySelector('.category-content');
+				const header = targetCategory.querySelector('.category-header');
+				if (content && header) {
+					content.classList.add('expanded');
+					header.setAttribute('aria-expanded', 'true');
+				}
+			}
+		} else {
+			// No group param, expand all
+			document.querySelectorAll('.category-content').forEach(content => {
+				content.classList.add('expanded');
+				content.parentElement.querySelector('.category-header').setAttribute('aria-expanded', 'true');
+			});
+		}
+
+		// Remove loading class to enable transitions after initial render
+		setTimeout(() => {
+			document.querySelectorAll('.category-content.loading').forEach(content => {
+				content.classList.remove('loading');
+			});
+		}, 100);
+
+		// Apply initial height animation to already expanded categories
+		setTimeout(() => {
+			document.querySelectorAll('.category-content.expanded').forEach(content => {
+				content.style.maxHeight = content.scrollHeight + 'px';
+				setTimeout(() => {
+					content.style.maxHeight = 'none';
+				}, 400);
+			});
+
+			// Auto-scroll to the expanded category or categories section
+			if (groupParam) {
+				const targetCategory = document.querySelector(`[data-category="${groupParam}"]`);
+				if (targetCategory) {
+					targetCategory.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				}
+			} else {
+				// Scroll to the first category (module groups section)
+				const firstCategory = document.querySelector('.category');
+				if (firstCategory) {
+					firstCategory.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				}
+			}
+		}, 150);
+
+		// Handle category toggle with proper height animation
+		document.querySelectorAll('.category-header').forEach(button => {
+			button.addEventListener('click', () => {
+				const category = button.parentElement;
+				if (!category) return;
+				const content = category.querySelector('.category-content');
+				if (!content) return;
+				const isExpanded = content.classList.toggle('expanded');
+				button.setAttribute('aria-expanded', isExpanded.toString());
+
+				if (isExpanded) {
+					// Set explicit height for smooth animation
+					const scrollHeight = content.scrollHeight;
+					content.style.maxHeight = scrollHeight + 'px';
+					// After animation completes, set to none to allow for dynamic content changes
+					setTimeout(() => {
+						content.style.maxHeight = 'none';
+					}, 400); // Match transition duration
+				} else {
+					// Reset to 0 for collapse animation
+					content.style.maxHeight = content.scrollHeight + 'px';
+					// Force reflow
+					void content.offsetHeight;
+					content.style.maxHeight = '0';
+				}
+
+				// Update URL query param
+				const url = new URL(window.location.href);
+				const categoryId = category.dataset.category;
+				if (isExpanded && categoryId) {
+					url.searchParams.set('group', categoryId);
+				} else {
+					url.searchParams.delete('group');
+				}
+				window.history.replaceState({}, '', url);
+			});
+		});
+
+		// Handle expand all button
+		document.getElementById('expand-all')?.addEventListener('click', () => {
+			document.querySelectorAll('.category-content').forEach(content => {
+				content.classList.add('expanded');
+				const scrollHeight = content.scrollHeight;
+				content.style.maxHeight = scrollHeight + 'px';
+				setTimeout(() => {
+					content.style.maxHeight = 'none';
+				}, 400); // Match transition duration
+			});
+			document.querySelectorAll('.category-header').forEach(button => {
+				button.setAttribute('aria-expanded', 'true');
+			});
+			// Update URL to remove group param (showing all expanded)
+			const url = new URL(window.location.href);
+			url.searchParams.delete('group');
+			window.history.replaceState({}, '', url);
+		});
+
+		// Handle collapse all button
+		document.getElementById('collapse-all')?.addEventListener('click', () => {
+			document.querySelectorAll('.category-content').forEach(content => {
+				content.classList.remove('expanded');
+				const scrollHeight = content.scrollHeight;
+				content.style.maxHeight = scrollHeight + 'px'; // Set to current height first
+				// Force reflow
+				void content.offsetHeight;
+				content.style.maxHeight = '0';
+			});
+			document.querySelectorAll('.category-header').forEach(button => {
+				button.setAttribute('aria-expanded', 'false');
+			});
+			// Update URL to remove group param
+			const url = new URL(window.location.href);
+			url.searchParams.delete('group');
+			window.history.replaceState({}, '', url);
+		});
+	</script>
+</GenericPage>
+
+<style>
+	:root {
+		--accent-color: #3a86ff;
+		--accent-hover: #2b65cc;
+		--sidebar-bg: #161920;
+		--sidebar-border: #232733;
+		--text-color: #e0e0e0;
+		--active-bg: rgba(58, 134, 255, 0.1);
+	}
+
+	.category {
+		margin-bottom: 1rem;
+		border: 1px solid var(--sidebar-border);
+		border-radius: 0.5rem;
+		background-color: var(--sidebar-bg);
+		overflow: visible;
+	}
+
+	.action-buttons {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		margin-bottom: 1.5rem;
+	}
+
+	.action-button {
+		padding: 0.5rem 1rem;
+		background-color: var(--accent-color, #3a86ff);
+		color: white;
+		border: none;
+		border-radius: 0.25rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: background-color 0.2s, transform 0.1s;
+	}
+
+	.action-button:hover {
+		background-color: var(--accent-hover, #2b65cc);
+		transform: translateY(-1px);
+	}
+
+	.action-button:active {
+		transform: translateY(0);
+	}
+
+	.category-header {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem;
+		background: none;
+		border: none;
+		color: var(--text-color);
+		font-size: 1.25rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.2s;
+		position: relative;
+	}
+
+	.category-header:hover {
+		background-color: var(--active-bg);
+	}
+
+	.category-icon {
+		position: absolute;
+		right: 1rem;
+		transition: transform 0.2s;
+	}
+
+	.category-header[aria-expanded='true'] .category-icon {
+		transform: rotate(180deg);
+	}
+
+	.category-icon-img {
+		width: 36px;
+		height: 36px;
+		object-fit: contain;
+	}
+
+	.category-title {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		justify-content: center;
+		flex: 1;
+		padding-right: 2rem;
+	}
+
+	.module-icon {
+		width: 48px;
+		height: 48px;
+		object-fit: contain;
+	}
+
+	.category-content {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.4s ease-out;
+	}
+
+	.category-content.expanded {
+		max-height: none;
+		overflow: visible;
+	}
+
+	/* Disable transition during initial page load to prevent conflicts */
+	.category-content.loading {
+		transition: none !important;
+	}
+
+	.category-content > * {
+		padding: 0 1rem 1rem;
+	}
+
+	.category-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.category-table th,
+	.category-table td {
+		padding: 0.75rem;
+		text-align: left;
+		border-bottom: 1px solid var(--sidebar-border);
+		position: relative;
+	}
+
+	.category-table th {
+		background-color: var(--sidebar-bg);
+		font-weight: 600;
+	}
+
+	.percentage-cell {
+		text-align: center;
+		font-family: 'Courier New', monospace;
+		font-weight: 500;
+	}
+
+	.header-with-tooltip {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		position: relative;
+	}
+
+	.tooltip-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		background-color: var(--accent-color, #3a86ff);
+		color: white;
+		font-size: 11px;
+		font-weight: 700;
+		cursor: help;
+		transition: transform 0.2s, box-shadow 0.2s;
+		transform: translateY(0);
+	}
+
+	.header-with-tooltip:hover .tooltip-icon {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 20px rgba(58, 134, 255, 0.4);
+	}
+
+	.custom-tooltip {
+		position: absolute;
+		left: 50%;
+		top: calc(100% + 10px);
+		transform: translateX(-50%) translateY(-6px);
+		white-space: nowrap;
+		background: rgba(20, 20, 20, 0.95);
+		color: #fff;
+		padding: 8px 12px;
+		border-radius: 999px;
+		font-size: 0.78rem;
+		line-height: 1.3;
+		text-align: center;
+		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+		transition: opacity 0.18s ease, transform 0.18s ease;
+		opacity: 0;
+		pointer-events: none;
+		z-index: 9999;
+		max-width: none;
+	}
+
+	.header-with-tooltip:hover .custom-tooltip {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+
+	.year-group {
+		display: inline-flex;
+		align-items: center;
+		margin-right: 1.5rem;
+	}
+
+	.year-label {
+		font-weight: 600;
+		color: var(--accent-color, #3a86ff);
+		margin-right: 0.25rem;
+	}
+
+	.year-dates {
+		/* Color is handled by the date-link class */
+	}
+
+	.never-discounted {
+		color: var(--text-muted, #8b92a5);
+		font-style: italic;
+	}
+
+	.date-link {
+		color: var(--text-color, #e0e0e0);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		transition: border-color 0.2s, color 0.2s;
+	}
+
+	.date-link:hover {
+		border-bottom-color: var(--accent-color, #3a86ff);
+		color: var(--accent-color, #3a86ff);
+	}
+
+	.vbot-icon {
+		width: 48px;
+		height: 48px;
+		object-fit: contain;
+	}
+
+	.name-with-icon-wrapper {
+		position: relative;
+		display: inline-block;
+	}
+
+	.name-with-icon {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.name-with-icon .module-icon,
+	.name-with-icon .vbot-icon {
+		flex-shrink: 0;
+	}
+
+	.item-tooltip {
+		position: absolute;
+		left: 50%;
+		top: calc(100% + 10px);
+		transform: translateX(-50%) translateY(-6px);
+		white-space: nowrap;
+		background: rgba(20, 20, 20, 0.95);
+		color: #fff;
+		padding: 8px 12px;
+		border-radius: 999px;
+		font-size: 0.78rem;
+		line-height: 1.3;
+		text-align: center;
+		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+		transition: opacity 0.18s ease, transform 0.18s ease;
+		opacity: 0;
+		pointer-events: none;
+		z-index: 9999;
+		max-width: none;
+	}
+
+	.name-with-icon-wrapper:hover .item-tooltip {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+
+	@media (max-width: 768px) {
+		.category-table {
+			font-size: 0.875rem;
+		}
+
+		.vbot-icon,
+		.module-icon {
+			width: 36px;
+			height: 36px;
+		}
+
+		.percentage-cell {
+			font-size: 0.8rem;
+		}
+	}
+
+	/* Timeline Styles */
+	.timeline-section {
+		margin-top: 2rem;
+		padding: 1.5rem;
+		background-color: var(--sidebar-bg, #161920);
+		border: 1px solid var(--sidebar-border, #232733);
+		border-radius: 0.5rem;
+	}
+
+	.timeline-section h3 {
+		font-size: 1.25rem;
+		margin-bottom: 1.5rem;
+		color: var(--text-color, #e0e0e0);
+	}
+
+	.timeline {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: 1.5rem;
+	}
+
+	.timeline-year-header {
+		width: 100%;
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--accent-color, #3a86ff);
+		margin-top: 1rem;
+		margin-bottom: 0.5rem;
+		padding-bottom: 0.25rem;
+		border-bottom: 2px solid var(--accent-color, #3a86ff);
+	}
+
+	.timeline-year-header:first-child {
+		margin-top: 0;
+	}
+
+	.timeline-column {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		min-width: 90px;
+	}
+
+	.timeline-week-link {
+		text-decoration: none;
+		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		transition: border-color 0.2s, color 0.2s;
+	}
+
+	.timeline-week-link:hover {
+		border-bottom-color: var(--accent-color, #3a86ff);
+	}
+
+	.timeline-week {
+		font-size: 0.875rem;
+		color: var(--accent-color, #3a86ff);
+		font-weight: 600;
+		text-align: center;
+		transition: color 0.2s;
+	}
+
+	.timeline-week-link:hover .timeline-week {
+		color: var(--accent-hover, #2b65cc);
+	}
+
+	.timeline-icons {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.75rem;
+		min-height: 80px;
+	}
+
+	.timeline-icon {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-decoration: none;
+		transition: transform 0.2s;
+	}
+
+	.timeline-icon:hover {
+		transform: translateY(-2px);
+	}
+
+	.timeline-icon img {
+		width: 56px;
+		height: 56px;
+		object-fit: contain;
+		border-radius: 0.25rem;
+		background-color: var(--sidebar-bg, #161920);
+		border: 1px solid var(--sidebar-border, #232733);
+		padding: 2px;
+	}
+
+	.timeline-icon-name {
+		font-size: 0.65rem;
+		color: var(--text-secondary, #888);
+		margin-top: 0.25rem;
+		text-align: center;
+		max-width: 70px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	@media (max-width: 768px) {
+		.timeline-section {
+			padding: 1rem;
+		}
+
+		.timeline-section h3 {
+			font-size: 1rem;
+		}
+
+		.timeline-year-header {
+			font-size: 0.875rem;
+		}
+
+		.timeline {
+			gap: 1rem;
+		}
+
+		.timeline-column {
+			min-width: 70px;
+		}
+
+		.timeline-week {
+			font-size: 0.75rem;
+		}
+
+		.timeline-icons {
+			gap: 0.5rem;
+		}
+
+		.timeline-icon img {
+			width: 42px;
+			height: 42px;
+		}
+
+		.timeline-icon-name {
+			font-size: 0.55rem;
+			max-width: 60px;
+		}
+	}
+</style>

@@ -3,7 +3,7 @@ import '../../styles/module-icon.css';
 import '../../styles/module-card.css';
 import { getTexturePath, getRarityBackgroundUrl } from '../../utils/textures.js';
 
-const { module, shopCards, showName = true, showBadges = false, style: inlineStyle, disableBackground = false } = Astro.props;
+const { module, shopCards, showName = true, showBadges = false, style: inlineStyle, disableBackground = false, lastDiscountDate = null, category = null } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 
 const iconSrc = getTexturePath(module.icon_path, baseUrl);
@@ -18,46 +18,118 @@ const classIconSrc = module.class_icon_path
   : null;
 
 const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
+
+const href = category ? `${baseUrl}items?group=${category}` : null;
 ---
 
-<div class="object-box" style={inlineStyle}>
-  <div
-    class:list={['module-card', 'object-box__card', { 'object-box__card--no-name': !showName }]}
-    style={bgStyle || undefined}
-  >
-    <div class="module-card__icon">
-      {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
-    </div>
-    {showName && (
-      <div class="module-card__footer">
-        <span class="module-card__name">{module.name}</span>
-        {hasFooterIcons && (
-          <div class="module-card__footer-icons">
-            {factionIconSrc && (
-              <img
-                class="module-card__footer-icon"
-                src={factionIconSrc}
-                alt=""
-                title="Faction"
-              />
-            )}
-            {classIconSrc && (
-              <img
-                class="module-card__footer-icon"
-                src={classIconSrc}
-                alt=""
-                title="Class"
-              />
+{href ? (
+  <a href={href} class="object-box-link" style={inlineStyle}>
+    <div class="object-box">
+      <div
+        class:list={['module-card', 'object-box__card', { 'object-box__card--no-name': !showName }]}
+        style={bgStyle || undefined}
+      >
+        <div class="module-card__icon">
+          {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
+        </div>
+        {showName && (
+          <div class="module-card__footer">
+            <span class="module-card__name">{module.name}</span>
+            {hasFooterIcons && (
+              <div class="module-card__footer-icons">
+                {factionIconSrc && (
+                  <img
+                    class="module-card__footer-icon"
+                    src={factionIconSrc}
+                    alt=""
+                    title="Faction"
+                  />
+                )}
+                {classIconSrc && (
+                  <img
+                    class="module-card__footer-icon"
+                    src={classIconSrc}
+                    alt=""
+                    title="Class"
+                  />
+                )}
+              </div>
             )}
           </div>
         )}
       </div>
-    )}
+      <div class="object-box__tooltip">
+        {lastDiscountDate ? (
+          <>
+            {module.name}<br />
+            <span class="tooltip-date">Last Discount: {lastDiscountDate}</span>
+          </>
+        ) : (
+          module.name
+        )}
+      </div>
+    </div>
+  </a>
+) : (
+  <div class="object-box" style={inlineStyle}>
+    <div
+      class:list={['module-card', 'object-box__card', { 'object-box__card--no-name': !showName }]}
+      style={bgStyle || undefined}
+    >
+      <div class="module-card__icon">
+        {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
+      </div>
+      {showName && (
+        <div class="module-card__footer">
+          <span class="module-card__name">{module.name}</span>
+          {hasFooterIcons && (
+            <div class="module-card__footer-icons">
+              {factionIconSrc && (
+                <img
+                  class="module-card__footer-icon"
+                  src={factionIconSrc}
+                  alt=""
+                  title="Faction"
+                />
+              )}
+              {classIconSrc && (
+                <img
+                  class="module-card__footer-icon"
+                  src={classIconSrc}
+                  alt=""
+                  title="Class"
+                />
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+    <div class="object-box__tooltip">
+      {lastDiscountDate ? (
+        <>
+          {module.name}<br />
+          <span class="tooltip-date">Last Discount: {lastDiscountDate}</span>
+        </>
+      ) : (
+        module.name
+      )}
+    </div>
   </div>
-  <div class="object-box__tooltip">{module.name}</div>
-</div>
+)}
 
 <style>
+  .object-box-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    border-bottom: none;
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+  }
+
   .object-box {
     display: block;
     width: 100%;
@@ -65,6 +137,8 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
     text-align: center;
     overflow: visible;
     position: relative;
+    min-width: 0;
+    min-height: 0;
   }
 
   .object-box__card {
@@ -73,6 +147,7 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
     transition: transform 0.2s;
   }
 
+  .object-box-link:hover .object-box__card,
   .object-box:hover .object-box__card {
     transform: translateY(-2px);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
@@ -101,6 +176,7 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
     overflow-wrap: anywhere;
   }
 
+  .object-box-link:hover .object-box__tooltip,
   .object-box:hover .object-box__tooltip {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
@@ -122,9 +198,9 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: calc(6px * var(--grid-scale, 1));
+    gap: calc(6 * var(--grid-scale-unit, 1px));
     flex-shrink: 0;
-    padding: calc(1px * var(--grid-scale, 1)) calc(8px * var(--grid-scale, 1));
+    padding: calc(1 * var(--grid-scale-unit, 1px)) calc(8 * var(--grid-scale-unit, 1px));
   }
 
   .object-box__card .module-card__name {
@@ -146,7 +222,7 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    gap: calc(1px * var(--grid-scale, 1));
+    gap: calc(1 * var(--grid-scale-unit, 1px));
     flex-shrink: 0;
   }
 
@@ -156,5 +232,11 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
     height: var(--footer-icon-size, 11px);
     object-fit: contain;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+  }
+
+  .object-box__tooltip .tooltip-date {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+    margin-top: 2px;
   }
 </style>

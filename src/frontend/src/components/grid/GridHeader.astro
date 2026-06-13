@@ -47,14 +47,14 @@ const icon = (path) => getTexturePath(path, baseUrl);
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    gap: calc(3px * var(--grid-scale, 1));
+    gap: calc(3 * var(--grid-scale-unit, 1px));
     text-transform: uppercase;
     font-weight: 800;
     font-size: var(--grid-header-font, 0.85rem);
     color: #7b8390;
     text-align: center;
-    padding-bottom: calc(6px * var(--grid-scale, 1));
-    border-bottom: calc(2px * var(--grid-scale, 1)) solid #232730;
+    padding-bottom: calc(6 * var(--grid-scale-unit, 1px));
+    border-bottom: calc(2 * var(--grid-scale-unit, 1px)) solid #232730;
     min-height: var(--grid-header-height, 60px);
     box-sizing: border-box;
   }

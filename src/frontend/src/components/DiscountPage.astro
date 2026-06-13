@@ -4,11 +4,14 @@ import DiscountInfo from './DiscountInfo.astro';
 import AllWeeksSidebar from './AllWeeksSidebar.astro';
 import WeekNavigation from './WeekNavigation.astro';
 import Footer from './Footer.astro';
+import NavBar from './NavBar.astro';
+import LastDiscountTable from './LastDiscountTable.astro';
 import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 import { getCurrentOrLatestWeek, getNextWeek, getPreviousWeek } from '../utils/dateValidator.js';
 import { formatWeek } from '../utils/weekDates.js';
+import { extractDiscountedItemsFromGrid } from '../utils/discountHistory.js';
 
 const { dateRange, gridData, shopCards, catIcons, weeks, currentSlug, vbotMetaById } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
@@ -72,6 +75,9 @@ const metaDescription = `${dateRange || 'Latest Discounts'}\nBots: ${currentSumm
   (secondWeekSummary.dateRange ? `\n\n${secondWeekSummary.dateRange}\nBots: ${secondWeekSummary.bots}\nWeapons: ${secondWeekSummary.weapons}\nGear: ${secondWeekSummary.gear}` : '');
 
 const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSummary.bots || 'None'} | Weapons: ${currentSummary.weapons || 'None'} | Gear: ${currentSummary.gear || 'None'}`;
+
+// Extract items from grid data for last discount table
+const discountedItems = extractDiscountedItemsFromGrid(gridData, currentSlug);
 ---
 
 <html lang="en">
@@ -106,6 +112,7 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSumm
 			nextWeekHref={nextWeekHref}
 		>
 			<div class="app-content">
+				<NavBar baseUrl={baseUrl} currentPage="home" />
 				<header>
 					<h1>War Robots Frontiers Upgrade Discounts</h1>
 					{dateRange && (
@@ -117,7 +124,9 @@ const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSumm
 					)}
 				</header>
 
-				<DiscountGrid gridData={gridData} shopCards={shopCards} catIcons={catIcons} vbotMetaById={vbotMetaById} />
+				<DiscountGrid gridData={gridData} shopCards={shopCards} catIcons={catIcons} vbotMetaById={vbotMetaById} currentWeekSlug={currentSlug} />
+
+				<LastDiscountTable items={discountedItems} currentWeekSlug={currentSlug} baseUrl={baseUrl} />
 
 				<DiscountInfo currentSlug={currentSlug} baseUrl={baseUrl} />
 			</div>

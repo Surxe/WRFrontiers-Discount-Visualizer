@@ -1,8 +1,9 @@
 ---
 import GridHeader from './GridHeader.astro';
 import DiscountGridRow from './DiscountGridRow.astro';
+import { getModuleDiscountWeeks, getVbotDiscountWeeks, getLastDiscountBeforeDate, formatDiscountDate } from '../../utils/discountHistory.js';
 
-const { gridData, shopCards, catIcons, vbotMetaById = {} } = Astro.props;
+const { gridData, shopCards, catIcons, vbotMetaById = {}, currentWeekSlug } = Astro.props;
 
 const standardRows = gridData?.standardRows || [];
 const titanRows = gridData?.titanRows || [];
@@ -15,6 +16,7 @@ function buildBot(botId, cells) {
   const primaryModule = cells["2"] || cells["3"] || cells["4"] || {};
   
   return {
+    id: botId,
     icon_path: botCell.icon_path,
     name: botCell.name || meta.name,
     rarity: botCell.rarity || primaryModule.rarity,
@@ -25,15 +27,100 @@ function buildBot(botId, cells) {
     chassis: [cells["4"]]
   };
 }
+
+// Helper function to get last discount date for a module
+function getLastDiscountForModule(module) {
+  if (!module || !module.id) return null;
+  const discountWeeks = getModuleDiscountWeeks(module.id);
+  const lastDiscountDate = getLastDiscountBeforeDate(discountWeeks, currentWeekSlug);
+  return lastDiscountDate ? formatDiscountDate(lastDiscountDate) : null;
+}
+
+// Helper function to get last discount date for a vbot
+function getLastDiscountForVbot(vbotId) {
+  if (!vbotId) return null;
+  const discountWeeks = getVbotDiscountWeeks(vbotId);
+  const lastDiscountDate = getLastDiscountBeforeDate(discountWeeks, currentWeekSlug);
+  return lastDiscountDate ? formatDiscountDate(lastDiscountDate) : null;
+}
+
+// Process rows to add last discount dates and categories
+function processRow(row) {
+  const processed = { ...row };
+  
+  // Add last discount dates and categories for each cell
+  if (row.cells) {
+    processed.cells = { ...row.cells };
+    
+    // Process each cell
+    for (const [key, cell] of Object.entries(row.cells)) {
+      if (cell && cell.id) {
+        const isVbot = cell.ref?.startsWith('OBJID_VirtualBot');
+        const lastDiscountDate = isVbot 
+          ? getLastDiscountForVbot(cell.id)
+          : getLastDiscountForModule(cell);
+        
+        // Determine category based on column
+        let category = null;
+        if (isVbot) {
+          // Vbots will be handled separately
+          category = null;
+        } else if (key === "2") {
+          // Column 2 is torso - link to mechs
+          category = 'mechs';
+        } else if (key === "3") {
+          // Column 3 is shoulder - link to mechs
+          category = 'mechs';
+        } else if (key === "4") {
+          // Column 4 is chassis - link to mechs
+          category = 'mechs';
+        } else if (key === "5") {
+          // Column 5 is light weapon for standard, titan weapon for titan
+          category = row.variant === 'titan' ? 'titan-weapon' : 'light-weapon';
+        } else if (key === "6") {
+          // Column 6 is heavy weapon for standard, titan weapon for titan
+          category = row.variant === 'titan' ? 'titan-weapon' : 'heavy-weapon';
+        } else if (key === "7") {
+          // Column 7 is supply gear
+          category = 'supply-gear';
+        } else if (key === "8") {
+          // Column 8 is cycle gear
+          category = 'cycle-gear';
+        }
+        
+        processed.cells[key] = {
+          ...cell,
+          lastDiscountDate,
+          category
+        };
+      }
+    }
+  }
+  
+  // Add last discount date and category for the bot itself
+  if (row.botId) {
+    const botMeta = vbotMetaById[row.botId] || {};
+    const botType = botMeta.character_type === 'Titan' ? 'titans' : 'mechs';
+    processed.botLastDiscount = getLastDiscountForVbot(row.botId);
+    processed.botCategory = botType;
+  }
+  
+  return processed;
+}
+
+const processedStandardRows = standardRows.map(row => processRow({ ...row, variant: 'standard' }));
+const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 'titan' }));
 ---
 
 <div class="grid-scale-host">
 <div class="grid-container" id="discount-grid">
   <GridHeader catIcons={catIcons} />
 
-  {standardRows.map((row, i) => (
+  {processedStandardRows.map((row, i) => (
     <DiscountGridRow
       bot={buildBot(row.botId, row.cells)}
+      botLastDiscount={row.botLastDiscount}
+      botCategory={row.botCategory}
       lightWep={row.cells["5"]}
       heavyWep={row.cells["6"]}
       supply={row.cells["7"]}
@@ -46,9 +133,11 @@ function buildBot(botId, cells) {
 
   {titanRows.length > 0 ? (
     <>
-      {titanRows.map((row, i) => (
+      {processedTitanRows.map((row, i) => (
         <DiscountGridRow
           bot={buildBot(row.botId, row.cells)}
+          botLastDiscount={row.botLastDiscount}
+          botCategory={row.botCategory}
           titanWeapon={row.cells["5"]}
           titanWeapon2={row.cells["6"]}
           shopCards={shopCards}
@@ -65,9 +154,8 @@ function buildBot(botId, cells) {
 <style>
   /* Intrinsic width at scale 1: columns + gaps + horizontal padding */
   .grid-scale-host {
-    --grid-intrinsic-width: 938px;
-    /* 8 module cols @ 100px each (scale 1 reference width) */
-    --grid-module-cols-width: 800px;
+    --grid-intrinsic-width-num: 938;
+    --grid-module-cols-width-num: 800;
     container-type: inline-size;
     container-name: discount-grid;
     width: 100%;
@@ -76,31 +164,31 @@ function buildBot(botId, cells) {
   }
 
   .grid-container {
-    --grid-scale: min(1, calc((100cqi - 0.5rem) / var(--grid-intrinsic-width)));
-    --module-col: calc(100px * var(--grid-scale));
-    --grid-sidebar-col: calc(34px * var(--grid-scale));
-    --grid-divider-col: calc(13px * var(--grid-scale));
-    --grid-col-gap: calc(7px * var(--grid-scale));
-    --grid-row-gap: calc(13px * var(--grid-scale));
-    --grid-padding: calc(14px * var(--grid-scale));
-    --module-icon-max-height: calc(80px * var(--grid-scale));
-    --module-name-strip: calc(29px * var(--grid-scale));
-    --module-card-padding: calc(5px * var(--grid-scale));
-    --module-card-padding-x: calc(7px * var(--grid-scale));
-    --module-card-radius: calc(8px * var(--grid-scale));
-    --module-name-font: calc(13.6px * var(--grid-scale));
-    --footer-icon-size: calc(11px * var(--grid-scale));
-    --grid-header-height: calc(60px * var(--grid-scale));
-    --grid-header-font: calc(13.6px * var(--grid-scale));
-    --grid-header-icon: calc(30px * var(--grid-scale));
-    --sidebar-label-letter-spacing: calc(0.02em * var(--grid-scale));
+    --grid-scale-unit: min(1px, calc((100cqi - 0.5rem) / var(--grid-intrinsic-width-num)));
+    --module-col: calc(100 * var(--grid-scale-unit));
+    --grid-sidebar-col: calc(34 * var(--grid-scale-unit));
+    --grid-divider-col: calc(13 * var(--grid-scale-unit));
+    --grid-col-gap: calc(7 * var(--grid-scale-unit));
+    --grid-row-gap: calc(13 * var(--grid-scale-unit));
+    --grid-padding: calc(14 * var(--grid-scale-unit));
+    --module-icon-max-height: calc(80 * var(--grid-scale-unit));
+    --module-name-strip: calc(29 * var(--grid-scale-unit));
+    --module-card-padding: calc(5 * var(--grid-scale-unit));
+    --module-card-padding-x: calc(7 * var(--grid-scale-unit));
+    --module-card-radius: calc(8 * var(--grid-scale-unit));
+    --module-name-font: calc(13.6 * var(--grid-scale-unit));
+    --footer-icon-size: calc(11 * var(--grid-scale-unit));
+    --grid-header-height: calc(60 * var(--grid-scale-unit));
+    --grid-header-font: calc(13.6 * var(--grid-scale-unit));
+    --grid-header-icon: calc(30 * var(--grid-scale-unit));
+    --sidebar-label-letter-spacing: 0.02em;
     /* Upright stack: ~6 letters tall + narrow column */
     --sidebar-label-font-size: min(
       calc(var(--module-cell-height) / 10),
       calc(var(--grid-sidebar-col) * 0.68)
     );
     --module-card-height: calc(
-      var(--module-icon-max-height) + 2 * var(--module-card-padding) + var(--module-name-strip) + calc(6px * var(--grid-scale))
+      var(--module-icon-max-height) + 2 * var(--module-card-padding) + var(--module-name-strip) + calc(6 * var(--grid-scale-unit))
     );
     --module-cell-height: var(--module-card-height);
     display: grid;
@@ -115,7 +203,7 @@ function buildBot(botId, cells) {
     row-gap: var(--grid-row-gap);
     background: #15181e;
     padding: var(--grid-padding);
-    border-radius: calc(12px * var(--grid-scale));
+    border-radius: calc(12 * var(--grid-scale-unit));
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     width: fit-content;
     max-width: 100%;
@@ -125,20 +213,20 @@ function buildBot(botId, cells) {
 
   @supports not (container-type: inline-size) {
     .grid-container {
-      --grid-scale: min(1, calc((100vw - 3.5rem) / var(--grid-intrinsic-width)));
+      --grid-scale-unit: min(1px, calc((100vw - 3.5rem) / var(--grid-intrinsic-width-num)));
     }
 
     @media (max-width: 640px) {
       .grid-container {
-        --grid-sidebar-base: 18px;
-        --grid-divider-base: 9px;
+        --grid-sidebar-base: 18;
+        --grid-divider-base: 9;
         --grid-static-overhead: 2.25rem;
-        --grid-scale: min(
-          1,
-          calc((100vw - 3.5rem - var(--grid-static-overhead)) / var(--grid-module-cols-width))
+        --grid-scale-unit: min(
+          1px,
+          calc((100vw - 3.5rem - var(--grid-static-overhead)) / var(--grid-module-cols-width-num))
         );
-        --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale));
-        --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale));
+        --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale-unit));
+        --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale-unit));
         width: 100%;
         grid-template-columns:
           var(--grid-sidebar-col)
@@ -152,15 +240,15 @@ function buildBot(botId, cells) {
   /* Thin viewports: fill width, shrink label gutter, scale from module column budget */
   @container discount-grid (max-width: 640px) {
     .grid-container {
-      --grid-sidebar-base: 18px;
-      --grid-divider-base: 9px;
+      --grid-sidebar-base: 18;
+      --grid-divider-base: 9;
       --grid-static-overhead: 2.25rem;
-      --grid-scale: min(
-        1,
-        calc((100cqi - var(--grid-static-overhead)) / var(--grid-module-cols-width))
+      --grid-scale-unit: min(
+        1px,
+        calc((100cqi - var(--grid-static-overhead)) / var(--grid-module-cols-width-num))
       );
-      --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale));
-      --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale));
+      --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale-unit));
+      --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale-unit));
       width: 100%;
       grid-template-columns:
         var(--grid-sidebar-col)

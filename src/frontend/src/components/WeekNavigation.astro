@@ -51,10 +51,12 @@ const { prevWeekHref, nextWeekHref } = Astro.props;
     color: var(--accent-color, #3a86ff);
     border-radius: 50%;
     transition: background-color 0.2s ease, color 0.2s ease;
+    border-bottom: none;
   }
 
   .nav-arrow:hover {
     background-color: var(--active-bg, rgba(58, 134, 255, 0.1));
     color: var(--accent-hover, #2b65cc);
+    border-bottom: none;
   }
 </style>

@@ -1,0 +1,200 @@
+---
+import { getTexturePath } from '../utils/textures.js';
+import { getModuleDiscountWeeks, getVbotDiscountWeeks, getLastDiscountBeforeDate, formatDiscountDate, calculateWeeksAgo } from '../utils/discountHistory.js';
+
+const { items, currentWeekSlug, baseUrl } = Astro.props;
+
+// Process items to get their last discount date
+const itemsWithLastDiscount = items.map(item => {
+	let discountWeeks = [];
+	
+	if (item.itemType === 'vbot') {
+		discountWeeks = getVbotDiscountWeeks(item.id);
+	} else {
+		discountWeeks = getModuleDiscountWeeks(item.id);
+	}
+	
+	const lastDiscountDate = getLastDiscountBeforeDate(discountWeeks, currentWeekSlug);
+	
+	let formattedDate = 'Never';
+	let weeksAgo = null;
+	let dateUrl = null;
+	
+	if (lastDiscountDate) {
+		formattedDate = formatDiscountDate(lastDiscountDate);
+		weeksAgo = calculateWeeksAgo(lastDiscountDate, currentWeekSlug);
+		dateUrl = `${baseUrl}week/${lastDiscountDate}`;
+	}
+	
+	return {
+		...item,
+		lastDiscountDate: formattedDate,
+		weeksAgo: weeksAgo,
+		dateUrl: dateUrl
+	};
+});
+
+// Sort by category, then by name
+const sortedItems = itemsWithLastDiscount.sort((a, b) => {
+	if (a.category !== b.category) {
+		return a.category.localeCompare(b.category);
+	}
+	return a.name.localeCompare(b.name);
+});
+---
+
+<section class="last-discount-section">
+	<h2>Last Discount History</h2>
+	<table class="last-discount-table">
+		<thead>
+			<tr>
+				<th>Category</th>
+				<th>Item</th>
+				<th>Last Discounted On</th>
+			</tr>
+		</thead>
+		<tbody>
+			{sortedItems.map(item => (
+				<tr>
+					<td class="category-cell">{item.category}</td>
+					<td class="item-cell">
+						<span class="name-with-icon">
+							{item.iconPath && (
+								<img
+									src={getTexturePath(item.iconPath, baseUrl)}
+									alt={item.name}
+									class="item-icon"
+								/>
+							)}
+							<a href={`${baseUrl}items?group=${item.category}`} class="item-name-link">{item.name}</a>
+						</span>
+					</td>
+					<td class="date-cell">
+						{item.dateUrl ? (
+							<>
+								<a href={item.dateUrl} class="date-link">{item.lastDiscountDate}</a>
+								{item.weeksAgo !== null && (
+									<span class="weeks-ago"> ({item.weeksAgo} week{item.weeksAgo !== 1 ? 's' : ''} ago)</span>
+								)}
+							</>
+						) : (
+							item.lastDiscountDate
+						)}
+					</td>
+				</tr>
+			))}
+		</tbody>
+	</table>
+</section>
+
+<style>
+	.last-discount-section {
+		margin-top: 2rem;
+		padding: 1.5rem;
+		background-color: var(--sidebar-bg, #161920);
+		border: 1px solid var(--sidebar-border, #232733);
+		border-radius: 0.5rem;
+	}
+
+	.last-discount-section h2 {
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+		color: var(--text-color, #e0e0e0);
+	}
+
+	.last-discount-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.last-discount-table th,
+	.last-discount-table td {
+		padding: 0.75rem;
+		text-align: left;
+		border-bottom: 1px solid var(--sidebar-border, #232733);
+		color: var(--text-color, #e0e0e0);
+	}
+
+	.last-discount-table th {
+		background-color: rgba(58, 134, 255, 0.1);
+		font-weight: 600;
+		color: var(--accent-color, #3a86ff);
+	}
+
+	.last-discount-table tr:hover {
+		background-color: rgba(58, 134, 255, 0.05);
+	}
+
+	.category-cell {
+		width: 15%;
+		font-weight: 500;
+	}
+
+	.item-cell {
+		width: 60%;
+	}
+
+	.date-cell {
+		width: 25%;
+		text-align: right;
+	}
+
+	.date-link {
+		color: var(--text-color, #e0e0e0);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		transition: border-color 0.2s, color 0.2s;
+	}
+
+	.date-link:hover {
+		border-bottom-color: var(--accent-color, #3a86ff);
+		color: var(--accent-color, #3a86ff);
+	}
+
+	.weeks-ago {
+		color: var(--text-muted, #8b92a5);
+		font-size: 0.875em;
+	}
+
+	.name-with-icon {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.item-icon {
+		width: 48px;
+		height: 48px;
+		object-fit: contain;
+		flex-shrink: 0;
+	}
+
+	.item-name-link {
+		color: var(--text-color, #e0e0e0);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		transition: border-color 0.2s, color 0.2s;
+	}
+
+	.item-name-link:hover {
+		border-bottom-color: var(--accent-color, #3a86ff);
+		color: var(--accent-color, #3a86ff);
+	}
+
+	@media (max-width: 768px) {
+		.last-discount-section {
+			padding: 1rem;
+		}
+
+		.last-discount-table th,
+		.last-discount-table td {
+			padding: 0.5rem;
+			font-size: 0.875rem;
+		}
+
+		.item-icon {
+			width: 36px;
+			height: 36px;
+		}
+	}
+</style>
