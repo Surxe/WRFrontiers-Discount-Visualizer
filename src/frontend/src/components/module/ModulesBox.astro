@@ -19,7 +19,13 @@ const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '
 <div class="modules-box" style={bgStyle || undefined}>
   {modules.map((module) => (
     module ? (
-      <ObjectBox module={module} shopCards={shopCards} showName={false} disableBackground={true} />
+      <ObjectBox 
+        module={module} 
+        shopCards={shopCards} 
+        showName={false} 
+        disableBackground={true} 
+        lastDiscountDate={module.lastDiscountDate} 
+      />
     ) : (
       <div class="object-box empty-slot" style="flex: 1;"></div>
     )

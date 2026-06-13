@@ -1,8 +1,9 @@
 ---
 import GridHeader from './GridHeader.astro';
 import DiscountGridRow from './DiscountGridRow.astro';
+import { getModuleDiscountWeeks, getVbotDiscountWeeks, getLastDiscountBeforeDate, formatDiscountDate } from '../../utils/discountHistory.js';
 
-const { gridData, shopCards, catIcons, vbotMetaById = {} } = Astro.props;
+const { gridData, shopCards, catIcons, vbotMetaById = {}, currentWeekSlug } = Astro.props;
 
 const standardRows = gridData?.standardRows || [];
 const titanRows = gridData?.titanRows || [];
@@ -15,6 +16,7 @@ function buildBot(botId, cells) {
   const primaryModule = cells["2"] || cells["3"] || cells["4"] || {};
   
   return {
+    id: botId,
     icon_path: botCell.icon_path,
     name: botCell.name || meta.name,
     rarity: botCell.rarity || primaryModule.rarity,
@@ -25,15 +27,65 @@ function buildBot(botId, cells) {
     chassis: [cells["4"]]
   };
 }
+
+// Helper function to get last discount date for a module
+function getLastDiscountForModule(module) {
+  if (!module || !module.id) return null;
+  const discountWeeks = getModuleDiscountWeeks(module.id);
+  const lastDiscountDate = getLastDiscountBeforeDate(discountWeeks, currentWeekSlug);
+  return lastDiscountDate ? formatDiscountDate(lastDiscountDate) : null;
+}
+
+// Helper function to get last discount date for a vbot
+function getLastDiscountForVbot(vbotId) {
+  if (!vbotId) return null;
+  const discountWeeks = getVbotDiscountWeeks(vbotId);
+  const lastDiscountDate = getLastDiscountBeforeDate(discountWeeks, currentWeekSlug);
+  return lastDiscountDate ? formatDiscountDate(lastDiscountDate) : null;
+}
+
+// Process rows to add last discount dates
+function processRow(row) {
+  const processed = { ...row };
+  
+  // Add last discount dates for each cell
+  if (row.cells) {
+    processed.cells = { ...row.cells };
+    
+    // Process each cell
+    for (const [key, cell] of Object.entries(row.cells)) {
+      if (cell && cell.id) {
+        const isVbot = cell.ref?.startsWith('OBJID_VirtualBot');
+        processed.cells[key] = {
+          ...cell,
+          lastDiscountDate: isVbot 
+            ? getLastDiscountForVbot(cell.id)
+            : getLastDiscountForModule(cell)
+        };
+      }
+    }
+  }
+  
+  // Add last discount date for the bot itself
+  if (row.botId) {
+    processed.botLastDiscount = getLastDiscountForVbot(row.botId);
+  }
+  
+  return processed;
+}
+
+const processedStandardRows = standardRows.map(processRow);
+const processedTitanRows = titanRows.map(processRow);
 ---
 
 <div class="grid-scale-host">
 <div class="grid-container" id="discount-grid">
   <GridHeader catIcons={catIcons} />
 
-  {standardRows.map((row, i) => (
+  {processedStandardRows.map((row, i) => (
     <DiscountGridRow
       bot={buildBot(row.botId, row.cells)}
+      botLastDiscount={row.botLastDiscount}
       lightWep={row.cells["5"]}
       heavyWep={row.cells["6"]}
       supply={row.cells["7"]}
@@ -46,9 +98,10 @@ function buildBot(botId, cells) {
 
   {titanRows.length > 0 ? (
     <>
-      {titanRows.map((row, i) => (
+      {processedTitanRows.map((row, i) => (
         <DiscountGridRow
           bot={buildBot(row.botId, row.cells)}
+          botLastDiscount={row.botLastDiscount}
           titanWeapon={row.cells["5"]}
           titanWeapon2={row.cells["6"]}
           shopCards={shopCards}

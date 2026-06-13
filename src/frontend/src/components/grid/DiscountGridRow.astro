@@ -5,6 +5,7 @@ import EmptyCell from './EmptyCell.astro';
 
 const {
   bot,
+  botLastDiscount,
   lightWep,
   heavyWep,
   supply,
@@ -39,8 +40,12 @@ const {
             shopCards={shopCards}
             showName={true}
             showBadges={true}
+            lastDiscountDate={botLastDiscount}
           />
-          <ModulesBox modules={[bot.torso[0], bot.shoulder[0], bot.chassis[0]]} shopCards={shopCards} />
+          <ModulesBox 
+            modules={bot.torso} 
+            shopCards={shopCards} 
+          />
         </>
       ) : (
         <>
@@ -52,22 +57,22 @@ const {
       <div class="grid-spacer"></div>
 
       {lightWep ? (
-        <ObjectBox module={lightWep} shopCards={shopCards} />
+        <ObjectBox module={lightWep} shopCards={shopCards} lastDiscountDate={lightWep?.lastDiscountDate} />
       ) : (
         <EmptyCell />
       )}
       {heavyWep ? (
-        <ObjectBox module={heavyWep} shopCards={shopCards} />
+        <ObjectBox module={heavyWep} shopCards={shopCards} lastDiscountDate={heavyWep?.lastDiscountDate} />
       ) : (
         <EmptyCell />
       )}
       {supply ? (
-        <ObjectBox module={supply} shopCards={shopCards} />
+        <ObjectBox module={supply} shopCards={shopCards} lastDiscountDate={supply?.lastDiscountDate} />
       ) : (
         <EmptyCell />
       )}
       {cycle ? (
-        <ObjectBox module={cycle} shopCards={shopCards} />
+        <ObjectBox module={cycle} shopCards={shopCards} lastDiscountDate={cycle?.lastDiscountDate} />
       ) : (
         <EmptyCell />
       )}
@@ -94,8 +99,12 @@ const {
             shopCards={shopCards}
             showName={true}
             showBadges={true}
+            lastDiscountDate={botLastDiscount}
           />
-          <ModulesBox modules={[bot.torso[0], bot.shoulder[0], bot.chassis[0]]} shopCards={shopCards} />
+          <ModulesBox 
+            modules={bot.torso} 
+            shopCards={shopCards} 
+          />
         </>
       ) : (
         <>
@@ -110,6 +119,7 @@ const {
         <ObjectBox
           module={titanWeapon}
           shopCards={shopCards}
+          lastDiscountDate={titanWeapon?.lastDiscountDate}
         />
       ) : (
         <EmptyCell />
@@ -119,6 +129,7 @@ const {
         <ObjectBox
           module={titanWeapon2}
           shopCards={shopCards}
+          lastDiscountDate={titanWeapon2?.lastDiscountDate}
         />
       ) : (
         <EmptyCell />

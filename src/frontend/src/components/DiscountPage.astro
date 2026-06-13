@@ -124,7 +124,7 @@ const discountedItems = extractDiscountedItemsFromGrid(gridData, currentSlug);
 					)}
 				</header>
 
-				<DiscountGrid gridData={gridData} shopCards={shopCards} catIcons={catIcons} vbotMetaById={vbotMetaById} />
+				<DiscountGrid gridData={gridData} shopCards={shopCards} catIcons={catIcons} vbotMetaById={vbotMetaById} currentWeekSlug={currentSlug} />
 
 				<LastDiscountTable items={discountedItems} currentWeekSlug={currentSlug} baseUrl={baseUrl} />
 

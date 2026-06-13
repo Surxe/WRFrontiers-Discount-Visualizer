@@ -3,7 +3,7 @@ import '../../styles/module-icon.css';
 import '../../styles/module-card.css';
 import { getTexturePath, getRarityBackgroundUrl } from '../../utils/textures.js';
 
-const { module, shopCards, showName = true, showBadges = false, style: inlineStyle, disableBackground = false } = Astro.props;
+const { module, shopCards, showName = true, showBadges = false, style: inlineStyle, disableBackground = false, lastDiscountDate = null } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 
 const iconSrc = getTexturePath(module.icon_path, baseUrl);
@@ -54,7 +54,16 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
       </div>
     )}
   </div>
-  <div class="object-box__tooltip">{module.name}</div>
+  <div class="object-box__tooltip">
+    {lastDiscountDate ? (
+      <>
+        {module.name}<br />
+        <span class="tooltip-date">{lastDiscountDate}</span>
+      </>
+    ) : (
+      module.name
+    )}
+  </div>
 </div>
 
 <style>
@@ -156,5 +165,11 @@ const hasFooterIcons = showBadges && (factionIconSrc || classIconSrc);
     height: var(--footer-icon-size, 11px);
     object-fit: contain;
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+  }
+
+  .tooltip-date {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+    margin-top: 2px;
   }
 </style>

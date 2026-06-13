@@ -88,8 +88,56 @@ const mechList = Object.entries(vbots)
 	})
 	.sort((a, b) => a.name.localeCompare(b.name));
 
+// Helper function to group dates by year and format them
+const formatDiscountWeeks = (weeks: string[]) => {
+	if (!weeks || weeks.length === 0) return [];
+
+	// Group by year
+	const yearGroups: Record<string, string[]> = {};
+	weeks.forEach(week => {
+		const year = week.substring(0, 4);
+		if (!yearGroups[year]) {
+			yearGroups[year] = [];
+		}
+		yearGroups[year].push(week);
+	});
+
+	// Format each group
+	const formattedGroups = Object.entries(yearGroups)
+		.sort(([a], [b]) => parseInt(b) - parseInt(a)) // Sort years descending
+		.map(([year, dates]) => {
+			const formattedDates = dates
+				.sort((a, b) => new Date(b).getTime() - new Date(a).getTime()) // Sort dates descending
+				.map(date => {
+					const [_, month, day] = date.split('-');
+					const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+					const monthIndex = parseInt(month) - 1;
+					return `${monthNames[monthIndex]} ${day}`;
+				})
+				.join(', ');
+			return { year, dates: formattedDates };
+		});
+
+	return formattedGroups;
+};
+
 // Transform mech data to week-centric format for timeline
 const mechTimelineData = transformToWeekCentric(mechList);
+
+// Add formatted week groups to modules
+const filteredGroupsWithFormattedWeeks = filteredGroups.map(group => ({
+	...group,
+	modules: group.modules.map(module => ({
+		...module,
+		formattedWeeks: formatDiscountWeeks(module.discountWeeks),
+	}))
+}));
+
+// Add formatted week groups to mechs
+const mechListWithFormattedWeeks = mechList.map(mech => ({
+	...mech,
+	formattedWeeks: formatDiscountWeeks(mech.discountWeeks),
+}));
 
 // Filter to only titans
 const titanList = Object.entries(vbots)
@@ -107,6 +155,12 @@ const titanList = Object.entries(vbots)
 	})
 	.sort((a, b) => a.name.localeCompare(b.name));
 
+// Add formatted week groups to titans
+const titanListWithFormattedWeeks = titanList.map(titan => ({
+	...titan,
+	formattedWeeks: formatDiscountWeeks(titan.discountWeeks),
+}));
+
 // Transform titan data to week-centric format for timeline
 const titanTimelineData = transformToWeekCentric(titanList);
 ---
@@ -120,7 +174,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	<h1>Items</h1>
 
 	<!-- Module Groups -->
-	{filteredGroups.map(group => (
+	{filteredGroupsWithFormattedWeeks.map(group => (
 		<div class="category" data-category={group.id}>
 			<button class="category-header" aria-expanded={expandedCategory === group.id}>
 				<span class="category-title">
@@ -175,14 +229,14 @@ const titanTimelineData = transformToWeekCentric(titanList);
 										</div>
 									</td>
 									<td>
-										{module.discountWeeks.length > 0 ? (
-											module.discountWeeks.map((week, i) => (
-												<>
-													{i > 0 && ', '}
-													<a href={`${baseUrl}week/${week}`} class="week-link">{week}</a>
-												</>
+										{module.formattedWeeks.length > 0 ? (
+											module.formattedWeeks.map((group, i) => (
+												<span class="year-group" key={group.year}>
+													<span class="year-label">{group.year}:</span>
+													<span class="year-dates">{group.dates}</span>
+												</span>
 											))
-										) : 'Never'}
+										) : <span class="never-discounted">Never</span>}
 									</td>
 									<td class="percentage-cell">{module.discountPercentage}%</td>
 									{group.showVirtualBots && (
@@ -223,7 +277,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 					</tr>
 				</thead>
 				<tbody>
-					{mechList.map(vbot => (
+					{mechListWithFormattedWeeks.map(vbot => (
 						<tr>
 							<td>
 								<span class="name-with-icon">
@@ -238,14 +292,14 @@ const titanTimelineData = transformToWeekCentric(titanList);
 								</span>
 							</td>
 							<td>
-								{vbot.discountWeeks.length > 0 ? (
-									vbot.discountWeeks.map((week, i) => (
-										<>
-											{i > 0 && ', '}
-											<a href={`${baseUrl}week/${week}`} class="week-link">{week}</a>
-										</>
+								{vbot.formattedWeeks.length > 0 ? (
+									vbot.formattedWeeks.map((group, i) => (
+										<span class="year-group" key={group.year}>
+											<span class="year-label">{group.year}:</span>
+											<span class="year-dates">{group.dates}</span>
+										</span>
 									))
-								) : 'Never'}
+								) : <span class="never-discounted">Never</span>}
 							</td>
 							<td class="percentage-cell">{vbot.discountPercentage}%</td>
 						</tr>
@@ -325,7 +379,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 					</tr>
 				</thead>
 				<tbody>
-					{titanList.map(vbot => (
+					{titanListWithFormattedWeeks.map(vbot => (
 						<tr>
 							<td>
 								<span class="name-with-icon">
@@ -340,14 +394,14 @@ const titanTimelineData = transformToWeekCentric(titanList);
 								</span>
 							</td>
 							<td>
-								{vbot.discountWeeks.length > 0 ? (
-									vbot.discountWeeks.map((week, i) => (
-										<>
-											{i > 0 && ', '}
-											<a href={`${baseUrl}week/${week}`} class="week-link">{week}</a>
-										</>
+								{vbot.formattedWeeks.length > 0 ? (
+									vbot.formattedWeeks.map((group, i) => (
+										<span class="year-group" key={group.year}>
+											<span class="year-label">{group.year}:</span>
+											<span class="year-dates">{group.dates}</span>
+										</span>
 									))
-								) : 'Never'}
+								) : <span class="never-discounted">Never</span>}
 							</td>
 							<td class="percentage-cell">{vbot.discountPercentage}%</td>
 						</tr>
@@ -405,7 +459,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	</div>
 
 	<script>
-		// Handle category toggle
+		// Handle category toggle with proper height animation
 		document.querySelectorAll('.category-header').forEach(button => {
 			button.addEventListener('click', () => {
 				const category = button.parentElement;
@@ -414,6 +468,21 @@ const titanTimelineData = transformToWeekCentric(titanList);
 				if (!content) return;
 				const isExpanded = content.classList.toggle('expanded');
 				button.setAttribute('aria-expanded', isExpanded.toString());
+
+				if (isExpanded) {
+					// Set explicit height for smooth animation
+					content.style.maxHeight = content.scrollHeight + 'px';
+					// After animation completes, set to none to allow for dynamic content changes
+					setTimeout(() => {
+						content.style.maxHeight = 'none';
+					}, 600);
+				} else {
+					// Reset to 0 for collapse animation
+					content.style.maxHeight = content.scrollHeight + 'px';
+					// Force reflow
+					void content.offsetHeight;
+					content.style.maxHeight = '0';
+				}
 
 				// Update URL query param
 				const url = new URL(window.location.href);
@@ -426,6 +495,25 @@ const titanTimelineData = transformToWeekCentric(titanList);
 				window.history.replaceState({}, '', url);
 			});
 		});
+
+		// Handle initial expanded state from URL
+		const urlParams = new URLSearchParams(window.location.search);
+		const initialGroup = urlParams.get('group');
+		if (initialGroup) {
+			const initialCategory = document.querySelector(`[data-category="${initialGroup}"]`);
+			if (initialCategory) {
+				const content = initialCategory.querySelector('.category-content');
+				const button = initialCategory.querySelector('.category-header');
+				if (content && button) {
+					content.classList.add('expanded');
+					button.setAttribute('aria-expanded', 'true');
+					content.style.maxHeight = content.scrollHeight + 'px';
+					setTimeout(() => {
+						content.style.maxHeight = 'none';
+					}, 600);
+				}
+			}
+		}
 	</script>
 </GenericPage>
 
@@ -501,13 +589,11 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	.category-content {
 		max-height: 0;
 		overflow: hidden;
-		transition: max-height 0.3s ease-out;
+		transition: max-height 0.4s ease-out;
 	}
 
 	.category-content.expanded {
-		max-height: 2000px;
 		overflow: visible;
-		transition: max-height 0.5s ease-in;
 	}
 
 	.category-content > * {
@@ -592,15 +678,25 @@ const titanTimelineData = transformToWeekCentric(titanList);
 		transform: translateX(-50%) translateY(0);
 	}
 
-	.week-link {
-		color: var(--accent-color, #3a86ff);
-		text-decoration: none;
-		transition: color 0.2s;
+	.year-group {
+		display: inline-flex;
+		align-items: center;
+		margin-right: 1.5rem;
 	}
 
-	.week-link:hover {
-		color: var(--accent-hover, #2b65cc);
-		text-decoration: underline;
+	.year-label {
+		font-weight: 600;
+		color: var(--accent-color, #3a86ff);
+		margin-right: 0.25rem;
+	}
+
+	.year-dates {
+		color: var(--text-color, #e0e0e0);
+	}
+
+	.never-discounted {
+		color: var(--text-muted, #8b92a5);
+		font-style: italic;
 	}
 
 	.vbot-icon {
