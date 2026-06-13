@@ -191,7 +191,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 				</span>
 				<span class="category-icon">▼</span>
 			</button>
-			<div class="category-content" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === group.id }}>
+			<div class="category-content loading" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === group.id }}>
 				<table class="category-table">
 					<thead>
 						<tr>
@@ -274,7 +274,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 			<span class="category-title">Mechs</span>
 			<span class="category-icon">▼</span>
 		</button>
-		<div class="category-content" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === 'mechs' }}>
+		<div class="category-content loading" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === 'mechs' }}>
 			<table class="category-table">
 				<thead>
 					<tr>
@@ -383,7 +383,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 			<span class="category-title">Titans</span>
 			<span class="category-icon">▼</span>
 		</button>
-		<div class="category-content" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === 'titans' }}>
+		<div class="category-content loading" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === 'titans' }}>
 			<table class="category-table">
 				<thead>
 					<tr>
@@ -486,6 +486,13 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	</div>
 
 	<script>
+		// Remove loading class to enable transitions after initial render
+		setTimeout(() => {
+			document.querySelectorAll('.category-content.loading').forEach(content => {
+				content.classList.remove('loading');
+			});
+		}, 100);
+
 		// Handle category toggle with proper height animation
 		document.querySelectorAll('.category-header').forEach(button => {
 			button.addEventListener('click', () => {
@@ -498,11 +505,12 @@ const titanTimelineData = transformToWeekCentric(titanList);
 
 				if (isExpanded) {
 					// Set explicit height for smooth animation
-					content.style.maxHeight = content.scrollHeight + 'px';
+					const scrollHeight = content.scrollHeight;
+					content.style.maxHeight = scrollHeight + 'px';
 					// After animation completes, set to none to allow for dynamic content changes
 					setTimeout(() => {
 						content.style.maxHeight = 'none';
-					}, 600);
+					}, 400); // Match transition duration
 				} else {
 					// Reset to 0 for collapse animation
 					content.style.maxHeight = content.scrollHeight + 'px';
@@ -523,45 +531,15 @@ const titanTimelineData = transformToWeekCentric(titanList);
 			});
 		});
 
-		// Handle initial expanded state from URL
-		const urlParams = new URLSearchParams(window.location.search);
-		const initialGroup = urlParams.get('group');
-		if (initialGroup === 'all') {
-			// Expand all categories
-			document.querySelectorAll('.category-content').forEach(content => {
-				content.classList.add('expanded');
-				content.style.maxHeight = content.scrollHeight + 'px';
-				setTimeout(() => {
-					content.style.maxHeight = 'none';
-				}, 600);
-			});
-			document.querySelectorAll('.category-header').forEach(button => {
-				button.setAttribute('aria-expanded', 'true');
-			});
-		} else if (initialGroup) {
-			const initialCategory = document.querySelector(`[data-category="${initialGroup}"]`);
-			if (initialCategory) {
-				const content = initialCategory.querySelector('.category-content');
-				const button = initialCategory.querySelector('.category-header');
-				if (content && button) {
-					content.classList.add('expanded');
-					button.setAttribute('aria-expanded', 'true');
-					content.style.maxHeight = content.scrollHeight + 'px';
-					setTimeout(() => {
-						content.style.maxHeight = 'none';
-					}, 600);
-				}
-			}
-		}
-
 		// Handle expand all button
 		document.getElementById('expand-all')?.addEventListener('click', () => {
 			document.querySelectorAll('.category-content').forEach(content => {
 				content.classList.add('expanded');
-				content.style.maxHeight = content.scrollHeight + 'px';
+				const scrollHeight = content.scrollHeight;
+				content.style.maxHeight = scrollHeight + 'px';
 				setTimeout(() => {
 					content.style.maxHeight = 'none';
-				}, 600);
+				}, 400); // Match transition duration
 			});
 			document.querySelectorAll('.category-header').forEach(button => {
 				button.setAttribute('aria-expanded', 'true');
@@ -576,6 +554,10 @@ const titanTimelineData = transformToWeekCentric(titanList);
 		document.getElementById('collapse-all')?.addEventListener('click', () => {
 			document.querySelectorAll('.category-content').forEach(content => {
 				content.classList.remove('expanded');
+				const scrollHeight = content.scrollHeight;
+				content.style.maxHeight = scrollHeight + 'px'; // Set to current height first
+				// Force reflow
+				void content.offsetHeight;
 				content.style.maxHeight = '0';
 			});
 			document.querySelectorAll('.category-header').forEach(button => {
@@ -693,7 +675,13 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	}
 
 	.category-content.expanded {
+		max-height: none;
 		overflow: visible;
+	}
+
+	/* Disable transition during initial page load to prevent conflicts */
+	.category-content.loading {
+		transition: none !important;
 	}
 
 	.category-content > * {
