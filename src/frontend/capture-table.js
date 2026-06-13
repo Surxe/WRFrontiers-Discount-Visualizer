@@ -125,7 +125,8 @@ async function main() {
     await page.waitForSelector(GRID_SELECTOR, { visible: true, timeout: 15_000 });
 
     // Force grid scale to 1 to bypass container query circular dependencies in headless Chrome
-    await page.addStyleTag({ content: `${GRID_SELECTOR} { --grid-scale: 1 !important; }` });
+    // Also hide the Astro dev toolbar if it is injected
+    await page.addStyleTag({ content: `${GRID_SELECTOR} { --grid-scale: 1 !important; } astro-dev-toolbar { display: none !important; }` });
 
     // Extra settle time for icon images, fonts, etc.
     await new Promise((r) => setTimeout(r, 1000));
