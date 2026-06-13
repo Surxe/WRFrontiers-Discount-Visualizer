@@ -149,9 +149,14 @@ const {
     height: 100%;
   }
 
+  .grid-row > * {
+    min-width: 0;
+    min-height: 0;
+  }
+
   .grid-row--section-top {
     border-top: 1px solid rgba(255, 255, 255, 0.14);
-    padding-top: calc(10px * var(--grid-scale, 1));
+    padding-top: calc(10 * var(--grid-scale-unit, 1px));
   }
 
   .sidebar-cell {

@@ -126,6 +126,8 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     text-decoration: none;
     border-bottom: none;
     position: relative;
+    min-width: 0;
+    min-height: 0;
   }
 
   .object-box {
@@ -135,6 +137,8 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     text-align: center;
     overflow: visible;
     position: relative;
+    min-width: 0;
+    min-height: 0;
   }
 
   .object-box__card {
@@ -194,9 +198,9 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: calc(6px * var(--grid-scale, 1));
+    gap: calc(6 * var(--grid-scale-unit, 1px));
     flex-shrink: 0;
-    padding: calc(1px * var(--grid-scale, 1)) calc(8px * var(--grid-scale, 1));
+    padding: calc(1 * var(--grid-scale-unit, 1px)) calc(8 * var(--grid-scale-unit, 1px));
   }
 
   .object-box__card .module-card__name {
@@ -218,7 +222,7 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    gap: calc(1px * var(--grid-scale, 1));
+    gap: calc(1 * var(--grid-scale-unit, 1px));
     flex-shrink: 0;
   }
 

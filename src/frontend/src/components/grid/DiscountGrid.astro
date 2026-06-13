@@ -145,9 +145,8 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
 <style>
   /* Intrinsic width at scale 1: columns + gaps + horizontal padding */
   .grid-scale-host {
-    --grid-intrinsic-width: 938px;
-    /* 8 module cols @ 100px each (scale 1 reference width) */
-    --grid-module-cols-width: 800px;
+    --grid-intrinsic-width-num: 938;
+    --grid-module-cols-width-num: 800;
     container-type: inline-size;
     container-name: discount-grid;
     width: 100%;
@@ -156,31 +155,31 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
   }
 
   .grid-container {
-    --grid-scale: min(1, calc((100cqi - 0.5rem) / var(--grid-intrinsic-width)));
-    --module-col: calc(100px * var(--grid-scale));
-    --grid-sidebar-col: calc(34px * var(--grid-scale));
-    --grid-divider-col: calc(13px * var(--grid-scale));
-    --grid-col-gap: calc(7px * var(--grid-scale));
-    --grid-row-gap: calc(13px * var(--grid-scale));
-    --grid-padding: calc(14px * var(--grid-scale));
-    --module-icon-max-height: calc(80px * var(--grid-scale));
-    --module-name-strip: calc(29px * var(--grid-scale));
-    --module-card-padding: calc(5px * var(--grid-scale));
-    --module-card-padding-x: calc(7px * var(--grid-scale));
-    --module-card-radius: calc(8px * var(--grid-scale));
-    --module-name-font: calc(13.6px * var(--grid-scale));
-    --footer-icon-size: calc(11px * var(--grid-scale));
-    --grid-header-height: calc(60px * var(--grid-scale));
-    --grid-header-font: calc(13.6px * var(--grid-scale));
-    --grid-header-icon: calc(30px * var(--grid-scale));
-    --sidebar-label-letter-spacing: calc(0.02em * var(--grid-scale));
+    --grid-scale-unit: min(1px, calc((100cqi - 0.5rem) / var(--grid-intrinsic-width-num)));
+    --module-col: calc(100 * var(--grid-scale-unit));
+    --grid-sidebar-col: calc(34 * var(--grid-scale-unit));
+    --grid-divider-col: calc(13 * var(--grid-scale-unit));
+    --grid-col-gap: calc(7 * var(--grid-scale-unit));
+    --grid-row-gap: calc(13 * var(--grid-scale-unit));
+    --grid-padding: calc(14 * var(--grid-scale-unit));
+    --module-icon-max-height: calc(80 * var(--grid-scale-unit));
+    --module-name-strip: calc(29 * var(--grid-scale-unit));
+    --module-card-padding: calc(5 * var(--grid-scale-unit));
+    --module-card-padding-x: calc(7 * var(--grid-scale-unit));
+    --module-card-radius: calc(8 * var(--grid-scale-unit));
+    --module-name-font: calc(13.6 * var(--grid-scale-unit));
+    --footer-icon-size: calc(11 * var(--grid-scale-unit));
+    --grid-header-height: calc(60 * var(--grid-scale-unit));
+    --grid-header-font: calc(13.6 * var(--grid-scale-unit));
+    --grid-header-icon: calc(30 * var(--grid-scale-unit));
+    --sidebar-label-letter-spacing: 0.02em;
     /* Upright stack: ~6 letters tall + narrow column */
     --sidebar-label-font-size: min(
       calc(var(--module-cell-height) / 10),
       calc(var(--grid-sidebar-col) * 0.68)
     );
     --module-card-height: calc(
-      var(--module-icon-max-height) + 2 * var(--module-card-padding) + var(--module-name-strip) + calc(6px * var(--grid-scale))
+      var(--module-icon-max-height) + 2 * var(--module-card-padding) + var(--module-name-strip) + calc(6 * var(--grid-scale-unit))
     );
     --module-cell-height: var(--module-card-height);
     display: grid;
@@ -195,7 +194,7 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
     row-gap: var(--grid-row-gap);
     background: #15181e;
     padding: var(--grid-padding);
-    border-radius: calc(12px * var(--grid-scale));
+    border-radius: calc(12 * var(--grid-scale-unit));
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     width: fit-content;
     max-width: 100%;
@@ -205,20 +204,20 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
 
   @supports not (container-type: inline-size) {
     .grid-container {
-      --grid-scale: min(1, calc((100vw - 3.5rem) / var(--grid-intrinsic-width)));
+      --grid-scale-unit: min(1px, calc((100vw - 3.5rem) / var(--grid-intrinsic-width-num)));
     }
 
     @media (max-width: 640px) {
       .grid-container {
-        --grid-sidebar-base: 18px;
-        --grid-divider-base: 9px;
+        --grid-sidebar-base: 18;
+        --grid-divider-base: 9;
         --grid-static-overhead: 2.25rem;
-        --grid-scale: min(
-          1,
-          calc((100vw - 3.5rem - var(--grid-static-overhead)) / var(--grid-module-cols-width))
+        --grid-scale-unit: min(
+          1px,
+          calc((100vw - 3.5rem - var(--grid-static-overhead)) / var(--grid-module-cols-width-num))
         );
-        --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale));
-        --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale));
+        --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale-unit));
+        --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale-unit));
         width: 100%;
         grid-template-columns:
           var(--grid-sidebar-col)
@@ -232,15 +231,15 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
   /* Thin viewports: fill width, shrink label gutter, scale from module column budget */
   @container discount-grid (max-width: 640px) {
     .grid-container {
-      --grid-sidebar-base: 18px;
-      --grid-divider-base: 9px;
+      --grid-sidebar-base: 18;
+      --grid-divider-base: 9;
       --grid-static-overhead: 2.25rem;
-      --grid-scale: min(
-        1,
-        calc((100cqi - var(--grid-static-overhead)) / var(--grid-module-cols-width))
+      --grid-scale-unit: min(
+        1px,
+        calc((100cqi - var(--grid-static-overhead)) / var(--grid-module-cols-width-num))
       );
-      --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale));
-      --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale));
+      --grid-sidebar-col: calc(var(--grid-sidebar-base) * var(--grid-scale-unit));
+      --grid-divider-col: calc(var(--grid-divider-base) * var(--grid-scale-unit));
       width: 100%;
       grid-template-columns:
         var(--grid-sidebar-col)
