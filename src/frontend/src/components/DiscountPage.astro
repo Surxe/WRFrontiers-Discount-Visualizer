@@ -116,15 +116,13 @@ const discountedItems = extractDiscountedItemsFromGrid(gridData, currentSlug);
 				<header>
 					<h1>War Robots Frontiers Upgrade Discounts</h1>
 					{dateRange && (
-						<h3 class="date-header">
-							<WeekNavigation prevWeekHref={prevWeekHref} nextWeekHref={nextWeekHref}>
-								<strong>{dateRange}</strong>
-							</WeekNavigation>
-						</h3>
+						<div class="date-nav-wrapper">
+							<WeekNavigation prevWeekHref={prevWeekHref} nextWeekHref={nextWeekHref} />
+						</div>
 					)}
 				</header>
 
-				<DiscountGrid gridData={gridData} shopCards={shopCards} catIcons={catIcons} vbotMetaById={vbotMetaById} currentWeekSlug={currentSlug} />
+				<DiscountGrid dateRange={dateRange} gridData={gridData} shopCards={shopCards} catIcons={catIcons} vbotMetaById={vbotMetaById} currentWeekSlug={currentSlug} />
 
 				<LastDiscountTable items={discountedItems} currentWeekSlug={currentSlug} baseUrl={baseUrl} />
 
@@ -194,6 +192,12 @@ const discountedItems = extractDiscountedItemsFromGrid(gridData, currentSlug);
 	/* keep the date (inside <strong>) the main text color */
 	header h2 strong {
 		color: var(--text-color);
+	}
+
+	.date-nav-wrapper {
+		display: flex;
+		justify-content: center;
+		margin: 0.5rem 0 1rem;
 	}
 
 
