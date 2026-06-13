@@ -60,20 +60,22 @@ function processRow(row) {
           ? getLastDiscountForVbot(cell.id)
           : getLastDiscountForModule(cell);
         
-        // Determine category based on column
+        // Determine category based on column and row variant
         let category = null;
+        const botCategory = row.variant === 'titan' ? 'titans' : 'mechs';
+
         if (isVbot) {
-          // Vbots will be handled separately
-          category = null;
+          // Column 1 is vbot - link to mechs or titans based on variant
+          category = key === "1" ? botCategory : null;
         } else if (key === "2") {
-          // Column 2 is torso - link to mechs
-          category = 'mechs';
+          // Column 2 is torso - link to mechs or titans based on variant
+          category = botCategory;
         } else if (key === "3") {
-          // Column 3 is shoulder - link to mechs
-          category = 'mechs';
+          // Column 3 is shoulder - link to mechs or titans based on variant
+          category = botCategory;
         } else if (key === "4") {
-          // Column 4 is chassis - link to mechs
-          category = 'mechs';
+          // Column 4 is chassis - link to mechs or titans based on variant
+          category = botCategory;
         } else if (key === "5") {
           // Column 5 is light weapon for standard, titan weapon for titan
           category = row.variant === 'titan' ? 'titan-weapon' : 'light-weapon';
@@ -99,10 +101,9 @@ function processRow(row) {
   
   // Add last discount date and category for the bot itself
   if (row.botId) {
-    const botMeta = vbotMetaById[row.botId] || {};
-    const botType = botMeta.character_type === 'Titan' ? 'titans' : 'mechs';
     processed.botLastDiscount = getLastDiscountForVbot(row.botId);
-    processed.botCategory = botType;
+    // Use row variant to determine category (standard = mechs, titan = titans)
+    processed.botCategory = row.variant === 'titan' ? 'titans' : 'mechs';
   }
   
   return processed;
