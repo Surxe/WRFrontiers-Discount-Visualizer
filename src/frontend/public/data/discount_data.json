@@ -1361,8 +1361,10 @@
         "loki"
       ]
     },
-    "OBJID_Module::DA_Module_Ability_InfiniteAmmo_Tutorial.1": {
+    "OBJID_Module::DA_Module_Ability_InfiniteAmmo.1": {
       "weeks": [
+        "2026-06-02",
+        "2026-03-31",
         "2026-03-03",
         "2026-02-03",
         "2026-01-27",
@@ -1371,7 +1373,10 @@
         "2025-10-14",
         "2025-08-26"
       ],
-      "virtual_bots": []
+      "virtual_bots": [
+        "bulgasari",
+        "raven"
+      ]
     },
     "OBJID_Module::DA_Module_ChassisHarpy.2": {
       "weeks": [
@@ -1775,15 +1780,21 @@
         "bulgasari"
       ]
     },
-    "OBJID_Module::DA_Module_Ability_ArmorShield_Tutorial.1": {
+    "OBJID_Module::DA_Module_Ability_ArmorShield.1": {
       "weeks": [
+        "2026-05-26",
+        "2026-04-07",
         "2026-03-17",
         "2026-03-03",
         "2026-01-27",
         "2026-01-20",
         "2025-10-14"
       ],
-      "virtual_bots": []
+      "virtual_bots": [
+        "bulgasari",
+        "decker",
+        "hitcher"
+      ]
     },
     "OBJID_Module::DA_Module_Weapon_Orkan.0": {
       "weeks": [
@@ -2114,32 +2125,11 @@
       ],
       "virtual_bots": []
     },
-    "OBJID_Module::DA_Module_Ability_InfiniteAmmo.1": {
-      "weeks": [
-        "2026-06-02",
-        "2026-03-31"
-      ],
-      "virtual_bots": [
-        "bulgasari",
-        "raven"
-      ]
-    },
     "OBJID_Module::DA_Module_Weapon_Zenit.0": {
       "weeks": [
         "2026-04-07"
       ],
       "virtual_bots": []
-    },
-    "OBJID_Module::DA_Module_Ability_ArmorShield.1": {
-      "weeks": [
-        "2026-05-26",
-        "2026-04-07"
-      ],
-      "virtual_bots": [
-        "bulgasari",
-        "decker",
-        "hitcher"
-      ]
     },
     "OBJID_Module::DA_Module_Ability_KineticPulse.1": {
       "weeks": [

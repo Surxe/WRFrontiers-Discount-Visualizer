@@ -8,10 +8,6 @@
     "end_day": 2
   },
   "items": [
-    "OBJID_VirtualBot::varangian",
-    "OBJID_VirtualBot::hitcher",
-    "OBJID_VirtualBot::pursuer",
-    "OBJID_VirtualBot::norna",
     "OBJID_Module::DA_Module_Weapon_Scatter.0",
     "OBJID_Module::DA_Module_Weapon_Orkan.0",
     "OBJID_Module::DA_Module_Weapon_Nucleon.0",
