@@ -66,7 +66,7 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 									class="item-icon"
 								/>
 							)}
-							{item.name}
+							<a href={`${baseUrl}items?group=${item.category}`} class="item-name-link">{item.name}</a>
 						</span>
 					</td>
 					<td class="date-cell">
@@ -167,6 +167,18 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 		height: 48px;
 		object-fit: contain;
 		flex-shrink: 0;
+	}
+
+	.item-name-link {
+		color: var(--text-color, #e0e0e0);
+		text-decoration: none;
+		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		transition: border-color 0.2s, color 0.2s;
+	}
+
+	.item-name-link:hover {
+		border-bottom-color: var(--accent-color, #3a86ff);
+		color: var(--accent-color, #3a86ff);
 	}
 
 	@media (max-width: 768px) {

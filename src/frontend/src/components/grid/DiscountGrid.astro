@@ -44,11 +44,11 @@ function getLastDiscountForVbot(vbotId) {
   return lastDiscountDate ? formatDiscountDate(lastDiscountDate) : null;
 }
 
-// Process rows to add last discount dates
+// Process rows to add last discount dates and categories
 function processRow(row) {
   const processed = { ...row };
   
-  // Add last discount dates for each cell
+  // Add last discount dates and categories for each cell
   if (row.cells) {
     processed.cells = { ...row.cells };
     
@@ -56,26 +56,51 @@ function processRow(row) {
     for (const [key, cell] of Object.entries(row.cells)) {
       if (cell && cell.id) {
         const isVbot = cell.ref?.startsWith('OBJID_VirtualBot');
+        const lastDiscountDate = isVbot 
+          ? getLastDiscountForVbot(cell.id)
+          : getLastDiscountForModule(cell);
+        
+        // Determine category based on column
+        let category = null;
+        if (isVbot) {
+          // Vbots will be handled separately
+          category = null;
+        } else if (key === "5") {
+          // Column 5 is light weapon for standard, titan weapon for titan
+          category = row.variant === 'titan' ? 'titan-weapon' : 'light-weapon';
+        } else if (key === "6") {
+          // Column 6 is heavy weapon for standard, titan weapon for titan
+          category = row.variant === 'titan' ? 'titan-weapon' : 'heavy-weapon';
+        } else if (key === "7") {
+          // Column 7 is supply gear
+          category = 'supply-gear';
+        } else if (key === "8") {
+          // Column 8 is cycle gear
+          category = 'cycle-gear';
+        }
+        
         processed.cells[key] = {
           ...cell,
-          lastDiscountDate: isVbot 
-            ? getLastDiscountForVbot(cell.id)
-            : getLastDiscountForModule(cell)
+          lastDiscountDate,
+          category
         };
       }
     }
   }
   
-  // Add last discount date for the bot itself
+  // Add last discount date and category for the bot itself
   if (row.botId) {
+    const botMeta = vbotMetaById[row.botId] || {};
+    const botType = botMeta.character_type === 'Titan' ? 'titans' : 'mechs';
     processed.botLastDiscount = getLastDiscountForVbot(row.botId);
+    processed.botCategory = botType;
   }
   
   return processed;
 }
 
-const processedStandardRows = standardRows.map(processRow);
-const processedTitanRows = titanRows.map(processRow);
+const processedStandardRows = standardRows.map(row => processRow({ ...row, variant: 'standard' }));
+const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 'titan' }));
 ---
 
 <div class="grid-scale-host">
@@ -86,6 +111,7 @@ const processedTitanRows = titanRows.map(processRow);
     <DiscountGridRow
       bot={buildBot(row.botId, row.cells)}
       botLastDiscount={row.botLastDiscount}
+      botCategory={row.botCategory}
       lightWep={row.cells["5"]}
       heavyWep={row.cells["6"]}
       supply={row.cells["7"]}
@@ -102,6 +128,7 @@ const processedTitanRows = titanRows.map(processRow);
         <DiscountGridRow
           bot={buildBot(row.botId, row.cells)}
           botLastDiscount={row.botLastDiscount}
+          botCategory={row.botCategory}
           titanWeapon={row.cells["5"]}
           titanWeapon2={row.cells["6"]}
           shopCards={shopCards}
