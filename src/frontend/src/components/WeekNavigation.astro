@@ -48,11 +48,12 @@ const { prevWeekHref, nextWeekHref } = Astro.props;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: auto;
     min-width: 44px;
     height: 44px;
     padding: 0 16px;
     gap: 8px;
-    color: var(--accent-color, #3a86ff);
+    color: var(--text-color, #ffffff);
     border-radius: 22px;
     transition: background-color 0.2s ease, color 0.2s ease;
     border-bottom: none;
@@ -60,6 +61,11 @@ const { prevWeekHref, nextWeekHref } = Astro.props;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    text-decoration: none;
+  }
+
+  .nav-arrow svg {
+    flex-shrink: 0;
   }
 
   .nav-arrow:hover {
