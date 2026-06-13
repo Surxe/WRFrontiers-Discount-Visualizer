@@ -529,6 +529,20 @@ const titanTimelineData = transformToWeekCentric(titanList);
 					content.style.maxHeight = 'none';
 				}, 400);
 			});
+
+			// Auto-scroll to the expanded category or categories section
+			if (groupParam) {
+				const targetCategory = document.querySelector(`[data-category="${groupParam}"]`);
+				if (targetCategory) {
+					targetCategory.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				}
+			} else {
+				// Scroll to the first category (module groups section)
+				const firstCategory = document.querySelector('.category');
+				if (firstCategory) {
+					firstCategory.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				}
+			}
 		}, 150);
 
 		// Handle category toggle with proper height animation
