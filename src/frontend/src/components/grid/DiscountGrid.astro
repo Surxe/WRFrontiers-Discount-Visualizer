@@ -3,7 +3,7 @@ import GridHeader from './GridHeader.astro';
 import DiscountGridRow from './DiscountGridRow.astro';
 import { getModuleDiscountWeeks, getVbotDiscountWeeks, getLastDiscountBeforeDate, formatDiscountDate } from '../../utils/discountHistory.js';
 
-const { gridData, shopCards, catIcons, vbotMetaById = {}, currentWeekSlug } = Astro.props;
+const { dateRange, gridData, shopCards, catIcons, vbotMetaById = {}, currentWeekSlug } = Astro.props;
 
 const standardRows = gridData?.standardRows || [];
 const titanRows = gridData?.titanRows || [];
@@ -114,7 +114,12 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
 ---
 
 <div class="grid-scale-host">
-<div class="grid-container" id="discount-grid">
+<div class:list={['grid-container', { 'has-date-header': !!dateRange }]} id="discount-grid">
+  {dateRange && (
+    <div class="grid-date-header">
+      <h2><strong>{dateRange}</strong></h2>
+    </div>
+  )}
   <GridHeader catIcons={catIcons} />
 
   {processedStandardRows.map((row, i) => (
@@ -210,6 +215,23 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
     max-width: 100%;
     margin-inline: auto;
     box-sizing: border-box;
+  }
+
+  .grid-container.has-date-header {
+    grid-template-rows: auto auto !important;
+  }
+
+  .grid-date-header {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding-top: calc(8 * var(--grid-scale-unit, 1px)) !important;
+    padding-bottom: 0px !important;
+  }
+
+  .grid-date-header h2 {
+    margin: 0;
+    font-size: calc(24 * var(--grid-scale-unit, 1px));
+    color: var(--text-color, #e0e0e0);
   }
 
   @supports not (container-type: inline-size) {
