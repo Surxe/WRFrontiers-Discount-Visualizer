@@ -28,9 +28,8 @@ Object.values(discountHistory.virtualBots).forEach((v: any) => {
 const totalWeeks = allWeeks.size;
 const totalVbots = Object.keys(vbots).length;
 
-// Get expanded category from query param (default to null for expanded all)
-const url = new URL(Astro.request.url);
-const expandedCategory = url.searchParams.get('group') || 'all';
+// Default to empty string (expand all) - will be overridden by client-side logic
+const expandedCategory = '';
 
 // Icon mapping based on GridHeader indices
 // 1: Torso, 2: Shoulder, 3: Chassis, 4: Light Wep, 5: Heavy Wep, 6: Supply Gear, 7: Cycle Gear
@@ -182,7 +181,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	<!-- Module Groups -->
 	{filteredGroupsWithFormattedWeeks.map(group => (
 		<div class="category" data-category={group.id}>
-			<button class="category-header" aria-expanded={expandedCategory === 'all' || expandedCategory === group.id}>
+			<button class="category-header" aria-expanded={expandedCategory === '' || expandedCategory === group.id}>
 				<span class="category-title">
 					{group.iconPath && (
 						<img src={getTexturePath(group.iconPath, baseUrl)} alt="" class="category-icon-img" />
@@ -191,7 +190,7 @@ const titanTimelineData = transformToWeekCentric(titanList);
 				</span>
 				<span class="category-icon">▼</span>
 			</button>
-			<div class="category-content loading" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === group.id }}>
+			<div class="category-content loading" class:list={{ expanded: expandedCategory === '' || expandedCategory === group.id }}>
 				<table class="category-table">
 					<thead>
 						<tr>
@@ -270,11 +269,11 @@ const titanTimelineData = transformToWeekCentric(titanList);
 
 	<!-- Mechs Category -->
 	<div class="category" data-category="mechs">
-		<button class="category-header" aria-expanded={expandedCategory === 'all' || expandedCategory === 'mechs'}>
+		<button class="category-header" aria-expanded={expandedCategory === '' || expandedCategory === 'mechs'}>
 			<span class="category-title">Mechs</span>
 			<span class="category-icon">▼</span>
 		</button>
-		<div class="category-content loading" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === 'mechs' }}>
+		<div class="category-content loading" class:list={{ expanded: expandedCategory === '' || expandedCategory === 'mechs' }}>
 			<table class="category-table">
 				<thead>
 					<tr>
@@ -379,11 +378,11 @@ const titanTimelineData = transformToWeekCentric(titanList);
 
 	<!-- Titans Category -->
 	<div class="category" data-category="titans">
-		<button class="category-header" aria-expanded={expandedCategory === 'all' || expandedCategory === 'titans'}>
+		<button class="category-header" aria-expanded={expandedCategory === '' || expandedCategory === 'titans'}>
 			<span class="category-title">Titans</span>
 			<span class="category-icon">▼</span>
 		</button>
-		<div class="category-content loading" class:list={{ expanded: expandedCategory === 'all' || expandedCategory === 'titans' }}>
+		<div class="category-content loading" class:list={{ expanded: expandedCategory === '' || expandedCategory === 'titans' }}>
 			<table class="category-table">
 				<thead>
 					<tr>
@@ -486,12 +485,51 @@ const titanTimelineData = transformToWeekCentric(titanList);
 	</div>
 
 	<script>
+		// Handle query param for initial expansion state
+		const urlParams = new URLSearchParams(window.location.search);
+		const groupParam = urlParams.get('group');
+
+		// Collapse all categories first
+		document.querySelectorAll('.category-content').forEach(content => {
+			content.classList.remove('expanded');
+			content.parentElement.querySelector('.category-header').setAttribute('aria-expanded', 'false');
+		});
+
+		// If a specific group is specified, expand only that one
+		if (groupParam) {
+			const targetCategory = document.querySelector(`[data-category="${groupParam}"]`);
+			if (targetCategory) {
+				const content = targetCategory.querySelector('.category-content');
+				const header = targetCategory.querySelector('.category-header');
+				if (content && header) {
+					content.classList.add('expanded');
+					header.setAttribute('aria-expanded', 'true');
+				}
+			}
+		} else {
+			// No group param, expand all
+			document.querySelectorAll('.category-content').forEach(content => {
+				content.classList.add('expanded');
+				content.parentElement.querySelector('.category-header').setAttribute('aria-expanded', 'true');
+			});
+		}
+
 		// Remove loading class to enable transitions after initial render
 		setTimeout(() => {
 			document.querySelectorAll('.category-content.loading').forEach(content => {
 				content.classList.remove('loading');
 			});
 		}, 100);
+
+		// Apply initial height animation to already expanded categories
+		setTimeout(() => {
+			document.querySelectorAll('.category-content.expanded').forEach(content => {
+				content.style.maxHeight = content.scrollHeight + 'px';
+				setTimeout(() => {
+					content.style.maxHeight = 'none';
+				}, 400);
+			});
+		}, 150);
 
 		// Handle category toggle with proper height animation
 		document.querySelectorAll('.category-header').forEach(button => {
@@ -544,9 +582,9 @@ const titanTimelineData = transformToWeekCentric(titanList);
 			document.querySelectorAll('.category-header').forEach(button => {
 				button.setAttribute('aria-expanded', 'true');
 			});
-			// Update URL to show all expanded
+			// Update URL to remove group param (showing all expanded)
 			const url = new URL(window.location.href);
-			url.searchParams.set('group', 'all');
+			url.searchParams.delete('group');
 			window.history.replaceState({}, '', url);
 		});
 
