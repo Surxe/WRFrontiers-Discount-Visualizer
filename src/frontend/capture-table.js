@@ -1,10 +1,10 @@
 /**
  * capture-table.js
  *
- * Boots a local HTTP server serving the already-built dist/, waits for the
- * discount grid to render, then screenshots it padded to a 1.91:1 (OG standard)
- * aspect ratio and writes the PNG to public/discount-table.png so the next
- * `astro build` will deploy it as a static asset.
+ * Boots `astro preview` (serving the already-built dist/), waits for the
+ * discount grid to render, screenshots just that element, and writes the PNG
+ * to public/discount-table.png so the next `astro build` will deploy it as
+ * a static asset.
  *
  * Prerequisites:
  *   1. Run `npm run build` first.
@@ -46,7 +46,7 @@ function startPreviewServer(distDir) {
     }
 
     // Resolve file path in dist/
-    const safePath = path.normalize(relativePath).replace(/^(\.\.[\\/])+/, '');
+    const safePath = path.normalize(relativePath).replace(/^(\.\.[\/\\])+/, '');
     let filePath = path.join(distDir, safePath);
 
     // If filePath is a directory, look for index.html
@@ -115,12 +115,8 @@ async function main() {
 
     const page = await browser.newPage();
 
-    // Use a large CSS viewport at deviceScaleFactor:1.
-    // This means the PNG file dimensions will exactly equal the CSS pixel dimensions —
-    // no DPR mismatch — so Discord mobile's lightbox displays the image at the correct scale.
-    // We compensate for the lower DPR by rendering the grid at 2× its normal CSS size
-    // (by overriding --grid-scale-unit to 2px below), giving a high-res output.
-    await page.setViewport({ width: 2800, height: 1800, deviceScaleFactor: 1 });
+    // Wide viewport so the grid renders at full 1× scale (intrinsic width ~938px)
+    await page.setViewport({ width: 1400, height: 900, deviceScaleFactor: 2 });
 
     console.log('Navigating to page...');
     await page.goto(PREVIEW_URL, { waitUntil: 'networkidle0', timeout: 30_000 });
@@ -128,15 +124,9 @@ async function main() {
     console.log(`Waiting for ${GRID_SELECTOR}...`);
     await page.waitForSelector(GRID_SELECTOR, { visible: true, timeout: 15_000 });
 
-    // Force grid scale to 1 to bypass container query circular dependencies in headless Chrome.
-    // Also hide the Astro dev toolbar, sidebar, and navbar — they must not appear in the OG image.
-    await page.addStyleTag({
-      content: `
-        ${GRID_SELECTOR} { --grid-scale-unit: 1.2px !important; }
-        astro-dev-toolbar { display: none !important; }
-        #sidebar, .sidebar-toggle, nav, .navbar { display: none !important; }
-      `,
-    });
+    // Force grid scale to 1 to bypass container query circular dependencies in headless Chrome
+    // Also hide the Astro dev toolbar if it is injected
+    await page.addStyleTag({ content: `${GRID_SELECTOR} { --grid-scale: 1 !important; } astro-dev-toolbar { display: none !important; }` });
 
     // Extra settle time for icon images, fonts, etc.
     await new Promise((r) => setTimeout(r, 1000));
@@ -144,52 +134,10 @@ async function main() {
     const element = await page.$(GRID_SELECTOR);
     if (!element) throw new Error(`Element "${GRID_SELECTOR}" not found after waiting`);
 
-    // -------------------------------------------------------------------------
-    // Option 1: Letterbox to 1.91:1 (standard OG / Discord-mobile-safe ratio)
-    // -------------------------------------------------------------------------
-    // Strategy: leave the grid exactly where it is in the DOM. Just expand the
-    // screenshot clip rect outward from the grid's natural bounding box until
-    // the result satisfies the 1.91:1 ratio. The page background fills the bars.
-
-    const gridBox = await element.boundingBox();
-    if (!gridBox) throw new Error('Could not get bounding box for grid element');
-
-    const TARGET_RATIO = 1200 / 630; // ≈ 1.905 — the OG standard
-    const gridW = Math.ceil(gridBox.width);
-    const gridH = Math.ceil(gridBox.height);
-
-    // Compute a canvas that contains the grid and matches TARGET_RATIO.
-    let canvasW, canvasH;
-    if (gridW / gridH >= TARGET_RATIO) {
-      canvasW = gridW;
-      canvasH = Math.ceil(gridW / TARGET_RATIO);
-    } else {
-      canvasH = gridH;
-      canvasW = Math.ceil(gridH * TARGET_RATIO);
-    }
-
-    // Centre the clip rect symmetrically around the grid.
-    // The sidebar is hidden above, so the dark background fills the left bar cleanly.
-    const padX = Math.floor((canvasW - gridW) / 2);
-    const padY = Math.floor((canvasH - gridH) / 2);
-    const clipX = Math.max(0, Math.floor(gridBox.x) - padX);
-    const clipY = Math.max(0, Math.floor(gridBox.y) - padY);
-
-    console.log(`Grid: ${gridW}×${gridH} at (${Math.floor(gridBox.x)}, ${Math.floor(gridBox.y)})  →  Canvas: ${canvasW}×${canvasH}  clip: (${clipX}, ${clipY})`);
-
-    // The initial 2800×1800 viewport is already large enough for any clip region.
-    // Just allow a brief settle after style injection.
-    await new Promise((r) => setTimeout(r, 200));
-
     console.log('Taking screenshot...');
-    await page.screenshot({
-      path: OUT_PATH,
-      clip: { x: clipX, y: clipY, width: canvasW, height: canvasH },
-    });
+    await element.screenshot({ path: OUT_PATH });
 
-    console.log(
-      `Screenshot saved -> ${OUT_PATH}  (${canvasW}×${canvasH}, ratio ${(canvasW / canvasH).toFixed(3)})`
-    );
+    console.log(`Screenshot saved -> ${OUT_PATH}`);
   } finally {
     if (browser) await browser.close();
     server.close();
