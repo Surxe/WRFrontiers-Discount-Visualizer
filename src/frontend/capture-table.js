@@ -115,8 +115,12 @@ async function main() {
 
     const page = await browser.newPage();
 
-    // Wide viewport so the grid renders at full 1× scale (intrinsic width ~938px)
-    await page.setViewport({ width: 1400, height: 900, deviceScaleFactor: 2 });
+    // Use a large CSS viewport at deviceScaleFactor:1.
+    // This means the PNG file dimensions will exactly equal the CSS pixel dimensions —
+    // no DPR mismatch — so Discord mobile's lightbox displays the image at the correct scale.
+    // We compensate for the lower DPR by rendering the grid at 2× its normal CSS size
+    // (by overriding --grid-scale-unit to 2px below), giving a high-res output.
+    await page.setViewport({ width: 2800, height: 1800, deviceScaleFactor: 1 });
 
     console.log('Navigating to page...');
     await page.goto(PREVIEW_URL, { waitUntil: 'networkidle0', timeout: 30_000 });
@@ -128,7 +132,7 @@ async function main() {
     // Also hide the Astro dev toolbar, sidebar, and navbar — they must not appear in the OG image.
     await page.addStyleTag({
       content: `
-        ${GRID_SELECTOR} { --grid-scale: 1 !important; }
+        ${GRID_SELECTOR} { --grid-scale-unit: 1.2px !important; }
         astro-dev-toolbar { display: none !important; }
         #sidebar, .sidebar-toggle, nav, .navbar { display: none !important; }
       `,
@@ -173,10 +177,8 @@ async function main() {
 
     console.log(`Grid: ${gridW}×${gridH} at (${Math.floor(gridBox.x)}, ${Math.floor(gridBox.y)})  →  Canvas: ${canvasW}×${canvasH}  clip: (${clipX}, ${clipY})`);
 
-    // Ensure the viewport is wide/tall enough to contain the full clip region.
-    const vpW = Math.max(1400, clipX + canvasW);
-    const vpH = Math.max(900, clipY + canvasH);
-    await page.setViewport({ width: vpW, height: vpH, deviceScaleFactor: 2 });
+    // The initial 2800×1800 viewport is already large enough for any clip region.
+    // Just allow a brief settle after style injection.
     await new Promise((r) => setTimeout(r, 200));
 
     console.log('Taking screenshot...');
