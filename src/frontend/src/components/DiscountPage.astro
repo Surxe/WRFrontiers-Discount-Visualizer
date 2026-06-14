@@ -74,8 +74,6 @@ if (weekEntries.length > 1) {
 const metaDescription = `${dateRange || 'Latest Discounts'}\nBots: ${currentSummary.bots}\nWeapons: ${currentSummary.weapons}\nGear: ${currentSummary.gear}` +
   (secondWeekSummary.dateRange ? `\n\n${secondWeekSummary.dateRange}\nBots: ${secondWeekSummary.bots}\nWeapons: ${secondWeekSummary.weapons}\nGear: ${secondWeekSummary.gear}` : '');
 
-const ogDescription = `${dateRange || 'Current Discounts'} - Bots: ${currentSummary.bots || 'None'} | Weapons: ${currentSummary.weapons || 'None'} | Gear: ${currentSummary.gear || 'None'}`;
-
 // Extract items from grid data for last discount table
 const discountedItems = extractDiscountedItemsFromGrid(gridData, currentSlug);
 ---
