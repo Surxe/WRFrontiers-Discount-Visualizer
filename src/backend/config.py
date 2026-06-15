@@ -33,12 +33,11 @@ MODULE_TYPE_JSON = DATA_REPO / "current" / "Objects" / "ModuleType.json"
 CHARACTER_PRESET_JSON = DATA_REPO / "current" / "Objects" / "CharacterPreset.json"
 
 
-PROMPT_DIR = SCRIPT_DIR / "prompt"
-OUTPUT_DIR = PROMPT_DIR / "output"
+TEMP_DIR = SCRIPT_DIR / "temp"
+OUTPUT_DIR = TEMP_DIR / "output"
 
-SCRAPED_PAGE = PROMPT_DIR / "scraped_news_page.txt"
-GAME_DATA_JSON = PROMPT_DIR / "game_data.json"
-ITEM_NAMES_INPUT = PROMPT_DIR / "item_names.txt"
+GAME_DATA_JSON = SCRIPT_DIR / "game_data" / "game_data.json"
+MANUAL_MAPPING_JSON = SCRIPT_DIR / "manual_mapping.json"
 DISCOUNTS_OUTPUT = OUTPUT_DIR / "discounts.json"
 
 FRONTEND_DATA_DIR = REPO_ROOT / "src" / "frontend" / "public" / "data"
@@ -51,8 +50,8 @@ def date_range_to_slug(date_range: str) -> str:
     return week_slug(normalize_week(date_range))
 
 # Module groups that appear as standalone discountable items (weapons / gear).
-# step2 INCLUDES only these groups when building game_data for the LLM.
-# step4 EXCLUDES these groups when expanding a VirtualBot's core_module_refs,
+# step1 INCLUDES only these groups when building game_data.
+# step2 EXCLUDES titan-weapon when expanding a VirtualBot's core_module_refs,
 # so titan-specific weapons don't bleed into robot frame listings.
 STANDALONE_MODULE_GROUPS = [
     "supply-gear",

@@ -193,7 +193,8 @@ src/frontend/.astro/
 WRFrontiersDB-Data/
 src/frontend/public/WRFrontiersDB-Data/
 src/frontend/public/WRFrontiersDB-Data
+src/backend/temp/
 
 # Allow checking in GitHub Actions build action even though other 'build/' dirs are ignored
 !.github/actions/build/
-!.github/actions/build/**
+!.github/actions/build/**s

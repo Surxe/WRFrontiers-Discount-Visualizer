@@ -1,12 +1,12 @@
 """
-step2_build_game_data.py
+step1_build_game_data.py
 
-Step 2: Load WRFrontiersDB-Data/current/Objects/Module.json and build game_data.json.
+Step 1: Load WRFrontiersDB-Data/current/Objects/Module.json and build game_data.json.
 """
 
 import sys
 import json
-from config import MODULE_JSON, VIRTUAL_BOT_JSON, PROMPT_DIR, GAME_DATA_JSON, REPO_ROOT, STANDALONE_MODULE_GROUPS
+from config import MODULE_JSON, VIRTUAL_BOT_JSON, TEMP_DIR, GAME_DATA_JSON, REPO_ROOT, STANDALONE_MODULE_GROUPS
 
 def build_game_data() -> list[dict]:
     """
@@ -15,7 +15,7 @@ def build_game_data() -> list[dict]:
     VirtualBots are prefixed with OBJID_VirtualBot::
     Modules are prefixed with OBJID_Module::
     """
-    print(f"[2/4] Building game_data.json...")
+    print(f"[1/3] Building game_data.json...")
 
     if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists():
         print(f"  [ERROR] Data files not found.")
@@ -79,7 +79,7 @@ def build_game_data() -> list[dict]:
 
 
 def save_game_data(game_data: list[dict]):
-    PROMPT_DIR.mkdir(parents=True, exist_ok=True)
+    GAME_DATA_JSON.parent.mkdir(parents=True, exist_ok=True)
     with open(GAME_DATA_JSON, "w", encoding="utf-8") as f:
         json.dump(game_data, f, indent=2, ensure_ascii=False)
     print(f"  -> Saved to {GAME_DATA_JSON.relative_to(REPO_ROOT)}")

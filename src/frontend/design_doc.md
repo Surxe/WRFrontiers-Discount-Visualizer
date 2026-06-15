@@ -10,7 +10,7 @@ The frontend is responsible for visualizing the discounted items based on the da
     - `components/`: Contains UI components and the `DiscountGrid` layout.
     - `utils/`: Contains data fetchers and date validation logic.
   - `public/`
-    - `data/`: Contains the generated JSON from the backend (e.g., `discounts_may-26-june-2.json` and `weeks.json`). 
+    - `data/`: Contains the generated JSON from the backend (e.g., `weeks.json`, `discount_data.json`, and `week_grids/grid_<slug>.json`). 
     - `discount-table.png`: The captured screenshot of the grid (generated dynamically).
     - `WRFrontiersDB-Data/`: A checked-out or symlinked copy of the game data repository for accessing textures and schemas.
   - `package.json`: Contains Astro and related dependencies, including Puppeteer for screenshots.

@@ -1,23 +1,21 @@
 # WRFrontiers Discount Visualizer - Design Overview
 
 ## Overview
-The WRFrontiers Discount Visualizer is a project designed to parse news articles from the War Robots Frontiers website regarding discount events and display them in a visually appealing, static web page. It is composed of a Python-based backend processor and an Astro-based static frontend.
+The WRFrontiers Discount Visualizer is a project designed to parse item lists for discount events and display them in a visually appealing, static web page. It is composed of a Python-based backend processor and an Astro-based static frontend.
 
 ## Components
 
 The project is split into two distinct components:
 
-1. **[Backend Documentation](./backend/design_doc.md)**: Details the Python and npm-based pipeline for scraping news articles, setting up prompt files, calling the Gemini CLI to perform mapping, and outputting the structured data.
+1. **[Backend Documentation](./backend/design_doc.md)**: Details the Python pipeline for compiling game data, mapping items using local fuzzy matching, storing mappings in a persistent manual override file, and generating visual grid outputs.
 2. **[Frontend Documentation](./frontend/design_doc.md)**: Details the Astro-based static site generator that consumes the processed backend data and renders the final visual presentation of the discounted items.
 
 ## End-to-End Workflow
 
-1. A news URL and optional target date range are provided to the backend tool.
-2. The backend scrapes the URL and saves the body text into `src/backend/prompt/scraped_news_page.txt`.
-3. The backend extracts production-ready English module names, IDs, and image paths from `WRFrontiersDB-Data` and writes them into `src/backend/prompt/game_data.json`.
-4. The prompt instructions are stored in `src/backend/prompt/prompt.md`.
-5. The backend calls the Gemini CLI, giving it access only to the files in `src/backend/prompt/`. It is tasked with reading the inputs and writing the mapped output to `src/backend/prompt/output/discounts.json`.
-6. The backend script resolves IDs to build a date-keyed data file `src/frontend/public/data/discounts_<slug>.json` and registers it in `src/frontend/public/data/weeks.json`.
-7. The backend script copies the mapped image files from `WRFrontiersDB-Data/` to the frontend's `public/assets/` directory while keeping their original folder structure.
-8. The static Astro site uses the mapped output to build a static page showing the images sequentially.
+1. A list of items (comma-separated string) and a date range are provided to the backend orchestrator `run.py`.
+2. **Step 1**: The backend extracts production-ready English module names and Virtual Bot names from raw data in `WRFrontiersDB-Data` and writes them into `src/backend/game_data/game_data.json`.
+3. **Step 2**: The backend maps the input item names against `game_data.json` and a persistent `manual_mapping.json` using Python's `difflib` fuzzy matching. Non-1:1 fuzzy matches are saved to `manual_mapping.json` to respect future overrides. Virtual Bots are expanded to their core modules, filtering out titan weapons. Mapped IDs are output to `temp/output/discounts.json`.
+4. **Step 3**: The backend reads `temp/output/discounts.json`, writes a date-keyed item list to `archive/discounts/discounts_<slug>.json`, generates a layout grid file in `src/frontend/public/data/week_grids/grid_<slug>.json`, updates the reverse lookup index `discount_data.json`, and registers the week in `src/frontend/public/data/weeks.json`.
+5. The static Astro site uses the grid layout output to build a static page showing the images sequentially.
+
 

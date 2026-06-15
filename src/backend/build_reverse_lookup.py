@@ -38,7 +38,7 @@ def is_body_part_module(module_id: str) -> bool:
 
 def build_reverse_lookup(archive_output_dir: Path):
     """Build reverse lookup data for virtual bots and allowed standalone modules."""
-    print("[4/4] Building reverse lookup data from archive...")
+    print("  -> Building reverse lookup data from archive...")
 
     vbot_history = {}
     module_history = {}
