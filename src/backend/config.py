@@ -36,7 +36,7 @@ CHARACTER_PRESET_JSON = DATA_REPO / "current" / "Objects" / "CharacterPreset.jso
 TEMP_DIR = SCRIPT_DIR / "temp"
 OUTPUT_DIR = TEMP_DIR / "output"
 
-GAME_DATA_JSON = TEMP_DIR / "game_data.json"
+GAME_DATA_JSON = SCRIPT_DIR / "game_data.json"
 MANUAL_MAPPING_JSON = SCRIPT_DIR / "manual_mapping.json"
 DISCOUNTS_OUTPUT = OUTPUT_DIR / "discounts.json"
 

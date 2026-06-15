@@ -10,7 +10,7 @@ import sys
 import json
 import difflib
 from datetime import datetime
-from config import TEMP_DIR, MANUAL_MAPPING_JSON, GAME_DATA_JSON, DISCOUNTS_OUTPUT, VIRTUAL_BOT_JSON
+from config import TEMP_DIR, MANUAL_MAPPING_JSON, GAME_DATA_JSON, DISCOUNTS_OUTPUT, VIRTUAL_BOT_JSON, MODULE_JSON
 
 def parse_date_range(date_str: str) -> dict:
     parts = date_str.split(" ")
@@ -37,9 +37,24 @@ def map_items(items_str: str, date_range_str: str):
     week_data = parse_date_range(date_range_str)
 
     # 2. Parse items
-    items = [i.strip() for i in items_str.split(",") if i.strip()]
-    if not items:
+    raw_items = [i.strip() for i in items_str.split(",") if i.strip()]
+    if not raw_items:
         print("  [ERROR] Item list is empty.")
+        sys.exit(1)
+
+    items = []
+    seen = set()
+    duplicates = set()
+    for item in raw_items:
+        lower_item = item.lower()
+        if lower_item in seen:
+            duplicates.add(item)
+        else:
+            seen.add(lower_item)
+            items.append(item)
+            
+    if duplicates:
+        print(f"  [ERROR] Duplicate items found: {', '.join(duplicates)}")
         sys.exit(1)
 
     # 3. Load data
@@ -112,13 +127,22 @@ def map_items(items_str: str, date_range_str: str):
     with open(VIRTUAL_BOT_JSON, "r", encoding="utf-8") as f:
         virtual_bots = json.load(f)
         
+    with open(MODULE_JSON, "r", encoding="utf-8") as f:
+        modules = json.load(f)
+        
     for ref in mapped_refs:
         if ref.startswith("OBJID_VirtualBot::"):
             bot_id = ref.split("::", 1)[1]
             if bot_id in virtual_bots:
                 core_refs = virtual_bots[bot_id].get("core_module_refs", [])
-                # The core refs are already formatted as OBJID_Module::... in the VirtualBot.json
-                final_refs.extend(core_refs)
+                # Filter out titan weapons
+                for core_ref in core_refs:
+                    if core_ref.startswith("OBJID_Module::"):
+                        mod_id = core_ref.split("::", 1)[1]
+                        mod_data = modules.get(mod_id, {})
+                        if mod_data.get("module_group_ref") == "OBJID_ModuleGroup::titan-weapon":
+                            continue
+                    final_refs.append(core_ref)
             else:
                 print(f"  [WARNING] VirtualBot {bot_id} not found in VirtualBot.json")
                 final_refs.append(ref)
