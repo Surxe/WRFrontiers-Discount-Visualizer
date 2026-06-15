@@ -15,13 +15,22 @@ from config import TEMP_DIR, MANUAL_MAPPING_JSON, GAME_DATA_JSON, DISCOUNTS_OUTP
 def parse_date_range(date_str: str) -> dict:
     parts = date_str.split(" ")
     if len(parts) != 2:
-        raise ValueError(f"Date range must be in format 'yyyy-mm-dd yyyy-mm-dd', got '{date_str}'")
+        raise ValueError(f"Date range must be in format 'mm-dd mm-dd', got '{date_str}'")
+    
+    current_year = datetime.now().year
     
     try:
-        start_date = datetime.strptime(parts[0], "%Y-%m-%d")
-        end_date = datetime.strptime(parts[1], "%Y-%m-%d")
+        start_date = datetime.strptime(f"{current_year}-{parts[0]}", "%Y-%m-%d")
+        
+        end_month_str, end_day_str = parts[1].split("-")
+        end_month = int(end_month_str)
+        end_year = current_year
+        if end_month < start_date.month:
+            end_year += 1
+            
+        end_date = datetime.strptime(f"{end_year}-{parts[1]}", "%Y-%m-%d")
     except ValueError as e:
-        raise ValueError(f"Invalid date format. Expected 'yyyy-mm-dd yyyy-mm-dd': {e}")
+        raise ValueError(f"Invalid date format. Expected 'mm-dd mm-dd': {e}")
     
     return {
         "start_month": start_date.strftime("%B"),

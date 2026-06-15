@@ -2,13 +2,12 @@
 run.py
 
 Main orchestrator script for the backend of WRFrontiers Discount Visualizer.
-Runs step 1 through 4.
 
 Usage:
-    python src/backend/run.py --items "Item1, Item2" --date-range "yyyy-mm-dd yyyy-mm-dd"
+    python src/backend/run.py --items "Item1, Item2" --date-range "mm-dd mm-dd"
 
 Example:
-    python src/backend/run.py --items "Phantom, Lighter, Blink" --date-range "2026-06-16 2026-06-23"
+    python src/backend/run.py --items "Phantom, Lighter, Blink" --date-range "06-16 06-23"
 """
 
 import argparse
@@ -31,7 +30,7 @@ def parse_args():
         "--date-range",
         dest="target_date_range",
         required=True,
-        help="Target date range for the discount week, e.g. \"2026-06-16 2026-06-23\".",
+        help="Target date range for the discount week, e.g. \"06-16 06-23\".",
     )
     return parser.parse_args()
 
