@@ -39,8 +39,59 @@ def parse_date_range(date_str: str) -> dict:
         "end_day": end_date.day
     }
 
+def perform_mapping(items: list[str], game_data: list[dict], manual_mapping: dict) -> tuple[list[str], dict, bool]:
+    """
+    Fuzzy maps a list of items against game_data and manual_mapping.
+    Returns:
+        (mapped_refs, updated_manual_mapping, new_mappings_found)
+    Raises:
+        ValueError: If any items cannot be mapped.
+    """
+    name_to_ref = {entry["name"].lower(): entry["ref"] for entry in game_data}
+    game_names_lower = list(name_to_ref.keys())
+    
+    mapped_refs = []
+    unmapped_items = []
+    updated_manual_mapping = dict(manual_mapping)
+    new_mappings_found = False
+    
+    for item in items:
+        item_lower = item.lower()
+
+        # Check manual mapping first
+        if item in updated_manual_mapping:
+            mapped_refs.append(updated_manual_mapping[item])
+            continue
+        if item_lower in updated_manual_mapping:
+            mapped_refs.append(updated_manual_mapping[item_lower])
+            continue
+
+        # Check exact match
+        if item_lower in name_to_ref:
+            mapped_refs.append(name_to_ref[item_lower])
+            continue
+
+        # Fuzzy matching
+        matches = difflib.get_close_matches(item_lower, game_names_lower, n=1, cutoff=0.5)
+        if matches:
+            best_match_lower = matches[0]
+            best_ref = name_to_ref[best_match_lower]
+            mapped_refs.append(best_ref)
+            
+            # Record non-1:1 match
+            updated_manual_mapping[item] = best_ref
+            new_mappings_found = True
+        else:
+            unmapped_items.append(item)
+
+    if unmapped_items:
+        raise ValueError(f"Unable to map the following items: {unmapped_items}")
+
+    return mapped_refs, updated_manual_mapping, new_mappings_found
+
+
 def map_items(items_str: str, date_range_str: str):
-    print("[2/4] Mapping items using local fuzzy match...")
+    print("[2/3] Mapping items using local fuzzy match...")
 
     # 1. Parse dates
     week_data = parse_date_range(date_range_str)
@@ -82,47 +133,11 @@ def map_items(items_str: str, date_range_str: str):
         except json.JSONDecodeError:
             print("  [WARNING] Could not decode manual_mapping.json. Starting fresh.")
 
-    # Create lookups for game data
-    name_to_ref = {entry["name"].lower(): entry["ref"] for entry in game_data}
-    game_names_lower = list(name_to_ref.keys())
-    game_name_lookup = {entry["name"].lower(): entry["name"] for entry in game_data}
-
-    mapped_refs = []
-    unmapped_items = []
-    new_mappings_found = False
-
-    # 4. Map each item
-    for item in items:
-        item_lower = item.lower()
-
-        # Check manual mapping first
-        if item in manual_mapping:
-            mapped_refs.append(manual_mapping[item])
-            continue
-        if item_lower in manual_mapping:
-            mapped_refs.append(manual_mapping[item_lower])
-            continue
-
-        # Check exact match
-        if item_lower in name_to_ref:
-            mapped_refs.append(name_to_ref[item_lower])
-            continue
-
-        # Fuzzy matching
-        matches = difflib.get_close_matches(item_lower, game_names_lower, n=1, cutoff=0.5)
-        if matches:
-            best_match_lower = matches[0]
-            best_ref = name_to_ref[best_match_lower]
-            mapped_refs.append(best_ref)
-            
-            # Record non-1:1 match
-            manual_mapping[item] = best_ref
-            new_mappings_found = True
-        else:
-            unmapped_items.append(item)
-
-    if unmapped_items:
-        print(f"  [ERROR] Unable to map the following items: {unmapped_items}")
+    # 4. Map each item using perform_mapping
+    try:
+        mapped_refs, manual_mapping, new_mappings_found = perform_mapping(items, game_data, manual_mapping)
+    except ValueError as e:
+        print(f"  [ERROR] {e}")
         sys.exit(1)
 
     if new_mappings_found:

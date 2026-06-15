@@ -50,8 +50,8 @@ def date_range_to_slug(date_range: str) -> str:
     return week_slug(normalize_week(date_range))
 
 # Module groups that appear as standalone discountable items (weapons / gear).
-# step2 INCLUDES only these groups when building game_data for the LLM.
-# step4 EXCLUDES these groups when expanding a VirtualBot's core_module_refs,
+# step1 INCLUDES only these groups when building game_data.
+# step2 EXCLUDES titan-weapon when expanding a VirtualBot's core_module_refs,
 # so titan-specific weapons don't bleed into robot frame listings.
 STANDALONE_MODULE_GROUPS = [
     "supply-gear",

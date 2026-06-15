@@ -1,14 +1,14 @@
-name: Gemini mapping
-description: Map discounts with Gemini and write frontend JSON (steps 3–4)
+name: Local mapping
+description: Map discounts with fuzzy matching and write frontend JSON (steps 1–3)
 
 inputs:
   target_date_range:
-    description: Target date range (e.g. "May 26 - June 2"). Leave empty for latest week.
-    required: false
+    description: Target date range (e.g. "06-16 06-23").
+    required: true
     default: ''
   items:
-    description: Plain list of item names to map instead of using scraped article text.
-    required: false
+    description: Plain list of item names to map.
+    required: true
     default: ''
   commit:
     description: Commit and push mapped discount JSON
@@ -35,30 +35,13 @@ runs:
       shell: bash
       run: pip install -r src/backend/requirements.txt
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
-
-    - name: Install Gemini CLI
+    - name: Run Orchestrator Pipeline
       shell: bash
-      run: npm install -g @google/gemini-cli
-
-    - name: Run Step 3 (Call Gemini)
-      shell: bash
-      env:
-        GEMINI_API_KEY: ${{ env.GEMINI_API_KEY }}
-        INPUT_ITEMS: ${{ inputs.items }}
-        INPUT_DATE_RANGE: ${{ inputs.target_date_range }}
-      run: python -c "import os, sys; sys.path.append('src/backend'); from step3_call_gemini import run_step; run_step(os.getenv('INPUT_DATE_RANGE'), item_names=os.getenv('INPUT_ITEMS'))"
-
-    - name: Run Step 4 (Archive and Generate Grid)
-      shell: bash
-      run: python -c "import sys; sys.path.append('src/backend'); from step4_archive_gen_grid import run_step; run_step()"
+      run: python src/backend/run.py --items "${{ inputs.items }}" --date-range "${{ inputs.target_date_range }}"
 
     - name: Commit and push changes
       if: inputs.commit == 'true'
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: 'chore(data): update mapped discounts [skip ci]'
-        file_pattern: 'src/frontend/public/data/*.json'
+        file_pattern: 'archive/discounts/*.json src/frontend/public/data/** src/backend/game_data/game_data.json src/backend/manual_mapping.json'

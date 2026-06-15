@@ -1,7 +1,7 @@
 """
-step2_build_game_data.py
+step1_build_game_data.py
 
-Step 2: Load WRFrontiersDB-Data/current/Objects/Module.json and build game_data.json.
+Step 1: Load WRFrontiersDB-Data/current/Objects/Module.json and build game_data.json.
 """
 
 import sys
@@ -15,7 +15,7 @@ def build_game_data() -> list[dict]:
     VirtualBots are prefixed with OBJID_VirtualBot::
     Modules are prefixed with OBJID_Module::
     """
-    print(f"[2/4] Building game_data.json...")
+    print(f"[1/3] Building game_data.json...")
 
     if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists():
         print(f"  [ERROR] Data files not found.")

@@ -14,7 +14,7 @@ import argparse
 import sys
 from step1_build_game_data import run_step as run_step1
 from step2_map_items import run_step as run_step2
-from step4_archive_gen_grid import run_step as run_step4
+from step3_archive_gen_grid import run_step as run_step3
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -52,7 +52,7 @@ def main():
 
     run_step1()
     run_step2(item_names, target_date_range)
-    discounts = run_step4()
+    discounts = run_step3()
 
     print("\nDone! All steps completed successfully. Ready for frontend build.")
 

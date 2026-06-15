@@ -9,24 +9,26 @@ from config import (
     CHARACTER_PRESET_JSON,
     REPO_ROOT,
     FRONTEND_DATA_DIR,
-    WEEKS_MANIFEST,    REVERSE_LOOKUP_OUTPUT,
-    STANDALONE_MODULE_GROUPS,)
+    WEEKS_MANIFEST,
+    REVERSE_LOOKUP_OUTPUT,
+    STANDALONE_MODULE_GROUPS,
+)
 from week_dates import format_week, normalize_week, week_slug, week_sort_key
 import grid_generator
 from build_reverse_lookup import build_reverse_lookup
 
 def process_discount():
     """
-    Reads the LLM-generated discounts.json output (which is a list of refs).
+    Reads the mapped items discounts.json output (which is a list of refs).
     Writes the result to a date-keyed JSON file in archive/discounts/
     and generates the grid layout for that week.
     Updates the weeks.json manifest.
     """
-    print("[4/4] Reading LLM output from prompt/output/discounts.json...")
+    print("[3/3] Reading mapped items output from temp/output/discounts.json...")
 
     if not DISCOUNTS_OUTPUT.exists():
         print(f"  [ERROR] Output file not found: {DISCOUNTS_OUTPUT}")
-        print("  The Gemini CLI may not have written the output file.")
+        print("  The mapping step may not have written the output file.")
         sys.exit(1)
 
     with open(DISCOUNTS_OUTPUT, encoding="utf-8") as f:
