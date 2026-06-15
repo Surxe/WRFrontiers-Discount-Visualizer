@@ -33,12 +33,11 @@ MODULE_TYPE_JSON = DATA_REPO / "current" / "Objects" / "ModuleType.json"
 CHARACTER_PRESET_JSON = DATA_REPO / "current" / "Objects" / "CharacterPreset.json"
 
 
-PROMPT_DIR = SCRIPT_DIR / "prompt"
-OUTPUT_DIR = PROMPT_DIR / "output"
+TEMP_DIR = SCRIPT_DIR / "temp"
+OUTPUT_DIR = TEMP_DIR / "output"
 
-SCRAPED_PAGE = PROMPT_DIR / "scraped_news_page.txt"
-GAME_DATA_JSON = PROMPT_DIR / "game_data.json"
-ITEM_NAMES_INPUT = PROMPT_DIR / "item_names.txt"
+GAME_DATA_JSON = TEMP_DIR / "game_data.json"
+MANUAL_MAPPING_JSON = SCRIPT_DIR / "manual_mapping.json"
 DISCOUNTS_OUTPUT = OUTPUT_DIR / "discounts.json"
 
 FRONTEND_DATA_DIR = REPO_ROOT / "src" / "frontend" / "public" / "data"

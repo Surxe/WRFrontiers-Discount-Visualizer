@@ -6,7 +6,7 @@ Step 2: Load WRFrontiersDB-Data/current/Objects/Module.json and build game_data.
 
 import sys
 import json
-from config import MODULE_JSON, VIRTUAL_BOT_JSON, PROMPT_DIR, GAME_DATA_JSON, REPO_ROOT, STANDALONE_MODULE_GROUPS
+from config import MODULE_JSON, VIRTUAL_BOT_JSON, TEMP_DIR, GAME_DATA_JSON, REPO_ROOT, STANDALONE_MODULE_GROUPS
 
 def build_game_data() -> list[dict]:
     """
@@ -79,7 +79,7 @@ def build_game_data() -> list[dict]:
 
 
 def save_game_data(game_data: list[dict]):
-    PROMPT_DIR.mkdir(parents=True, exist_ok=True)
+    TEMP_DIR.mkdir(parents=True, exist_ok=True)
     with open(GAME_DATA_JSON, "w", encoding="utf-8") as f:
         json.dump(game_data, f, indent=2, ensure_ascii=False)
     print(f"  -> Saved to {GAME_DATA_JSON.relative_to(REPO_ROOT)}")
