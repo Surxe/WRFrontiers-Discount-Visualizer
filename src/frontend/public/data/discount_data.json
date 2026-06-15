@@ -1999,6 +1999,7 @@
     },
     "OBJID_Module::DA_Module_ChassisKernel.2": {
       "weeks": [
+        "2026-06-16",
         "2026-04-07",
         "2026-01-20"
       ],
@@ -2006,6 +2007,7 @@
     },
     "OBJID_Module::DA_Module_TorsoKernel.1": {
       "weeks": [
+        "2026-06-16",
         "2026-04-07",
         "2026-01-20"
       ],
@@ -2013,6 +2015,7 @@
     },
     "OBJID_Module::DA_Module_ShoulderKernel.0": {
       "weeks": [
+        "2026-06-16",
         "2026-04-07",
         "2026-01-20"
       ],
@@ -2070,6 +2073,7 @@
     },
     "OBJID_Module::DA_Module_ChassisNorna.2": {
       "weeks": [
+        "2026-06-16",
         "2026-05-26",
         "2026-03-03",
         "2026-02-10"
@@ -2078,6 +2082,7 @@
     },
     "OBJID_Module::DA_Module_TorsoNorna.0": {
       "weeks": [
+        "2026-06-16",
         "2026-05-26",
         "2026-03-03",
         "2026-02-10"
@@ -2086,6 +2091,7 @@
     },
     "OBJID_Module::DA_Module_ShoulderLNorna.0": {
       "weeks": [
+        "2026-06-16",
         "2026-05-26",
         "2026-03-03",
         "2026-02-10"
@@ -2094,6 +2100,7 @@
     },
     "OBJID_Module::DA_Module_ShoulderRNorna.0": {
       "weeks": [
+        "2026-06-16",
         "2026-05-26",
         "2026-03-03",
         "2026-02-10"
@@ -2179,6 +2186,24 @@
     "OBJID_Module::DA_Module_ShoulderHeike.0": {
       "weeks": [
         "2026-05-19"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ChassisGaruda.2": {
+      "weeks": [
+        "2026-06-16"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_ShoulderGaruda.0": {
+      "weeks": [
+        "2026-06-16"
+      ],
+      "virtual_bots": []
+    },
+    "OBJID_Module::DA_Module_TorsoGaruda.1": {
+      "weeks": [
+        "2026-06-16"
       ],
       "virtual_bots": []
     }
