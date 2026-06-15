@@ -1,0 +1,42 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 6,
+    "start_day": 16,
+    "end_year": 2026,
+    "end_month": 6,
+    "end_day": 23
+  },
+  "grid": {
+    "standardRows": [
+      {
+        "botId": "decker",
+        "cells": {
+          "1": "OBJID_VirtualBot::decker",
+          "6": "OBJID_Module::DA_Module_Weapon_Hefty.0",
+          "7": "OBJID_Module::DA_Module_Ability_ArmorShield.1",
+          "8": "OBJID_Module::DA_Module_Ability_SupplySurge.1"
+        }
+      },
+      {
+        "botId": "garuda",
+        "cells": {
+          "1": "OBJID_VirtualBot::garuda",
+          "5": "OBJID_Module::DA_Module_Weapon_Orkan.0",
+          "6": "OBJID_Module::DA_Module_Weapon_Zenit.0",
+          "7": "OBJID_Module::DA_Module_Ability_DashBlinkedVisible.1",
+          "8": "OBJID_Module::DA_Module_Ability_IronVeil.1"
+        }
+      }
+    ],
+    "titanRows": [
+      {
+        "botId": "norna",
+        "cells": {
+          "1": "OBJID_VirtualBot::norna",
+          "5": "OBJID_Module::DA_Module_Weapon_Coriolis.0"
+        }
+      }
+    ]
+  }
+}

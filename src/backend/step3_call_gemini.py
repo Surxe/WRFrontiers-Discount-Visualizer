@@ -87,7 +87,7 @@ def call_gemini_cli(target_date_range: str | None = None, item_names: str | None
         )
         sys.exit(1)
     except subprocess.TimeoutExpired:
-        print("  [ERROR] Gemini CLI timed out after 300 seconds.")
+        print("  [ERROR] Gemini CLI timed out after 10 minutes.")
         sys.exit(1)
 
 
@@ -97,6 +97,7 @@ def run_step(target_date_range: str | None = None, item_names: str | None = None
 
 if __name__ == "__main__":
     # If run standalone, we can optionally parse target_date_range from sys.argv
-    arg = sys.argv[1] if len(sys.argv) > 1 else None
-    run_step(arg)
+    target_date_range = sys.argv[1] if len(sys.argv) > 1 else None
+    item_names = sys.argv[2] if len(sys.argv) > 2 else None
+    run_step(target_date_range, item_names)
 

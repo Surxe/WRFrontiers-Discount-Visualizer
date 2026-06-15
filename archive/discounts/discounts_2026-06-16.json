@@ -1,0 +1,23 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 6,
+    "start_day": 16,
+    "end_year": 2026,
+    "end_month": 6,
+    "end_day": 23
+  },
+  "items": [
+    "decker",
+    "garuda",
+    "norna",
+    "DA_Module_Weapon_Zenit.0",
+    "DA_Module_Weapon_Hefty.0",
+    "DA_Module_Weapon_Orkan.0",
+    "DA_Module_Weapon_Coriolis.0",
+    "DA_Module_Ability_ArmorShield.1",
+    "DA_Module_Ability_SupplySurge.1",
+    "DA_Module_Ability_DashBlinkedVisible.1",
+    "DA_Module_Ability_IronVeil.1"
+  ]
+}
