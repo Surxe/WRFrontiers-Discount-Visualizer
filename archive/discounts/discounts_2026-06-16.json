@@ -1,0 +1,30 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 6,
+    "start_day": 16,
+    "end_year": 2026,
+    "end_month": 6,
+    "end_day": 23
+  },
+  "items": [
+    "DA_Module_ChassisKernel.2",
+    "DA_Module_ShoulderKernel.0",
+    "DA_Module_TorsoKernel.1",
+    "DA_Module_ChassisGaruda.2",
+    "DA_Module_ShoulderGaruda.0",
+    "DA_Module_TorsoGaruda.1",
+    "DA_Module_ChassisNorna.2",
+    "DA_Module_ShoulderLNorna.0",
+    "DA_Module_ShoulderRNorna.0",
+    "DA_Module_TorsoNorna.0",
+    "DA_Module_Weapon_Zenit.0",
+    "DA_Module_Weapon_Hefty.0",
+    "DA_Module_Weapon_Orkan.0",
+    "DA_Module_Weapon_Coriolis.0",
+    "DA_Module_Ability_ArmorShield.1",
+    "DA_Module_Ability_SupplySurge.1",
+    "DA_Module_Ability_DashBlinkedVisible.1",
+    "DA_Module_Ability_IronVeil.1"
+  ]
+}
