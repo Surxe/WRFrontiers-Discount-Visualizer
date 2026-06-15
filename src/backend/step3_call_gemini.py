@@ -67,7 +67,7 @@ def call_gemini_cli(target_date_range: str | None = None, item_names: str | None
             cwd=str(PROMPT_DIR),
             capture_output=True,
             text=True,
-            timeout=300,
+            timeout=600,
         )
         if result.returncode != 0:
             print(f"  [ERROR] Gemini CLI exited with code {result.returncode}")
