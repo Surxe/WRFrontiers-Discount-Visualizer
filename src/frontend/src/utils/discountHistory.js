@@ -60,6 +60,26 @@ export function getVbotDiscountWeeks(vbotId) {
 	return vbotData?.weeks || [];
 }
 
+export function getModuleAverageWeeks(moduleId) {
+	const history = fetchDiscountHistory();
+	const moduleRef = `OBJID_Module::${moduleId}`;
+	const moduleData = history.modules[moduleRef];
+	if (moduleData && typeof moduleData === 'object' && !Array.isArray(moduleData)) {
+		return moduleData.avg_weeks_between_discounts || null;
+	}
+	return null;
+}
+
+export function getVbotAverageWeeks(vbotId) {
+	const history = fetchDiscountHistory();
+	const vbotRef = `OBJID_VirtualBot::${vbotId}`;
+	const vbotData = history.virtualBots[vbotRef];
+	if (vbotData && typeof vbotData === 'object' && !Array.isArray(vbotData)) {
+		return vbotData.avg_weeks_between_discounts || null;
+	}
+	return null;
+}
+
 export function getModuleVirtualBots(moduleId) {
 	const history = fetchDiscountHistory();
 	const moduleRef = `OBJID_Module::${moduleId}`;

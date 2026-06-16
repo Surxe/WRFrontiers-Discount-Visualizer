@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 from collections import defaultdict
+from datetime import datetime
 
 from config import (
     REVERSE_LOOKUP_OUTPUT,
@@ -24,6 +25,32 @@ def parse_ref(ref: str) -> tuple[str, str]:
         obj_type = prefix.replace("OBJID_", "")
         return obj_type, obj_id
     return "", ref
+
+
+def calculate_avg_weeks_between_discounts(weeks: list[str]) -> float | None:
+    """Calculate the average number of weeks between discounts.
+    
+    Expects a list of week slugs (YYYY-MM-DD) sorted in reverse chronological order.
+    Disregards time since the last discount. Returns None if there are fewer than 2 discounts.
+    """
+    if not weeks or len(weeks) < 2:
+        return None
+        
+    oldest_week = weeks[-1]
+    newest_week = weeks[0]
+    
+    try:
+        oldest_date = datetime.strptime(oldest_week, "%Y-%m-%d")
+        newest_date = datetime.strptime(newest_week, "%Y-%m-%d")
+    except ValueError:
+        return None
+        
+    days_diff = (newest_date - oldest_date).days
+    weeks_diff = days_diff / 7.0
+    
+    # The number of intervals is the number of discounts - 1
+    average_weeks = weeks_diff / (len(weeks) - 1)
+    return round(average_weeks, 1)
 
 
 def is_body_part_module(module_id: str) -> bool:
@@ -192,14 +219,16 @@ def build_reverse_lookup(archive_output_dir: Path):
 
         enhanced_module_history[module_ref] = {
             "weeks": weeks,
-            "virtual_bots": virtual_bots
+            "virtual_bots": virtual_bots,
+            "avg_weeks_between_discounts": calculate_avg_weeks_between_discounts(weeks)
         }
 
     # Build enhanced vbot data (keeping existing structure for consistency)
     enhanced_vbot_history = {}
     for vbot_ref, weeks in vbot_history.items():
         enhanced_vbot_history[vbot_ref] = {
-            "weeks": weeks
+            "weeks": weeks,
+            "avg_weeks_between_discounts": calculate_avg_weeks_between_discounts(weeks)
         }
 
     reverse_lookup = {
