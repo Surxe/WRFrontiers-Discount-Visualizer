@@ -1,0 +1,35 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 6,
+    "start_day": 23,
+    "end_year": 2026,
+    "end_month": 6,
+    "end_day": 30
+  },
+  "items": [
+    "DA_Module_ChassisBulwark.2",
+    "DA_Module_TorsoBulwark.1",
+    "DA_Module_ShoulderBulwark.0",
+    "DA_Module_ChassisDemeter.2",
+    "DA_Module_TorsoDemeter.1",
+    "DA_Module_ShoulderDemeter.0",
+    "DA_Module_ChassisGrim.1",
+    "DA_Module_TorsoGrim.0",
+    "DA_Module_ShoulderLGrim.0",
+    "DA_Module_ShoulderRGrim.0",
+    "DA_Module_ChassisNipper.2",
+    "DA_Module_TorsoNipper.1",
+    "DA_Module_ShoulderNipper.0",
+    "DA_Module_Weapon_Bisector.0",
+    "DA_Module_Weapon_Katzbalger.0",
+    "DA_Module_Weapon_Stormpike.0",
+    "DA_Module_Weapon_Thunder.0",
+    "DA_Module_Ability_CounterAttack.1",
+    "DA_Module_Ability_GhostTurret.1",
+    "DA_Module_Ability_Grounded.1",
+    "DA_Module_Ability_MineField.1",
+    "DA_Module_Ability_RegenerationFull.1",
+    "DA_Module_Ability_SmokeWall.1"
+  ]
+}
