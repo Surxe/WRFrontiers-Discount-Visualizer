@@ -46,7 +46,7 @@ jobs:
           items: ${{ github.event.inputs.items }}
 
   screenshot:
-    if: ${{ !github.event.inputs.skip_deploy }}
+    if: ${{ github.event.inputs.skip_deploy != 'true' }}
     runs-on: ubuntu-latest
     needs: map
     env:
@@ -65,7 +65,7 @@ jobs:
         uses: ./.github/actions/screenshot
 
   build:
-    if: ${{ !github.event.inputs.skip_deploy }}
+    if: ${{ github.event.inputs.skip_deploy != 'true' }}
     runs-on: ubuntu-latest
     needs: screenshot
     env:
@@ -93,7 +93,7 @@ jobs:
         uses: ./.github/actions/deploy
 
   publish:
-    if: ${{ !github.event.inputs.skip_deploy }}
+    if: ${{ github.event.inputs.skip_deploy != 'true' }}
     runs-on: ubuntu-latest
     needs: build
     environment:
