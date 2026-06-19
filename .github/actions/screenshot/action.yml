@@ -1,5 +1,11 @@
 name: Screenshot discount table
-description: Build the Astro site, boot astro preview, capture the discount grid via Puppeteer, and upload the PNG as a workflow artifact.
+description: Build the Astro site, boot astro preview, capture the discount grid via Puppeteer, upload the PNG as a workflow artifact, and optionally commit it to the repo.
+
+inputs:
+  commit:
+    description: Commit and push discount-table.png
+    required: false
+    default: 'true'
 
 runs:
   using: composite
@@ -46,3 +52,10 @@ runs:
         name: discount-table
         path: src/frontend/public/discount-table.png
         retention-days: 7
+
+    - name: Commit and push screenshot
+      if: inputs.commit == 'true'
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: 'chore(data): update discount-table.png [skip ci]'
+        file_pattern: 'src/frontend/public/discount-table.png'
