@@ -123,6 +123,7 @@ export function resolveVbotMeta(vbotId, databases, parseRef) {
   );
 
   return {
+    name: bot.name?.en || vbotId,
     faction_icon_path,
     class_icon_path,
     core_module_id: coreModule.id,
