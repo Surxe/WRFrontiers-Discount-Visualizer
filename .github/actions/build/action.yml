@@ -31,4 +31,9 @@ runs:
     - name: Build frontend
       shell: bash
       working-directory: src/frontend
-      run: npm run build
+      run: |
+        SHORT_SHA="${GITHUB_SHA::7}"
+        if [ -f public/discount-table.png ]; then
+          mv public/discount-table.png public/discount-table-${SHORT_SHA}.png
+        fi
+        PUBLIC_IMAGE_SHA=$SHORT_SHA npm run build
