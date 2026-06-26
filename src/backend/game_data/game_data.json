@@ -12,6 +12,10 @@
     "name": "Ares"
   },
   {
+    "ref": "OBJID_VirtualBot::artemis",
+    "name": "Artemis"
+  },
+  {
     "ref": "OBJID_VirtualBot::bulgasari",
     "name": "Bulgasari"
   },
@@ -116,6 +120,10 @@
     "name": "Raven"
   },
   {
+    "ref": "OBJID_VirtualBot::relic-bulgasari",
+    "name": "Relic Bulgasari"
+  },
+  {
     "ref": "OBJID_VirtualBot::scorpion",
     "name": "Scorpion"
   },
@@ -138,6 +146,10 @@
   {
     "ref": "OBJID_VirtualBot::volta",
     "name": "Volta"
+  },
+  {
+    "ref": "OBJID_VirtualBot::wyrm",
+    "name": "Wyrm"
   },
   {
     "ref": "OBJID_Module::DA_Module_Ability_AmmoGenerator.1",
@@ -238,6 +250,10 @@
   {
     "ref": "OBJID_Module::DA_Module_Ability_Umbrella.1",
     "name": "Umbrella"
+  },
+  {
+    "ref": "OBJID_Module::DA_Module_Weapon_Aftershock.0",
+    "name": "Aftershock"
   },
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Bayonet.0",
@@ -352,6 +368,10 @@
     "name": "Railgun"
   },
   {
+    "ref": "OBJID_Module::DA_Module_Weapon_RelicOrkan.0",
+    "name": "Relic Orkan"
+  },
+  {
     "ref": "OBJID_Module::DA_Module_Weapon_Scatter.0",
     "name": "Scatter"
   },
@@ -410,6 +430,10 @@
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Twinflare.0",
     "name": "Gemini"
+  },
+  {
+    "ref": "OBJID_Module::DA_Module_Weapon_Velite.0",
+    "name": "Velite"
   },
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Vortex.0",

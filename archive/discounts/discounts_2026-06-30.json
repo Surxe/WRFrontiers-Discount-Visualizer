@@ -1,0 +1,25 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 6,
+    "start_day": 30,
+    "end_year": 2026,
+    "end_month": 7,
+    "end_day": 7
+  },
+  "items": [
+    "DA_Module_ChassisAres.2",
+    "DA_Module_TorsoAres.1",
+    "DA_Module_ShoulderAres.0",
+    "DA_Module_Weapon_Scourge.0",
+    "DA_Module_Ability_SmokeWall.1",
+    "DA_Module_ChassisArtemis.2",
+    "DA_Module_TorsoArtemis.1",
+    "DA_Module_ShoulderArtemis.0",
+    "DA_Module_Weapon_Velite.0",
+    "DA_Module_Ability_Atrophy.1",
+    "DA_Module_Ability_SupplySurge.1",
+    "DA_Module_Ability_KineticPulse.1",
+    "DA_Module_Weapon_Jigsaw.0"
+  ]
+}
