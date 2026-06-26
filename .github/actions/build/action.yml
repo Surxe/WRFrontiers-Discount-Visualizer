@@ -32,7 +32,7 @@ runs:
       shell: bash
       working-directory: src/frontend
       run: |
-        SHORT_SHA="${GITHUB_SHA::7}"
+        SHORT_SHA=$(git rev-parse --short HEAD)
         if [ -f public/discount-table.png ]; then
           mv public/discount-table.png public/discount-table-${SHORT_SHA}.png
         fi
