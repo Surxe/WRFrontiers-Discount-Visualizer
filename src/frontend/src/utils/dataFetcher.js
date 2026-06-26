@@ -130,6 +130,12 @@ export function fetchEnrichedDiscounts(filename = null) {
       if (vbot) {
         name = vbot.name?.en || moduleId;
         icon_path = vbot.icon_path;
+        
+        // Data fix: Artemis currently has Anansi's icon in the raw game data.
+        if (moduleId === "artemis" && icon_path?.includes("Anansi")) {
+          icon_path = null;
+        }
+
         const rarityRef = parseRef(vbot.rarity_ref);
         const moduleRarity = ModuleRarityDB[rarityRef];
         baseRarityRef = moduleRarity ? parseRef(moduleRarity.rarity_ref) : null;
