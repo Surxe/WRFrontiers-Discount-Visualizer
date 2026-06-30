@@ -17,7 +17,8 @@
           "3": "OBJID_Module::DA_Module_ShoulderAres.0",
           "4": "OBJID_Module::DA_Module_ChassisAres.2",
           "5": "OBJID_Module::DA_Module_Weapon_Scourge.0",
-          "7": "OBJID_Module::DA_Module_Ability_SmokeWall.1"
+          "7": "OBJID_Module::DA_Module_Ability_SmokeWall.1",
+          "8": "OBJID_Module::DA_Module_Ability_Dazzle.1"
         }
       },
       {

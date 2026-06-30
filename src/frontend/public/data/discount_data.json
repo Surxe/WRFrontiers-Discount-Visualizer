@@ -860,6 +860,7 @@
     },
     "OBJID_Module::DA_Module_Ability_Dazzle.1": {
       "weeks": [
+        "2026-06-30",
         "2026-05-26",
         "2026-04-28",
         "2026-04-21",
@@ -881,7 +882,7 @@
         "harpy",
         "varangian"
       ],
-      "avg_weeks_between_discounts": 3.5
+      "avg_weeks_between_discounts": 3.6
     },
     "OBJID_Module::DA_Module_Ability_RegenerationFull.1": {
       "weeks": [
