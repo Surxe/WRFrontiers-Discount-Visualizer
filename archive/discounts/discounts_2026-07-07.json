@@ -1,0 +1,31 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 7,
+    "start_day": 7,
+    "end_year": 2026,
+    "end_month": 7,
+    "end_day": 14
+  },
+  "items": [
+    "DA_Module_ChassisTyphon.2",
+    "DA_Module_TorsoTyphon.1",
+    "DA_Module_ShoulderTyphon.0",
+    "DA_Module_Weapon_Shocktrain.0",
+    "DA_Module_Ability_GhostTurret.1",
+    "DA_Module_Ability_Umbrella.1",
+    "DA_Module_ChassisRavana.2",
+    "DA_Module_TorsoRavana.1",
+    "DA_Module_ShoulderRavana.0",
+    "DA_Module_Weapon_StickyGun.0",
+    "DA_Module_Ability_SpeedBoost.1",
+    "DA_Module_Ability_RegenerationFull.1",
+    "DA_Module_ChassisKumo.2",
+    "DA_Module_TorsoKumo.1",
+    "DA_Module_ShoulderKumo.0",
+    "DA_Module_Weapon_Horde.0",
+    "DA_Module_Ability_Atrophy.1",
+    "DA_Module_Ability_TensionLink.1",
+    "DA_Module_Weapon_Conflux.0"
+  ]
+}
