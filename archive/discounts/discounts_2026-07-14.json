@@ -1,0 +1,31 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 7,
+    "start_day": 14,
+    "end_year": 2026,
+    "end_month": 7,
+    "end_day": 21
+  },
+  "items": [
+    "DA_Module_ChassisLoki.2",
+    "DA_Module_TorsoLoki.1",
+    "DA_Module_ShoulderLoki.0",
+    "DA_Module_Weapon_Glory.0",
+    "DA_Module_Ability_Grounded.1",
+    "DA_Module_Ability_Spotlight.1",
+    "DA_Module_ChassisAnansi.2",
+    "DA_Module_TorsoAnansi.1",
+    "DA_Module_ShoulderAnansi.0",
+    "DA_Module_Weapon_MLx2.0",
+    "DA_Module_Ability_Atrophy.1",
+    "DA_Module_Ability_Dazzle.1",
+    "DA_Module_ChassisWyrm.2",
+    "DA_Module_TorsoWyrm.1",
+    "DA_Module_ShoulderWyrm.0",
+    "DA_Module_Weapon_Aftershock.0",
+    "DA_Module_Ability_Regeneration.1",
+    "DA_Module_Ability_IronVeil.1",
+    "DA_Module_Weapon_Skuld.0"
+  ]
+}

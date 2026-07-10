@@ -1,3 +1,4 @@
 {
-  "Phantm": "OBJID_VirtualBot::phantom"
+  "Phantm": "OBJID_VirtualBot::phantom",
+  "Recon Boost": "OBJID_Module::DA_Module_Ability_Spotlight.1"
 }
