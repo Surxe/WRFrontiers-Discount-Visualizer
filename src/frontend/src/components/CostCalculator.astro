@@ -312,9 +312,10 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     display: block;
   }
 
-  .search-result-item {
+  :global(.search-result-item) {
     padding: 8px 12px;
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 12px;
     cursor: pointer;
@@ -322,16 +323,19 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     transition: background 0.15s;
   }
 
-  .search-result-item:hover {
+  :global(.search-result-item:hover) {
     background: rgba(255,255,255,0.05);
   }
 
-  .search-result-name {
+  :global(.search-result-name) {
     font-size: 0.9rem;
     color: #e0e0e0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .search-result-icon {
+  :global(.search-result-icon) {
     width: 36px;
     height: 36px;
     flex-shrink: 0;
@@ -345,7 +349,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     justify-content: center;
   }
 
-  .search-result-icon img {
+  :global(.search-result-icon img) {
     width: 80%;
     height: 80%;
     object-fit: contain;
