@@ -31,6 +31,12 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
       >
         <div class="module-card__icon">
           {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
+          <button class="add-to-calc-btn" data-module-id={module.id} data-module-name={module.name} data-module-icon={iconSrc} aria-label="Add to Calculator">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
         </div>
         {showName && (
           <div class="module-card__footer">
@@ -78,6 +84,12 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     >
       <div class="module-card__icon">
         {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
+        <button class="add-to-calc-btn" data-module-id={module.id} data-module-name={module.name} data-module-icon={iconSrc} aria-label="Add to Calculator">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
       </div>
       {showName && (
         <div class="module-card__footer">
@@ -117,6 +129,34 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     </div>
   </div>
 )}
+
+<script>
+  import { calculatorStore } from '../scripts/cost-calculator-store.js';
+
+  // Attach a delegated event listener to handle clicks on the + button
+  document.addEventListener('click', (e) => {
+    // Check if the clicked element or its parent is the add button
+    const btn = e.target.closest('.add-to-calc-btn');
+    if (!btn) return;
+    
+    // Prevent link navigation if it's inside an <a> tag
+    e.preventDefault();
+    e.stopPropagation();
+
+    const id = btn.getAttribute('data-module-id');
+    const name = btn.getAttribute('data-module-name');
+    const iconSrc = btn.getAttribute('data-module-icon');
+
+    calculatorStore.addItem({
+      id,
+      name,
+      iconSrc
+    });
+    
+    // Optionally automatically open the drawer when an item is added
+    calculatorStore.toggleDrawer(true);
+  });
+</script>
 
 <style>
   .object-box-link {
@@ -185,6 +225,37 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
   .object-box__card .module-card__icon {
     flex: 1;
     min-height: 0;
+    position: relative;
+  }
+
+  .add-to-calc-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(58, 134, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s, transform 0.2s;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+
+  .add-to-calc-btn:hover {
+    background-color: #2b65cc;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .object-box__card:hover .add-to-calc-btn {
+    opacity: 1;
   }
 
   .object-box__card--no-name .module-card__icon {

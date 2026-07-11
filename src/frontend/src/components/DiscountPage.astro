@@ -6,6 +6,7 @@ import WeekNavigation from './WeekNavigation.astro';
 import Footer from './Footer.astro';
 import NavBar from './NavBar.astro';
 import LastDiscountTable from './LastDiscountTable.astro';
+import CostCalculator from './CostCalculator.astro';
 import { getTexturePath } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
@@ -114,6 +115,23 @@ const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-ta
 		>
 			<div class="app-content">
 				<NavBar baseUrl={baseUrl} currentPage="home" />
+				
+				<button id="calculator-toggle" class="calculator-toggle" aria-label="Open Calculator">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+						<line x1="16" y1="2" x2="16" y2="6"></line>
+						<line x1="8" y1="2" x2="8" y2="6"></line>
+						<line x1="4" y1="10" x2="20" y2="10"></line>
+						<line x1="8" y1="14" x2="12" y2="14"></line>
+						<line x1="12" y1="14" x2="12" y2="18"></line>
+						<line x1="12" y1="18" x2="8" y2="18"></line>
+						<line x1="8" y1="18" x2="8" y2="14"></line>
+						<line x1="16" y1="14" x2="16" y2="14.01"></line>
+						<line x1="16" y1="18" x2="16" y2="18.01"></line>
+					</svg>
+					<span id="calculator-badge" class="calculator-badge" style="display: none;">0</span>
+				</button>
+
 				<header>
 					<h1>War Robots Frontiers Upgrade Discounts</h1>
 					{dateRange && (
@@ -132,8 +150,36 @@ const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-ta
 
 		<Footer />
 		</AllWeeksSidebar>
+		
+		<CostCalculator />
 	</body>
 </html>
+
+<script>
+	import { calculatorStore } from '../scripts/cost-calculator-store.js';
+
+	const toggleBtn = document.getElementById('calculator-toggle');
+	const badge = document.getElementById('calculator-badge');
+
+	if (toggleBtn) {
+		toggleBtn.addEventListener('click', () => {
+			calculatorStore.toggleDrawer();
+		});
+	}
+
+	calculatorStore.addEventListener('change', (e) => {
+		const list = e.detail.shoppingList;
+		if (badge) {
+			const totalQty = list.reduce((sum, item) => sum + item.quantity, 0);
+			if (totalQty > 0) {
+				badge.textContent = totalQty;
+				badge.style.display = 'flex';
+			} else {
+				badge.style.display = 'none';
+			}
+		}
+	});
+</script>
 
 <style>
 	:root {
@@ -159,6 +205,46 @@ const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-ta
 		flex: 1 0 auto;
 		min-height: 100vh;
 		box-sizing: border-box;
+		position: relative;
+	}
+
+	.calculator-toggle {
+		position: absolute;
+		top: 1rem;
+		right: 1.5rem;
+		background-color: var(--sidebar-bg);
+		border: 1px solid var(--sidebar-border);
+		border-radius: 0.5rem;
+		color: var(--text-color);
+		width: 44px;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		z-index: 1000;
+		transition: background-color 0.2s, color 0.2s;
+	}
+
+	.calculator-toggle:hover {
+		background-color: var(--active-bg);
+		color: var(--accent-color);
+	}
+
+	.calculator-badge {
+		position: absolute;
+		top: -5px;
+		right: -5px;
+		background: #ef233c;
+		color: white;
+		font-size: 0.7rem;
+		font-weight: bold;
+		width: 18px;
+		height: 18px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	header {
