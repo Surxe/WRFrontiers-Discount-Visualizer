@@ -233,37 +233,44 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     z-index: 1;
   }
 
+  .calculator-table th:first-child {
+    text-align: left;
+    padding-left: 1rem;
+  }
+
   .calculator-table td.module-col {
     text-align: left;
-    max-width: 140px;
+    padding-left: 1rem;
   }
 
-  .module-col-inner {
+  :global(.module-col-inner) {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    justify-content: flex-start;
+    gap: 0.5rem;
   }
 
-  .module-col-name {
-    font-size: 0.75rem;
+  :global(.module-col-name) {
+    font-size: 0.8rem;
     line-height: 1.2;
     overflow: hidden;
+    text-align: left;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
 
-  .calc-icon-wrapper {
+  :global(.calc-icon-wrapper) {
     width: 32px;
     height: 48px;
     flex-shrink: 0;
   }
 
-  .qty-col {
+  :global(.qty-col) {
     white-space: nowrap;
   }
 
-  .qty-btn {
+  :global(.qty-btn) {
     background: #333;
     border: none;
     color: #fff;
@@ -279,11 +286,11 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     line-height: 1;
   }
 
-  .qty-btn:hover {
+  :global(.qty-btn:hover) {
     background: #444;
   }
 
-  .level-select {
+  :global(.level-select) {
     background: #232733;
     border: 1px solid #333;
     color: #e0e0e0;
@@ -295,22 +302,22 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     cursor: pointer;
   }
 
-  .cost-cell {
+  :global(.cost-cell) {
     font-family: 'Courier New', monospace;
     font-size: 0.75rem;
     color: #cdd0d6;
   }
 
-  .disc-yes {
+  :global(.disc-yes) {
     color: #4caf50;
     font-weight: 600;
   }
 
-  .disc-no {
+  :global(.disc-no) {
     color: #666;
   }
 
-  .disc-none {
+  :global(.disc-none) {
     color: #555;
   }
 
@@ -414,9 +421,10 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   :global(.search-result-icon img) {
-    width: 80%;
-    height: 80%;
+    width: 90%;
+    height: 90%;
     object-fit: contain;
+    transform: scale(1.1);
   }
 
 </style>
