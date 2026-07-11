@@ -10,7 +10,7 @@ import CostCalculator from './CostCalculator.astro';
 import { getTexturePath, getRarityBackgroundUrl } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
-import { fetchModules, fetchModuleRarities } from '../utils/moduleData.js';
+import { fetchModules, fetchModuleRarities, getModuleDisplayName } from '../utils/moduleData.js';
 import { getCurrentOrLatestWeek, getNextWeek, getPreviousWeek } from '../utils/dateValidator.js';
 import { formatWeek } from '../utils/weekDates.js';
 import { extractDiscountedItemsFromGrid } from '../utils/discountHistory.js';
@@ -101,7 +101,7 @@ const searchableModules = Object.values(allModulesRaw)
     
     return {
       id: m.id,
-      name: m.name?.en || '',
+      name: getModuleDisplayName(m),
       iconSrc: getTexturePath(m.inventory_icon_path, baseUrl) || '',
       bgSrc: getRarityBackgroundUrl(baseRarityRef, shopCards, baseUrl) || '',
       rarityRef: m.module_rarity_ref

@@ -3,6 +3,7 @@ import path from 'path';
 import { getCurrentOrLatestWeek } from './dateValidator.js';
 import { formatWeek } from './weekDates.js';
 import { buildVbotMetaById } from './vbotMeta.js';
+import { getModuleDisplayName } from './moduleData.js';
 
 const parseRef = (ref) => {
   if (!ref) return null;
@@ -143,7 +144,7 @@ export function fetchEnrichedDiscounts(filename = null) {
     } else {
       const module = ModuleDB[moduleId];
       if (module) {
-        name = module.name?.en || moduleId;
+        name = getModuleDisplayName(module);
         icon_path = module.inventory_icon_path;
         const rarityRef = parseRef(module.module_rarity_ref);
         const moduleRarity = ModuleRarityDB[rarityRef];

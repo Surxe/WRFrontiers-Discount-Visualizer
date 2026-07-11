@@ -177,6 +177,35 @@ export function getModuleGroupForModule(module) {
 	return groupId;
 }
 
+/** Groups that need their name appended to the module's base name. */
+const SUFFIX_GROUPS = new Set([
+	'non-titan-torsos',
+	'non-titan-shoulder',
+	'non-titan-chassis',
+	'titan-torsos',
+	'titan-shoulder',
+	'titan-chassis',
+]);
+
+/**
+ * Returns the display name for a module, appending the group label
+ * (e.g. "Torso", "Shoulder", "Chassis") for groups where the base
+ * name alone is ambiguous (e.g. "Wyrm" -> "Wyrm Torso").
+ *
+ * @param {object} module - raw Module.json entry
+ * @returns {string}
+ */
+export function getModuleDisplayName(module) {
+	if (!module) return '';
+	const baseName = module.name?.en || module.name || '';
+	const groupId = getModuleGroupForModule(module);
+	if (!groupId || !SUFFIX_GROUPS.has(groupId)) return baseName;
+	const groups = fetchModuleGroups();
+	const groupLabel = groups[groupId]?.name?.en || '';
+	if (!groupLabel || baseName.toLowerCase().includes(groupLabel.toLowerCase())) return baseName;
+	return `${baseName} ${groupLabel}`;
+}
+
 export function fetchAllModulesWithGroup() {
 	const modules = fetchModules();
 	const groups = fetchModuleGroups();
