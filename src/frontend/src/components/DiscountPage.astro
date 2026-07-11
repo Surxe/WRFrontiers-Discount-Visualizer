@@ -272,6 +272,7 @@ const weekList = weekEntries.map(w => ({
 		font-family: 'Montserrat', sans-serif;
 		margin: 0;
 		padding: 0;
+		transition: padding-right 0.3s ease;
 	}
 
 	.app-content {
@@ -279,15 +280,11 @@ const weekList = weekEntries.map(w => ({
 		min-height: 100vh;
 		box-sizing: border-box;
 		position: relative;
-		transition: padding-right 0.3s ease;
 	}
 
 	@media (min-width: 1024px) {
-		body.calc-open .app-content {
+		body.calc-open {
 			padding-right: 500px;
-		}
-		body.calc-open .calculator-toggle {
-			right: calc(1.5rem + 500px);
 		}
 	}
 
