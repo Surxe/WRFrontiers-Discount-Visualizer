@@ -31,20 +31,22 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
       >
         <div class="module-card__icon">
           {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
-          <button 
-            class="add-to-calc-btn" 
-            onclick="event.preventDefault(); event.stopPropagation(); window.addModuleToCalc(this.getAttribute('data-module-id'), this.getAttribute('data-module-name'), this.getAttribute('data-module-icon'), this.getAttribute('data-module-bg')); return false;"
-            data-module-id={module.id} 
-            data-module-name={module.name} 
-            data-module-icon={iconSrc} 
-            data-module-bg={backgroundUrl}
-            aria-label="Add to Calculator"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-          </button>
+          {module.id && (
+            <button 
+              class="add-to-calc-btn" 
+              onclick="event.preventDefault(); event.stopPropagation(); window.addModuleToCalc(this.getAttribute('data-module-id'), this.getAttribute('data-module-name'), this.getAttribute('data-module-icon'), this.getAttribute('data-module-bg')); return false;"
+              data-module-id={module.id} 
+              data-module-name={module.name} 
+              data-module-icon={iconSrc} 
+              data-module-bg={backgroundUrl}
+              aria-label="Add to Calculator"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          )}
         </div>
         {showName && (
           <div class="module-card__footer">
@@ -92,20 +94,22 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     >
       <div class="module-card__icon">
         {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
-        <button 
-          class="add-to-calc-btn" 
-          onclick="event.preventDefault(); event.stopPropagation(); window.addModuleToCalc(this.getAttribute('data-module-id'), this.getAttribute('data-module-name'), this.getAttribute('data-module-icon'), this.getAttribute('data-module-bg')); return false;"
-          data-module-id={module.id} 
-          data-module-name={module.name} 
-          data-module-icon={iconSrc} 
-          data-module-bg={backgroundUrl}
-          aria-label="Add to Calculator"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-        </button>
+        {module.id && (
+          <button 
+            class="add-to-calc-btn" 
+            onclick="event.preventDefault(); event.stopPropagation(); window.addModuleToCalc(this.getAttribute('data-module-id'), this.getAttribute('data-module-name'), this.getAttribute('data-module-icon'), this.getAttribute('data-module-bg')); return false;"
+            data-module-id={module.id} 
+            data-module-name={module.name} 
+            data-module-icon={iconSrc} 
+            data-module-bg={backgroundUrl}
+            aria-label="Add to Calculator"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        )}
       </div>
       {showName && (
         <div class="module-card__footer">
