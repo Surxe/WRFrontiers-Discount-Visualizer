@@ -110,24 +110,37 @@ class CostCalculatorStore extends EventTarget {
 
     let totalSalvage = 0;
     let totalIntel = 0;
+    let standardSalvage = 0;
+    let standardIntel = 0;
 
     for (let lvl = item.fromLvl; lvl < item.toLvl; lvl++) {
       const costNode = rarityEntry.costs[String(lvl)];
       if (!costNode) continue;
 
+      const stdSalv = costNode.salvage.standard ?? 0;
+      const stdIntel = costNode.intel.standard ?? 0;
+
       const salvage = isDiscounted && costNode.salvage.discounted != null
         ? costNode.salvage.discounted
-        : costNode.salvage.standard ?? 0;
+        : stdSalv;
 
       const intel = isDiscounted && costNode.intel.discounted != null
         ? costNode.intel.discounted
-        : costNode.intel.standard ?? 0;
+        : stdIntel;
 
       totalSalvage += salvage * item.quantity;
       totalIntel += intel * item.quantity;
+      standardSalvage += stdSalv * item.quantity;
+      standardIntel += stdIntel * item.quantity;
     }
 
-    return { salvage: totalSalvage, intel: totalIntel, isDiscounted };
+    return { 
+      salvage: totalSalvage, 
+      intel: totalIntel, 
+      standardSalvage, 
+      standardIntel, 
+      isDiscounted 
+    };
   }
 
   toggleDrawer(forceState) {

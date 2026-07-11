@@ -47,6 +47,12 @@ const baseUrl = import.meta.env.BASE_URL || '/';
           <td id="calc-total-intel">-</td>
           <td></td>
         </tr>
+        <tr id="calc-discount-row" style="display: none;">
+          <td colspan="4" class="total-label discount-label">Discount:</td>
+          <td id="calc-discount-salvage" class="discount-val">-</td>
+          <td id="calc-discount-intel" class="discount-val">-</td>
+          <td id="calc-discount-pct" class="discount-pct"></td>
+        </tr>
       </tfoot>
     </table>
   </div>
@@ -321,11 +327,28 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     color: #555;
   }
 
-  .total-label {
+  :global(.total-label) {
     text-align: right;
     font-weight: bold;
     font-size: 0.8rem;
     color: #aaa;
+  }
+
+  :global(.discount-label) {
+    color: #4caf50;
+    font-size: 0.75rem;
+  }
+
+  :global(.discount-val) {
+    color: #4caf50;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+  }
+
+  :global(.discount-pct) {
+    color: #4caf50;
+    font-size: 0.7rem;
+    font-weight: bold;
   }
 
   #calc-total-salvage,
@@ -530,12 +553,18 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   // --- Render ---
   function renderList(shoppingList) {
+    const discountRow = document.getElementById('calc-discount-row');
+    const discountSalvageEl = document.getElementById('calc-discount-salvage');
+    const discountIntelEl = document.getElementById('calc-discount-intel');
+    const discountPctEl = document.getElementById('calc-discount-pct');
+
     if (shoppingList.length === 0) {
       emptyState.style.display = 'block';
       table.style.display = 'none';
       tbody.innerHTML = '';
       totalSalvageEl.textContent = '-';
       totalIntelEl.textContent = '-';
+      discountRow.style.display = 'none';
       return;
     }
 
@@ -544,11 +573,15 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
     let grandSalvage = 0;
     let grandIntel = 0;
+    let grandStdSalvage = 0;
+    let grandStdIntel = 0;
 
     tbody.innerHTML = shoppingList.map(item => {
-      const { salvage, intel, isDiscounted } = calculatorStore.calculateRowCost(item);
+      const { salvage, intel, standardSalvage, standardIntel, isDiscounted } = calculatorStore.calculateRowCost(item);
       grandSalvage += salvage;
       grandIntel += intel;
+      grandStdSalvage += standardSalvage;
+      grandStdIntel += standardIntel;
 
       const hasWeek = !!calculatorStore.activeWeek;
       const discCell = !hasWeek
@@ -589,6 +622,30 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
     totalSalvageEl.textContent = grandSalvage > 0 ? grandSalvage.toLocaleString() : '—';
     totalIntelEl.textContent = grandIntel > 0 ? grandIntel.toLocaleString() : '—';
+
+    const savedSalvage = grandStdSalvage - grandSalvage;
+    const savedIntel = grandStdIntel - grandIntel;
+    
+    if (savedSalvage > 0 || savedIntel > 0) {
+      discountRow.style.display = 'table-row';
+      discountSalvageEl.textContent = savedSalvage > 0 ? `-${savedSalvage.toLocaleString()}` : '—';
+      discountIntelEl.textContent = savedIntel > 0 ? `-${savedIntel.toLocaleString()}` : '—';
+      
+      const totalStd = grandStdSalvage + (grandStdIntel * 1000); // rough weighting just for a combined percentage if needed
+      const totalActual = grandSalvage + (grandIntel * 1000);
+      
+      if (grandStdSalvage > 0 && savedSalvage > 0) {
+        const pct = Math.round((savedSalvage / grandStdSalvage) * 100);
+        discountPctEl.textContent = `(${pct}% off)`;
+      } else if (grandStdIntel > 0 && savedIntel > 0) {
+        const pct = Math.round((savedIntel / grandStdIntel) * 100);
+        discountPctEl.textContent = `(${pct}% off)`;
+      } else {
+        discountPctEl.textContent = '';
+      }
+    } else {
+      discountRow.style.display = 'none';
+    }
   }
 
   // --- Store event ---
