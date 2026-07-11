@@ -5,6 +5,11 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   <div class="calculator-header">
     <h3>Cost Calculator</h3>
     <div class="header-actions">
+      <select id="calc-week-select" class="header-select" aria-label="Target Week">
+        <option value="none">Target Week...</option>
+        <option value="w1">Week 1 (Placeholder)</option>
+        <option value="w2">Week 2 (Placeholder)</option>
+      </select>
       <button id="clear-calculator" class="clear-btn" aria-label="Clear Calculator">Clear</button>
       <button id="close-calculator" class="close-btn" aria-label="Close Calculator">&times;</button>
     </div>
@@ -94,6 +99,21 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   .clear-btn:hover {
     background: #444;
     color: #fff;
+  }
+
+  .header-select {
+    background: #232733;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .header-select:focus {
+    border-color: #666;
   }
 
   .close-btn {
