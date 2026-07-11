@@ -34,6 +34,7 @@ class CostCalculatorStore extends EventTarget {
       moduleId: module.id || '',
       name: module.name,
       iconSrc: module.iconSrc,
+      bgSrc: module.bgSrc,
       quantity: 1,
       fromLvl: 1,
       toLvl: 2,
@@ -82,8 +83,8 @@ class CostCalculatorStore extends EventTarget {
 export const calculatorStore = new CostCalculatorStore();
 
 if (typeof window !== 'undefined') {
-  window.addModuleToCalc = (id, name, iconSrc) => {
-    calculatorStore.addItem({ id, name, iconSrc });
+  window.addModuleToCalc = (id, name, iconSrc, bgSrc) => {
+    calculatorStore.addItem({ id, name, iconSrc, bgSrc });
     calculatorStore.toggleDrawer(true);
   };
 }
