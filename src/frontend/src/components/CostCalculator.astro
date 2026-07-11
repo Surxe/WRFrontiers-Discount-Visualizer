@@ -331,6 +331,26 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     color: #e0e0e0;
   }
 
+  .search-result-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-result-icon img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+  }
+
 </style>
 
 <script is:inline define:vars={{ searchableModules }}>
@@ -363,10 +383,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     if (matches.length > 0) {
       searchResults.innerHTML = matches.map(m => `
         <li class="search-result-item" data-module-id="${m.id}" data-module-name="${m.name}" data-module-icon="${m.iconSrc}" data-module-bg="${m.bgSrc}">
-          <div class="module-card" style="width: 32px; height: 32px; flex-shrink: 0; background-image: url('${m.bgSrc}'); border-radius: 4px; overflow: hidden; position: relative;">
-            <div class="object-box__icon-wrapper" style="width: 100%; height: 100%; position: absolute; inset: 0;">
-              <img src="${m.iconSrc}" class="object-box__icon" style="width: 100%; height: 100%; object-fit: contain; transform: scale(1.1);" />
-            </div>
+          <div class="search-result-icon" style="background-image: url('${m.bgSrc}');">
+            <img src="${m.iconSrc}" alt="${m.name}" />
           </div>
           <span class="search-result-name">${m.name}</span>
         </li>

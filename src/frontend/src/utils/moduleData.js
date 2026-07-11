@@ -97,6 +97,25 @@ export function fetchModuleGroups() {
 	}
 }
 
+let moduleRarityCache = null;
+
+export function fetchModuleRarities() {
+	if (moduleRarityCache) {
+		return moduleRarityCache;
+	}
+
+	const objectsDir = resolveObjectsDir();
+	try {
+		const filePath = path.join(objectsDir, 'ModuleRarity.json');
+		const content = fs.readFileSync(filePath, 'utf-8');
+		moduleRarityCache = JSON.parse(content);
+		return moduleRarityCache;
+	} catch (e) {
+		console.error('Error reading ModuleRarity.json:', e);
+		return {};
+	}
+}
+
 export function getModuleGroupName(groupId) {
 	const groups = fetchModuleGroups();
 	const group = groups[groupId];
