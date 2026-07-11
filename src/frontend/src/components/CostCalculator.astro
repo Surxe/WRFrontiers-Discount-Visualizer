@@ -221,8 +221,14 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     font-size: 0.8rem;
   }
 
-  .calculator-table th,
-  .calculator-table td {
+  .calculator-table th {
+    padding: 0.4rem 0.3rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+  }
+
+  :global(.calculator-table td) {
     padding: 0.4rem 0.3rem;
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -256,7 +262,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     margin-right: 2px;
   }
 
-  .calculator-table td.module-col {
+  :global(.calculator-table td.module-col) {
     text-align: left;
     padding-left: 1rem;
   }
