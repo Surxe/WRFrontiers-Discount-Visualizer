@@ -5,11 +5,15 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   <div class="calculator-header">
     <h3>Cost Calculator</h3>
     <div class="header-actions">
-      <select id="calc-week-select" class="header-select" aria-label="Target Week">
-        <option value="none">Target Week...</option>
-        <option value="w1">Week 1 (Placeholder)</option>
-        <option value="w2">Week 2 (Placeholder)</option>
-      </select>
+      <span class="header-with-tooltip">
+        <select id="calc-week-select" class="header-select" aria-label="Target Week">
+          <option value="none">Target Week...</option>
+          <option value="w1">Week 1 (Placeholder)</option>
+          <option value="w2">Week 2 (Placeholder)</option>
+        </select>
+        <span class="tooltip-icon">?</span>
+        <span class="custom-tooltip">Select a week to calculate costs based on its specific discount schedule.</span>
+      </span>
       <button id="clear-calculator" class="clear-btn" aria-label="Clear Calculator">Clear</button>
       <button id="close-calculator" class="close-btn" aria-label="Close Calculator">&times;</button>
     </div>
@@ -114,6 +118,60 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   .header-select:focus {
     border-color: #666;
+  }
+
+  .header-with-tooltip {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    position: relative;
+  }
+
+  .tooltip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--accent-color, #3a86ff);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: help;
+    transition: transform 0.2s, box-shadow 0.2s;
+    transform: translateY(0);
+  }
+
+  .header-with-tooltip:hover .tooltip-icon {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(58, 134, 255, 0.4);
+  }
+
+  .custom-tooltip {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translateX(-50%) translateY(-6px);
+    white-space: nowrap;
+    background: rgba(20, 20, 20, 0.95);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    max-width: none;
+  }
+
+  .header-with-tooltip:hover .custom-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
 
   .close-btn {
