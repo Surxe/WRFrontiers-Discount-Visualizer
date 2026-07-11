@@ -7,9 +7,10 @@ import Footer from './Footer.astro';
 import NavBar from './NavBar.astro';
 import LastDiscountTable from './LastDiscountTable.astro';
 import CostCalculator from './CostCalculator.astro';
-import { getTexturePath } from '../utils/textures.js';
+import { getTexturePath, getRarityBackgroundUrl } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
+import { fetchModules } from '../utils/moduleData.js';
 import { getCurrentOrLatestWeek, getNextWeek, getPreviousWeek } from '../utils/dateValidator.js';
 import { formatWeek } from '../utils/weekDates.js';
 import { extractDiscountedItemsFromGrid } from '../utils/discountHistory.js';
@@ -80,6 +81,19 @@ const discountedItems = extractDiscountedItemsFromGrid(gridData, currentSlug);
 
 const imageSha = import.meta.env.PUBLIC_IMAGE_SHA;
 const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-table.png';
+
+// Build searchable modules for Cost Calculator
+const allModulesRaw = fetchModules() || {};
+const searchableModules = Object.values(allModulesRaw)
+  .filter(m => m.production_status === 'Ready')
+  .map(m => ({
+    id: m.id,
+    name: m.name?.en || '',
+    iconSrc: getTexturePath(m.inventory_icon_path, baseUrl) || '',
+    bgSrc: getRarityBackgroundUrl(m.module_rarity_ref, shopCards, baseUrl) || '',
+    rarityRef: m.module_rarity_ref
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name));
 ---
 
 <html lang="en">
@@ -151,7 +165,7 @@ const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-ta
 		<Footer />
 		</AllWeeksSidebar>
 		
-		<CostCalculator />
+		<CostCalculator searchableModules={searchableModules} />
 	</body>
 </html>
 

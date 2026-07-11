@@ -1,4 +1,5 @@
 ---
+const { searchableModules = [] } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL || '/';
 ---
 <aside id="cost-calculator-drawer" class="calculator-drawer">
@@ -19,6 +20,11 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     </div>
   </div>
   <div class="calculator-content">
+    <div class="search-container">
+      <input type="text" id="module-search-input" placeholder="Search for a module to add..." autocomplete="off" />
+      <ul id="module-search-results" class="search-results"></ul>
+    </div>
+
     <div id="calculator-empty-state" class="empty-state">
       Click the + on any module to start calculating
     </div>
@@ -252,14 +258,85 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .qty-btn:hover {
-    background: #555;
+    background: #444;
   }
 
   .total-label {
     text-align: right;
     font-weight: bold;
   }
+
+  /* Search Styles */
+  .search-container {
+    padding: 1rem;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  #module-search-input {
+    width: 100%;
+    padding: 10px 12px;
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  #module-search-input:focus {
+    border-color: #555;
+  }
+
+  .search-results {
+    position: absolute;
+    top: calc(100% - 1rem);
+    left: 1rem;
+    right: 1rem;
+    background: #1a1e27;
+    border: 1px solid #333;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 10;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    display: none;
+  }
+
+  .search-results.active {
+    display: block;
+  }
+
+  .search-result-item {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+    transition: background 0.15s;
+  }
+
+  .search-result-item:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .search-result-name {
+    font-size: 0.9rem;
+    color: #e0e0e0;
+  }
+
 </style>
+
+<script is:inline define:vars={{ searchableModules }}>
+  // Embed the data globally for the store script to use
+  window.WRF_CALC_DATA = searchableModules;
+</script>
 
 <script>
   import { calculatorStore } from '../scripts/cost-calculator-store.js';
@@ -270,6 +347,60 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   const emptyState = document.getElementById('calculator-empty-state');
   const table = document.getElementById('calculator-table');
   const tbody = document.getElementById('calculator-tbody');
+  const searchInput = document.getElementById('module-search-input');
+  const searchResults = document.getElementById('module-search-results');
+
+  // --- Search Logic ---
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    if (!query) {
+      searchResults.classList.remove('active');
+      return;
+    }
+
+    const matches = (window.WRF_CALC_DATA || []).filter(m => m.name.toLowerCase().includes(query)).slice(0, 10);
+    
+    if (matches.length > 0) {
+      searchResults.innerHTML = matches.map(m => `
+        <li class="search-result-item" data-module-id="${m.id}" data-module-name="${m.name}" data-module-icon="${m.iconSrc}" data-module-bg="${m.bgSrc}">
+          <div class="module-card" style="width: 32px; height: 32px; flex-shrink: 0; background-image: url('${m.bgSrc}'); border-radius: 4px; overflow: hidden; position: relative;">
+            <div class="object-box__icon-wrapper" style="width: 100%; height: 100%; position: absolute; inset: 0;">
+              <img src="${m.iconSrc}" class="object-box__icon" style="width: 100%; height: 100%; object-fit: contain; transform: scale(1.1);" />
+            </div>
+          </div>
+          <span class="search-result-name">${m.name}</span>
+        </li>
+      `).join('');
+      searchResults.classList.add('active');
+    } else {
+      searchResults.classList.remove('active');
+    }
+  });
+
+  searchResults.addEventListener('click', (e) => {
+    const item = e.target.closest('.search-result-item');
+    if (!item) return;
+
+    calculatorStore.addItem({
+      moduleId: item.dataset.moduleId,
+      name: item.dataset.moduleName,
+      iconSrc: item.dataset.moduleIcon,
+      bgSrc: item.dataset.moduleBg,
+      qty: 1,
+      fromLvl: 1,
+      toLvl: 2
+    });
+
+    searchInput.value = '';
+    searchResults.classList.remove('active');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.classList.remove('active');
+    }
+  });
+  // --- End Search Logic ---
 
   closeBtn.addEventListener('click', () => {
     calculatorStore.toggleDrawer(false);
