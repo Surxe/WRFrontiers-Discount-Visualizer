@@ -80,3 +80,10 @@ class CostCalculatorStore extends EventTarget {
 }
 
 export const calculatorStore = new CostCalculatorStore();
+
+if (typeof window !== 'undefined') {
+  window.addModuleToCalc = (id, name, iconSrc) => {
+    calculatorStore.addItem({ id, name, iconSrc });
+    calculatorStore.toggleDrawer(true);
+  };
+}
