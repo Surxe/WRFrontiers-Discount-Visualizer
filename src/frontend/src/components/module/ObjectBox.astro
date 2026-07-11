@@ -7,7 +7,8 @@ const { module, shopCards, showName = true, showBadges = false, style: inlineSty
 const baseUrl = import.meta.env.BASE_URL;
 
 const iconSrc = getTexturePath(module.icon_path, baseUrl);
-const backgroundUrl = disableBackground ? null : getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
+const realBackgroundUrl = getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
+const backgroundUrl = disableBackground ? null : realBackgroundUrl;
 const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
 
 const factionIconSrc = module.faction_icon_path
@@ -38,7 +39,7 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
               data-module-id={module.id} 
               data-module-name={module.name} 
               data-module-icon={iconSrc} 
-              data-module-bg={backgroundUrl}
+              data-module-bg={realBackgroundUrl}
               aria-label="Add to Calculator"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -101,7 +102,7 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
             data-module-id={module.id} 
             data-module-name={module.name} 
             data-module-icon={iconSrc} 
-            data-module-bg={backgroundUrl}
+            data-module-bg={realBackgroundUrl}
             aria-label="Add to Calculator"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
