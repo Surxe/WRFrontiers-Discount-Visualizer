@@ -234,11 +234,18 @@ const weekList = weekEntries.map(w => ({
 	}
 
 	calculatorStore.addEventListener('change', (e) => {
-		const list = e.detail.shoppingList;
+		const { shoppingList, isOpen } = e.detail;
+		
+		if (isOpen) {
+			document.body.classList.add('calc-open');
+		} else {
+			document.body.classList.remove('calc-open');
+		}
+
 		if (badge) {
-			const totalQty = list.reduce((sum, item) => sum + item.quantity, 0);
+			const totalQty = shoppingList.reduce((sum, item) => sum + item.quantity, 0);
 			if (totalQty > 0) {
-				badge.textContent = totalQty;
+				badge.textContent = String(totalQty);
 				badge.style.display = 'flex';
 			} else {
 				badge.style.display = 'none';
@@ -272,24 +279,34 @@ const weekList = weekEntries.map(w => ({
 		min-height: 100vh;
 		box-sizing: border-box;
 		position: relative;
+		transition: padding-right 0.3s ease;
+	}
+
+	@media (min-width: 1024px) {
+		body.calc-open .app-content {
+			padding-right: 500px;
+		}
+		body.calc-open .calculator-toggle {
+			right: calc(1.5rem + 500px);
+		}
 	}
 
 	.calculator-toggle {
 		position: absolute;
 		top: 1rem;
 		right: 1.5rem;
-		background-color: var(--sidebar-bg);
-		border: 1px solid var(--sidebar-border);
-		border-radius: 0.5rem;
-		color: var(--text-color);
-		width: 44px;
-		height: 44px;
+		background: #232733;
+		border: 1px solid #333;
+		color: #e0e0e0;
+		border-radius: 8px;
+		width: 48px;
+		height: 48px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
-		z-index: 1000;
-		transition: background-color 0.2s, color 0.2s;
+		z-index: 9000;
+		transition: all 0.3s ease;
 	}
 
 	.calculator-toggle:hover {
