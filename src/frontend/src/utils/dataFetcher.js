@@ -125,6 +125,7 @@ export function fetchEnrichedDiscounts(filename = null) {
     let name = moduleId;
     let icon_path = null;
     let baseRarityRef = null;
+    let moduleRarityRef = null;
 
     if (ref.startsWith("OBJID_VirtualBot")) {
       const vbot = VirtualBotDB[moduleId];
@@ -149,6 +150,7 @@ export function fetchEnrichedDiscounts(filename = null) {
         const rarityRef = parseRef(module.module_rarity_ref);
         const moduleRarity = ModuleRarityDB[rarityRef];
         baseRarityRef = moduleRarity ? parseRef(moduleRarity.rarity_ref) : null;
+        moduleRarityRef = module.module_rarity_ref || null;
       } else {
         return null;
       }
@@ -159,7 +161,8 @@ export function fetchEnrichedDiscounts(filename = null) {
       ref: ref,
       name: name,
       icon_path: icon_path,
-      rarity: baseRarityRef
+      rarity: baseRarityRef,
+      module_rarity_ref: moduleRarityRef
     };
   };
 

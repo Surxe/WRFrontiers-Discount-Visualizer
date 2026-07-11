@@ -11,9 +11,12 @@ import { getTexturePath, getRarityBackgroundUrl } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 import { fetchModules, fetchModuleRarities, getModuleDisplayName } from '../utils/moduleData.js';
+import { fetchDiscountHistory } from '../utils/discountHistory.js';
 import { getCurrentOrLatestWeek, getNextWeek, getPreviousWeek } from '../utils/dateValidator.js';
 import { formatWeek } from '../utils/weekDates.js';
 import { extractDiscountedItemsFromGrid } from '../utils/discountHistory.js';
+import fs from 'fs';
+import path from 'path';
 
 const { dateRange, gridData, shopCards, catIcons, weeks, currentSlug, vbotMetaById } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
@@ -108,6 +111,35 @@ const searchableModules = Object.values(allModulesRaw)
     };
   })
   .sort((a, b) => a.name.localeCompare(b.name));
+
+// --- RarityUpgradeCosts ---
+let rarityUpgradeCosts = {};
+try {
+  const ruPath = [
+    path.resolve('../../WRFrontiersDB-Data/current/Objects/RarityUpgradeCost.json'),
+    path.resolve('../../../WRFrontiersDB-Data/current/Objects/RarityUpgradeCost.json'),
+    path.resolve('public/WRFrontiersDB-Data/current/Objects/RarityUpgradeCost.json'),
+  ].find(p => fs.existsSync(p));
+  if (ruPath) rarityUpgradeCosts = JSON.parse(fs.readFileSync(ruPath, 'utf-8'));
+} catch (e) { console.error('Failed to load RarityUpgradeCost.json', e); }
+
+// --- Discount Schedule: weekSlug -> [moduleId, ...] ---
+const discountHistory = fetchDiscountHistory();
+const discountSchedule = {};
+for (const [ref, data] of Object.entries(discountHistory.modules || {})) {
+  const moduleId = ref.startsWith('OBJID_Module::') ? ref.slice('OBJID_Module::'.length) : ref;
+  const weeks = Array.isArray(data) ? data : (data?.weeks || []);
+  for (const weekSlug of weeks) {
+    if (!discountSchedule[weekSlug]) discountSchedule[weekSlug] = [];
+    discountSchedule[weekSlug].push(moduleId);
+  }
+}
+
+// --- Week List for the selector ---
+const weekList = weekEntries.map(w => ({
+  slug: w.slug,
+  label: formatWeek(w, 'short') || w.date_range || w.slug,
+}));
 ---
 
 <html lang="en">
@@ -179,7 +211,13 @@ const searchableModules = Object.values(allModulesRaw)
 		<Footer />
 		</AllWeeksSidebar>
 		
-		<CostCalculator searchableModules={searchableModules} />
+		<CostCalculator
+			searchableModules={searchableModules}
+			rarityUpgradeCosts={rarityUpgradeCosts}
+			discountSchedule={discountSchedule}
+			weekList={weekList}
+			currentWeekSlug={currentSlug}
+		/>
 	</body>
 </html>
 
