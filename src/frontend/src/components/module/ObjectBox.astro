@@ -133,13 +133,12 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
 <script>
   import { calculatorStore } from '../scripts/cost-calculator-store.js';
 
-  // Attach a delegated event listener to handle clicks on the + button
+  // Attach a delegated event listener with capture: true to intercept before <a> tag
   document.addEventListener('click', (e) => {
-    // Check if the clicked element or its parent is the add button
     const btn = e.target.closest('.add-to-calc-btn');
     if (!btn) return;
     
-    // Prevent link navigation if it's inside an <a> tag
+    // Prevent link navigation
     e.preventDefault();
     e.stopPropagation();
 
@@ -153,9 +152,8 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
       iconSrc
     });
     
-    // Optionally automatically open the drawer when an item is added
     calculatorStore.toggleDrawer(true);
-  });
+  }, true); // useCapture ensures we catch it before the link click happens
 </script>
 
 <style>
@@ -244,7 +242,8 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     justify-content: center;
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.2s, background-color 0.2s, transform 0.2s;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s, background-color 0.2s, transform 0.2s;
     z-index: 10;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   }
@@ -256,6 +255,7 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
 
   .object-box__card:hover .add-to-calc-btn {
     opacity: 1;
+    visibility: visible;
   }
 
   .object-box__card--no-name .module-card__icon {
