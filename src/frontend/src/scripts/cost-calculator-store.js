@@ -63,6 +63,12 @@ class CostCalculatorStore extends EventTarget {
     this.emitChange();
   }
 
+  clearList() {
+    this.shoppingList = [];
+    this.saveToStorage();
+    this.emitChange();
+  }
+
   toggleDrawer(forceState) {
     if (forceState !== undefined) {
       this.isOpen = forceState;

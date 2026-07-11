@@ -4,7 +4,10 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 <aside id="cost-calculator-drawer" class="calculator-drawer">
   <div class="calculator-header">
     <h3>Cost Calculator</h3>
-    <button id="close-calculator" class="close-btn" aria-label="Close Calculator">&times;</button>
+    <div class="header-actions">
+      <button id="clear-calculator" class="clear-btn" aria-label="Clear Calculator">Clear</button>
+      <button id="close-calculator" class="close-btn" aria-label="Close Calculator">&times;</button>
+    </div>
   </div>
   <div class="calculator-content">
     <div id="calculator-empty-state" class="empty-state">
@@ -58,17 +61,39 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .calculator-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--sidebar-border, #232733);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid var(--sidebar-border, #232733);
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   .calculator-header h3 {
     margin: 0;
-    font-size: 1.25rem;
-    color: var(--text-color, #e0e0e0);
+    font-size: 1.1rem;
+    color: #fff;
+  }
+
+  .clear-btn {
+    background: transparent;
+    border: 1px solid #444;
+    color: #aaa;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .clear-btn:hover {
+    background: #444;
+    color: #fff;
   }
 
   .close-btn {
@@ -163,12 +188,17 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   const drawer = document.getElementById('cost-calculator-drawer');
   const closeBtn = document.getElementById('close-calculator');
+  const clearBtn = document.getElementById('clear-calculator');
   const emptyState = document.getElementById('calculator-empty-state');
   const table = document.getElementById('calculator-table');
   const tbody = document.getElementById('calculator-tbody');
 
   closeBtn.addEventListener('click', () => {
     calculatorStore.toggleDrawer(false);
+  });
+
+  clearBtn.addEventListener('click', () => {
+    calculatorStore.clearList();
   });
 
   calculatorStore.addEventListener('change', (e) => {
