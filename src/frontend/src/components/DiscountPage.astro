@@ -189,6 +189,7 @@ const weekList = weekEntries.map(w => ({
 						<line x1="16" y1="14" x2="16" y2="14.01"></line>
 						<line x1="16" y1="18" x2="16" y2="18.01"></line>
 					</svg>
+					<span class="calculator-toggle-text">Cost Calculator</span>
 					<span id="calculator-badge" class="calculator-badge" style="display: none;">0</span>
 				</button>
 
@@ -296,11 +297,14 @@ const weekList = weekEntries.map(w => ({
 		border: 1px solid #333;
 		color: #e0e0e0;
 		border-radius: 8px;
-		width: 48px;
-		height: 48px;
+		padding: 0 1rem;
+		height: 40px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		gap: 0.5rem;
+		font-weight: 600;
+		font-size: 0.85rem;
 		cursor: pointer;
 		z-index: 9000;
 		transition: all 0.3s ease;
@@ -371,6 +375,15 @@ const weekList = weekEntries.map(w => ({
 	@media (max-width: 768px) {
 		header {
 			text-align: center;
+		}
+
+		.calculator-toggle-text {
+			display: none;
+		}
+
+		.calculator-toggle {
+			width: 40px;
+			padding: 0;
 		}
 
 		h1 {
