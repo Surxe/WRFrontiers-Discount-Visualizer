@@ -246,8 +246,15 @@ const weekList = weekEntries.map(w => ({
 		if (badge) {
 			const totalQty = shoppingList.reduce((sum, item) => sum + item.quantity, 0);
 			if (totalQty > 0) {
+				const oldVal = parseInt(badge.textContent || '0', 10);
 				badge.textContent = String(totalQty);
 				badge.style.display = 'flex';
+
+				if (totalQty > oldVal) {
+					badge.classList.remove('badge-flash-anim');
+					void badge.offsetWidth; // force reflow
+					badge.classList.add('badge-flash-anim');
+				}
 			} else {
 				badge.style.display = 'none';
 			}
@@ -329,6 +336,16 @@ const weekList = weekEntries.map(w => ({
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	@keyframes badge-flash {
+		0% { transform: scale(1); background-color: #ef233c; }
+		50% { transform: scale(1.4); background-color: #ff4d6d; }
+		100% { transform: scale(1); background-color: #ef233c; }
+	}
+
+	.badge-flash-anim {
+		animation: badge-flash 0.4s ease-out;
 	}
 
 	header {
