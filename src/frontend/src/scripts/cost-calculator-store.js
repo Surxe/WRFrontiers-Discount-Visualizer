@@ -93,7 +93,8 @@ class CostCalculatorStore extends EventTarget {
   }
 
   /**
-   * Returns { salvage, intel } cost for a single item row.
+   * Returns row costs for a single item.
+   * Cost keys are destination levels: upgrading 9→13 sums costs at levels 10–13.
    * Uses window.WRF_CALC_META (rarityUpgradeCosts, discountSchedule).
    */
   calculateRowCost(item) {
@@ -113,7 +114,7 @@ class CostCalculatorStore extends EventTarget {
     let standardSalvage = 0;
     let standardIntel = 0;
 
-    for (let lvl = item.fromLvl; lvl < item.toLvl; lvl++) {
+    for (let lvl = item.fromLvl + 1; lvl <= item.toLvl; lvl++) {
       const costNode = rarityEntry.costs[String(lvl)];
       if (!costNode) continue;
 
