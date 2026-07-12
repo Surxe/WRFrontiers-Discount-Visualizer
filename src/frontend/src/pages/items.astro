@@ -199,17 +199,22 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 						<thead>
 							<tr>
 								<th>Name</th>
-								<th>Discount Weeks</th>
+								<th>
+									<span class="desktop-text">Discount Weeks</span>
+									<span class="mobile-text">Weeks</span>
+								</th>
 								<th>
 									<span class="header-with-tooltip">
-										Appearance Rate
+										<span class="desktop-text">Appearance Rate</span>
+										<span class="mobile-text">App %</span>
 										<span class="tooltip-icon">?</span>
 										<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
 									</span>
 								</th>
 								<th>
 									<span class="header-with-tooltip">
-										Average Interval
+										<span class="desktop-text">Average Interval</span>
+										<span class="mobile-text">Avg Int</span>
 										<span class="tooltip-icon">?</span>
 										<span class="custom-tooltip">Average number of weeks between discounts</span>
 									</span>
@@ -217,7 +222,8 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 								{group.showVirtualBots && (
 									<th>
 										<span class="header-with-tooltip">
-											Bot Usage
+											<span class="desktop-text">Bot Usage</span>
+											<span class="mobile-text">Usage</span>
 											<span class="tooltip-icon">?</span>
 											<span class="custom-tooltip">Portion of virtual bots this item is featured in</span>
 										</span>
@@ -292,17 +298,22 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 					<thead>
 						<tr>
 							<th>Name</th>
-							<th>Discount Weeks</th>
+							<th>
+								<span class="desktop-text">Discount Weeks</span>
+								<span class="mobile-text">Weeks</span>
+							</th>
 							<th>
 								<span class="header-with-tooltip">
-									Appearance Rate
+									<span class="desktop-text">Appearance Rate</span>
+									<span class="mobile-text">App %</span>
 									<span class="tooltip-icon">?</span>
 									<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
 								</span>
 							</th>
 							<th>
 								<span class="header-with-tooltip">
-									Average Interval
+									<span class="desktop-text">Average Interval</span>
+									<span class="mobile-text">Avg Int</span>
 									<span class="tooltip-icon">?</span>
 									<span class="custom-tooltip">Average number of weeks between discounts</span>
 								</span>
@@ -372,17 +383,22 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 					<thead>
 						<tr>
 							<th>Name</th>
-							<th>Discount Weeks</th>
+							<th>
+								<span class="desktop-text">Discount Weeks</span>
+								<span class="mobile-text">Weeks</span>
+							</th>
 							<th>
 								<span class="header-with-tooltip">
-									Appearance Rate
+									<span class="desktop-text">Appearance Rate</span>
+									<span class="mobile-text">App %</span>
 									<span class="tooltip-icon">?</span>
 									<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
 								</span>
 							</th>
 							<th>
 								<span class="header-with-tooltip">
-									Average Interval
+									<span class="desktop-text">Average Interval</span>
+									<span class="mobile-text">Avg Int</span>
 									<span class="tooltip-icon">?</span>
 									<span class="custom-tooltip">Average number of weeks between discounts</span>
 								</span>
@@ -864,19 +880,48 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 		transform: translateX(-50%) translateY(0);
 	}
 
+	.mobile-text {
+		display: none;
+	}
+
 	@media (max-width: 768px) {
+		.desktop-text {
+			display: none;
+		}
+
+		.mobile-text {
+			display: inline;
+		}
+
+		.category-table th,
+		.category-table td {
+			padding: 0.35rem 0.25rem;
+		}
+
 		.category-table {
-			font-size: 0.875rem;
+			font-size: 0.725rem;
 		}
 
 		.vbot-icon,
 		.module-icon {
-			width: 36px;
-			height: 36px;
+			width: 24px;
+			height: 24px;
 		}
 
 		.percentage-cell {
-			font-size: 0.8rem;
+			font-size: 0.725rem;
+		}
+
+		.year-group {
+			margin-right: 0.5rem;
+		}
+		
+		.header-with-tooltip {
+			gap: 0.15rem;
+		}
+
+		.name-with-icon {
+			gap: 0.35rem;
 		}
 	}
 </style>
