@@ -170,6 +170,16 @@ const {
       padding: 0 3px;
       box-sizing: border-box;
     }
+
+    @keyframes badge-flash {
+      0% { transform: scale(1); background-color: #ef233c; }
+      50% { transform: scale(1.4); background-color: #ff4d6d; }
+      100% { transform: scale(1); background-color: #ef233c; }
+    }
+
+    .badge-flash-anim {
+      animation: badge-flash 0.4s ease-out;
+    }
   }
 </style>
 
@@ -191,8 +201,15 @@ const {
       const { shoppingList } = e.detail;
       const totalQty = shoppingList.reduce((sum, item) => sum + item.quantity, 0);
       if (totalQty > 0) {
+        const oldVal = parseInt(mobileBadge.textContent || '0', 10);
         mobileBadge.textContent = String(totalQty);
         mobileBadge.style.display = 'flex';
+
+        if (totalQty > oldVal) {
+          mobileBadge.classList.remove('badge-flash-anim');
+          void mobileBadge.offsetWidth;
+          mobileBadge.classList.add('badge-flash-anim');
+        }
       } else {
         mobileBadge.style.display = 'none';
       }
