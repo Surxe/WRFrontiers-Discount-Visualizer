@@ -34,6 +34,7 @@ const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-ta
 		<div class="app-content">
 			<slot />
 		</div>
+		<slot name="bottom-nav" />
 		<Footer baseUrl={baseUrl} />
 	</body>
 </html>
