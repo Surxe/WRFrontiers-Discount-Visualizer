@@ -5,6 +5,8 @@ import AllWeeksSidebar from './AllWeeksSidebar.astro';
 import WeekNavigation from './WeekNavigation.astro';
 import Footer from './Footer.astro';
 import NavBar from './NavBar.astro';
+import MobileTopBar from './MobileTopBar.astro';
+import MobileBottomNav from './MobileBottomNav.astro';
 import LastDiscountTable from './LastDiscountTable.astro';
 import CostCalculator from './CostCalculator.astro';
 import { getTexturePath, getRarityBackgroundUrl } from '../utils/textures.js';
@@ -174,6 +176,7 @@ const weekList = weekEntries.map(w => ({
 			nextWeekHref={nextWeekHref}
 		>
 			<div class="app-content">
+				<MobileTopBar showSidebarToggle={true} showCalcToggle={true} title="WRF Discounts" />
 				<NavBar baseUrl={baseUrl} currentPage="home" />
 				
 				<button id="calculator-toggle" class="calculator-toggle" aria-label="Open Calculator">
@@ -209,6 +212,7 @@ const weekList = weekEntries.map(w => ({
 				<DiscountInfo currentSlug={currentSlug} baseUrl={baseUrl} />
 			</div>
 
+		<MobileBottomNav baseUrl={baseUrl} currentPage="home" />
 		<Footer />
 		</AllWeeksSidebar>
 		
@@ -394,13 +398,8 @@ const weekList = weekEntries.map(w => ({
 			text-align: center;
 		}
 
-		.calculator-toggle-text {
-			display: none;
-		}
-
 		.calculator-toggle {
-			width: 40px;
-			padding: 0;
+			display: none;
 		}
 
 		h1 {

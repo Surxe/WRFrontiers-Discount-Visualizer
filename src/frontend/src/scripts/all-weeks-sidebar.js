@@ -1,29 +1,43 @@
 export function initAllWeeksSidebar() {
-  const drawerToggle = document.getElementById('sidebar-toggle');
+  const desktopToggle = document.getElementById('sidebar-toggle');
+  const mobileToggle = document.getElementById('mobile-sidebar-toggle');
   const container = document.getElementById('layout-container');
   const sidebarContent = document.getElementById('sidebar-content');
   const scrollbarTrack = document.getElementById('custom-scrollbar-track');
   const scrollbarThumb = document.getElementById('custom-scrollbar-thumb');
 
-  if (!drawerToggle || !container) return;
+  if (!container) return;
 
   const SIDEBAR_HIDDEN_KEY = 'sidebar-hidden';
   const storedSidebarHidden = localStorage.getItem(SIDEBAR_HIDDEN_KEY);
   const isMobileDefault = window.matchMedia('(max-width: 768px)').matches;
 
+  function updateMobileTopBarIcons(isHidden) {
+    if (!mobileToggle) return;
+    const openIcon = mobileToggle.querySelector('.topbar-icon-open');
+    const closeIcon = mobileToggle.querySelector('.topbar-icon-close');
+    if (openIcon) openIcon.style.display = isHidden ? 'block' : 'none';
+    if (closeIcon) closeIcon.style.display = isHidden ? 'none' : 'block';
+  }
+
   function setSidebarHidden(isHidden) {
     container.classList.toggle('sidebar-hidden', isHidden);
-    drawerToggle.setAttribute('aria-expanded', String(!isHidden));
+    if (desktopToggle) desktopToggle.setAttribute('aria-expanded', String(!isHidden));
+    if (mobileToggle) mobileToggle.setAttribute('aria-expanded', String(!isHidden));
+    updateMobileTopBarIcons(isHidden);
     localStorage.setItem(SIDEBAR_HIDDEN_KEY, String(isHidden));
   }
 
   const defaultHidden = storedSidebarHidden === null ? isMobileDefault : storedSidebarHidden === 'true';
   setSidebarHidden(defaultHidden);
 
-  drawerToggle.addEventListener('click', () => {
+  function onToggleClick() {
     const willHide = !container.classList.contains('sidebar-hidden');
     setSidebarHidden(willHide);
-  });
+  }
+
+  if (desktopToggle) desktopToggle.addEventListener('click', onToggleClick);
+  if (mobileToggle) mobileToggle.addEventListener('click', onToggleClick);
   // Custom scrollbar functionality
   if (sidebarContent && scrollbarTrack && scrollbarThumb) {
     let isDragging = false;

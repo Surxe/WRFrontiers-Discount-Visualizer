@@ -1,0 +1,135 @@
+---
+const { baseUrl, currentPage } = Astro.props;
+---
+
+<nav class="mobile-bottom-nav" aria-label="Main navigation">
+  <a
+    href={baseUrl}
+    class:list={["bottom-nav-tab", { active: currentPage === "home" }]}
+    aria-label="Discount Weeks"
+    id="mobile-nav-home"
+  >
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+      <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+      <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+      <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+    </svg>
+    <span class="tab-label">Discounts</span>
+    {currentPage === "home" && <span class="tab-active-dot" aria-hidden="true"></span>}
+  </a>
+
+  <a
+    href={`${baseUrl}items`}
+    class:list={["bottom-nav-tab", { active: currentPage === "items" }]}
+    aria-label="Items"
+    id="mobile-nav-items"
+  >
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+      <line x1="12" y1="22.08" x2="12" y2="12"></line>
+    </svg>
+    <span class="tab-label">Items</span>
+    {currentPage === "items" && <span class="tab-active-dot" aria-hidden="true"></span>}
+  </a>
+
+  <a
+    href={`${baseUrl}timeline`}
+    class:list={["bottom-nav-tab", { active: currentPage === "timeline" }]}
+    aria-label="Timeline"
+    id="mobile-nav-timeline"
+  >
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="2" y1="12" x2="22" y2="12"></line>
+      <circle cx="6" cy="12" r="2" fill="currentColor" stroke="none"></circle>
+      <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"></circle>
+      <circle cx="18" cy="12" r="2" fill="currentColor" stroke="none"></circle>
+      <line x1="6" y1="8" x2="6" y2="10"></line>
+      <line x1="12" y1="5" x2="12" y2="10"></line>
+      <line x1="18" y1="8" x2="18" y2="10"></line>
+    </svg>
+    <span class="tab-label">Timeline</span>
+    {currentPage === "timeline" && <span class="tab-active-dot" aria-hidden="true"></span>}
+  </a>
+</nav>
+
+<style>
+  .mobile-bottom-nav {
+    display: none; /* Hidden on desktop */
+  }
+
+  @media (max-width: 768px) {
+    .mobile-bottom-nav {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      z-index: 500;
+      background: rgba(15, 17, 21, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      align-items: stretch;
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .bottom-nav-tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      color: var(--text-muted, #8b92a5);
+      text-decoration: none;
+      border-bottom: none;
+      position: relative;
+      transition: color 0.2s ease;
+      padding: 4px 0;
+    }
+
+    .bottom-nav-tab:hover {
+      color: var(--text-color, #e0e0e0);
+      border-bottom: none;
+    }
+
+    .bottom-nav-tab.active {
+      color: var(--accent-color, #3a86ff);
+      border-bottom: none;
+    }
+
+    .tab-icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .bottom-nav-tab.active .tab-icon {
+      transform: translateY(-1px);
+    }
+
+    .tab-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      line-height: 1;
+    }
+
+    .tab-active-dot {
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent-color, #3a86ff);
+      box-shadow: 0 0 6px var(--accent-color, #3a86ff);
+    }
+  }
+</style>

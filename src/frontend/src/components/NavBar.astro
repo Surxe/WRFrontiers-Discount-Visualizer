@@ -8,15 +8,42 @@ const navItems = [
 ];
 ---
 
-<nav class="navbar">
+<nav class="navbar" aria-label="Main navigation">
 	<ul class="nav-list">
 		{navItems.map(item => (
 			<li>
 				<a
 					href={item.href}
-					class:list={{ active: currentPage === item.id }}
+					class:list={["nav-link", { active: currentPage === item.id }]}
+					aria-current={currentPage === item.id ? 'page' : undefined}
 				>
-					{item.text}
+					{item.id === 'home' && (
+						<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<rect x="3" y="3" width="7" height="7" rx="1"></rect>
+							<rect x="14" y="3" width="7" height="7" rx="1"></rect>
+							<rect x="3" y="14" width="7" height="7" rx="1"></rect>
+							<rect x="14" y="14" width="7" height="7" rx="1"></rect>
+						</svg>
+					)}
+					{item.id === 'items' && (
+						<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+							<polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+							<line x1="12" y1="22.08" x2="12" y2="12"></line>
+						</svg>
+					)}
+					{item.id === 'timeline' && (
+						<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<line x1="2" y1="12" x2="22" y2="12"></line>
+							<circle cx="6" cy="12" r="2" fill="currentColor" stroke="none"></circle>
+							<circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"></circle>
+							<circle cx="18" cy="12" r="2" fill="currentColor" stroke="none"></circle>
+							<line x1="6" y1="8" x2="6" y2="10"></line>
+							<line x1="12" y1="5" x2="12" y2="10"></line>
+							<line x1="18" y1="8" x2="18" y2="10"></line>
+						</svg>
+					)}
+					<span class="nav-text">{item.text}</span>
 				</a>
 			</li>
 		))}
@@ -30,10 +57,14 @@ const navItems = [
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 1000;
-		background-color: var(--sidebar-bg, #161920);
-		border: 1px solid var(--sidebar-border, #232733);
-		border-radius: 0.5rem;
-		padding: 0.5rem 1rem;
+		background: rgba(22, 25, 32, 0.75);
+		backdrop-filter: blur(14px);
+		-webkit-backdrop-filter: blur(14px);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 999px;
+		padding: 0.3rem 0.4rem;
+		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+		white-space: nowrap;
 	}
 
 	.nav-list {
@@ -41,45 +72,55 @@ const navItems = [
 		padding: 0;
 		margin: 0;
 		display: flex;
-		gap: 1rem;
+		gap: 0.15rem;
+		align-items: center;
 	}
 
 	.nav-list li {
 		margin: 0;
 	}
 
-	.nav-list a {
-		color: var(--text-color, #ffffff);
+	.nav-link {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		color: var(--text-muted, #8b92a5);
 		text-decoration: none;
-		font-size: 0.875rem;
-		padding: 0.25rem 0.5rem;
-		border-radius: 0.25rem;
-		transition: background-color 0.2s, color 0.2s;
-		border-bottom: none;
-	}
-
-	.nav-list a:hover {
-		background-color: var(--active-bg, #232733);
-		color: var(--accent-color, #3a86ff);
-		border-bottom: none;
-	}
-
-	.nav-list a.active {
-		color: var(--accent-color, #3a86ff);
+		font-size: 0.8rem;
 		font-weight: 600;
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		border-bottom: none;
+		transition: color 0.2s ease, background 0.2s ease;
+		letter-spacing: 0.2px;
+	}
+
+	.nav-link:hover {
+		color: var(--text-color, #e0e0e0);
+		background: rgba(255, 255, 255, 0.06);
 		border-bottom: none;
 	}
 
+	.nav-link.active {
+		color: var(--accent-color, #3a86ff);
+		background: rgba(58, 134, 255, 0.12);
+		border-bottom: none;
+	}
+
+	.nav-icon {
+		width: 15px;
+		height: 15px;
+		flex-shrink: 0;
+	}
+
+	.nav-text {
+		line-height: 1;
+	}
+
+	/* On mobile, hide the desktop navbar — MobileBottomNav takes over */
 	@media (max-width: 768px) {
 		.navbar {
-			top: auto;
-			bottom: 1rem;
-			left: 50%;
-			transform: translateX(-50%);
-		}
-
-		.nav-list {
-			justify-content: center;
+			display: none;
 		}
 	}
 </style>

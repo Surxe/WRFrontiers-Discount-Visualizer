@@ -1,6 +1,8 @@
 ---
 import GenericPage from '../components/GenericPage.astro';
 import NavBar from '../components/NavBar.astro';
+import MobileTopBar from '../components/MobileTopBar.astro';
+import MobileBottomNav from '../components/MobileBottomNav.astro';
 import { fetchModuleGroups, fetchCatIcons, fetchModulesByGroup } from '../utils/moduleData.js';
 import { getTexturePath } from '../utils/textures.js';
 import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
@@ -171,6 +173,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 	description="List of all items with their discount history"
 	baseUrl={baseUrl}
 >
+	<MobileTopBar showSidebarToggle={false} showCalcToggle={false} title="WRF Items" />
 	<NavBar baseUrl={baseUrl} currentPage="items" />
 	<h1>Items</h1>
 	<div class="action-buttons">
@@ -550,6 +553,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 			window.history.replaceState({}, '', url);
 		});
 	</script>
+	<MobileBottomNav baseUrl={baseUrl} currentPage="items" />
 </GenericPage>
 
 <style>
