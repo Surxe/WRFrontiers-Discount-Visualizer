@@ -199,17 +199,22 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 						<thead>
 							<tr>
 								<th>Name</th>
-								<th>Discount Weeks</th>
+								<th>
+									<span class="desktop-text">Discount Weeks</span>
+									<span class="mobile-text">Weeks</span>
+								</th>
 								<th>
 									<span class="header-with-tooltip">
-										Appearance Rate
+										<span class="desktop-text">Appearance Rate</span>
+										<span class="mobile-text">App %</span>
 										<span class="tooltip-icon">?</span>
 										<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
 									</span>
 								</th>
 								<th>
 									<span class="header-with-tooltip">
-										Average Interval
+										<span class="desktop-text">Average Interval</span>
+										<span class="mobile-text">Avg Int</span>
 										<span class="tooltip-icon">?</span>
 										<span class="custom-tooltip">Average number of weeks between discounts</span>
 									</span>
@@ -217,7 +222,8 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 								{group.showVirtualBots && (
 									<th>
 										<span class="header-with-tooltip">
-											Bot Usage
+											<span class="desktop-text">Bot Usage</span>
+											<span class="mobile-text">Usage</span>
 											<span class="tooltip-icon">?</span>
 											<span class="custom-tooltip">Portion of virtual bots this item is featured in</span>
 										</span>
@@ -292,17 +298,22 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 					<thead>
 						<tr>
 							<th>Name</th>
-							<th>Discount Weeks</th>
+							<th>
+								<span class="desktop-text">Discount Weeks</span>
+								<span class="mobile-text">Weeks</span>
+							</th>
 							<th>
 								<span class="header-with-tooltip">
-									Appearance Rate
+									<span class="desktop-text">Appearance Rate</span>
+									<span class="mobile-text">App %</span>
 									<span class="tooltip-icon">?</span>
 									<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
 								</span>
 							</th>
 							<th>
 								<span class="header-with-tooltip">
-									Average Interval
+									<span class="desktop-text">Average Interval</span>
+									<span class="mobile-text">Avg Int</span>
 									<span class="tooltip-icon">?</span>
 									<span class="custom-tooltip">Average number of weeks between discounts</span>
 								</span>
@@ -372,17 +383,22 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 					<thead>
 						<tr>
 							<th>Name</th>
-							<th>Discount Weeks</th>
+							<th>
+								<span class="desktop-text">Discount Weeks</span>
+								<span class="mobile-text">Weeks</span>
+							</th>
 							<th>
 								<span class="header-with-tooltip">
-									Appearance Rate
+									<span class="desktop-text">Appearance Rate</span>
+									<span class="mobile-text">App %</span>
 									<span class="tooltip-icon">?</span>
 									<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
 								</span>
 							</th>
 							<th>
 								<span class="header-with-tooltip">
-									Average Interval
+									<span class="desktop-text">Average Interval</span>
+									<span class="mobile-text">Avg Int</span>
 									<span class="tooltip-icon">?</span>
 									<span class="custom-tooltip">Average number of weeks between discounts</span>
 								</span>
@@ -581,6 +597,8 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 </GenericPage>
 
 <style>
+	@import '../styles/tooltips.css';
+
 	:root {
 		--accent-color: #3a86ff;
 		--accent-hover: #2b65cc;
@@ -729,60 +747,6 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 		font-weight: 500;
 	}
 
-	.header-with-tooltip {
-		display: flex;
-		align-items: center;
-		gap: 0.25rem;
-		position: relative;
-	}
-
-	.tooltip-icon {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 16px;
-		height: 16px;
-		border-radius: 50%;
-		background-color: var(--accent-color, #3a86ff);
-		color: white;
-		font-size: 11px;
-		font-weight: 700;
-		cursor: help;
-		transition: transform 0.2s, box-shadow 0.2s;
-		transform: translateY(0);
-	}
-
-	.header-with-tooltip:hover .tooltip-icon {
-		transform: translateY(-2px);
-		box-shadow: 0 8px 20px rgba(58, 134, 255, 0.4);
-	}
-
-	.custom-tooltip {
-		position: absolute;
-		left: 50%;
-		top: calc(100% + 10px);
-		transform: translateX(-50%) translateY(-6px);
-		white-space: nowrap;
-		background: rgba(20, 20, 20, 0.95);
-		color: #fff;
-		padding: 8px 12px;
-		border-radius: 999px;
-		font-size: 0.78rem;
-		line-height: 1.3;
-		text-align: center;
-		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
-		transition: opacity 0.18s ease, transform 0.18s ease;
-		opacity: 0;
-		pointer-events: none;
-		z-index: 9999;
-		max-width: none;
-	}
-
-	.header-with-tooltip:hover .custom-tooltip {
-		opacity: 1;
-		transform: translateX(-50%) translateY(0);
-	}
-
 	.year-group {
 		display: inline-flex;
 		align-items: center;
@@ -838,45 +802,47 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 		flex-shrink: 0;
 	}
 
-	.item-tooltip {
-		position: absolute;
-		left: 50%;
-		top: calc(100% + 10px);
-		transform: translateX(-50%) translateY(-6px);
-		white-space: nowrap;
-		background: rgba(20, 20, 20, 0.95);
-		color: #fff;
-		padding: 8px 12px;
-		border-radius: 999px;
-		font-size: 0.78rem;
-		line-height: 1.3;
-		text-align: center;
-		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
-		transition: opacity 0.18s ease, transform 0.18s ease;
-		opacity: 0;
-		pointer-events: none;
-		z-index: 9999;
-		max-width: none;
-	}
-
-	.name-with-icon-wrapper:hover .item-tooltip {
-		opacity: 1;
-		transform: translateX(-50%) translateY(0);
+	.mobile-text {
+		display: none;
 	}
 
 	@media (max-width: 768px) {
+		.desktop-text {
+			display: none;
+		}
+
+		.mobile-text {
+			display: inline;
+		}
+
+		.category-table th,
+		.category-table td {
+			padding: 0.35rem 0.25rem;
+		}
+
 		.category-table {
-			font-size: 0.875rem;
+			font-size: 0.725rem;
 		}
 
 		.vbot-icon,
 		.module-icon {
-			width: 36px;
-			height: 36px;
+			width: 24px;
+			height: 24px;
 		}
 
 		.percentage-cell {
-			font-size: 0.8rem;
+			font-size: 0.725rem;
+		}
+
+		.year-group {
+			margin-right: 0.5rem;
+		}
+
+		.name-with-icon {
+			flex-direction: column;
+			justify-content: center;
+			text-align: center;
+			gap: 0.15rem;
 		}
 	}
 </style>
