@@ -16,21 +16,27 @@ const itemsWithLastDiscount = items.map(item => {
 	
 	const lastDiscountDate = getLastDiscountBeforeDate(discountWeeks, currentWeekSlug);
 	
-	let formattedDate = 'Never';
+	let formattedDate;
 	let weeksAgo = null;
 	let dateUrl = null;
+	let isThisWeek = false;
 	
 	if (lastDiscountDate) {
 		formattedDate = formatDiscountDate(lastDiscountDate);
 		weeksAgo = calculateWeeksAgo(lastDiscountDate, currentWeekSlug);
 		dateUrl = `${baseUrl}week/${lastDiscountDate}`;
+	} else {
+		formattedDate = formatDiscountDate(currentWeekSlug);
+		dateUrl = `${baseUrl}week/${currentWeekSlug}`;
+		isThisWeek = true;
 	}
 	
 	return {
 		...item,
 		lastDiscountDate: formattedDate,
 		weeksAgo: weeksAgo,
-		dateUrl: dateUrl
+		dateUrl: dateUrl,
+		isThisWeek,
 	};
 });
 
@@ -70,15 +76,11 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 						</span>
 					</td>
 					<td class="date-cell">
-						{item.dateUrl ? (
-							<>
-								<a href={item.dateUrl} class="date-link">{item.lastDiscountDate}</a>
-								{item.weeksAgo !== null && (
-									<span class="weeks-ago"> ({item.weeksAgo} week{item.weeksAgo !== 1 ? 's' : ''} ago)</span>
-								)}
-							</>
-						) : (
-							item.lastDiscountDate
+						<a href={item.dateUrl} class="date-link">{item.lastDiscountDate}</a>
+						{item.isThisWeek ? (
+							<span class="weeks-ago"> (this week)</span>
+						) : item.weeksAgo !== null && (
+							<span class="weeks-ago"> ({item.weeksAgo} week{item.weeksAgo !== 1 ? 's' : ''} ago)</span>
 						)}
 					</td>
 				</tr>
