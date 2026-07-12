@@ -539,6 +539,21 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     .calculator-header h3 {
       font-size: 1rem;
     }
+
+    .custom-tooltip {
+      white-space: normal;
+      width: max-content;
+      max-width: 160px;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      left: auto;
+      right: 0;
+      transform: translateY(-6px);
+    }
+    
+    .header-with-tooltip:hover .custom-tooltip {
+      transform: translateY(0);
+    }
   }
 
 </style>
