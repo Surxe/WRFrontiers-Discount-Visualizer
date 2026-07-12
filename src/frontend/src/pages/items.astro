@@ -926,5 +926,25 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 			text-align: center;
 			gap: 0.15rem;
 		}
+
+		.custom-tooltip,
+		.item-tooltip {
+			white-space: normal;
+			width: max-content;
+			max-width: 160px;
+			border-radius: 8px;
+			font-size: 0.7rem;
+			z-index: 9999;
+		}
+		
+		th:last-child .custom-tooltip {
+			left: auto;
+			right: -10px;
+			transform: translateY(-6px);
+		}
+		
+		th:last-child .header-with-tooltip:hover .custom-tooltip {
+			transform: translateY(0);
+		}
 	}
 </style>
