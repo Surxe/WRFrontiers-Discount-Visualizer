@@ -1,0 +1,87 @@
+/* ============================================================
+ * Shared tooltip styles
+ * Used by: CostCalculator.astro, items.astro
+ * ============================================================ */
+
+.header-with-tooltip {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  position: relative;
+}
+
+.tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--accent-color, #3a86ff);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: help;
+  transition: transform 0.2s, box-shadow 0.2s;
+  transform: translateY(0);
+}
+
+.header-with-tooltip:hover .tooltip-icon {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(58, 134, 255, 0.4);
+}
+
+.custom-tooltip,
+.item-tooltip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  transform: translateX(-50%) translateY(-6px);
+  white-space: nowrap;
+  background: rgba(20, 20, 20, 0.95);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  line-height: 1.3;
+  text-align: center;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  max-width: none;
+}
+
+.header-with-tooltip:hover .custom-tooltip,
+.name-with-icon-wrapper:hover .item-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── Mobile overrides ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .header-with-tooltip {
+    gap: 0.15rem;
+  }
+
+  .custom-tooltip,
+  .item-tooltip {
+    white-space: normal;
+    width: max-content;
+    max-width: 160px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+  }
+
+  /* Last column: open tooltip leftwards to avoid clipping */
+  th:last-child .custom-tooltip {
+    left: auto;
+    right: -10px;
+    transform: translateY(-6px);
+  }
+
+  th:last-child .header-with-tooltip:hover .custom-tooltip {
+    transform: translateY(0);
+  }
+}
