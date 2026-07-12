@@ -7,7 +7,8 @@ const { module, shopCards, showName = true, showBadges = false, style: inlineSty
 const baseUrl = import.meta.env.BASE_URL;
 
 const iconSrc = getTexturePath(module.icon_path, baseUrl);
-const backgroundUrl = disableBackground ? null : getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
+const realBackgroundUrl = getRarityBackgroundUrl(module.rarity, shopCards, baseUrl);
+const backgroundUrl = disableBackground ? null : realBackgroundUrl;
 const bgStyle = backgroundUrl ? `background-image: url('${backgroundUrl}');` : '';
 
 const factionIconSrc = module.faction_icon_path
@@ -23,7 +24,16 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
 ---
 
 {href ? (
-  <a href={href} class="object-box-link" style={inlineStyle}>
+  <a
+    href={href}
+    class="object-box-link"
+    style={inlineStyle}
+    data-module-id={module.id}
+    data-module-name={module.name}
+    data-module-icon={iconSrc}
+    data-module-bg={realBackgroundUrl}
+    data-module-rarity={module.module_rarity_ref}
+  >
     <div class="object-box">
       <div
         class:list={['module-card', 'object-box__card', { 'object-box__card--no-name': !showName }]}
@@ -31,6 +41,33 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
       >
         <div class="module-card__icon">
           {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
+          {module.id && (
+            <>
+              {/* Desktop: clickable hover button */}
+              <button 
+                class="add-to-calc-btn" 
+                onclick="event.preventDefault(); event.stopPropagation(); window.addModuleToCalc(this.dataset.moduleId, this.dataset.moduleName, this.dataset.moduleIcon, this.dataset.moduleBg, this.dataset.moduleRarity); return false;"
+                data-module-id={module.id} 
+                data-module-name={module.name} 
+                data-module-icon={iconSrc} 
+                data-module-bg={realBackgroundUrl}
+                data-module-rarity={module.module_rarity_ref}
+                aria-label="Add to Calculator"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+              {/* Mobile: decorative-only + indicator */}
+              <span class="mobile-calc-hint" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </span>
+            </>
+          )}
         </div>
         {showName && (
           <div class="module-card__footer">
@@ -78,6 +115,31 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     >
       <div class="module-card__icon">
         {iconSrc && <img class="module-icon" src={iconSrc} alt={module.name} />}
+        {module.id && (
+          <>
+            <button 
+              class="add-to-calc-btn" 
+              onclick="event.preventDefault(); event.stopPropagation(); window.addModuleToCalc(this.dataset.moduleId, this.dataset.moduleName, this.dataset.moduleIcon, this.dataset.moduleBg, this.dataset.moduleRarity); return false;"
+              data-module-id={module.id} 
+              data-module-name={module.name} 
+              data-module-icon={iconSrc} 
+              data-module-bg={realBackgroundUrl}
+              data-module-rarity={module.module_rarity_ref}
+              aria-label="Add to Calculator"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+            <span class="mobile-calc-hint" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </span>
+          </>
+        )}
       </div>
       {showName && (
         <div class="module-card__footer">
@@ -117,6 +179,8 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     </div>
   </div>
 )}
+
+
 
 <style>
   .object-box-link {
@@ -185,6 +249,72 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
   .object-box__card .module-card__icon {
     flex: 1;
     min-height: 0;
+    position: relative;
+  }
+
+  /* --- Desktop (hover capable): hidden until card hovered --- */
+  @media (hover: hover) {
+    .add-to-calc-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(58, 134, 255, 0.9);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s, background-color 0.2s, transform 0.2s;
+      z-index: 10;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .add-to-calc-btn:hover {
+      background-color: #2b65cc;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .object-box__card:hover .add-to-calc-btn {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Hide decorative hint on desktop */
+    .mobile-calc-hint {
+      display: none;
+    }
+  }
+
+  /* --- Mobile (touch/no-hover): decorative indicator only, tap handled by JS --- */
+  @media (hover: none) {
+    /* Hide the real button — interaction is on the card link itself */
+    .add-to-calc-btn {
+      display: none;
+    }
+
+    /* Tiny decorative + badge, bottom-right of icon area, not interactive */
+    .mobile-calc-hint {
+      position: absolute;
+      bottom: 3px;
+      right: 3px;
+      width: 14px;
+      height: 14px;
+      background-color: rgba(58, 134, 255, 0.85);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 10;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
   }
 
   .object-box__card--no-name .module-card__icon {
@@ -240,3 +370,45 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     margin-top: 2px;
   }
 </style>
+
+<script>
+  // Only wire up on touch/no-hover devices
+  if (window.matchMedia('(hover: none)').matches) {
+    // Use a flag so this only initialises once even with many ObjectBox instances
+    if (!window._objectBoxTouchInitDone) {
+      window._objectBoxTouchInitDone = true;
+
+      const HOLD_MS = 500;
+
+      document.addEventListener('touchstart', (e) => {
+        const link = e.target.closest('a.object-box-link[data-module-id]');
+        if (!link) return;
+
+        let held = false;
+        let holdTimer = setTimeout(() => {
+          held = true;
+          // Long press — allow navigation (do nothing, let touchend's click through)
+        }, HOLD_MS);
+
+        const onEnd = (endEvt) => {
+          clearTimeout(holdTimer);
+          link.removeEventListener('touchend', onEnd);
+          link.removeEventListener('touchcancel', onEnd);
+
+          if (!held) {
+            // Short tap — add to calculator, block navigation
+            endEvt.preventDefault();
+            const { moduleId, moduleName, moduleIcon, moduleBg, moduleRarity } = link.dataset;
+            if (window.addModuleToCalc) {
+              window.addModuleToCalc(moduleId, moduleName, moduleIcon, moduleBg, moduleRarity);
+            }
+          }
+          // Long press: held=true, let the browser follow the href normally
+        };
+
+        link.addEventListener('touchend', onEnd, { passive: false });
+        link.addEventListener('touchcancel', onEnd);
+      }, { passive: true });
+    }
+  }
+</script>

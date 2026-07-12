@@ -6,12 +6,17 @@ import WeekNavigation from './WeekNavigation.astro';
 import Footer from './Footer.astro';
 import NavBar from './NavBar.astro';
 import LastDiscountTable from './LastDiscountTable.astro';
-import { getTexturePath } from '../utils/textures.js';
+import CostCalculator from './CostCalculator.astro';
+import { getTexturePath, getRarityBackgroundUrl } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
+import { fetchModules, fetchModuleRarities, getModuleDisplayName } from '../utils/moduleData.js';
+import { fetchDiscountHistory } from '../utils/discountHistory.js';
 import { getCurrentOrLatestWeek, getNextWeek, getPreviousWeek } from '../utils/dateValidator.js';
 import { formatWeek } from '../utils/weekDates.js';
 import { extractDiscountedItemsFromGrid } from '../utils/discountHistory.js';
+import fs from 'fs';
+import path from 'path';
 
 const { dateRange, gridData, shopCards, catIcons, weeks, currentSlug, vbotMetaById } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
@@ -79,6 +84,62 @@ const discountedItems = extractDiscountedItemsFromGrid(gridData, currentSlug);
 
 const imageSha = import.meta.env.PUBLIC_IMAGE_SHA;
 const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-table.png';
+
+// Build searchable modules for Cost Calculator
+const allModulesRaw = fetchModules() || {};
+const moduleRaritiesRaw = fetchModuleRarities() || {};
+
+const parseRef = (ref) => {
+  if (!ref) return null;
+  const parts = ref.split('::');
+  return parts.length > 1 ? parts[1] : parts[0];
+};
+
+const searchableModules = Object.values(allModulesRaw)
+  .filter(m => m.production_status === 'Ready')
+  .map(m => {
+    const rawRarityRef = parseRef(m.module_rarity_ref);
+    const moduleRarity = moduleRaritiesRaw[rawRarityRef];
+    const baseRarityRef = moduleRarity ? parseRef(moduleRarity.rarity_ref) : null;
+    
+    return {
+      id: m.id,
+      name: getModuleDisplayName(m),
+      iconSrc: getTexturePath(m.inventory_icon_path, baseUrl) || '',
+      bgSrc: getRarityBackgroundUrl(baseRarityRef, shopCards, baseUrl) || '',
+      rarityRef: m.module_rarity_ref
+    };
+  })
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+// --- RarityUpgradeCosts ---
+let rarityUpgradeCosts = {};
+try {
+  const ruPath = [
+    path.resolve('../../WRFrontiersDB-Data/current/Objects/RarityUpgradeCost.json'),
+    path.resolve('../../../WRFrontiersDB-Data/current/Objects/RarityUpgradeCost.json'),
+    path.resolve('public/WRFrontiersDB-Data/current/Objects/RarityUpgradeCost.json'),
+  ].find(p => fs.existsSync(p));
+  if (ruPath) rarityUpgradeCosts = JSON.parse(fs.readFileSync(ruPath, 'utf-8'));
+} catch (e) { console.error('Failed to load RarityUpgradeCost.json', e); }
+
+// --- Discount Schedule: weekSlug -> [moduleId, ...] ---
+const discountHistory = fetchDiscountHistory();
+const discountSchedule = {};
+for (const [ref, data] of Object.entries(discountHistory.modules || {})) {
+  const moduleId = ref.startsWith('OBJID_Module::') ? ref.slice('OBJID_Module::'.length) : ref;
+  const weeks = Array.isArray(data) ? data : (data?.weeks || []);
+  for (const weekSlug of weeks) {
+    if (!discountSchedule[weekSlug]) discountSchedule[weekSlug] = [];
+    discountSchedule[weekSlug].push(moduleId);
+  }
+}
+
+// --- Week List for the selector ---
+const weekList = weekEntries.map(w => ({
+  slug: w.slug,
+  label: formatWeek(w, 'short') || w.date_range || w.slug,
+}));
 ---
 
 <html lang="en">
@@ -114,6 +175,24 @@ const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-ta
 		>
 			<div class="app-content">
 				<NavBar baseUrl={baseUrl} currentPage="home" />
+				
+				<button id="calculator-toggle" class="calculator-toggle" aria-label="Open Calculator">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+						<line x1="16" y1="2" x2="16" y2="6"></line>
+						<line x1="8" y1="2" x2="8" y2="6"></line>
+						<line x1="4" y1="10" x2="20" y2="10"></line>
+						<line x1="8" y1="14" x2="12" y2="14"></line>
+						<line x1="12" y1="14" x2="12" y2="18"></line>
+						<line x1="12" y1="18" x2="8" y2="18"></line>
+						<line x1="8" y1="18" x2="8" y2="14"></line>
+						<line x1="16" y1="14" x2="16" y2="14.01"></line>
+						<line x1="16" y1="18" x2="16" y2="18.01"></line>
+					</svg>
+					<span class="calculator-toggle-text">Cost Calculator</span>
+					<span id="calculator-badge" class="calculator-badge" style="display: none;">0</span>
+				</button>
+
 				<header>
 					<h1>War Robots Frontiers Upgrade Discounts</h1>
 					{dateRange && (
@@ -132,8 +211,56 @@ const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-ta
 
 		<Footer />
 		</AllWeeksSidebar>
+		
+		<CostCalculator
+			searchableModules={searchableModules}
+			rarityUpgradeCosts={rarityUpgradeCosts}
+			discountSchedule={discountSchedule}
+			weekList={weekList}
+			currentWeekSlug={currentSlug}
+		/>
 	</body>
 </html>
+
+<script>
+	import { calculatorStore } from '../scripts/cost-calculator-store.js';
+
+	const toggleBtn = document.getElementById('calculator-toggle');
+	const badge = document.getElementById('calculator-badge');
+
+	if (toggleBtn) {
+		toggleBtn.addEventListener('click', () => {
+			calculatorStore.toggleDrawer();
+		});
+	}
+
+	calculatorStore.addEventListener('change', (e) => {
+		const { shoppingList, isOpen } = e.detail;
+		
+		if (isOpen) {
+			document.body.classList.add('calc-open');
+		} else {
+			document.body.classList.remove('calc-open');
+		}
+
+		if (badge) {
+			const totalQty = shoppingList.reduce((sum, item) => sum + item.quantity, 0);
+			if (totalQty > 0) {
+				const oldVal = parseInt(badge.textContent || '0', 10);
+				badge.textContent = String(totalQty);
+				badge.style.display = 'flex';
+
+				if (totalQty > oldVal) {
+					badge.classList.remove('badge-flash-anim');
+					void badge.offsetWidth; // force reflow
+					badge.classList.add('badge-flash-anim');
+				}
+			} else {
+				badge.style.display = 'none';
+			}
+		}
+	});
+</script>
 
 <style>
 	:root {
@@ -153,12 +280,72 @@ const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-ta
 		font-family: 'Montserrat', sans-serif;
 		margin: 0;
 		padding: 0;
+		transition: padding-right 0.3s ease;
 	}
 
 	.app-content {
 		flex: 1 0 auto;
 		min-height: 100vh;
 		box-sizing: border-box;
+		position: relative;
+	}
+
+	@media (min-width: 1024px) {
+		body.calc-open {
+			padding-right: 500px;
+		}
+	}
+
+	.calculator-toggle {
+		position: absolute;
+		top: 1rem;
+		right: 1.5rem;
+		background: #232733;
+		border: 1px solid #333;
+		color: #e0e0e0;
+		border-radius: 8px;
+		padding: 0 1rem;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		font-weight: 600;
+		font-size: 0.85rem;
+		cursor: pointer;
+		z-index: 9000;
+		transition: all 0.3s ease;
+	}
+
+	.calculator-toggle:hover {
+		background-color: var(--active-bg);
+		color: var(--accent-color);
+	}
+
+	.calculator-badge {
+		position: absolute;
+		top: -5px;
+		right: -5px;
+		background: #ef233c;
+		color: white;
+		font-size: 0.7rem;
+		font-weight: bold;
+		width: 18px;
+		height: 18px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	@keyframes badge-flash {
+		0% { transform: scale(1); background-color: #ef233c; }
+		50% { transform: scale(1.4); background-color: #ff4d6d; }
+		100% { transform: scale(1); background-color: #ef233c; }
+	}
+
+	.badge-flash-anim {
+		animation: badge-flash 0.4s ease-out;
 	}
 
 	header {
@@ -205,6 +392,15 @@ const imageFilename = imageSha ? `discount-table-${imageSha}.png` : 'discount-ta
 	@media (max-width: 768px) {
 		header {
 			text-align: center;
+		}
+
+		.calculator-toggle-text {
+			display: none;
+		}
+
+		.calculator-toggle {
+			width: 40px;
+			padding: 0;
 		}
 
 		h1 {

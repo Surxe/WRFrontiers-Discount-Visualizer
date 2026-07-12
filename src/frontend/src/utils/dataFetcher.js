@@ -3,6 +3,7 @@ import path from 'path';
 import { getCurrentOrLatestWeek } from './dateValidator.js';
 import { formatWeek } from './weekDates.js';
 import { buildVbotMetaById } from './vbotMeta.js';
+import { getModuleDisplayName } from './moduleData.js';
 
 const parseRef = (ref) => {
   if (!ref) return null;
@@ -124,6 +125,7 @@ export function fetchEnrichedDiscounts(filename = null) {
     let name = moduleId;
     let icon_path = null;
     let baseRarityRef = null;
+    let moduleRarityRef = null;
 
     if (ref.startsWith("OBJID_VirtualBot")) {
       const vbot = VirtualBotDB[moduleId];
@@ -143,11 +145,12 @@ export function fetchEnrichedDiscounts(filename = null) {
     } else {
       const module = ModuleDB[moduleId];
       if (module) {
-        name = module.name?.en || moduleId;
+        name = getModuleDisplayName(module);
         icon_path = module.inventory_icon_path;
         const rarityRef = parseRef(module.module_rarity_ref);
         const moduleRarity = ModuleRarityDB[rarityRef];
         baseRarityRef = moduleRarity ? parseRef(moduleRarity.rarity_ref) : null;
+        moduleRarityRef = module.module_rarity_ref || null;
       } else {
         return null;
       }
@@ -158,7 +161,8 @@ export function fetchEnrichedDiscounts(filename = null) {
       ref: ref,
       name: name,
       icon_path: icon_path,
-      rarity: baseRarityRef
+      rarity: baseRarityRef,
+      module_rarity_ref: moduleRarityRef
     };
   };
 

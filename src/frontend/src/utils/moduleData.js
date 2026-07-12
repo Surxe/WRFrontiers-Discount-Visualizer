@@ -21,6 +21,8 @@ function resolveObjectsDir() {
 
 let moduleCache = null;
 let moduleGroupCache = null;
+let moduleTypeCache = null;
+let moduleCategoryCache = null;
 let catIconsCache = null;
 
 export function fetchCatIcons() {
@@ -97,6 +99,59 @@ export function fetchModuleGroups() {
 	}
 }
 
+export function fetchModuleTypes() {
+	if (moduleTypeCache) {
+		return moduleTypeCache;
+	}
+
+	const objectsDir = resolveObjectsDir();
+	try {
+		const filePath = path.join(objectsDir, 'ModuleType.json');
+		const content = fs.readFileSync(filePath, 'utf-8');
+		moduleTypeCache = JSON.parse(content);
+		return moduleTypeCache;
+	} catch (e) {
+		console.error('Error reading ModuleType.json:', e);
+		return {};
+	}
+}
+
+export function fetchModuleCategories() {
+	if (moduleCategoryCache) {
+		return moduleCategoryCache;
+	}
+
+	const objectsDir = resolveObjectsDir();
+	try {
+		const filePath = path.join(objectsDir, 'ModuleCategory.json');
+		const content = fs.readFileSync(filePath, 'utf-8');
+		moduleCategoryCache = JSON.parse(content);
+		return moduleCategoryCache;
+	} catch (e) {
+		console.error('Error reading ModuleCategory.json:', e);
+		return {};
+	}
+}
+
+let moduleRarityCache = null;
+
+export function fetchModuleRarities() {
+	if (moduleRarityCache) {
+		return moduleRarityCache;
+	}
+
+	const objectsDir = resolveObjectsDir();
+	try {
+		const filePath = path.join(objectsDir, 'ModuleRarity.json');
+		const content = fs.readFileSync(filePath, 'utf-8');
+		moduleRarityCache = JSON.parse(content);
+		return moduleRarityCache;
+	} catch (e) {
+		console.error('Error reading ModuleRarity.json:', e);
+		return {};
+	}
+}
+
 export function getModuleGroupName(groupId) {
 	const groups = fetchModuleGroups();
 	const group = groups[groupId];
@@ -156,6 +211,56 @@ export function getModuleGroupForModule(module) {
 		: groupRef;
 
 	return groupId;
+}
+
+/** Groups that need their name appended to the module's base name. */
+const SUFFIX_GROUPS = new Set([
+	'non-titan-torsos',
+	'non-titan-shoulder',
+	'non-titan-chassis',
+	'titan-torsos',
+	'titan-shoulder',
+	'titan-chassis',
+]);
+
+/**
+ * Returns the display name for a module, appending the group label
+ * (e.g. "Torso", "Shoulder", "Chassis") for groups where the base
+ * name alone is ambiguous (e.g. "Wyrm" -> "Wyrm Torso").
+ *
+ * @param {object} module - raw Module.json entry
+ * @returns {string}
+ */
+export function getModuleDisplayName(module) {
+	if (!module) return '';
+	const baseName = module.name?.en || module.name || '';
+	const groupId = getModuleGroupForModule(module);
+	if (!groupId || !SUFFIX_GROUPS.has(groupId)) return baseName;
+
+	// Use ModuleCategory name if available (e.g. "Chassis" instead of "Titan Chassis")
+	const typeRef = module.module_type_ref;
+	if (typeRef) {
+		const typeId = typeRef.includes('::') ? typeRef.split('::')[1] : typeRef;
+		const types = fetchModuleTypes();
+		const categoryRef = types[typeId]?.module_category_ref;
+		if (categoryRef) {
+			const catId = categoryRef.includes('::') ? categoryRef.split('::')[1] : categoryRef;
+			const categories = fetchModuleCategories();
+			const categoryLabel = categories[catId]?.name?.en || '';
+			if (categoryLabel && !baseName.toLowerCase().includes(categoryLabel.toLowerCase())) {
+				const suffix = module.shoulder_side ? ` (${module.shoulder_side})` : '';
+				return `${baseName} ${categoryLabel}${suffix}`;
+			}
+		}
+	}
+
+	// Fallback to group name
+	const groups = fetchModuleGroups();
+	const groupLabel = groups[groupId]?.name?.en || '';
+	const suffix = module.shoulder_side ? ` (${module.shoulder_side})` : '';
+	
+	if (!groupLabel || baseName.toLowerCase().includes(groupLabel.toLowerCase())) return `${baseName}${suffix}`;
+	return `${baseName} ${groupLabel}${suffix}`;
 }
 
 export function fetchAllModulesWithGroup() {

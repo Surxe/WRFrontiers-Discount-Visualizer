@@ -1,0 +1,796 @@
+---
+const { searchableModules = [], rarityUpgradeCosts = {}, discountSchedule = {}, weekList = [], currentWeekSlug = null } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL || '/';
+---
+<aside id="cost-calculator-drawer" class="calculator-drawer">
+  <div class="calculator-header">
+    <h3>Cost Calculator</h3>
+    <div class="header-actions">
+      <span class="header-with-tooltip">
+        <select id="calc-week-select" class="header-select" aria-label="Target Week">
+          <option value="">Target Week...</option>
+        </select>
+        <span class="tooltip-icon">?</span>
+        <span class="custom-tooltip">Select a week to calculate costs based on its specific discount schedule.</span>
+      </span>
+      <button id="clear-calculator" class="clear-btn" aria-label="Clear Calculator">Clear</button>
+      <button id="close-calculator" class="close-btn" aria-label="Close Calculator">&times;</button>
+    </div>
+  </div>
+  <div class="calculator-content">
+    <div class="search-container">
+      <input type="text" id="module-search-input" placeholder="Search for a module to add..." autocomplete="off" />
+      <ul id="module-search-results" class="search-results"></ul>
+    </div>
+
+    <div id="calculator-empty-state" class="empty-state">
+      Click the + on any module to start calculating
+    </div>
+    <table id="calculator-table" class="calculator-table" style="display: none;">
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th>Qty</th>
+          <th>From</th>
+          <th>To</th>
+          <th class="currency-header"><img src={`${baseUrl}WRFrontiersDB-Data/textures/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_AlloysLarge.png`} alt="Salvage" class="header-currency-icon" /> Salvage</th>
+          <th class="currency-header"><img src={`${baseUrl}WRFrontiersDB-Data/textures/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_IntelLarge.png`} alt="Intel" class="header-currency-icon" /> Intel</th>
+          <th>Disc?</th>
+        </tr>
+      </thead>
+      <tbody id="calculator-tbody">
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" class="total-label">Total:</td>
+          <td id="calc-total-salvage">-</td>
+          <td id="calc-total-intel">-</td>
+          <td></td>
+        </tr>
+        <tr id="calc-discount-row" style="display: none;">
+          <td colspan="4" class="total-label discount-label">Discount:</td>
+          <td id="calc-discount-salvage" class="discount-val">-</td>
+          <td id="calc-discount-intel" class="discount-val">-</td>
+          <td id="calc-discount-pct" class="discount-pct"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</aside>
+
+<style>
+  .calculator-drawer {
+    position: fixed;
+    top: 0;
+    right: -500px;
+    width: 500px;
+    max-width: 100%;
+    height: 100vh;
+    background-color: var(--sidebar-bg, #161920);
+    border-left: 1px solid var(--sidebar-border, #232733);
+    z-index: 9999;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    box-sizing: border-box;
+  }
+
+  .calculator-drawer.is-open {
+    right: 0;
+  }
+
+  .calculator-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--sidebar-border, #232733);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .calculator-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #fff;
+  }
+
+  .clear-btn {
+    background: transparent;
+    border: 1px solid #444;
+    color: #aaa;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .clear-btn:hover {
+    background: #444;
+    color: #fff;
+  }
+
+  .header-select {
+    background: #232733;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    outline: none;
+    max-width: 140px;
+  }
+
+  .header-select:focus {
+    border-color: #666;
+  }
+
+  .header-with-tooltip {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    position: relative;
+  }
+
+  .tooltip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--accent-color, #3a86ff);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: help;
+    transition: transform 0.2s, box-shadow 0.2s;
+    transform: translateY(0);
+  }
+
+  .header-with-tooltip:hover .tooltip-icon {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(58, 134, 255, 0.4);
+  }
+
+  .custom-tooltip {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 10px);
+    transform: translateX(-50%) translateY(-6px);
+    white-space: nowrap;
+    background: rgba(20, 20, 20, 0.95);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    max-width: none;
+  }
+
+  .header-with-tooltip:hover .custom-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted, #8b92a5);
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 0.5rem;
+  }
+
+  .close-btn:hover {
+    color: #fff;
+  }
+
+  .calculator-content {
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--text-muted, #8b92a5);
+    margin-top: 2rem;
+    font-style: italic;
+    padding: 1rem;
+  }
+
+  .calculator-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+
+  .calculator-table th {
+    padding: 0.4rem 0.3rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+  }
+
+  :global(.calculator-table td) {
+    padding: 0.4rem 0.3rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+  }
+
+  .calculator-table th {
+    color: var(--text-muted, #8b92a5);
+    font-weight: normal;
+    font-size: 0.75rem;
+    position: sticky;
+    top: 0;
+    background: var(--sidebar-bg, #161920);
+    z-index: 1;
+  }
+
+  .calculator-table th:first-child {
+    text-align: left;
+    padding-left: 1rem;
+  }
+
+  .calculator-table th.currency-header {
+    white-space: nowrap;
+  }
+  
+  .header-currency-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    vertical-align: text-bottom;
+    margin-right: 2px;
+  }
+
+  :global(.calculator-table td.module-col) {
+    text-align: left;
+    padding-left: 1rem;
+  }
+
+  :global(.module-col-inner) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  :global(.module-col-name) {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    overflow: hidden;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  :global(.calc-icon-wrapper) {
+    width: 32px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  :global(.qty-col) {
+    white-space: nowrap;
+  }
+
+  :global(.qty-btn) {
+    background: #333;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    margin: 0 1px;
+    line-height: 1;
+  }
+
+  :global(.qty-btn:hover) {
+    background: #444;
+  }
+
+  :global(.level-select) {
+    background: #232733;
+    border: 1px solid #333;
+    color: #e0e0e0;
+    border-radius: 3px;
+    padding: 1px 2px;
+    font-size: 0.75rem;
+    width: 44px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  :global(.cost-cell) {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: #cdd0d6;
+  }
+
+  :global(.disc-yes) {
+    color: #4caf50;
+    font-weight: 600;
+  }
+
+  :global(.disc-no) {
+    color: #666;
+  }
+
+  :global(.disc-none) {
+    color: #555;
+  }
+
+  :global(.total-label) {
+    text-align: right;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #aaa;
+  }
+
+  :global(.discount-label) {
+    color: #4caf50;
+    font-size: 0.75rem;
+  }
+
+  :global(.discount-val) {
+    color: #4caf50;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+  }
+
+  :global(.discount-pct) {
+    color: #4caf50;
+    font-size: 0.7rem;
+    font-weight: bold;
+  }
+
+  #calc-total-salvage,
+  #calc-total-intel {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: #e0e0e0;
+  }
+
+  /* Search Styles */
+  .search-container {
+    padding: 1rem;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+  }
+
+  #module-search-input {
+    width: 100%;
+    padding: 10px 12px;
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+  }
+
+  #module-search-input:focus {
+    border-color: #555;
+  }
+
+  .search-results {
+    position: absolute;
+    top: calc(100% - 1rem);
+    left: 1rem;
+    right: 1rem;
+    background: #1a1e27;
+    border: 1px solid #333;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 10;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    display: none;
+  }
+
+  .search-results.active {
+    display: block;
+  }
+
+  :global(.search-result-item) {
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+    transition: background 0.15s;
+  }
+
+  :global(.search-result-item:hover) {
+    background: rgba(255,255,255,0.05);
+  }
+
+  :global(.search-result-name) {
+    font-size: 0.9rem;
+    color: #e0e0e0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.search-result-icon) {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :global(.search-result-icon img) {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 480px) {
+    /* Compress the calculator table to fit without horizontal scrolling */
+    .calculator-table {
+      font-size: 0.7rem;
+    }
+    
+    .calculator-table th,
+    :global(.calculator-table td) {
+      padding: 0.2rem 0.1rem;
+    }
+    
+    .calculator-table th:first-child,
+    :global(.calculator-table td.module-col) {
+      padding-left: 0.2rem;
+    }
+    
+    :global(.module-col-inner) {
+      gap: 0.2rem;
+    }
+    
+    :global(.search-result-icon) {
+      width: 20px;
+      height: 20px;
+    }
+    
+    :global(.qty-btn) {
+      width: 18px;
+      height: 18px;
+      line-height: 16px;
+      font-size: 0.9rem;
+    }
+    
+    :global(.qty-col) {
+      font-size: 0.7rem;
+    }
+    
+    :global(.level-select) {
+      padding: 0;
+      font-size: 0.7rem;
+      max-width: 32px;
+    }
+    
+    .header-currency-icon {
+      width: 12px;
+      height: 12px;
+      margin-right: 1px;
+    }
+    
+    /* Hide the "Disc?" column on very small screens to save horizontal space */
+    .calculator-table th:last-child,
+    :global(.calculator-table td:last-child) {
+      display: none;
+    }
+    
+    .calculator-header {
+      padding: 0.5rem;
+    }
+
+    .calculator-header h3 {
+      font-size: 1rem;
+    }
+  }
+
+</style>
+
+<script is:inline define:vars={{ searchableModules, rarityUpgradeCosts, discountSchedule, weekList, currentWeekSlug }}>
+  // Embed all calc data globally
+  window.WRF_CALC_DATA = searchableModules;
+  window.WRF_CALC_META = { rarityUpgradeCosts, discountSchedule };
+
+  // Populate week select
+  const weekSelect = document.getElementById('calc-week-select');
+  weekList.forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w.slug;
+    opt.textContent = w.label;
+    if (w.slug === currentWeekSlug) opt.selected = true;
+    weekSelect.appendChild(opt);
+  });
+</script>
+
+<script>
+  import { calculatorStore } from '../scripts/cost-calculator-store.js';
+
+  const drawer = document.getElementById('cost-calculator-drawer');
+  const closeBtn = document.getElementById('close-calculator');
+  const clearBtn = document.getElementById('clear-calculator');
+  const weekSelect = document.getElementById('calc-week-select');
+  const emptyState = document.getElementById('calculator-empty-state');
+  const table = document.getElementById('calculator-table');
+  const tbody = document.getElementById('calculator-tbody');
+  const totalSalvageEl = document.getElementById('calc-total-salvage');
+  const totalIntelEl = document.getElementById('calc-total-intel');
+  const searchInput = document.getElementById('module-search-input');
+  const searchResults = document.getElementById('module-search-results');
+
+  // --- Week Select ---
+  // Sync store with current page week on first load if not already set
+  if (!calculatorStore.activeWeek && weekSelect.value) {
+    calculatorStore.activeWeek = weekSelect.value || null;
+  } else if (calculatorStore.activeWeek) {
+    weekSelect.value = calculatorStore.activeWeek;
+  }
+
+  weekSelect.addEventListener('change', () => {
+    calculatorStore.setActiveWeek(weekSelect.value || null);
+  });
+
+  // --- Search Logic ---
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    if (!query) {
+      searchResults.classList.remove('active');
+      return;
+    }
+
+    const matches = (window.WRF_CALC_DATA || []).filter(m => m.name.toLowerCase().includes(query)).slice(0, 10);
+
+    if (matches.length > 0) {
+      searchResults.innerHTML = matches.map(m => `
+        <li class="search-result-item" data-module-id="${m.id}" data-module-name="${m.name}" data-module-icon="${m.iconSrc}" data-module-bg="${m.bgSrc}" data-module-rarity="${m.rarityRef}">
+          <div class="search-result-icon" style="background-image: url('${m.bgSrc}');">
+            <img src="${m.iconSrc}" alt="${m.name}" />
+          </div>
+          <span class="search-result-name">${m.name}</span>
+        </li>
+      `).join('');
+      searchResults.classList.add('active');
+    } else {
+      searchResults.classList.remove('active');
+    }
+  });
+
+  searchResults.addEventListener('click', (e) => {
+    const item = e.target.closest('.search-result-item');
+    if (!item) return;
+
+    calculatorStore.addItem({
+      id: item.dataset.moduleId,
+      name: item.dataset.moduleName,
+      iconSrc: item.dataset.moduleIcon,
+      bgSrc: item.dataset.moduleBg,
+      rarityRef: item.dataset.moduleRarity,
+    });
+
+    searchInput.value = '';
+    searchResults.classList.remove('active');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.classList.remove('active');
+    }
+  });
+
+  // --- Level select builder helpers ---
+  function makeLevelSelect(name, selectedVal, min, max, instanceId) {
+    let opts = '';
+    for (let i = min; i <= max; i++) {
+      opts += `<option value="${i}"${i === selectedVal ? ' selected' : ''}>${i}</option>`;
+    }
+    return `<select class="level-select" data-lvl-type="${name}" data-id="${instanceId}">${opts}</select>`;
+  }
+
+  // --- Render ---
+  function renderList(shoppingList) {
+    const discountRow = document.getElementById('calc-discount-row');
+    const discountSalvageEl = document.getElementById('calc-discount-salvage');
+    const discountIntelEl = document.getElementById('calc-discount-intel');
+    const discountPctEl = document.getElementById('calc-discount-pct');
+
+    if (shoppingList.length === 0) {
+      emptyState.style.display = 'block';
+      table.style.display = 'none';
+      tbody.innerHTML = '';
+      totalSalvageEl.textContent = '-';
+      totalIntelEl.textContent = '-';
+      discountRow.style.display = 'none';
+      return;
+    }
+
+    emptyState.style.display = 'none';
+    table.style.display = 'table';
+
+    let grandSalvage = 0;
+    let grandIntel = 0;
+    let grandStdSalvage = 0;
+    let grandStdIntel = 0;
+
+    tbody.innerHTML = shoppingList.map(item => {
+      const { salvage, intel, standardSalvage, standardIntel, isDiscounted } = calculatorStore.calculateRowCost(item);
+      grandSalvage += salvage;
+      grandIntel += intel;
+      grandStdSalvage += standardSalvage;
+      grandStdIntel += standardIntel;
+
+      const hasWeek = !!calculatorStore.activeWeek;
+      const discCell = !hasWeek
+        ? `<span class="disc-none">—</span>`
+        : isDiscounted
+          ? `<span class="disc-yes">✓</span>`
+          : `<span class="disc-no">✗</span>`;
+
+      const salvageStr = salvage > 0 ? salvage.toLocaleString() : '—';
+      const intelStr = intel > 0 ? intel.toLocaleString() : '—';
+
+      const fromSelect = makeLevelSelect('from', item.fromLvl, 1, item.toLvl - 1, item.instanceId);
+      const toSelect = makeLevelSelect('to', item.toLvl, item.fromLvl + 1, 13, item.instanceId);
+
+      return `<tr data-instance="${item.instanceId}">
+        <td class="module-col">
+          <div class="module-col-inner">
+            ${item.iconSrc ? `
+              <div class="search-result-icon" style="${item.bgSrc ? `background-image: url('${item.bgSrc}');` : ''}">
+                <img src="${item.iconSrc}" alt="" />
+              </div>
+            ` : ''}
+            <span class="module-col-name">${item.name}</span>
+          </div>
+        </td>
+        <td class="qty-col">
+          <button class="qty-btn" data-action="minus" data-id="${item.instanceId}">−</button>
+          ${item.quantity}
+          <button class="qty-btn" data-action="plus" data-id="${item.instanceId}">+</button>
+        </td>
+        <td>${fromSelect}</td>
+        <td>${toSelect}</td>
+        <td class="cost-cell">${salvageStr}</td>
+        <td class="cost-cell">${intelStr}</td>
+        <td>${discCell}</td>
+      </tr>`;
+    }).join('');
+
+    totalSalvageEl.textContent = grandSalvage > 0 ? grandSalvage.toLocaleString() : '—';
+    totalIntelEl.textContent = grandIntel > 0 ? grandIntel.toLocaleString() : '—';
+
+    const savedSalvage = grandStdSalvage - grandSalvage;
+    const savedIntel = grandStdIntel - grandIntel;
+    
+    if (savedSalvage > 0 || savedIntel > 0) {
+      discountRow.style.display = 'table-row';
+      discountSalvageEl.textContent = savedSalvage > 0 ? `-${savedSalvage.toLocaleString()}` : '—';
+      discountIntelEl.textContent = savedIntel > 0 ? `-${savedIntel.toLocaleString()}` : '—';
+      
+      const totalStd = grandStdSalvage + (grandStdIntel * 1000); // rough weighting just for a combined percentage if needed
+      const totalActual = grandSalvage + (grandIntel * 1000);
+      
+      if (grandStdSalvage > 0 && savedSalvage > 0) {
+        const pct = Math.round((savedSalvage / grandStdSalvage) * 100);
+        discountPctEl.textContent = `(${pct}% off)`;
+      } else if (grandStdIntel > 0 && savedIntel > 0) {
+        const pct = Math.round((savedIntel / grandStdIntel) * 100);
+        discountPctEl.textContent = `(${pct}% off)`;
+      } else {
+        discountPctEl.textContent = '';
+      }
+    } else {
+      discountRow.style.display = 'none';
+    }
+  }
+
+  // --- Store event ---
+  calculatorStore.addEventListener('change', (e) => {
+    const { shoppingList, isOpen } = e.detail;
+
+    if (isOpen) {
+      drawer.classList.add('is-open');
+    } else {
+      drawer.classList.remove('is-open');
+    }
+
+    renderList(shoppingList);
+  });
+
+  // --- Delegation: qty buttons + level selects ---
+  closeBtn.addEventListener('click', () => {
+    calculatorStore.toggleDrawer(false);
+  });
+  clearBtn.addEventListener('click', () => calculatorStore.clearList());
+
+  tbody.addEventListener('click', (e) => {
+    const btn = e.target.closest('.qty-btn');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    const id = btn.dataset.id;
+    if (action === 'plus') calculatorStore.updateQuantity(id, 1);
+    else if (action === 'minus') calculatorStore.updateQuantity(id, -1);
+  });
+
+  tbody.addEventListener('change', (e) => {
+    const sel = e.target.closest('.level-select');
+    if (!sel) return;
+    const id = sel.dataset.id;
+    const type = sel.dataset.lvlType;
+    const val = parseInt(sel.value, 10);
+    if (type === 'from') calculatorStore.updateItem(id, { fromLvl: val });
+    else if (type === 'to') calculatorStore.updateItem(id, { toLvl: val });
+  });
+
+  // Initial render
+  setTimeout(() => calculatorStore.emitChange(), 0);
+
+  // --- window.addModuleToCalc with batch-session logic ---
+  // Defined here (not in the store module) so it's guaranteed to use
+  // the exact same calculatorStore instance as the listener above.
+  {
+    const BATCH_MS = 30_000;
+    let batchActive = false;
+    let batchTimer = null;
+
+    window.addModuleToCalc = (id, name, iconSrc, bgSrc, rarityRef) => {
+      calculatorStore.addItem({ id, name, iconSrc, bgSrc, rarityRef });
+
+      if (!batchActive) {
+        calculatorStore.toggleDrawer(true);
+      }
+
+      batchActive = true;
+      clearTimeout(batchTimer);
+      batchTimer = setTimeout(() => { batchActive = false; }, BATCH_MS);
+    };
+  }
+</script>
