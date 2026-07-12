@@ -680,7 +680,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   });
 
   // --- Delegation: qty buttons + level selects ---
-  closeBtn.addEventListener('click', () => calculatorStore.toggleDrawer(false));
+  closeBtn.addEventListener('click', () => {
+    calculatorStore.toggleDrawer(false);
+  });
   clearBtn.addEventListener('click', () => calculatorStore.clearList());
 
   tbody.addEventListener('click', (e) => {
@@ -704,4 +706,25 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   // Initial render
   setTimeout(() => calculatorStore.emitChange(), 0);
+
+  // --- window.addModuleToCalc with batch-session logic ---
+  // Defined here (not in the store module) so it's guaranteed to use
+  // the exact same calculatorStore instance as the listener above.
+  {
+    const BATCH_MS = 30_000;
+    let batchActive = false;
+    let batchTimer = null;
+
+    window.addModuleToCalc = (id, name, iconSrc, bgSrc, rarityRef) => {
+      calculatorStore.addItem({ id, name, iconSrc, bgSrc, rarityRef });
+
+      if (!batchActive) {
+        calculatorStore.toggleDrawer(true);
+      }
+
+      batchActive = true;
+      clearTimeout(batchTimer);
+      batchTimer = setTimeout(() => { batchActive = false; }, BATCH_MS);
+    };
+  }
 </script>
