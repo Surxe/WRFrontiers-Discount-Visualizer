@@ -80,6 +80,13 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     right: 0;
   }
 
+  @media (max-width: 768px) {
+    .calculator-drawer {
+      width: 100%;
+      right: -100%;
+    }
+  }
+
   .calculator-header {
     padding: 1rem;
     border-bottom: 1px solid var(--sidebar-border, #232733);

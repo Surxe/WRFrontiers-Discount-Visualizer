@@ -1,0 +1,201 @@
+---
+/**
+ * MobileTopBar — fixed top strip shown only on mobile (≤ 768px).
+ *
+ * Props:
+ *   showSidebarToggle  boolean — show the hamburger (weeks sidebar). true on DiscountPage, false on Items/Timeline.
+ *   showCalcToggle     boolean — show the calculator icon. true on DiscountPage only.
+ *   title              string  — page title shown in the center.
+ */
+const {
+  showSidebarToggle = false,
+  showCalcToggle = false,
+  title = "WRF Discounts",
+} = Astro.props;
+---
+
+<div class="mobile-top-bar" id="mobile-top-bar" aria-label="Mobile navigation bar">
+  <!-- Left: sidebar hamburger (only on pages with AllWeeksSidebar) -->
+  <div class="top-bar-left">
+    {showSidebarToggle ? (
+      <button
+        id="mobile-sidebar-toggle"
+        class="top-bar-icon-btn"
+        type="button"
+        aria-label="Toggle All Weeks sidebar"
+        aria-expanded="false"
+      >
+        <!-- hamburger open icon -->
+        <svg class="topbar-icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <!-- X close icon -->
+        <svg class="topbar-icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    ) : (
+      <div class="top-bar-placeholder"></div>
+    )}
+  </div>
+
+  <!-- Center: site title wordmark -->
+  <div class="top-bar-center">
+    <span class="top-bar-title">{title}</span>
+  </div>
+
+  <!-- Right: calculator toggle (only on discount pages) -->
+  <div class="top-bar-right">
+    {showCalcToggle ? (
+      <button
+        id="calculator-toggle-mobile"
+        class="top-bar-icon-btn top-bar-calc-btn"
+        type="button"
+        aria-label="Open Cost Calculator"
+      >
+        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="4" y1="10" x2="20" y2="10"></line>
+          <line x1="8" y1="14" x2="12" y2="14"></line>
+          <line x1="12" y1="14" x2="12" y2="18"></line>
+          <line x1="12" y1="18" x2="8" y2="18"></line>
+          <line x1="8" y1="18" x2="8" y2="14"></line>
+          <line x1="16" y1="14" x2="16" y2="14.01"></line>
+          <line x1="16" y1="18" x2="16" y2="18.01"></line>
+        </svg>
+        <span id="calculator-badge-mobile" class="topbar-calc-badge" style="display:none;">0</span>
+      </button>
+    ) : (
+      <div class="top-bar-placeholder"></div>
+    )}
+  </div>
+</div>
+
+<style>
+  .mobile-top-bar {
+    display: none; /* Hidden on desktop */
+  }
+
+  @media (max-width: 768px) {
+    .mobile-top-bar {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      z-index: 300;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0.5rem;
+      background: rgba(15, 17, 21, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+      box-sizing: border-box;
+    }
+
+    .top-bar-left,
+    .top-bar-right {
+      flex: 0 0 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .top-bar-center {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .top-bar-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-color, #e0e0e0);
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .top-bar-placeholder {
+      width: 44px;
+    }
+
+    .top-bar-icon-btn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--text-muted, #8b92a5);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: color 0.2s ease, background 0.2s ease;
+      position: relative;
+    }
+
+    .top-bar-icon-btn:hover {
+      color: var(--text-color, #e0e0e0);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Sidebar toggle icon swap — driven by JS */
+    .topbar-icon-close {
+      display: none;
+    }
+
+    .topbar-calc-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: #ef233c;
+      color: white;
+      font-size: 0.6rem;
+      font-weight: bold;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 3px;
+      box-sizing: border-box;
+    }
+  }
+</style>
+
+<script>
+  // Sync mobile calc badge with main badge
+  import { calculatorStore } from '../scripts/cost-calculator-store.js';
+
+  const mobileCalcBtn = document.getElementById('calculator-toggle-mobile');
+  const mobileBadge = document.getElementById('calculator-badge-mobile');
+
+  if (mobileCalcBtn) {
+    mobileCalcBtn.addEventListener('click', () => {
+      calculatorStore.toggleDrawer();
+    });
+  }
+
+  if (mobileBadge) {
+    calculatorStore.addEventListener('change', (e) => {
+      const { shoppingList } = e.detail;
+      const totalQty = shoppingList.reduce((sum, item) => sum + item.quantity, 0);
+      if (totalQty > 0) {
+        mobileBadge.textContent = String(totalQty);
+        mobileBadge.style.display = 'flex';
+      } else {
+        mobileBadge.style.display = 'none';
+      }
+    });
+  }
+</script>

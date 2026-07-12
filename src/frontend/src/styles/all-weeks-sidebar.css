@@ -56,6 +56,14 @@
   border-radius: 2px;
   pointer-events: none;
   z-index: 101;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.layout-container.sidebar-hidden .custom-scrollbar-track {
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* Custom scrollbar thumb */
@@ -84,22 +92,30 @@
   top: 1rem;
   left: 1rem;
   z-index: 150;
-  background: var(--sidebar-bg);
-  border: 1px solid var(--sidebar-border);
-  color: var(--text-color);
-  padding: 0.5rem;
-  border-radius: 6px;
+  background: rgba(22, 25, 32, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  transition: background-color 0.2s ease;
+  gap: 0.45rem;
+  transition: color 0.2s ease, background 0.2s ease;
   width: fit-content;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  white-space: nowrap;
 }
 
 .sidebar-toggle:hover {
-  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-color);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.layout-container.sidebar-hidden .sidebar-toggle {
   color: var(--accent-color);
 }
 
@@ -108,7 +124,6 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--text-muted);
   white-space: nowrap;
 }
 
@@ -239,18 +254,44 @@
   }
 }
 
-@media (max-width: 480px) and (orientation: portrait) {
-  .all-weeks-sidebar__main {
-    padding: 0.85rem 0.5rem 1.25rem;
+@media (max-width: 768px) {
+  /* Hide the desktop sidebar toggle — MobileTopBar provides the hamburger */
+  .sidebar-toggle {
+    display: none;
   }
 
+  /* Offset layout for the 48px fixed mobile top bar */
+  .layout-container {
+    padding-top: 48px;
+  }
+
+  /* Offset main content for the 64px fixed bottom tab bar */
+  .all-weeks-sidebar__main {
+    padding-bottom: 80px;
+  }
+
+  /* Keep sidebar below the mobile top bar */
+  .sidebar {
+    top: 48px;
+  }
+
+  /* Sidebar hidden by default on mobile (JS already sets this via localStorage/isMobile) */
+  /* The sidebar-hidden toggle behavior remains unchanged — same JS works */
+
   .custom-scrollbar-track {
+    top: 48px;
     width: 3px;
     left: 10rem;
   }
 
   .custom-scrollbar-thumb {
     width: 3px;
+  }
+}
+
+@media (max-width: 480px) and (orientation: portrait) {
+  .all-weeks-sidebar__main {
+    padding: 0.85rem 0.5rem 80px;
   }
 }
 

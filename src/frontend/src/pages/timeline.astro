@@ -1,6 +1,8 @@
 ---
 import GenericPage from '../components/GenericPage.astro';
 import NavBar from '../components/NavBar.astro';
+import MobileTopBar from '../components/MobileTopBar.astro';
+import MobileBottomNav from '../components/MobileBottomNav.astro';
 import DiscountTimeline from '../components/DiscountTimeline.astro';
 import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
 import { getVbotDiscountWeeks, fetchDiscountHistory, transformToWeekCentric } from '../utils/discountHistory.js';
@@ -49,6 +51,7 @@ const titanTimelineData = getVbotTimelineData('Titan');
 	description="Mech and Titan discount timeline history"
 	baseUrl={baseUrl}
 >
+	<MobileTopBar showSidebarToggle={false} showCalcToggle={false} title="WRF Timeline" />
 	<NavBar baseUrl={baseUrl} currentPage="timeline" />
 	<h1>Discount Timelines</h1>
 
@@ -65,4 +68,6 @@ const titanTimelineData = getVbotTimelineData('Titan');
 		timelineData={titanTimelineData} 
 		baseUrl={baseUrl} 
 	/>
+	
+	<MobileBottomNav baseUrl={baseUrl} currentPage="timeline" slot="bottom-nav" />
 </GenericPage>

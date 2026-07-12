@@ -1,6 +1,8 @@
 ---
 import GenericPage from '../components/GenericPage.astro';
 import NavBar from '../components/NavBar.astro';
+import MobileTopBar from '../components/MobileTopBar.astro';
+import MobileBottomNav from '../components/MobileBottomNav.astro';
 import { fetchModuleGroups, fetchCatIcons, fetchModulesByGroup } from '../utils/moduleData.js';
 import { getTexturePath } from '../utils/textures.js';
 import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
@@ -171,6 +173,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 	description="List of all items with their discount history"
 	baseUrl={baseUrl}
 >
+	<MobileTopBar showSidebarToggle={false} showCalcToggle={false} title="WRF Items" />
 	<NavBar baseUrl={baseUrl} currentPage="items" />
 	<h1>Items</h1>
 	<div class="action-buttons">
@@ -191,6 +194,100 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 				<span class="category-icon">▼</span>
 			</button>
 			<div class="category-content loading" class:list={{ expanded: expandedCategory === '' || expandedCategory === group.id }}>
+				<div class="table-responsive">
+					<table class="category-table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Discount Weeks</th>
+								<th>
+									<span class="header-with-tooltip">
+										Appearance Rate
+										<span class="tooltip-icon">?</span>
+										<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
+									</span>
+								</th>
+								<th>
+									<span class="header-with-tooltip">
+										Average Interval
+										<span class="tooltip-icon">?</span>
+										<span class="custom-tooltip">Average number of weeks between discounts</span>
+									</span>
+								</th>
+								{group.showVirtualBots && (
+									<th>
+										<span class="header-with-tooltip">
+											Bot Usage
+											<span class="tooltip-icon">?</span>
+											<span class="custom-tooltip">Portion of virtual bots this item is featured in</span>
+										</span>
+									</th>
+								)}
+							</tr>
+						</thead>
+						<tbody>
+							{group.modules.length > 0 ? (
+								group.modules.map(module => (
+									<tr>
+										<td>
+											<div class="name-with-icon-wrapper">
+												<span class="name-with-icon">
+													{module.iconPath && (
+														<img
+															src={getTexturePath(module.iconPath, baseUrl)}
+															alt={module.name}
+															class="module-icon"
+														/>
+													)}
+													{module.name}
+												</span>
+												<span class="item-tooltip">{module.name}</span>
+											</div>
+										</td>
+										<td>
+											{module.formattedWeeks.length > 0 ? (
+												module.formattedWeeks.map((group, i) => (
+													<span class="year-group" key={group.year}>
+														<span class="year-label">{group.year}:</span>
+														<span class="year-dates">
+															{group.dates.map((date, j) => (
+																<>
+																	{j > 0 && ', '}
+																	<a href={`${baseUrl}week/${date.weekId}`} class="date-link">{date.display}</a>
+																</>
+															))}
+														</span>
+													</span>
+												))
+											) : <span class="never-discounted">Never</span>}
+										</td>
+										<td class="percentage-cell">{module.discountPercentage}%</td>
+										<td>{module.avgWeeks !== null ? `Every ${module.avgWeeks} weeks` : ''}</td>
+										{group.showVirtualBots && (
+											<td class="percentage-cell">{module.vbotPortion}% ({module.virtualBots.length})</td>
+										)}
+									</tr>
+								))
+							) : (
+								<tr>
+									<td colspan={group.showVirtualBots ? 5 : 4}>No modules found in this group</td>
+								</tr>
+							)}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	))}
+
+	<!-- Mechs Category -->
+	<div class="category" data-category="mechs">
+		<button class="category-header" aria-expanded={expandedCategory === '' || expandedCategory === 'mechs'}>
+			<span class="category-title">Mechs</span>
+			<span class="category-icon">▼</span>
+		</button>
+		<div class="category-content loading" class:list={{ expanded: expandedCategory === '' || expandedCategory === 'mechs' }}>
+			<div class="table-responsive">
 				<table class="category-table">
 					<thead>
 						<tr>
@@ -210,39 +307,30 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 									<span class="custom-tooltip">Average number of weeks between discounts</span>
 								</span>
 							</th>
-							{group.showVirtualBots && (
-								<th>
-									<span class="header-with-tooltip">
-										Bot Usage
-										<span class="tooltip-icon">?</span>
-										<span class="custom-tooltip">Portion of virtual bots this item is featured in</span>
-									</span>
-								</th>
-							)}
 						</tr>
 					</thead>
 					<tbody>
-						{group.modules.length > 0 ? (
-							group.modules.map(module => (
+						{mechListWithFormattedWeeks.length > 0 ? (
+							mechListWithFormattedWeeks.map(vbot => (
 								<tr>
 									<td>
 										<div class="name-with-icon-wrapper">
 											<span class="name-with-icon">
-												{module.iconPath && (
+												{vbot.iconPath && (
 													<img
-														src={getTexturePath(module.iconPath, baseUrl)}
-														alt={module.name}
-														class="module-icon"
+														src={getTexturePath(vbot.iconPath, baseUrl)}
+														alt={vbot.name}
+														class="vbot-icon"
 													/>
 												)}
-												{module.name}
+												{vbot.name}
 											</span>
-											<span class="item-tooltip">{module.name}</span>
+											<span class="item-tooltip">{vbot.name}</span>
 										</div>
 									</td>
 									<td>
-										{module.formattedWeeks.length > 0 ? (
-											module.formattedWeeks.map((group, i) => (
+										{vbot.formattedWeeks.length > 0 ? (
+											vbot.formattedWeeks.map((group, i) => (
 												<span class="year-group" key={group.year}>
 													<span class="year-label">{group.year}:</span>
 													<span class="year-dates">
@@ -257,90 +345,18 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 											))
 										) : <span class="never-discounted">Never</span>}
 									</td>
-									<td class="percentage-cell">{module.discountPercentage}%</td>
-									<td>{module.avgWeeks !== null ? `Every ${module.avgWeeks} weeks` : ''}</td>
-									{group.showVirtualBots && (
-										<td class="percentage-cell">{module.vbotPortion}% ({module.virtualBots.length})</td>
-									)}
+									<td class="percentage-cell">{vbot.discountPercentage}%</td>
+									<td>{vbot.avgWeeks !== null ? `Every ${vbot.avgWeeks} weeks` : ''}</td>
 								</tr>
 							))
 						) : (
 							<tr>
-								<td colspan={group.showVirtualBots ? 5 : 4}>No modules found in this group</td>
+								<td colspan="4">No mechs found</td>
 							</tr>
 						)}
 					</tbody>
 				</table>
 			</div>
-		</div>
-	))}
-
-	<!-- Mechs Category -->
-	<div class="category" data-category="mechs">
-		<button class="category-header" aria-expanded={expandedCategory === '' || expandedCategory === 'mechs'}>
-			<span class="category-title">Mechs</span>
-			<span class="category-icon">▼</span>
-		</button>
-		<div class="category-content loading" class:list={{ expanded: expandedCategory === '' || expandedCategory === 'mechs' }}>
-			<table class="category-table">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Discount Weeks</th>
-						<th>
-							<span class="header-with-tooltip">
-								Appearance Rate
-								<span class="tooltip-icon">?</span>
-								<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
-							</span>
-						</th>
-						<th>
-							<span class="header-with-tooltip">
-								Average Interval
-								<span class="tooltip-icon">?</span>
-								<span class="custom-tooltip">Average number of weeks between discounts</span>
-							</span>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{mechListWithFormattedWeeks.map(vbot => (
-						<tr>
-							<td>
-								<span class="name-with-icon">
-									{vbot.iconPath && (
-										<img
-											src={getTexturePath(vbot.iconPath, baseUrl)}
-											alt={vbot.name}
-											class="vbot-icon"
-										/>
-									)}
-									{vbot.name}
-								</span>
-							</td>
-							<td>
-								{vbot.formattedWeeks.length > 0 ? (
-									vbot.formattedWeeks.map((group, i) => (
-										<span class="year-group" key={group.year}>
-											<span class="year-label">{group.year}:</span>
-											<span class="year-dates">
-												{group.dates.map((date, j) => (
-													<>
-														{j > 0 && ', '}
-														<a href={`${baseUrl}week/${date.weekId}`} class="date-link">{date.display}</a>
-													</>
-												))}
-											</span>
-										</span>
-									))
-								) : <span class="never-discounted">Never</span>}
-							</td>
-							<td class="percentage-cell">{vbot.discountPercentage}%</td>
-							<td>{vbot.avgWeeks !== null ? `Every ${vbot.avgWeeks} weeks` : ''}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
 		</div>
 	</div>
 
@@ -351,65 +367,76 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 			<span class="category-icon">▼</span>
 		</button>
 		<div class="category-content loading" class:list={{ expanded: expandedCategory === '' || expandedCategory === 'titans' }}>
-			<table class="category-table">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Discount Weeks</th>
-						<th>
-							<span class="header-with-tooltip">
-								Appearance Rate
-								<span class="tooltip-icon">?</span>
-								<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
-							</span>
-						</th>
-						<th>
-							<span class="header-with-tooltip">
-								Average Interval
-								<span class="tooltip-icon">?</span>
-								<span class="custom-tooltip">Average number of weeks between discounts</span>
-							</span>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{titanListWithFormattedWeeks.map(vbot => (
+			<div class="table-responsive">
+				<table class="category-table">
+					<thead>
 						<tr>
-							<td>
-								<span class="name-with-icon">
-									{vbot.iconPath && (
-										<img
-											src={getTexturePath(vbot.iconPath, baseUrl)}
-											alt={vbot.name}
-											class="vbot-icon"
-										/>
-									)}
-									{vbot.name}
+							<th>Name</th>
+							<th>Discount Weeks</th>
+							<th>
+								<span class="header-with-tooltip">
+									Appearance Rate
+									<span class="tooltip-icon">?</span>
+									<span class="custom-tooltip">Portion of weeks this item was discounted on</span>
 								</span>
-							</td>
-							<td>
-								{vbot.formattedWeeks.length > 0 ? (
-									vbot.formattedWeeks.map((group, i) => (
-										<span class="year-group" key={group.year}>
-											<span class="year-label">{group.year}:</span>
-											<span class="year-dates">
-												{group.dates.map((date, j) => (
-													<>
-														{j > 0 && ', '}
-														<a href={`${baseUrl}week/${date.weekId}`} class="date-link">{date.display}</a>
-													</>
-												))}
-											</span>
-										</span>
-									))
-								) : <span class="never-discounted">Never</span>}
-							</td>
-							<td class="percentage-cell">{vbot.discountPercentage}%</td>
-							<td>{vbot.avgWeeks !== null ? `Every ${vbot.avgWeeks} weeks` : ''}</td>
+							</th>
+							<th>
+								<span class="header-with-tooltip">
+									Average Interval
+									<span class="tooltip-icon">?</span>
+									<span class="custom-tooltip">Average number of weeks between discounts</span>
+								</span>
+							</th>
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{titanListWithFormattedWeeks.length > 0 ? (
+							titanListWithFormattedWeeks.map(vbot => (
+								<tr>
+									<td>
+										<div class="name-with-icon-wrapper">
+											<span class="name-with-icon">
+												{vbot.iconPath && (
+													<img
+														src={getTexturePath(vbot.iconPath, baseUrl)}
+														alt={vbot.name}
+														class="vbot-icon"
+													/>
+												)}
+												{vbot.name}
+											</span>
+											<span class="item-tooltip">{vbot.name}</span>
+										</div>
+									</td>
+									<td>
+										{vbot.formattedWeeks.length > 0 ? (
+											vbot.formattedWeeks.map((group, i) => (
+												<span class="year-group" key={group.year}>
+													<span class="year-label">{group.year}:</span>
+													<span class="year-dates">
+														{group.dates.map((date, j) => (
+															<>
+																{j > 0 && ', '}
+																<a href={`${baseUrl}week/${date.weekId}`} class="date-link">{date.display}</a>
+															</>
+														))}
+													</span>
+												</span>
+											))
+										) : <span class="never-discounted">Never</span>}
+									</td>
+									<td class="percentage-cell">{vbot.discountPercentage}%</td>
+									<td>{vbot.avgWeeks !== null ? `Every ${vbot.avgWeeks} weeks` : ''}</td>
+								</tr>
+							))
+						) : (
+							<tr>
+								<td colspan="4">No titans found</td>
+							</tr>
+						)}
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 
@@ -550,6 +577,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 			window.history.replaceState({}, '', url);
 		});
 	</script>
+	<MobileBottomNav baseUrl={baseUrl} currentPage="items" slot="bottom-nav" />
 </GenericPage>
 
 <style>
@@ -665,8 +693,16 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 		transition: none !important;
 	}
 
-	.category-content > * {
+	.category-content > *:not(.table-responsive) {
 		padding: 0 1rem 1rem;
+	}
+
+	.table-responsive {
+		width: 100%;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		padding: 0 1rem 1rem;
+		box-sizing: border-box;
 	}
 
 	.category-table {
