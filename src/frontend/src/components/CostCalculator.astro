@@ -51,7 +51,13 @@ const baseUrl = import.meta.env.BASE_URL || '/';
           <td colspan="4" class="total-label discount-label">Discount:</td>
           <td id="calc-discount-salvage" class="discount-val">-</td>
           <td id="calc-discount-intel" class="discount-val">-</td>
-          <td id="calc-discount-pct" class="discount-pct"></td>
+          <td></td>
+        </tr>
+        <tr id="calc-discount-pct-row" style="display: none;">
+          <td colspan="4" class="total-label discount-label">Discount %:</td>
+          <td id="calc-discount-pct-salvage" class="discount-pct">-</td>
+          <td id="calc-discount-pct-intel" class="discount-pct">-</td>
+          <td></td>
         </tr>
       </tfoot>
     </table>
@@ -594,9 +600,11 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   // --- Render ---
   function renderList(shoppingList) {
     const discountRow = document.getElementById('calc-discount-row');
+    const discountPctRow = document.getElementById('calc-discount-pct-row');
     const discountSalvageEl = document.getElementById('calc-discount-salvage');
     const discountIntelEl = document.getElementById('calc-discount-intel');
-    const discountPctEl = document.getElementById('calc-discount-pct');
+    const discountPctSalvageEl = document.getElementById('calc-discount-pct-salvage');
+    const discountPctIntelEl = document.getElementById('calc-discount-pct-intel');
 
     if (shoppingList.length === 0) {
       emptyState.style.display = 'block';
@@ -605,6 +613,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       totalSalvageEl.textContent = '-';
       totalIntelEl.textContent = '-';
       discountRow.style.display = 'none';
+      discountPctRow.style.display = 'none';
       return;
     }
 
@@ -668,23 +677,19 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     
     if (savedSalvage > 0 || savedIntel > 0) {
       discountRow.style.display = 'table-row';
+      discountPctRow.style.display = 'table-row';
       discountSalvageEl.textContent = savedSalvage > 0 ? `-${savedSalvage.toLocaleString()}` : '—';
       discountIntelEl.textContent = savedIntel > 0 ? `-${savedIntel.toLocaleString()}` : '—';
-      
-      const totalStd = grandStdSalvage + (grandStdIntel * 1000); // rough weighting just for a combined percentage if needed
-      const totalActual = grandSalvage + (grandIntel * 1000);
-      
-      if (grandStdSalvage > 0 && savedSalvage > 0) {
-        const pct = Math.round((savedSalvage / grandStdSalvage) * 100);
-        discountPctEl.textContent = `(${pct}% off)`;
-      } else if (grandStdIntel > 0 && savedIntel > 0) {
-        const pct = Math.round((savedIntel / grandStdIntel) * 100);
-        discountPctEl.textContent = `(${pct}% off)`;
-      } else {
-        discountPctEl.textContent = '';
-      }
+
+      discountPctSalvageEl.textContent = grandStdSalvage > 0 && savedSalvage > 0
+        ? `(${Math.round((savedSalvage / grandStdSalvage) * 100)}% off)`
+        : '—';
+      discountPctIntelEl.textContent = grandStdIntel > 0 && savedIntel > 0
+        ? `(${Math.round((savedIntel / grandStdIntel) * 100)}% off)`
+        : '—';
     } else {
       discountRow.style.display = 'none';
+      discountPctRow.style.display = 'none';
     }
   }
 
