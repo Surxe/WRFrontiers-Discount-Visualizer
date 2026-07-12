@@ -56,6 +56,14 @@
   border-radius: 2px;
   pointer-events: none;
   z-index: 101;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.layout-container.sidebar-hidden .custom-scrollbar-track {
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* Custom scrollbar thumb */
