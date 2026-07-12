@@ -248,7 +248,8 @@ export function getModuleDisplayName(module) {
 			const categories = fetchModuleCategories();
 			const categoryLabel = categories[catId]?.name?.en || '';
 			if (categoryLabel && !baseName.toLowerCase().includes(categoryLabel.toLowerCase())) {
-				return `${baseName} ${categoryLabel}`;
+				const suffix = module.shoulder_side ? ` (${module.shoulder_side})` : '';
+				return `${baseName} ${categoryLabel}${suffix}`;
 			}
 		}
 	}
@@ -256,8 +257,10 @@ export function getModuleDisplayName(module) {
 	// Fallback to group name
 	const groups = fetchModuleGroups();
 	const groupLabel = groups[groupId]?.name?.en || '';
-	if (!groupLabel || baseName.toLowerCase().includes(groupLabel.toLowerCase())) return baseName;
-	return `${baseName} ${groupLabel}`;
+	const suffix = module.shoulder_side ? ` (${module.shoulder_side})` : '';
+	
+	if (!groupLabel || baseName.toLowerCase().includes(groupLabel.toLowerCase())) return `${baseName}${suffix}`;
+	return `${baseName} ${groupLabel}${suffix}`;
 }
 
 export function fetchAllModulesWithGroup() {
