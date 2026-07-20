@@ -1,0 +1,32 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 7,
+    "start_day": 21,
+    "end_year": 2026,
+    "end_month": 7,
+    "end_day": 28
+  },
+  "items": [
+    "DA_Module_ChassisHarpy.2",
+    "DA_Module_TorsoHarpy.1",
+    "DA_Module_ShoulderHarpy.0",
+    "DA_Module_Weapon_Trebuchet.0",
+    "DA_Module_Weapon_Railgun.0",
+    "DA_Module_Ability_FuelReserve.1",
+    "DA_Module_Ability_Dazzle.1",
+    "DA_Module_ChassisTyr.2",
+    "DA_Module_TorsoTyr.1",
+    "DA_Module_ShoulderTyr.0",
+    "DA_Module_Weapon_Vortex.0",
+    "DA_Module_Ability_GhostTurret.1",
+    "DA_Module_Ability_Homing.1",
+    "DA_Module_ChassisFenrir.2",
+    "DA_Module_TorsoFenrir.1",
+    "DA_Module_ShoulderFenrir.0",
+    "DA_Module_Weapon_Fowler.0",
+    "DA_Module_Ability_Regeneration.1",
+    "DA_Module_Ability_CounterAttack.1",
+    "DA_Module_Weapon_Bayonet.0"
+  ]
+}

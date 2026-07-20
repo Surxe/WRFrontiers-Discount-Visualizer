@@ -124,6 +124,10 @@
     "name": "Relic Bulgasari"
   },
   {
+    "ref": "OBJID_VirtualBot::relic-lancelot",
+    "name": "Relic Lancelot"
+  },
+  {
     "ref": "OBJID_VirtualBot::scorpion",
     "name": "Scorpion"
   },
@@ -370,6 +374,10 @@
   {
     "ref": "OBJID_Module::DA_Module_Weapon_RelicOrkan.0",
     "name": "Relic Orkan"
+  },
+  {
+    "ref": "OBJID_Module::DA_Module_Weapon_RelicThunder.0",
+    "name": "Relic Thunder"
   },
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Scatter.0",
