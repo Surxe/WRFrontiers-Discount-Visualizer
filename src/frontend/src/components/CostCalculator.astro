@@ -33,9 +33,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
           <th>Qty</th>
           <th>From</th>
           <th>To</th>
+          <th>Disc?</th>
           <th class="currency-header"><img src={`${baseUrl}WRFrontiersDB-Data/textures/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_AlloysLarge.png`} alt="Salvage" class="header-currency-icon" /> Salvage</th>
           <th class="currency-header"><img src={`${baseUrl}WRFrontiersDB-Data/textures/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_IntelLarge.png`} alt="Intel" class="header-currency-icon" /> Intel</th>
-          <th>Disc?</th>
         </tr>
       </thead>
       <tbody id="calculator-tbody">
@@ -43,21 +43,21 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       <tfoot>
         <tr>
           <td colspan="4" class="total-label">Discounted Total:</td>
+          <td></td>
           <td id="calc-total-salvage">-</td>
           <td id="calc-total-intel">-</td>
-          <td></td>
         </tr>
         <tr id="calc-discount-row" style="display: none;">
           <td colspan="4" class="total-label discount-label">Discount:</td>
+          <td></td>
           <td id="calc-discount-salvage" class="discount-val">-</td>
           <td id="calc-discount-intel" class="discount-val">-</td>
-          <td></td>
         </tr>
         <tr id="calc-discount-pct-row" style="display: none;">
           <td colspan="4" class="total-label discount-label">Discount %:</td>
+          <td></td>
           <td id="calc-discount-pct-salvage" class="discount-pct">-</td>
           <td id="calc-discount-pct-intel" class="discount-pct">-</td>
-          <td></td>
         </tr>
       </tfoot>
     </table>
@@ -310,6 +310,36 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     color: #555;
   }
 
+  :global(.disc-toggle-btn) {
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 2px 7px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.4;
+    transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+  }
+
+  :global(.disc-toggle-btn.disc-yes) {
+    background: rgba(76, 175, 80, 0.18);
+    border: 1px solid rgba(76, 175, 80, 0.45);
+  }
+
+  :global(.disc-toggle-btn.disc-yes:hover) {
+    background: rgba(76, 175, 80, 0.30);
+    border-color: rgba(76, 175, 80, 0.7);
+  }
+
+  :global(.disc-toggle-btn.disc-no) {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  :global(.disc-toggle-btn.disc-no:hover) {
+    background: rgba(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
   :global(.total-label) {
     text-align: right;
     font-weight: bold;
@@ -481,9 +511,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       margin-right: 1px;
     }
     
-    /* Hide the "Disc?" column on very small screens to save horizontal space */
-    .calculator-table th:last-child,
-    :global(.calculator-table td:last-child) {
+    /* Hide the "Disc?" column (now 5th) on very small screens to save horizontal space */
+    .calculator-table th:nth-child(5),
+    :global(.calculator-table td:nth-child(5)) {
       display: none;
     }
     
@@ -626,7 +656,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     let grandStdIntel = 0;
 
     tbody.innerHTML = shoppingList.map(item => {
-      const { salvage, intel, standardSalvage, standardIntel, isDiscounted } = calculatorStore.calculateRowCost(item);
+      const { salvage, intel, standardSalvage, standardIntel } = calculatorStore.calculateRowCost(item);
       grandSalvage += salvage;
       grandIntel += intel;
       grandStdSalvage += standardSalvage;
@@ -635,9 +665,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       const hasWeek = !!calculatorStore.activeWeek;
       const discCell = !hasWeek
         ? `<span class="disc-none">—</span>`
-        : isDiscounted
-          ? `<span class="disc-yes">✓</span>`
-          : `<span class="disc-no">✗</span>`;
+        : item.discountOn
+          ? `<button class="disc-toggle-btn disc-yes" data-action="disc-toggle" data-id="${item.instanceId}" title="Buying at discount — click to toggle">✓</button>`
+          : `<button class="disc-toggle-btn disc-no" data-action="disc-toggle" data-id="${item.instanceId}" title="Not discounted — click to toggle">✗</button>`;
 
       const salvageStr = salvage > 0 ? salvage.toLocaleString() : '—';
       const intelStr = intel > 0 ? intel.toLocaleString() : '—';
@@ -663,9 +693,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         </td>
         <td>${fromSelect}</td>
         <td>${toSelect}</td>
+        <td>${discCell}</td>
         <td class="cost-cell">${salvageStr}</td>
         <td class="cost-cell">${intelStr}</td>
-        <td>${discCell}</td>
       </tr>`;
     }).join('');
 
@@ -714,11 +744,18 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   tbody.addEventListener('click', (e) => {
     const btn = e.target.closest('.qty-btn');
-    if (!btn) return;
-    const action = btn.dataset.action;
-    const id = btn.dataset.id;
-    if (action === 'plus') calculatorStore.updateQuantity(id, 1);
-    else if (action === 'minus') calculatorStore.updateQuantity(id, -1);
+    if (btn) {
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      if (action === 'plus') calculatorStore.updateQuantity(id, 1);
+      else if (action === 'minus') calculatorStore.updateQuantity(id, -1);
+      return;
+    }
+
+    const discBtn = e.target.closest('[data-action="disc-toggle"]');
+    if (discBtn) {
+      calculatorStore.toggleItemDiscount(discBtn.dataset.id);
+    }
   });
 
   tbody.addEventListener('change', (e) => {

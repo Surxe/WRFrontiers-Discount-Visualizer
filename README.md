@@ -166,6 +166,7 @@ WRFrontiers-Discount-Visualizer/
 ├── src/
 │   ├── backend/                 # Python mapping pipeline
 │   ├── frontend/                # Astro static site
+├── docs/                        # Documentation
 │   └── design_doc.md            # system overview
 ├── .github/
 │   ├── workflows/               # CI: map, screenshot, build, deploy, all
@@ -212,6 +213,6 @@ CI needs a **`DATA_REPO_PAT`** secret — a GitHub Personal Access Token with re
 
 ## Further documentation
 
-- [`src/design_doc.md`](src/design_doc.md) — system overview and end-to-end flow
+- [`docs/design_doc.md`](docs/design_doc.md) — system overview and end-to-end flow
 - [`src/backend/design_doc.md`](src/backend/design_doc.md) — backend pipeline detail
 - [`src/frontend/design_doc.md`](src/frontend/design_doc.md) — UI, data enrichment, screenshot flow
