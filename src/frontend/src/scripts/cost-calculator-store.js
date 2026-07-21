@@ -1,3 +1,14 @@
+/**
+ * Returns true if the given moduleId is in the discount schedule for the given weekSlug.
+ * Reads window.WRF_CALC_META which is populated by the inline script in CostCalculator.astro.
+ */
+function computeIsDiscounted(moduleId, weekSlug) {
+  const meta = window.WRF_CALC_META;
+  if (!meta || !weekSlug || !moduleId) return false;
+  const ids = meta.discountSchedule[weekSlug] || [];
+  return ids.includes(moduleId);
+}
+
 class CostCalculatorStore extends EventTarget {
   constructor() {
     super();
@@ -43,6 +54,7 @@ class CostCalculatorStore extends EventTarget {
       quantity: 1,
       fromLvl: 1,
       toLvl: 13,
+      discountOn: computeIsDiscounted(module.id || '', this.activeWeek),
     });
     this.saveToStorage();
     this.emitChange();
@@ -88,8 +100,24 @@ class CostCalculatorStore extends EventTarget {
 
   setActiveWeek(slug) {
     this.activeWeek = slug || null;
+    // Reset every row's discount state to match the new week.
+    for (const item of this.shoppingList) {
+      item.discountOn = computeIsDiscounted(item.moduleId, this.activeWeek);
+    }
     this.saveToStorage();
     this.emitChange();
+  }
+
+  /**
+   * Flips the discountOn toggle for a single row.
+   */
+  toggleItemDiscount(instanceId) {
+    const item = this.shoppingList.find(i => i.instanceId === instanceId);
+    if (item) {
+      item.discountOn = !item.discountOn;
+      this.saveToStorage();
+      this.emitChange();
+    }
   }
 
   /**
@@ -104,10 +132,9 @@ class CostCalculatorStore extends EventTarget {
     const rarityEntry = meta.rarityUpgradeCosts[item.rarityRef];
     if (!rarityEntry) return { salvage: 0, intel: 0 };
 
-    const discountedIds = this.activeWeek
-      ? (meta.discountSchedule[this.activeWeek] || [])
-      : [];
-    const isDiscounted = discountedIds.includes(item.moduleId);
+    // item.discountOn is the single source of truth — set on add and
+    // on week change, and manually flippable by the user.
+    const isDiscounted = item.discountOn ?? false;
 
     let totalSalvage = 0;
     let totalIntel = 0;
