@@ -2048,6 +2048,7 @@
     },
     "OBJID_Module::DA_Module_Weapon_Incinerator.0": {
       "weeks": [
+        "2026-08-04",
         "2026-05-12",
         "2026-03-03",
         "2026-01-27",
@@ -2056,7 +2057,7 @@
       "virtual_bots": [
         "purifier"
       ],
-      "avg_weeks_between_discounts": 10.3
+      "avg_weeks_between_discounts": 10.8
     },
     "OBJID_Module::DA_Module_ChassisBulgasari.2": {
       "weeks": [
@@ -2684,6 +2685,16 @@
         "2026-08-04"
       ],
       "virtual_bots": [],
+      "avg_weeks_between_discounts": null
+    },
+    "OBJID_Module::DA_Module_Weapon_RelicOrkan.0": {
+      "weeks": [
+        "2026-08-04"
+      ],
+      "virtual_bots": [
+        "relic-bulgasari",
+        "relic-lancelot"
+      ],
       "avg_weeks_between_discounts": null
     }
   }
