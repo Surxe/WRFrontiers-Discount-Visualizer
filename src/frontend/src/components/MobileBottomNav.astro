@@ -35,6 +35,22 @@ const { baseUrl, currentPage } = Astro.props;
   </a>
 
   <a
+    href={`${baseUrl}costs`}
+    class:list={["bottom-nav-tab", { active: currentPage === "costs" }]}
+    aria-label="Upgrade Costs"
+    id="mobile-nav-costs"
+  >
+    <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M14.5 9a2.5 2 0 0 0-2.5-1.5c-1.4 0-2.5.7-2.5 2s1.1 1.6 2.5 2 2.5.9 2.5 2-1.1 2-2.5 2a2.5 2 0 0 1-2.5-1.5"></path>
+      <line x1="12" y1="6" x2="12" y2="7.5"></line>
+      <line x1="12" y1="16.5" x2="12" y2="18"></line>
+    </svg>
+    <span class="tab-label">Costs</span>
+    {currentPage === "costs" && <span class="tab-active-dot" aria-hidden="true"></span>}
+  </a>
+
+  <a
     href={`${baseUrl}timeline`}
     class:list={["bottom-nav-tab", { active: currentPage === "timeline" }]}
     aria-label="Timeline"

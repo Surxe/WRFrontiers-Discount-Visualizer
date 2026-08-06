@@ -191,6 +191,7 @@ src/frontend/node_modules/
 src/frontend/dist/
 src/frontend/.astro/
 WRFrontiersDB-Data/
+/WRFrontiersDB-Data
 src/frontend/public/WRFrontiersDB-Data/
 src/frontend/public/WRFrontiersDB-Data
 src/backend/temp/
