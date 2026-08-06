@@ -4,6 +4,7 @@ const { baseUrl, currentPage } = Astro.props;
 const navItems = [
 	{ href: baseUrl, text: 'Discount Weeks', id: 'home' },
 	{ href: `${baseUrl}items`, text: 'Items', id: 'items' },
+	{ href: `${baseUrl}costs`, text: 'Upgrade Costs', id: 'costs' },
 	{ href: `${baseUrl}timeline`, text: 'Timeline', id: 'timeline' },
 ];
 ---
@@ -30,6 +31,14 @@ const navItems = [
 							<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
 							<polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
 							<line x1="12" y1="22.08" x2="12" y2="12"></line>
+						</svg>
+					)}
+					{item.id === 'costs' && (
+						<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<circle cx="12" cy="12" r="9"></circle>
+							<path d="M14.5 9a2.5 2 0 0 0-2.5-1.5c-1.4 0-2.5.7-2.5 2s1.1 1.6 2.5 2 2.5.9 2.5 2-1.1 2-2.5 2a2.5 2 0 0 1-2.5-1.5"></path>
+							<line x1="12" y1="6" x2="12" y2="7.5"></line>
+							<line x1="12" y1="16.5" x2="12" y2="18"></line>
 						</svg>
 					)}
 					{item.id === 'timeline' && (
