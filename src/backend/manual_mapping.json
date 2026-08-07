@@ -1,4 +1,5 @@
 {
   "Phantm": "OBJID_VirtualBot::phantom",
-  "Recon Boost": "OBJID_Module::DA_Module_Ability_Spotlight.1"
+  "Recon Boost": "OBJID_Module::DA_Module_Ability_Spotlight.1",
+  "Orkans": "OBJID_Module::DA_Module_Weapon_Orkan.0"
 }

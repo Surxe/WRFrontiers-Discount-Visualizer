@@ -68,6 +68,10 @@
     "name": "Heike"
   },
   {
+    "ref": "OBJID_VirtualBot::helios",
+    "name": "Helios"
+  },
+  {
     "ref": "OBJID_VirtualBot::hitcher",
     "name": "Hitcher"
   },
@@ -366,6 +370,10 @@
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Punisher.0",
     "name": "Punisher"
+  },
+  {
+    "ref": "OBJID_Module::DA_Module_Weapon_Pyre.0",
+    "name": "Pyre"
   },
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Railgun.0",
