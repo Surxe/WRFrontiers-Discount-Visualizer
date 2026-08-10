@@ -8,6 +8,12 @@ export function getTexturePath(uePath, baseUrl = '') {
   return `${baseUrl}WRFrontiersDB-Data/textures${iconPath}.png`;
 }
 
+/** Resolve the currency icon URL for 'salvage' (Alloys) or 'intel'. */
+export function getCurrencyIconUrl(currency, baseUrl = '') {
+  const file = currency === 'intel' ? 'T_IntelLarge.png' : 'T_AlloysLarge.png';
+  return `${baseUrl}WRFrontiersDB-Data/textures/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/${file}`;
+}
+
 /** Always uses horizontal shop-card backgrounds (DA_CardSize_SH.0). */
 export function getRarityBackgroundUrl(rarityId, shopCards, baseUrl = '') {
   if (!rarityId) return '';

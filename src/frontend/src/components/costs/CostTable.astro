@@ -1,0 +1,125 @@
+---
+/**
+ * Tabular view of upgrade costs: one row per rarity/level with a sticky,
+ * row-spanned rarity column.
+ * Props: { rarities, baseUrl }
+ */
+import CurrencyIcon from '../CurrencyIcon.astro';
+import { formatCost } from '../../utils/rarityUpgradeCosts.js';
+
+const { rarities = [], baseUrl = '/' } = Astro.props;
+---
+
+<div class="table-responsive">
+  <table class="cost-table">
+    <thead>
+      <tr>
+        <th class="sticky-col">Rarity</th>
+        <th>Level</th>
+        <th>Currency</th>
+        <th class="num">Base Cost</th>
+        <th class="num">Discounted Cost</th>
+        <th class="num">Savings</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rarities.map(r => r.levels.map((l, i) => (
+        <tr class={i === 0 ? 'rarity-start' : ''}>
+          {i === 0 && (
+            <td class="sticky-col rarity-cell" rowspan={r.levels.length} style={`--rarity: ${r.color};`}>
+              <span class="rarity-dot"></span>{r.name}
+            </td>
+          )}
+          <td>{l.level}</td>
+          <td class="cur-cell">
+            <CurrencyIcon currency={l.currency} baseUrl={baseUrl} alt="" />
+            {l.currency === 'intel' ? 'Intel' : 'Salvage'}
+          </td>
+          <td class="num">{formatCost(l.base)}</td>
+          <td class="num">{l.discounted != null ? formatCost(l.discounted) : '—'}</td>
+          <td class="num">
+            {l.pctOff != null
+              ? <span class="off-pill">−{l.pctOff}%</span>
+              : <span class="no-off">—</span>}
+          </td>
+        </tr>
+      )))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--sidebar-bg, #161920);
+    border: 1px solid var(--sidebar-border, #232733);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .cost-table th,
+  .cost-table td {
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid var(--sidebar-border, #232733);
+  }
+
+  .cost-table th {
+    font-weight: 600;
+    color: var(--text-muted, #8b92a5);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .cost-table td.num,
+  .cost-table th.num {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+  }
+
+  .cur-cell { display: flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
+
+  .rarity-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--rarity);
+    flex-shrink: 0;
+  }
+
+  .rarity-cell {
+    font-weight: 700;
+    font-size: 1rem;
+    vertical-align: middle;
+    border-left: 4px solid var(--rarity);
+    white-space: nowrap;
+  }
+
+  .rarity-cell .rarity-dot {
+    display: inline-block;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+  }
+
+  .rarity-start td { border-top: 2px solid var(--sidebar-border, #232733); }
+
+  .off-pill {
+    color: #35a95c;
+    font-weight: 700;
+  }
+
+  .no-off { color: var(--text-muted, #8b92a5); }
+
+  @media (max-width: 768px) {
+    .cost-table th,
+    .cost-table td { padding: 0.45rem 0.5rem; font-size: 0.78rem; }
+  }
+</style>
