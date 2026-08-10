@@ -1,0 +1,27 @@
+---
+/**
+ * Headline "N% off" chip for a rarity's per-currency average savings.
+ * Props: { currency: 'salvage' | 'intel', savings: number, baseUrl }
+ */
+import CurrencyIcon from '../CurrencyIcon.astro';
+
+const { currency, savings, baseUrl = '/' } = Astro.props;
+const alt = currency === 'intel' ? 'Intel' : 'Salvage';
+---
+
+<span class="savings-chip"><CurrencyIcon currency={currency} baseUrl={baseUrl} alt={alt} size={13} />{savings}% off</span>
+
+<style>
+  .savings-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #35a95c;
+    background: rgba(53, 169, 92, 0.12);
+    border: 1px solid rgba(53, 169, 92, 0.3);
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+  }
+</style>

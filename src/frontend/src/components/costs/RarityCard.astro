@@ -1,0 +1,73 @@
+---
+/**
+ * Visual-view card for a single rarity: colored header with average-savings
+ * chips, plus the list of per-level cost bars.
+ * Props: { rarity, baseUrl }
+ */
+import SavingsChip from './SavingsChip.astro';
+import CostBarRow from './CostBarRow.astro';
+
+const { rarity: r, baseUrl = '/' } = Astro.props;
+---
+
+<article class="rarity-card" style={`--rarity: ${r.color};`}>
+  <header class="rarity-head">
+    <span class="rarity-dot"></span>
+    <h2 class="rarity-name">{r.name}</h2>
+    <span class="rarity-savings">
+      {r.salvageSavings != null && (
+        <SavingsChip currency="salvage" savings={r.salvageSavings} baseUrl={baseUrl} />
+      )}
+      {r.intelSavings != null && (
+        <SavingsChip currency="intel" savings={r.intelSavings} baseUrl={baseUrl} />
+      )}
+    </span>
+  </header>
+
+  <ul class="level-list">
+    {r.levels.map(l => <CostBarRow level={l} baseUrl={baseUrl} />)}
+  </ul>
+</article>
+
+<style>
+  .rarity-card {
+    background: var(--sidebar-bg, #161920);
+    border: 1px solid var(--sidebar-border, #232733);
+    border-left: 4px solid var(--rarity);
+    border-radius: 0.6rem;
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  .rarity-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--sidebar-border, #232733);
+    flex-wrap: wrap;
+  }
+
+  .rarity-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--rarity);
+    flex-shrink: 0;
+  }
+
+  .rarity-name {
+    margin: 0;
+    font-size: 1.15rem;
+    color: var(--text-color, #e0e0e0);
+  }
+
+  .rarity-savings {
+    margin-left: auto;
+    display: inline-flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .level-list { list-style: none; margin: 0; padding: 0; }
+</style>

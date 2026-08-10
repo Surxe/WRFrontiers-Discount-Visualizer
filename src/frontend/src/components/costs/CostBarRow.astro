@@ -1,0 +1,116 @@
+---
+/**
+ * One level's cost row in the visual view: level badge, currency icon, a
+ * pay/save bar, and the numeric values (discounted/base/off, or unlock for L1).
+ * Props: { level: LevelRow, baseUrl }
+ */
+import CurrencyIcon from '../CurrencyIcon.astro';
+import { formatCost } from '../../utils/rarityUpgradeCosts.js';
+
+const { level: l, baseUrl = '/' } = Astro.props;
+
+const hasDisc = l.discounted != null && l.base > 0;
+const payPct = hasDisc ? Math.max(2, Math.round((l.discounted / l.base) * 100)) : 100;
+const ariaLabel = hasDisc
+  ? `Level ${l.level}: base ${formatCost(l.base)} ${l.currency}, discounted ${formatCost(l.discounted)}, ${l.pctOff}% off`
+  : `Level ${l.level}: ${formatCost(l.base)} ${l.currency}, no discount`;
+---
+
+<li class="level-row">
+  <span class="lvl-badge">L{l.level}</span>
+  <CurrencyIcon currency={l.currency} baseUrl={baseUrl} alt={l.currency} />
+  <div class="bar" role="img" aria-label={ariaLabel}>
+    <span class="bar-pay" style={`width:${payPct}%`}></span>
+    {hasDisc && <span class="bar-save" style={`width:${100 - payPct}%`}></span>}
+  </div>
+  <span class="vals">
+    {hasDisc ? (
+      <>
+        <span class="v-disc">{formatCost(l.discounted)}</span>
+        <span class="v-base">{formatCost(l.base)}</span>
+        <span class="v-off">−{l.pctOff}%</span>
+      </>
+    ) : (
+      <>
+        <span class="v-disc">{formatCost(l.base)}</span>
+        <span class="v-nodisc">unlock</span>
+      </>
+    )}
+  </span>
+</li>
+
+<style>
+  .level-row {
+    display: grid;
+    grid-template-columns: 2.2rem 18px 1fr 8.5rem;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.3rem 0;
+  }
+
+  .lvl-badge {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted, #8b92a5);
+    text-align: right;
+  }
+
+  .bar {
+    display: flex;
+    height: 14px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .bar-pay {
+    background: #7c869c;
+    border-radius: 4px 0 0 4px;
+    min-width: 3px;
+  }
+
+  .bar-save {
+    background: #35a95c;
+    border-radius: 0 4px 4px 0;
+    /* 2px surface gap between the two segments */
+    margin-left: 2px;
+  }
+
+  .vals {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    justify-content: flex-end;
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  .v-disc { color: var(--text-color, #e0e0e0); font-weight: 700; }
+
+  .v-base {
+    color: var(--text-muted, #8b92a5);
+    text-decoration: line-through;
+    font-size: 0.72rem;
+  }
+
+  .v-off { color: #35a95c; font-weight: 700; font-size: 0.72rem; }
+
+  .v-nodisc {
+    color: var(--text-muted, #8b92a5);
+    font-style: italic;
+    font-size: 0.72rem;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  @media (max-width: 768px) {
+    .level-row {
+      grid-template-columns: 1.9rem 16px 1fr 7rem;
+      gap: 0.4rem;
+    }
+
+    .vals { font-size: 0.68rem; gap: 0.25rem; }
+    .v-base { display: none; }
+  }
+</style>

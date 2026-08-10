@@ -1,4 +1,6 @@
 ---
+import { getCurrencyIconUrl } from '../utils/textures.js';
+
 const { searchableModules = [], rarityUpgradeCosts = {}, discountSchedule = {}, weekList = [], currentWeekSlug = null } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL || '/';
 ---
@@ -34,8 +36,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
           <th>From</th>
           <th>To</th>
           <th>Disc?</th>
-          <th class="currency-header"><img src={`${baseUrl}WRFrontiersDB-Data/textures/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_AlloysLarge.png`} alt="Salvage" class="header-currency-icon" /> Salvage</th>
-          <th class="currency-header"><img src={`${baseUrl}WRFrontiersDB-Data/textures/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_IntelLarge.png`} alt="Intel" class="header-currency-icon" /> Intel</th>
+          <th class="currency-header"><img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" /> Salvage</th>
+          <th class="currency-header"><img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" /> Intel</th>
         </tr>
       </thead>
       <tbody id="calculator-tbody">

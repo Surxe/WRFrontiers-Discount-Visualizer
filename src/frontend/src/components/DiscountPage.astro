@@ -17,8 +17,7 @@ import { fetchDiscountHistory } from '../utils/discountHistory.js';
 import { getCurrentOrLatestWeek, getNextWeek, getPreviousWeek } from '../utils/dateValidator.js';
 import { formatWeek } from '../utils/weekDates.js';
 import { extractDiscountedItemsFromGrid } from '../utils/discountHistory.js';
-import fs from 'fs';
-import path from 'path';
+import { loadRarityUpgradeCosts } from '../utils/rarityUpgradeCosts.js';
 
 const { dateRange, gridData, shopCards, catIcons, weeks, currentSlug, vbotMetaById } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
@@ -115,15 +114,7 @@ const searchableModules = Object.values(allModulesRaw)
   .sort((a, b) => a.name.localeCompare(b.name));
 
 // --- RarityUpgradeCosts ---
-let rarityUpgradeCosts = {};
-try {
-  const ruPath = [
-    path.resolve('../../WRFrontiersDB-Data/current/Objects/RarityUpgradeCost.json'),
-    path.resolve('../../../WRFrontiersDB-Data/current/Objects/RarityUpgradeCost.json'),
-    path.resolve('public/WRFrontiersDB-Data/current/Objects/RarityUpgradeCost.json'),
-  ].find(p => fs.existsSync(p));
-  if (ruPath) rarityUpgradeCosts = JSON.parse(fs.readFileSync(ruPath, 'utf-8'));
-} catch (e) { console.error('Failed to load RarityUpgradeCost.json', e); }
+const rarityUpgradeCosts = loadRarityUpgradeCosts();
 
 // --- Discount Schedule: weekSlug -> [moduleId, ...] ---
 const discountHistory = fetchDiscountHistory();

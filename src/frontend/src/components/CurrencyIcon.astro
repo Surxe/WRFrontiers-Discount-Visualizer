@@ -1,0 +1,28 @@
+---
+/**
+ * Small currency icon (Salvage / Intel). Shared primitive so every view that
+ * shows a currency uses one consistent image + sizing rule.
+ *
+ * Props:
+ *   currency: 'salvage' | 'intel'
+ *   baseUrl:  site base URL for asset resolution
+ *   alt:      alt text (default '')
+ *   size:     optional px size override (base rule is 16px)
+ */
+import { getCurrencyIconUrl } from '../utils/textures.js';
+
+const { currency, baseUrl = '/', alt = '', size } = Astro.props;
+const sizeStyle = size ? `width:${size}px;height:${size}px;` : undefined;
+---
+
+<img class="cur-ico" src={getCurrencyIconUrl(currency, baseUrl)} alt={alt} style={sizeStyle} />
+
+<style>
+  .cur-ico {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    vertical-align: text-bottom;
+    flex-shrink: 0;
+  }
+</style>
