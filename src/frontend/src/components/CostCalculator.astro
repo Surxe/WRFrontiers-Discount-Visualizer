@@ -79,18 +79,37 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <span>Avg impact / game</span>
         <input type="number" id="income-impact" min="0" step="1" inputmode="numeric" />
       </label>
+      <label class="income-field">
+        <span>Daily jobs / day</span>
+        <input type="number" id="income-daily-jobs" min="0" step="1" inputmode="numeric" />
+      </label>
+      <label class="income-field">
+        <span>Weekly jobs</span>
+        <input type="number" id="income-weekly-jobs" min="0" step="1" inputmode="numeric" />
+      </label>
     </div>
     <div class="income-totals">
-      <span class="income-total">
-        <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
-        <span class="income-total-label">Salvage</span>
-        <span id="income-total-salvage" class="income-total-val">0</span>
-      </span>
-      <span class="income-total">
-        <img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" />
-        <span class="income-total-label">Intel</span>
-        <span id="income-total-intel" class="income-total-val">0</span>
-      </span>
+      <div class="income-group">
+        <span class="income-group-title">Jobs</span>
+        <span class="income-total">
+          <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
+          <span class="income-total-label">Salvage</span>
+          <span id="income-jobs-salvage" class="income-total-val">0</span>
+        </span>
+        <span class="income-total">
+          <img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" />
+          <span class="income-total-label">Intel</span>
+          <span id="income-jobs-intel" class="income-total-val">0</span>
+        </span>
+      </div>
+      <div class="income-group">
+        <span class="income-group-title">Matches</span>
+        <span class="income-total">
+          <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
+          <span class="income-total-label">Salvage</span>
+          <span id="income-matches-salvage" class="income-total-val">0</span>
+        </span>
+      </div>
     </div>
   </section>
 </aside>
@@ -620,10 +639,23 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   .income-totals {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
+    gap: 0.9rem 2.25rem;
     margin-top: 0.9rem;
     padding-top: 0.75rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .income-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .income-group-title {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted, #8b92a5);
   }
 
   .income-total {
@@ -678,16 +710,29 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   const incomePremiumEl = document.getElementById('income-premium');
   const incomeGamesEl = document.getElementById('income-games');
   const incomeImpactEl = document.getElementById('income-impact');
-  const incomeSalvageEl = document.getElementById('income-total-salvage');
-  const incomeIntelEl = document.getElementById('income-total-intel');
+  const incomeDailyJobsEl = document.getElementById('income-daily-jobs');
+  const incomeWeeklyJobsEl = document.getElementById('income-weekly-jobs');
+  const incomeJobsSalvageEl = document.getElementById('income-jobs-salvage');
+  const incomeJobsIntelEl = document.getElementById('income-jobs-intel');
+  const incomeMatchesSalvageEl = document.getElementById('income-matches-salvage');
+
+  // Keep the job-count inputs' max attribute in sync with the premium tier.
+  function syncJobMaxAttrs(premium) {
+    incomeDailyJobsEl.max = premium ? 6 : 4;
+    incomeWeeklyJobsEl.max = premium ? 3 : 2;
+  }
 
   // --- Weekly income inputs ---
   // Hydrate from persisted store state, then push edits back to the store.
   incomePremiumEl.checked = !!calculatorStore.income.premium;
   incomeGamesEl.value = calculatorStore.income.gamesPerDay || '';
   incomeImpactEl.value = calculatorStore.income.avgImpact || '';
+  incomeDailyJobsEl.value = calculatorStore.income.dailyJobsDone ?? '';
+  incomeWeeklyJobsEl.value = calculatorStore.income.weeklyJobsDone ?? '';
+  syncJobMaxAttrs(!!calculatorStore.income.premium);
 
   incomePremiumEl.addEventListener('change', () => {
+    syncJobMaxAttrs(incomePremiumEl.checked);
     calculatorStore.setIncome({ premium: incomePremiumEl.checked });
   });
   incomeGamesEl.addEventListener('input', () => {
@@ -695,6 +740,12 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   });
   incomeImpactEl.addEventListener('input', () => {
     calculatorStore.setIncome({ avgImpact: incomeImpactEl.value });
+  });
+  incomeDailyJobsEl.addEventListener('input', () => {
+    calculatorStore.setIncome({ dailyJobsDone: incomeDailyJobsEl.value });
+  });
+  incomeWeeklyJobsEl.addEventListener('input', () => {
+    calculatorStore.setIncome({ weeklyJobsDone: incomeWeeklyJobsEl.value });
   });
 
   // --- Week Select ---
@@ -879,10 +930,14 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       if (document.activeElement !== incomePremiumEl) incomePremiumEl.checked = !!income.premium;
       if (document.activeElement !== incomeGamesEl) incomeGamesEl.value = income.gamesPerDay || '';
       if (document.activeElement !== incomeImpactEl) incomeImpactEl.value = income.avgImpact || '';
+      if (document.activeElement !== incomeDailyJobsEl) incomeDailyJobsEl.value = income.dailyJobsDone ?? '';
+      if (document.activeElement !== incomeWeeklyJobsEl) incomeWeeklyJobsEl.value = income.weeklyJobsDone ?? '';
+      syncJobMaxAttrs(!!income.premium);
     }
     if (weeklyIncome) {
-      incomeSalvageEl.textContent = weeklyIncome.salvage.toLocaleString();
-      incomeIntelEl.textContent = weeklyIncome.intel.toLocaleString();
+      incomeJobsSalvageEl.textContent = weeklyIncome.jobs.salvage.toLocaleString();
+      incomeJobsIntelEl.textContent = weeklyIncome.jobs.intel.toLocaleString();
+      incomeMatchesSalvageEl.textContent = weeklyIncome.matches.salvage.toLocaleString();
     }
   });
 
