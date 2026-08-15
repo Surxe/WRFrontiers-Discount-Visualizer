@@ -9,12 +9,31 @@ function computeIsDiscounted(moduleId, weekSlug) {
   return ids.includes(moduleId);
 }
 
+/**
+ * Weekly-income rates. Single source of truth for the income panel math —
+ * correct these here if the game's numbers change. See the "Weekly income"
+ * section in CostCalculator.astro for the UI that consumes them.
+ */
+const INCOME_RATES = {
+  dailyJob: { credits: 700, intel: 15 },
+  weeklyJob: { credits: 5000, intel: 70 },
+  dailyJobCap: { premium: 6, free: 4 },
+  weeklyJobCap: { premium: 3, free: 2 },
+  matchCreditFactor: 0.97,      // credits = impact * 0.97 ...
+  premiumMatchMultiplier: 1.5,  // ... then * 1.5 with premium
+  creditToSalvage: 10,          // 1 credit converts to 10 salvage
+  daysPerWeek: 7,
+};
+
+const DEFAULT_INCOME = { premium: false, gamesPerDay: 0, avgImpact: 0 };
+
 class CostCalculatorStore extends EventTarget {
   constructor() {
     super();
     this.shoppingList = [];
     this.isOpen = false;
     this.activeWeek = null;
+    this.income = { ...DEFAULT_INCOME };
     this.loadFromStorage();
   }
 
@@ -25,6 +44,7 @@ class CostCalculatorStore extends EventTarget {
         const parsed = JSON.parse(stored);
         this.shoppingList = parsed.shoppingList || parsed || [];
         this.activeWeek = parsed.activeWeek || null;
+        this.income = { ...DEFAULT_INCOME, ...(parsed.income || {}) };
       }
     } catch (e) {
       console.error('Failed to load calculator list', e);
@@ -36,6 +56,7 @@ class CostCalculatorStore extends EventTarget {
       localStorage.setItem('wrf-calculator-list', JSON.stringify({
         shoppingList: this.shoppingList,
         activeWeek: this.activeWeek,
+        income: this.income,
       }));
     } catch (e) {
       console.error('Failed to save calculator list', e);
@@ -94,8 +115,50 @@ class CostCalculatorStore extends EventTarget {
 
   clearList() {
     this.shoppingList = [];
+    this.income = { ...DEFAULT_INCOME };
     this.saveToStorage();
     this.emitChange();
+  }
+
+  /**
+   * Updates one or more income inputs (premium, gamesPerDay, avgImpact).
+   * Numeric fields are clamped to >= 0.
+   */
+  setIncome(partial) {
+    Object.assign(this.income, partial);
+    this.income.gamesPerDay = Math.max(0, Number(this.income.gamesPerDay) || 0);
+    this.income.avgImpact = Math.max(0, Number(this.income.avgImpact) || 0);
+    this.income.premium = !!this.income.premium;
+    this.saveToStorage();
+    this.emitChange();
+  }
+
+  /**
+   * Computes weekly income in salvage + intel from jobs (assumed maxed) and
+   * matches. Credits convert to salvage via INCOME_RATES.creditToSalvage.
+   * Returns { salvage, intel, breakdown } where breakdown holds credit
+   * sub-totals for optional display.
+   */
+  computeWeeklyIncome() {
+    const r = INCOME_RATES;
+    const { premium, gamesPerDay, avgImpact } = this.income;
+
+    const dailyJobs = (premium ? r.dailyJobCap.premium : r.dailyJobCap.free) * r.daysPerWeek;
+    const weeklyJobs = premium ? r.weeklyJobCap.premium : r.weeklyJobCap.free;
+
+    const creditsFromJobs = dailyJobs * r.dailyJob.credits + weeklyJobs * r.weeklyJob.credits;
+    const intelFromJobs = dailyJobs * r.dailyJob.intel + weeklyJobs * r.weeklyJob.intel;
+
+    const creditsPerMatch = Math.round(avgImpact * r.matchCreditFactor * (premium ? r.premiumMatchMultiplier : 1));
+    const creditsFromMatches = creditsPerMatch * gamesPerDay * r.daysPerWeek;
+
+    const totalCredits = creditsFromJobs + creditsFromMatches;
+
+    return {
+      salvage: totalCredits * r.creditToSalvage,
+      intel: intelFromJobs,
+      breakdown: { creditsFromJobs, creditsFromMatches, totalCredits, intelFromJobs },
+    };
   }
 
   setActiveWeek(slug) {
@@ -185,6 +248,8 @@ class CostCalculatorStore extends EventTarget {
       shoppingList: this.shoppingList,
       isOpen: this.isOpen,
       activeWeek: this.activeWeek,
+      income: this.income,
+      weeklyIncome: this.computeWeeklyIncome(),
     }}));
   }
 }
