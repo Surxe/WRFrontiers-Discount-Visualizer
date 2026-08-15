@@ -1,0 +1,31 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 8,
+    "start_day": 18,
+    "end_year": 2026,
+    "end_month": 8,
+    "end_day": 25
+  },
+  "items": [
+    "DA_Module_ChassisHitcher.2",
+    "DA_Module_TorsoHitcher.1",
+    "DA_Module_ShoulderHitcher.0",
+    "DA_Module_ChassisScorpion.2",
+    "DA_Module_TorsoScorpion.1",
+    "DA_Module_ShoulderScorpion.0",
+    "DA_Module_ChassisRaven.2",
+    "DA_Module_TorsoRaven.1",
+    "DA_Module_ShoulderRaven.0",
+    "DA_Module_Weapon_Slugger.0",
+    "DA_Module_Weapon_Nucleon.0",
+    "DA_Module_Weapon_Tusk.0",
+    "DA_Module_Weapon_Gozer.0",
+    "DA_Module_Ability_RegenerationFull.1",
+    "DA_Module_Ability_ArmorShield.1",
+    "DA_Module_Ability_Repulsor.1",
+    "DA_Module_Ability_TensionLink.1",
+    "DA_Module_Ability_InfiniteAmmo.1",
+    "DA_Module_Ability_BlastWave.1"
+  ]
+}

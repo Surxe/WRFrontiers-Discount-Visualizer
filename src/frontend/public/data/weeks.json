@@ -4,6 +4,18 @@
       "week": {
         "start_year": 2026,
         "start_month": 8,
+        "start_day": 18,
+        "end_year": 2026,
+        "end_month": 8,
+        "end_day": 25
+      },
+      "file": "week_grids/grid_2026-08-18.json",
+      "slug": "2026-08-18"
+    },
+    {
+      "week": {
+        "start_year": 2026,
+        "start_month": 8,
         "start_day": 11,
         "end_year": 2026,
         "end_month": 8,
