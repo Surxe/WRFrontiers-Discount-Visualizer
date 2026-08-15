@@ -64,6 +64,35 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       </tfoot>
     </table>
   </div>
+
+  <section id="weekly-income" class="income-section">
+    <h4 class="income-title">Weekly income</h4>
+    <div class="income-inputs">
+      <label class="income-check">
+        <input type="checkbox" id="income-premium" /> Premium
+      </label>
+      <label class="income-field">
+        <span>Games / day</span>
+        <input type="number" id="income-games" min="0" step="1" inputmode="numeric" />
+      </label>
+      <label class="income-field">
+        <span>Avg impact / game</span>
+        <input type="number" id="income-impact" min="0" step="1" inputmode="numeric" />
+      </label>
+    </div>
+    <div class="income-totals">
+      <span class="income-total">
+        <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
+        <span class="income-total-label">Salvage</span>
+        <span id="income-total-salvage" class="income-total-val">0</span>
+      </span>
+      <span class="income-total">
+        <img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" />
+        <span class="income-total-label">Intel</span>
+        <span id="income-total-intel" class="income-total-val">0</span>
+      </span>
+    </div>
+  </section>
 </aside>
 
 <style>
@@ -528,6 +557,92 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     }
   }
 
+  /* Weekly income panel */
+  .income-section {
+    flex-shrink: 0;
+    padding: 0.85rem 1rem 1.1rem;
+    border-top: 1px solid var(--sidebar-border, #232733);
+    background: var(--sidebar-bg, #161920);
+  }
+
+  .income-title {
+    margin: 0 0 0.65rem;
+    font-size: 0.9rem;
+    color: #fff;
+  }
+
+  .income-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.75rem 1rem;
+  }
+
+  .income-check {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: #cdd0d6;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .income-check input {
+    accent-color: #4caf50;
+    cursor: pointer;
+  }
+
+  .income-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.72rem;
+    color: var(--text-muted, #8b92a5);
+  }
+
+  .income-field input {
+    width: 5.5rem;
+    padding: 4px 6px;
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .income-field input:focus {
+    border-color: #555;
+  }
+
+  .income-totals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 0.9rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .income-total {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .income-total-label {
+    color: var(--text-muted, #8b92a5);
+  }
+
+  .income-total-val {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: #e0e0e0;
+  }
+
 </style>
 
 <script is:inline define:vars={{ searchableModules, rarityUpgradeCosts, discountSchedule, weekList, currentWeekSlug }}>
@@ -560,6 +675,27 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   const totalIntelEl = document.getElementById('calc-total-intel');
   const searchInput = document.getElementById('module-search-input');
   const searchResults = document.getElementById('module-search-results');
+  const incomePremiumEl = document.getElementById('income-premium');
+  const incomeGamesEl = document.getElementById('income-games');
+  const incomeImpactEl = document.getElementById('income-impact');
+  const incomeSalvageEl = document.getElementById('income-total-salvage');
+  const incomeIntelEl = document.getElementById('income-total-intel');
+
+  // --- Weekly income inputs ---
+  // Hydrate from persisted store state, then push edits back to the store.
+  incomePremiumEl.checked = !!calculatorStore.income.premium;
+  incomeGamesEl.value = calculatorStore.income.gamesPerDay || '';
+  incomeImpactEl.value = calculatorStore.income.avgImpact || '';
+
+  incomePremiumEl.addEventListener('change', () => {
+    calculatorStore.setIncome({ premium: incomePremiumEl.checked });
+  });
+  incomeGamesEl.addEventListener('input', () => {
+    calculatorStore.setIncome({ gamesPerDay: incomeGamesEl.value });
+  });
+  incomeImpactEl.addEventListener('input', () => {
+    calculatorStore.setIncome({ avgImpact: incomeImpactEl.value });
+  });
 
   // --- Week Select ---
   // Sync store with current page week on first load if not already set
@@ -727,7 +863,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   // --- Store event ---
   calculatorStore.addEventListener('change', (e) => {
-    const { shoppingList, isOpen } = e.detail;
+    const { shoppingList, isOpen, income, weeklyIncome } = e.detail;
 
     if (isOpen) {
       drawer.classList.add('is-open');
@@ -736,6 +872,18 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     }
 
     renderList(shoppingList);
+
+    // Keep income inputs in sync (e.g. after Clear resets them) without
+    // clobbering the field the user is actively typing in.
+    if (income) {
+      if (document.activeElement !== incomePremiumEl) incomePremiumEl.checked = !!income.premium;
+      if (document.activeElement !== incomeGamesEl) incomeGamesEl.value = income.gamesPerDay || '';
+      if (document.activeElement !== incomeImpactEl) incomeImpactEl.value = income.avgImpact || '';
+    }
+    if (weeklyIncome) {
+      incomeSalvageEl.textContent = weeklyIncome.salvage.toLocaleString();
+      incomeIntelEl.textContent = weeklyIncome.intel.toLocaleString();
+    }
   });
 
   // --- Delegation: qty buttons + level selects ---
