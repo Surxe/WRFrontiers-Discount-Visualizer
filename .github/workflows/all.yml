@@ -38,6 +38,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.REPO_PUSH_PAT }}
+
+      - name: Log inputs
+        shell: bash
+        run: |
+          {
+            echo "### Workflow inputs"
+            echo "- items: \`${{ github.event.inputs.items }}\`"
+            echo "- target_date_range: \`${{ github.event.inputs.target_date_range }}\`"
+            echo "- skip_deploy: \`${{ github.event.inputs.skip_deploy }}\`"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Local mapping
         uses: ./.github/actions/map
@@ -56,6 +67,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.REPO_PUSH_PAT }}
 
       - name: Pull map commit
         shell: bash
