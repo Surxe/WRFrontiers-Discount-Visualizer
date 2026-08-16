@@ -200,8 +200,8 @@ model:
 
 The panel is display-only in one direction: it reports what you *earn* per week;
 it does not currently subtract the shopping-list *cost* above it or compute a
-"weeks to afford" figure. Layout is vertical and narrow-drawer friendly — the
-numeric fields are paired into compact two-column rows (premium/free games,
-dailies/weekly jobs, and avg impact alongside the rate field), the seed buttons
-sit as their own row above the job fields, and the Jobs/Matches totals line up
-below.
+"weeks to afford" figure. Layout is a single responsive `auto-fit` grid: the
+fields spread to roughly four columns on the desktop drawer and collapse to two
+on mobile automatically, with the seed buttons spanning two columns so they sit
+beside the job fields on desktop and fill the row on mobile. The Jobs/Matches
+totals line up below.

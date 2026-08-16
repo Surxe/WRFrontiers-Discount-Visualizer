@@ -69,6 +69,10 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     <h4 class="income-title">Weekly income</h4>
     <div class="income-inputs">
       <label class="income-field">
+        <span>Avg impact / game</span>
+        <input type="number" id="income-impact" min="0" step="1" inputmode="numeric" />
+      </label>
+      <label class="income-field">
         <span>Premium games / wk</span>
         <input type="number" id="income-premium-games" min="0" step="1" inputmode="numeric" />
       </label>
@@ -76,21 +80,11 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <span>Free games / wk</span>
         <input type="number" id="income-free-games" min="0" step="1" inputmode="numeric" />
       </label>
-    </div>
-
-    <div class="income-seed">
-      <span class="income-seed-label">Autofill job counts for a full week:</span>
-      <div class="income-seed-btns">
-        <button type="button" id="income-seed-free" class="income-seed-btn">
-          Free week <small>28 daily &middot; 2 weekly</small>
-        </button>
-        <button type="button" id="income-seed-premium" class="income-seed-btn">
-          Premium week <small>42 daily &middot; 3 weekly</small>
-        </button>
-      </div>
-    </div>
-
-    <div class="income-inputs">
+      <label class="income-field">
+        <span>Salvage / credit</span>
+        <select id="income-rate-select" class="income-rate-select" aria-label="Credit to salvage conversion rate"></select>
+        <input type="number" id="income-rate" class="income-rate-custom" min="0" step="0.01" inputmode="decimal" placeholder="Custom rate" hidden />
+      </label>
       <label class="income-field">
         <span>Dailies / wk</span>
         <input type="number" id="income-dailies" min="0" step="1" inputmode="numeric" />
@@ -99,18 +93,17 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <span>Weekly jobs / wk</span>
         <input type="number" id="income-weekly-jobs" min="0" step="1" inputmode="numeric" />
       </label>
-    </div>
-
-    <div class="income-inputs">
-      <label class="income-field">
-        <span>Avg impact / game</span>
-        <input type="number" id="income-impact" min="0" step="1" inputmode="numeric" />
-      </label>
-      <label class="income-field">
-        <span>Salvage / credit</span>
-        <select id="income-rate-select" class="income-rate-select" aria-label="Credit to salvage conversion rate"></select>
-        <input type="number" id="income-rate" class="income-rate-custom" min="0" step="0.01" inputmode="decimal" placeholder="Custom rate" hidden />
-      </label>
+      <div class="income-seed">
+        <span class="income-seed-label">Autofill job counts for a full week:</span>
+        <div class="income-seed-btns">
+          <button type="button" id="income-seed-free" class="income-seed-btn">
+            Free week <small>28 daily &middot; 2 weekly</small>
+          </button>
+          <button type="button" id="income-seed-premium" class="income-seed-btn">
+            Premium week <small>42 daily &middot; 3 weekly</small>
+          </button>
+        </div>
+      </div>
     </div>
     <div class="income-totals">
       <div class="income-group">
@@ -614,18 +607,13 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     color: #fff;
   }
 
+  /* Responsive field grid: spreads to ~4 columns on the desktop drawer and
+     collapses to 2 on mobile, automatically, via auto-fit. */
   .income-inputs {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 6.5rem));
-    justify-content: start;
+    grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
     align-items: end;
-    gap: 0.65rem 0.9rem;
-  }
-
-  /* Rows after the first need vertical separation from what precedes them. */
-  .income-inputs + .income-inputs,
-  .income-seed + .income-inputs {
-    margin-top: 0.75rem;
+    gap: 0.7rem 0.75rem;
   }
 
   .income-field {
@@ -634,6 +622,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     gap: 0.2rem;
     font-size: 0.72rem;
     color: var(--text-muted, #8b92a5);
+    min-width: 0; /* let inputs/selects shrink to the column instead of overflowing */
   }
 
   .income-field input {
@@ -653,9 +642,12 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     border-color: #555;
   }
 
-  /* "Free week" / "Premium week" job seed buttons (replace old premium toggle) */
+  /* "Free week" / "Premium week" job seed buttons (replace old premium toggle).
+     Spans two grid columns so it sits beside the job fields on the desktop
+     drawer and fills the row on mobile's 2-column layout. */
   .income-seed {
-    margin-top: 0.75rem;
+    grid-column: span 2;
+    min-width: 0;
   }
 
   .income-seed-label {
@@ -701,8 +693,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
      "Custom rate" is chosen, so presets don't crowd the input. */
   .income-rate-select {
     width: 100%;
+    min-width: 0;
     box-sizing: border-box;
-    padding: 4px 6px;
+    padding: 4px 22px 4px 6px; /* right pad reserves room for the arrow */
     background: #111;
     border: 1px solid #333;
     color: #fff;
@@ -711,6 +704,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     outline: none;
     cursor: pointer;
     transition: border-color 0.2s;
+    text-overflow: ellipsis;
   }
 
   .income-rate-select:focus {
@@ -822,7 +816,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   const fmtK = (n) => (n % 1000 === 0 ? `${n / 1000}k` : n.toLocaleString());
   incomeRateSelectEl.innerHTML =
     CREDIT_SALVAGE_PRESETS.map((p) =>
-      `<option value="${p.rate}">${fmtK(p.credits)} → ${fmtK(p.salvage)} (${p.rate})</option>`
+      `<option value="${p.rate}">${p.rate} · ${fmtK(p.credits)}→${fmtK(p.salvage)}</option>`
     ).join('') +
     '<option value="custom">Custom rate…</option>';
 
