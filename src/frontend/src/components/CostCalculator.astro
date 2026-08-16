@@ -74,11 +74,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <input type="number" id="income-impact" min="0" step="1" inputmode="numeric" />
       </label>
       <label class="income-field">
-        <span class="income-rate-label" title="Salvage per credit">
-          <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="income-rate-icon" />
-          <span>/</span>
-          <img src={getCurrencyIconUrl('credits', baseUrl)} alt="Credits" class="income-rate-icon" />
-        </span>
+        <span>Salvage / credit</span>
         <select id="income-rate-select" class="income-rate-select" aria-label="Salvage per credit conversion rate"></select>
         <input type="number" id="income-rate" class="income-rate-custom" min="0" step="0.01" inputmode="decimal" placeholder="Custom salvage/credits" hidden />
       </label>
@@ -121,12 +117,10 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <span class="income-group-title">Jobs</span>
         <span class="income-total">
           <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
-          <span class="income-total-label">Salvage</span>
           <span id="income-jobs-salvage" class="income-total-val">0</span>
         </span>
         <span class="income-total">
           <img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" />
-          <span class="income-total-label">Intel</span>
           <span id="income-jobs-intel" class="income-total-val">0</span>
         </span>
       </div>
@@ -134,7 +128,6 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <span class="income-group-title">Matches</span>
         <span class="income-total">
           <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
-          <span class="income-total-label">Salvage</span>
           <span id="income-matches-salvage" class="income-total-val">0</span>
         </span>
       </div>
@@ -142,12 +135,10 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <span class="income-group-title">Total</span>
         <span class="income-total">
           <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
-          <span class="income-total-label">Salvage</span>
           <span id="income-total-salvage" class="income-total-val">0</span>
         </span>
         <span class="income-total">
           <img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" />
-          <span class="income-total-label">Intel</span>
           <span id="income-total-intel" class="income-total-val">0</span>
         </span>
       </div>
@@ -722,19 +713,6 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   /* Credit -> salvage: a preset dropdown; the number box appears only when
      "Custom rate" is chosen, so presets don't crowd the input. */
-  /* Rate field label: salvage / credit icons instead of words. */
-  .income-rate-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-  }
-
-  .income-rate-icon {
-    width: 14px;
-    height: 14px;
-    object-fit: contain;
-  }
-
   .income-rate-select {
     width: 100%;
     min-width: 0;
@@ -790,10 +768,6 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     align-items: center;
     gap: 0.4rem;
     font-size: 0.8rem;
-  }
-
-  .income-total-label {
-    color: var(--text-muted, #8b92a5);
   }
 
   .income-total-val {
@@ -869,7 +843,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   // Reflect a stored rate into the dropdown + (conditionally shown) custom box:
   // an exact preset match selects that preset; anything else is a custom average.
   function reflectRate(rate) {
-    const preset = CREDIT_SALVAGE_PRESETS.find((p) => Number(p.rate) === Number(rate));
+    // findLast so a rate shared by two bundles (10 = 6k→60k and 9k→90k) resolves
+    // to the larger bundle, making 9k→90k the default shown for the default rate.
+    const preset = CREDIT_SALVAGE_PRESETS.findLast((p) => Number(p.rate) === Number(rate));
     if (preset) {
       incomeRateSelectEl.value = String(preset.rate);
       incomeRateEl.hidden = true;
