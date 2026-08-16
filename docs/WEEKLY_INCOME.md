@@ -197,6 +197,8 @@ model:
 
 - **Jobs** → Salvage + Intel
 - **Matches** → Salvage (matches produce no Intel, so no Intel row)
+- **Total** → combined Salvage + Intel across both sources
+  (`weeklyIncome.salvage` / `weeklyIncome.intel`)
 
 The panel is display-only in one direction: it reports what you *earn* per week;
 it does not currently subtract the shopping-list *cost* above it or compute a

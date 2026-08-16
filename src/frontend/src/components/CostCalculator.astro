@@ -134,6 +134,19 @@ const baseUrl = import.meta.env.BASE_URL || '/';
           <span id="income-matches-salvage" class="income-total-val">0</span>
         </span>
       </div>
+      <div class="income-group">
+        <span class="income-group-title">Total</span>
+        <span class="income-total">
+          <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
+          <span class="income-total-label">Salvage</span>
+          <span id="income-total-salvage" class="income-total-val">0</span>
+        </span>
+        <span class="income-total">
+          <img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" />
+          <span class="income-total-label">Intel</span>
+          <span id="income-total-intel" class="income-total-val">0</span>
+        </span>
+      </div>
     </div>
   </section>
 </aside>
@@ -667,11 +680,13 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     font-size: 0.72rem;
     color: var(--text-muted, #8b92a5);
     margin-bottom: 0.4rem;
+    text-align: center;
   }
 
   .income-seed-btns {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 0.4rem;
   }
 
@@ -814,6 +829,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   const incomeJobsSalvageEl = document.getElementById('income-jobs-salvage');
   const incomeJobsIntelEl = document.getElementById('income-jobs-intel');
   const incomeMatchesSalvageEl = document.getElementById('income-matches-salvage');
+  const incomeTotalSalvageEl = document.getElementById('income-total-salvage');
+  const incomeTotalIntelEl = document.getElementById('income-total-intel');
 
   // --- Weekly income inputs ---
   // Hydrate from persisted store state, then push edits back to the store.
@@ -1081,6 +1098,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       incomeJobsSalvageEl.textContent = weeklyIncome.jobs.salvage.toLocaleString();
       incomeJobsIntelEl.textContent = weeklyIncome.jobs.intel.toLocaleString();
       incomeMatchesSalvageEl.textContent = weeklyIncome.matches.salvage.toLocaleString();
+      incomeTotalSalvageEl.textContent = weeklyIncome.salvage.toLocaleString();
+      incomeTotalIntelEl.textContent = weeklyIncome.intel.toLocaleString();
     }
   });
 
