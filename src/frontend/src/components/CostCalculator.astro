@@ -74,9 +74,13 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <input type="number" id="income-impact" min="0" step="1" inputmode="numeric" />
       </label>
       <label class="income-field">
-        <span>Salvage / credit</span>
-        <select id="income-rate-select" class="income-rate-select" aria-label="Credit to salvage conversion rate"></select>
-        <input type="number" id="income-rate" class="income-rate-custom" min="0" step="0.01" inputmode="decimal" placeholder="Custom rate" hidden />
+        <span class="income-rate-label" title="Salvage per credit">
+          <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="income-rate-icon" />
+          <span>/</span>
+          <img src={getCurrencyIconUrl('credits', baseUrl)} alt="Credits" class="income-rate-icon" />
+        </span>
+        <select id="income-rate-select" class="income-rate-select" aria-label="Salvage per credit conversion rate"></select>
+        <input type="number" id="income-rate" class="income-rate-custom" min="0" step="0.01" inputmode="decimal" placeholder="Custom salvage/credits" hidden />
       </label>
     </div>
 
@@ -718,6 +722,19 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   /* Credit -> salvage: a preset dropdown; the number box appears only when
      "Custom rate" is chosen, so presets don't crowd the input. */
+  /* Rate field label: salvage / credit icons instead of words. */
+  .income-rate-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .income-rate-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+  }
+
   .income-rate-select {
     width: 100%;
     min-width: 0;
@@ -847,7 +864,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     CREDIT_SALVAGE_PRESETS.map((p) =>
       `<option value="${p.rate}">${p.rate} · ${fmtK(p.credits)}→${fmtK(p.salvage)}</option>`
     ).join('') +
-    '<option value="custom">Custom rate…</option>';
+    '<option value="custom">Custom salvage/credits…</option>';
 
   // Reflect a stored rate into the dropdown + (conditionally shown) custom box:
   // an exact preset match selects that preset; anything else is a custom average.

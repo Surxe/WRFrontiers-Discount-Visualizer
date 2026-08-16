@@ -8,9 +8,13 @@ export function getTexturePath(uePath, baseUrl = '') {
   return `${baseUrl}WRFrontiersDB-Data/textures${iconPath}.png`;
 }
 
-/** Resolve the currency icon URL for 'salvage' (Alloys) or 'intel'. */
+/** Resolve the currency icon URL for 'salvage' (Alloys), 'intel', or 'credits'. */
 export function getCurrencyIconUrl(currency, baseUrl = '') {
-  const file = currency === 'intel' ? 'T_IntelLarge.png' : 'T_AlloysLarge.png';
+  const file = currency === 'intel'
+    ? 'T_IntelLarge.png'
+    : currency === 'credits'
+      ? 'T_CreditsLarge.png'
+      : 'T_AlloysLarge.png';
   return `${baseUrl}WRFrontiersDB-Data/textures/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/${file}`;
 }
 
