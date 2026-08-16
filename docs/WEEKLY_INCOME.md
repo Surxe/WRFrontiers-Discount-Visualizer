@@ -171,18 +171,17 @@ survive reloads). There is **no Premium checkbox** anymore — every field is
 - **Weekly jobs / wk** — total weekly jobs completed this week.
 - **Rate (salvage / credit)** — the Credit → Salvage conversion rate.
 
-**Seed buttons** — `Free week` and `Premium week` sit above the job fields and
-prefill **only** the two job counts to a clean full week of that tier
-(free = 28 dailies / 2 weekly, premium = 42 / 3, from `JOB_SEEDS` in the store).
-They're a starting point, not a lock: the fields stay freely editable so you can
-adjust for a partial-Premium week or the reset overlap. Games volume is personal,
-so the seeds deliberately leave the games fields alone.
+**Seed buttons** — `Free week` and `Premium week` sit above the job fields under
+an "Autofill job counts for a full week" label, and each button shows the counts
+it fills (`28 daily · 2 weekly`, `42 daily · 3 weekly`, from `JOB_SEEDS` in the
+store). They prefill **only** the two job counts — a starting point, not a lock,
+since the fields stay freely editable for a partial-Premium week or the reset
+overlap. Games volume is personal, so the seeds leave the games fields alone.
 
-**Conversion presets** — the `Credit → Salvage` block lists the in-game bundles
-(`CREDIT_SALVAGE_PRESETS`) as selectable rows; clicking one drops its rate into
-the editable **Rate** field and highlights it. Typing a custom rate (a blended
-average) clears the highlight. The active preset is re-derived whenever the value
-matches a preset exactly.
+**Conversion presets** — the **Salvage / credit** field has an integrated
+dropdown listing the in-game bundles (`CREDIT_SALVAGE_PRESETS`, e.g.
+`3.2k → 24k (7.5)`). Picking one fills the rate input and the dropdown snaps back
+to its `Rates…` label; the input still accepts a manually typed blended average.
 
 **Validation:** every numeric input is floored at 0, with **no maximum** — job
 counts can exceed a single week's cap to represent the reset overlap. Defaults
@@ -199,6 +198,7 @@ model:
 The panel is display-only in one direction: it reports what you *earn* per week;
 it does not currently subtract the shopping-list *cost* above it or compute a
 "weeks to afford" figure. Layout is vertical and narrow-drawer friendly — the
-paired numeric fields sit in a two-column grid, the seed buttons and the
-conversion presets stack as their own rows, and the Jobs/Matches totals line up
+numeric fields are paired into compact two-column rows (premium/free games,
+dailies/weekly jobs, and avg impact alongside the rate field), the seed buttons
+sit as their own row above the job fields, and the Jobs/Matches totals line up
 below.
