@@ -171,12 +171,14 @@ survive reloads). There is **no Premium checkbox** anymore — every field is
 - **Weekly jobs / wk** — total weekly jobs completed this week.
 - **Rate (salvage / credit)** — the Credit → Salvage conversion rate.
 
-**Seed buttons** — `Free week` and `Premium week` sit above the job fields under
-an "Autofill job counts for a full week" label, and each button shows the counts
-it fills (`28 daily · 2 weekly`, `42 daily · 3 weekly`, from `JOB_SEEDS` in the
-store). They prefill **only** the two job counts — a starting point, not a lock,
-since the fields stay freely editable for a partial-Premium week or the reset
-overlap. Games volume is personal, so the seeds leave the games fields alone.
+**Seed buttons** — `Free week` and `Premium week` sit above the activity fields
+under an "Autofill a full week" label, and each button shows the job counts it
+fills (`28 daily · 2 weekly`, `42 daily · 3 weekly`, from `JOB_SEEDS` in the
+store). They prefill the two job counts and also move the games split: the
+current games total shifts entirely into that tier's bucket — `Premium week`
+puts all games in **premium games**, `Free week` puts them all in **free games**
+(so the default 35/0 flips to 0/35 and back). Everything stays freely editable
+afterward for a partial-Premium week or the reset overlap.
 
 **Conversion presets** — the **Salvage / credit** field is a dropdown listing the
 in-game bundles (`CREDIT_SALVAGE_PRESETS`, e.g. `3.2k → 24k (7.5)`) plus a

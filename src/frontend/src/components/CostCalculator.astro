@@ -86,7 +86,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
     <!-- Autofill buttons: always their own row, above the four activity fields. -->
     <div class="income-seed">
-      <span class="income-seed-label">Autofill job counts for a full week:</span>
+      <span class="income-seed-label">Autofill a full week:</span>
       <div class="income-seed-btns">
         <button type="button" id="income-seed-free" class="income-seed-btn">
           Free week <small>28 daily &middot; 2 weekly</small>
@@ -900,15 +900,23 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     calculatorStore.setIncome({ creditToSalvage: incomeRateEl.value });
   });
 
-  // Seed buttons prefill the (uncapped) job counts to a full free/premium week.
-  // They fill jobs only — games volume is personal, so no default is injected.
-  function seedJobs(seed) {
+  // Seed buttons prefill a full free/premium week: the (uncapped) job counts,
+  // and the games split — the current games total moves entirely into the tier's
+  // bucket (Premium week -> all premium, Free week -> all free), keeping volume.
+  function applyWeek(tier) {
+    const seed = JOB_SEEDS[tier];
+    const totalGames = (Number(calculatorStore.income.premiumGames) || 0)
+                     + (Number(calculatorStore.income.freeGames) || 0);
+    const premiumGames = tier === 'premium' ? totalGames : 0;
+    const freeGames = tier === 'premium' ? 0 : totalGames;
     incomeDailiesEl.value = seed.dailiesPerWeek;
     incomeWeeklyJobsEl.value = seed.weeklyJobsPerWeek;
-    calculatorStore.setIncome({ ...seed });
+    incomePremiumGamesEl.value = premiumGames;
+    incomeFreeGamesEl.value = freeGames;
+    calculatorStore.setIncome({ ...seed, premiumGames, freeGames });
   }
-  incomeSeedFreeEl.addEventListener('click', () => seedJobs(JOB_SEEDS.free));
-  incomeSeedPremiumEl.addEventListener('click', () => seedJobs(JOB_SEEDS.premium));
+  incomeSeedFreeEl.addEventListener('click', () => applyWeek('free'));
+  incomeSeedPremiumEl.addEventListener('click', () => applyWeek('premium'));
 
   // Choosing "Custom rate" reveals the number box; choosing a preset hides it
   // and applies that rate directly.
