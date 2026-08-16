@@ -108,10 +108,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       </label>
       <label class="income-field">
         <span>Salvage / credit</span>
-        <div class="income-rate-combo">
-          <input type="number" id="income-rate" min="0" step="0.01" inputmode="decimal" />
-          <select id="income-rate-presets" class="income-rate-select" aria-label="Credit to salvage conversion presets"></select>
-        </div>
+        <select id="income-rate-select" class="income-rate-select" aria-label="Credit to salvage conversion rate"></select>
+        <input type="number" id="income-rate" class="income-rate-custom" min="0" step="0.01" inputmode="decimal" placeholder="Custom rate" hidden />
       </label>
     </div>
     <div class="income-totals">
@@ -699,40 +697,32 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     background: #242833;
   }
 
-  /* Credit -> salvage: rate input with an integrated preset dropdown */
-  .income-rate-combo {
-    display: flex;
-    align-items: stretch;
-    border: 1px solid #333;
-    border-radius: 4px;
+  /* Credit -> salvage: a preset dropdown; the number box appears only when
+     "Custom rate" is chosen, so presets don't crowd the input. */
+  .income-rate-select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 6px;
     background: #111;
-    overflow: hidden;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    outline: none;
+    cursor: pointer;
     transition: border-color 0.2s;
   }
 
-  .income-rate-combo:focus-within {
+  .income-rate-select:focus {
     border-color: #555;
   }
 
-  /* Input inside the combo drops its own border/background/radius. */
-  .income-rate-combo input {
-    border: none;
-    border-radius: 0;
-    background: transparent;
-    flex: 1 1 auto;
-    min-width: 0;
+  .income-rate-custom {
+    margin-top: 0.35rem;
   }
 
-  .income-rate-select {
-    flex: 0 0 auto;
-    border: none;
-    border-left: 1px solid #333;
-    background: #1c1f27;
-    color: #cdd0d6;
-    font-size: 0.74rem;
-    padding: 0 2px;
-    cursor: pointer;
-    outline: none;
+  .income-rate-custom[hidden] {
+    display: none;
   }
 
   .income-totals {
@@ -812,7 +802,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   const incomeDailiesEl = document.getElementById('income-dailies');
   const incomeWeeklyJobsEl = document.getElementById('income-weekly-jobs');
   const incomeRateEl = document.getElementById('income-rate');
-  const incomeRatePresetsEl = document.getElementById('income-rate-presets');
+  const incomeRateSelectEl = document.getElementById('income-rate-select');
   const incomeSeedFreeEl = document.getElementById('income-seed-free');
   const incomeSeedPremiumEl = document.getElementById('income-seed-premium');
   const incomeJobsSalvageEl = document.getElementById('income-jobs-salvage');
@@ -826,17 +816,30 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   incomeFreeGamesEl.value = calculatorStore.income.freeGames ?? '';
   incomeDailiesEl.value = calculatorStore.income.dailiesPerWeek ?? '';
   incomeWeeklyJobsEl.value = calculatorStore.income.weeklyJobsPerWeek ?? '';
-  incomeRateEl.value = calculatorStore.income.creditToSalvage ?? '';
 
-  // Populate the rate field's integrated preset dropdown from the store's source
-  // of truth. The first option is an inert label; picking a bundle fills the rate
-  // input, then the select snaps back to the label (the input holds the value).
+  // Credit -> salvage rate: a dropdown of preset bundles plus a "Custom rate"
+  // option. The number box only appears for Custom, so presets don't crowd it.
   const fmtK = (n) => (n % 1000 === 0 ? `${n / 1000}k` : n.toLocaleString());
-  incomeRatePresetsEl.innerHTML =
-    '<option value="">Rates…</option>' +
+  incomeRateSelectEl.innerHTML =
     CREDIT_SALVAGE_PRESETS.map((p) =>
       `<option value="${p.rate}">${fmtK(p.credits)} → ${fmtK(p.salvage)} (${p.rate})</option>`
-    ).join('');
+    ).join('') +
+    '<option value="custom">Custom rate…</option>';
+
+  // Reflect a stored rate into the dropdown + (conditionally shown) custom box:
+  // an exact preset match selects that preset; anything else is a custom average.
+  function reflectRate(rate) {
+    const preset = CREDIT_SALVAGE_PRESETS.find((p) => Number(p.rate) === Number(rate));
+    if (preset) {
+      incomeRateSelectEl.value = String(preset.rate);
+      incomeRateEl.hidden = true;
+    } else {
+      incomeRateSelectEl.value = 'custom';
+      incomeRateEl.hidden = false;
+      incomeRateEl.value = rate ?? '';
+    }
+  }
+  reflectRate(calculatorStore.income.creditToSalvage);
 
   incomeImpactEl.addEventListener('input', () => {
     calculatorStore.setIncome({ avgImpact: incomeImpactEl.value });
@@ -867,14 +870,17 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   incomeSeedFreeEl.addEventListener('click', () => seedJobs(JOB_SEEDS.free));
   incomeSeedPremiumEl.addEventListener('click', () => seedJobs(JOB_SEEDS.premium));
 
-  // Picking a preset from the dropdown fills the rate field, then resets the
-  // select back to its label so it always reads "Rates…".
-  incomeRatePresetsEl.addEventListener('change', () => {
-    const rate = Number(incomeRatePresetsEl.value);
-    incomeRatePresetsEl.value = '';
-    if (!rate) return;
-    incomeRateEl.value = rate;
-    calculatorStore.setIncome({ creditToSalvage: rate });
+  // Choosing "Custom rate" reveals the number box; choosing a preset hides it
+  // and applies that rate directly.
+  incomeRateSelectEl.addEventListener('change', () => {
+    if (incomeRateSelectEl.value === 'custom') {
+      incomeRateEl.hidden = false;
+      incomeRateEl.focus();
+      calculatorStore.setIncome({ creditToSalvage: incomeRateEl.value });
+    } else {
+      incomeRateEl.hidden = true;
+      calculatorStore.setIncome({ creditToSalvage: incomeRateSelectEl.value });
+    }
   });
 
   // --- Week Select ---
@@ -1061,7 +1067,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       if (document.activeElement !== incomeFreeGamesEl) incomeFreeGamesEl.value = income.freeGames ?? '';
       if (document.activeElement !== incomeDailiesEl) incomeDailiesEl.value = income.dailiesPerWeek ?? '';
       if (document.activeElement !== incomeWeeklyJobsEl) incomeWeeklyJobsEl.value = income.weeklyJobsPerWeek ?? '';
-      if (document.activeElement !== incomeRateEl) incomeRateEl.value = income.creditToSalvage ?? '';
+      if (document.activeElement !== incomeRateEl && document.activeElement !== incomeRateSelectEl) {
+        reflectRate(income.creditToSalvage);
+      }
     }
     if (weeklyIncome) {
       incomeJobsSalvageEl.textContent = weeklyIncome.jobs.salvage.toLocaleString();

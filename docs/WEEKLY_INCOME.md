@@ -178,10 +178,13 @@ store). They prefill **only** the two job counts — a starting point, not a loc
 since the fields stay freely editable for a partial-Premium week or the reset
 overlap. Games volume is personal, so the seeds leave the games fields alone.
 
-**Conversion presets** — the **Salvage / credit** field has an integrated
-dropdown listing the in-game bundles (`CREDIT_SALVAGE_PRESETS`, e.g.
-`3.2k → 24k (7.5)`). Picking one fills the rate input and the dropdown snaps back
-to its `Rates…` label; the input still accepts a manually typed blended average.
+**Conversion presets** — the **Salvage / credit** field is a dropdown listing the
+in-game bundles (`CREDIT_SALVAGE_PRESETS`, e.g. `3.2k → 24k (7.5)`) plus a
+`Custom rate…` option. Picking a bundle applies its rate directly. Picking
+`Custom rate…` reveals a number box beneath the dropdown for a manually typed
+blended average. On load the stored rate is reflected back: an exact preset match
+selects that bundle (box hidden); any other value selects Custom and shows the
+box pre-filled.
 
 **Validation:** every numeric input is floored at 0, with **no maximum** — job
 counts can exceed a single week's cap to represent the reset overlap. Defaults
