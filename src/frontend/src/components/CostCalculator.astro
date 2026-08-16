@@ -67,11 +67,34 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   <section id="weekly-income" class="income-section">
     <h4 class="income-title">Weekly income</h4>
+    <!-- Parameter row: scalar inputs. Extensible - more params can be added here. -->
     <div class="income-inputs">
       <label class="income-field">
         <span>Avg impact / game</span>
         <input type="number" id="income-impact" min="0" step="1" inputmode="numeric" />
       </label>
+      <label class="income-field">
+        <span>Salvage / credit</span>
+        <select id="income-rate-select" class="income-rate-select" aria-label="Credit to salvage conversion rate"></select>
+        <input type="number" id="income-rate" class="income-rate-custom" min="0" step="0.01" inputmode="decimal" placeholder="Custom rate" hidden />
+      </label>
+    </div>
+
+    <!-- Autofill buttons: always their own row, above the four activity fields. -->
+    <div class="income-seed">
+      <span class="income-seed-label">Autofill job counts for a full week:</span>
+      <div class="income-seed-btns">
+        <button type="button" id="income-seed-free" class="income-seed-btn">
+          Free week <small>28 daily &middot; 2 weekly</small>
+        </button>
+        <button type="button" id="income-seed-premium" class="income-seed-btn">
+          Premium week <small>42 daily &middot; 3 weekly</small>
+        </button>
+      </div>
+    </div>
+
+    <!-- Four activity fields the buttons/premium relate to: games + jobs, 2 columns. -->
+    <div class="income-inputs">
       <label class="income-field">
         <span>Premium games / wk</span>
         <input type="number" id="income-premium-games" min="0" step="1" inputmode="numeric" />
@@ -81,11 +104,6 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <input type="number" id="income-free-games" min="0" step="1" inputmode="numeric" />
       </label>
       <label class="income-field">
-        <span>Salvage / credit</span>
-        <select id="income-rate-select" class="income-rate-select" aria-label="Credit to salvage conversion rate"></select>
-        <input type="number" id="income-rate" class="income-rate-custom" min="0" step="0.01" inputmode="decimal" placeholder="Custom rate" hidden />
-      </label>
-      <label class="income-field">
         <span>Dailies / wk</span>
         <input type="number" id="income-dailies" min="0" step="1" inputmode="numeric" />
       </label>
@@ -93,17 +111,6 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <span>Weekly jobs / wk</span>
         <input type="number" id="income-weekly-jobs" min="0" step="1" inputmode="numeric" />
       </label>
-      <div class="income-seed">
-        <span class="income-seed-label">Autofill job counts for a full week:</span>
-        <div class="income-seed-btns">
-          <button type="button" id="income-seed-free" class="income-seed-btn">
-            Free week <small>28 daily &middot; 2 weekly</small>
-          </button>
-          <button type="button" id="income-seed-premium" class="income-seed-btn">
-            Premium week <small>42 daily &middot; 3 weekly</small>
-          </button>
-        </div>
-      </div>
     </div>
     <div class="income-totals">
       <div class="income-group">
@@ -607,13 +614,20 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     color: #fff;
   }
 
-  /* Responsive field grid: spreads to ~4 columns on the desktop drawer and
-     collapses to 2 on mobile, automatically, via auto-fit. */
+  /* Field groups: a 2-column grid on both desktop and mobile. Fields stretch to
+     fill the extra desktop width rather than adding more columns. */
   .income-inputs {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: end;
     gap: 0.7rem 0.75rem;
+  }
+
+  /* Vertical separation between the param row, the seed buttons, and the
+     activity fields. */
+  .income-inputs + .income-seed,
+  .income-seed + .income-inputs {
+    margin-top: 0.85rem;
   }
 
   .income-field {
@@ -643,10 +657,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   /* "Free week" / "Premium week" job seed buttons (replace old premium toggle).
-     Spans two grid columns so it sits beside the job fields on the desktop
-     drawer and fills the row on mobile's 2-column layout. */
+     Always their own full-width row, above the four activity fields. */
   .income-seed {
-    grid-column: span 2;
     min-width: 0;
   }
 
