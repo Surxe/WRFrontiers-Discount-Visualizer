@@ -75,6 +75,8 @@ Sources:
 
 Intel gates progression at levels 3, 5, 9, and 13. Like Salvage, Intel costs also have a `discounted` value in `RarityUpgradeCost` for modules that are on a weekly discount — the reduction is more aggressive than Salvage (roughly 70% off for Common modules).
 
+For how Jobs and battle Matches actually pay out these currencies over a week — and how the Cost Calculator models it — see [`WEEKLY_INCOME.md`](./WEEKLY_INCOME.md).
+
 ---
 
 ## Other Currencies
