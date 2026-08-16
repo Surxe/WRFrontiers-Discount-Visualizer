@@ -17,20 +17,39 @@ function computeIsDiscounted(moduleId, weekSlug) {
 const INCOME_RATES = {
   dailyJob: { credits: 700, intel: 15 },
   weeklyJob: { credits: 5000, intel: 70 },
-  dailyJobCap: { premium: 6, free: 4 },
-  weeklyJobCap: { premium: 3, free: 2 },
   matchCreditFactor: 0.97,      // credits = impact * 0.97 ...
-  premiumMatchMultiplier: 1.5,  // ... then * 1.5 with premium
-  creditToSalvage: 10,          // 1 credit converts to 10 salvage
-  daysPerWeek: 7,
+  premiumMatchMultiplier: 1.5,  // ... then * 1.5 for premium-day matches
+};
+
+/**
+ * In-game credit -> salvage conversion bundles. The user picks one (its `rate`
+ * fills the editable conversion field) or types a custom blended average.
+ * `rate` is salvage per credit; credits/salvage are the bundle amounts shown.
+ */
+export const CREDIT_SALVAGE_PRESETS = [
+  { credits: 1600, salvage: 10000, rate: 6.25 },
+  { credits: 3200, salvage: 24000, rate: 7.5  },
+  { credits: 6000, salvage: 60000, rate: 10   },
+  { credits: 9000, salvage: 90000, rate: 10   },
+];
+
+/**
+ * Full-week job totals for each tier, used by the "Free week" / "Premium week"
+ * seed buttons to prefill the (uncapped) job-count inputs. Derived from the old
+ * per-day caps: 4/day free and 6/day premium over a 7-day week, plus 2/3 weekly.
+ */
+export const JOB_SEEDS = {
+  free:    { dailiesPerWeek: 28, weeklyJobsPerWeek: 2 },
+  premium: { dailiesPerWeek: 42, weeklyJobsPerWeek: 3 },
 };
 
 const DEFAULT_INCOME = {
-  premium: true,
-  gamesPerDay: 5,
   avgImpact: 250,
-  dailyJobsDone: INCOME_RATES.dailyJobCap.premium,   // default to tier max
-  weeklyJobsDone: INCOME_RATES.weeklyJobCap.premium, // default to tier max
+  premiumGames: 35,        // premium-day matches per week (5/day * 7)
+  freeGames: 0,            // non-premium matches per week
+  dailiesPerWeek: JOB_SEEDS.premium.dailiesPerWeek,
+  weeklyJobsPerWeek: JOB_SEEDS.premium.weeklyJobsPerWeek,
+  creditToSalvage: 10,     // salvage per credit; user-editable (see presets)
 };
 
 class CostCalculatorStore extends EventTarget {
@@ -127,50 +146,44 @@ class CostCalculatorStore extends EventTarget {
   }
 
   /**
-   * Updates one or more income inputs (premium, gamesPerDay, avgImpact,
-   * dailyJobsDone, weeklyJobsDone). Numeric fields are clamped to >= 0.
-   * Job counts are clamped to the current tier cap: turning premium off
-   * clamps a value down when it exceeds the lower cap, but toggling premium
-   * never auto-raises an entered value ("preserve & clamp down").
+   * Updates one or more income inputs. All fields are per-week totals the user
+   * enters directly (avgImpact, premiumGames, freeGames, dailiesPerWeek,
+   * weeklyJobsPerWeek, creditToSalvage). Every numeric field is floored at 0;
+   * there are deliberately no maxes — a premium window spanning the Wednesday
+   * job reset can push job counts above a single week's cap.
    */
   setIncome(partial) {
     Object.assign(this.income, partial);
-    this.income.premium = !!this.income.premium;
-    this.income.gamesPerDay = Math.max(0, Number(this.income.gamesPerDay) || 0);
-    this.income.avgImpact = Math.max(0, Number(this.income.avgImpact) || 0);
-
-    const r = INCOME_RATES;
-    const dCap = this.income.premium ? r.dailyJobCap.premium : r.dailyJobCap.free;
-    const wCap = this.income.premium ? r.weeklyJobCap.premium : r.weeklyJobCap.free;
-    this.income.dailyJobsDone = Math.min(dCap, Math.max(0, Number(this.income.dailyJobsDone) || 0));
-    this.income.weeklyJobsDone = Math.min(wCap, Math.max(0, Number(this.income.weeklyJobsDone) || 0));
-
+    for (const k of ['avgImpact', 'premiumGames', 'freeGames',
+                     'dailiesPerWeek', 'weeklyJobsPerWeek', 'creditToSalvage']) {
+      this.income[k] = Math.max(0, Number(this.income[k]) || 0);
+    }
     this.saveToStorage();
     this.emitChange();
   }
 
   /**
    * Computes weekly income in salvage + intel, split between the two sources:
-   * jobs (using the user's completed-job counts) and matches (from avg impact
-   * and games/day). Credits convert to salvage via INCOME_RATES.creditToSalvage.
+   * jobs (from the user's per-week completed-job totals) and matches (from avg
+   * impact and the premium/free games split — premium-day matches earn the 1.5x
+   * multiplier). Credits convert to salvage via the user's creditToSalvage rate.
    * Matches yield no intel in the model. Returns separated { jobs, matches }
    * plus combined { salvage, intel } totals for any other consumer.
    */
   computeWeeklyIncome() {
     const r = INCOME_RATES;
-    const { premium, gamesPerDay, avgImpact, dailyJobsDone, weeklyJobsDone } = this.income;
+    const { avgImpact, premiumGames, freeGames,
+            dailiesPerWeek, weeklyJobsPerWeek, creditToSalvage } = this.income;
 
-    const dailyJobs = dailyJobsDone * r.daysPerWeek; // completed per day * 7
-    const weeklyJobs = weeklyJobsDone;               // completed per week
+    const creditsFromJobs = dailiesPerWeek * r.dailyJob.credits + weeklyJobsPerWeek * r.weeklyJob.credits;
+    const intelFromJobs = dailiesPerWeek * r.dailyJob.intel + weeklyJobsPerWeek * r.weeklyJob.intel;
 
-    const creditsFromJobs = dailyJobs * r.dailyJob.credits + weeklyJobs * r.weeklyJob.credits;
-    const intelFromJobs = dailyJobs * r.dailyJob.intel + weeklyJobs * r.weeklyJob.intel;
+    const base = avgImpact * r.matchCreditFactor;
+    const creditsFromMatches = Math.round(base * r.premiumMatchMultiplier) * premiumGames
+                             + Math.round(base) * freeGames;
 
-    const creditsPerMatch = Math.round(avgImpact * r.matchCreditFactor * (premium ? r.premiumMatchMultiplier : 1));
-    const creditsFromMatches = creditsPerMatch * gamesPerDay * r.daysPerWeek;
-
-    const jobsSalvage = creditsFromJobs * r.creditToSalvage;
-    const matchesSalvage = creditsFromMatches * r.creditToSalvage;
+    const jobsSalvage = creditsFromJobs * creditToSalvage;
+    const matchesSalvage = creditsFromMatches * creditToSalvage;
 
     return {
       jobs: { salvage: jobsSalvage, intel: intelFromJobs },

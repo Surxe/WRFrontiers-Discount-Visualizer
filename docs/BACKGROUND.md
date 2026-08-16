@@ -86,6 +86,22 @@ For how Jobs and battle Matches actually pay out these currencies over a week â€
 | **Credits** | Hiring pilots, Daily Deals purchases; earned in battle and from jobs |
 | **Warp Reals** | Premium currency; can be converted to Salvage or Credits |
 
+### Credit â†’ Salvage conversion
+
+Credits can be converted into Salvage in fixed bundles, and the exchange rate
+improves with bundle size. These are the rates the Cost Calculator's income
+panel offers as presets (see [`WEEKLY_INCOME.md`](./WEEKLY_INCOME.md)):
+
+| Credits | Salvage | Rate (salvage / credit) |
+|--------:|--------:|------------------------:|
+| 1,600 | 10,000 | 6.25 |
+| 3,200 | 24,000 | 7.5 |
+| 6,000 | 60,000 | 10 |
+| 9,000 | 90,000 | 10 |
+
+Because the rate varies by bundle, a player who buys across several bundles has a
+blended average rate, which the panel lets them enter manually.
+
 ---
 
 ## Module Upgrade Levels

@@ -54,13 +54,14 @@ Two things make jobs the more nuanced source:
 
 - **Jobs are the only source of Intel.** Matches yield none. So every bit of
   Intel income in the model comes from job completions.
-- **Completions are capped, and the cap depends on Premium** (see below). The
-  panel asks how many you *actually complete*, not a rate — because most players
-  don't max every slot every day.
+- **The panel asks for the *weekly total* you actually complete**, not a rate —
+  `dailiesPerWeek` and `weeklyJobsPerWeek`. Premium raises the per-period caps
+  (see below), but the panel no longer enforces them: you type the real count.
+  This matters because of the reset overlap described next, which can legitimately
+  push your weekly-job total above a single week's cap.
 
-A full week of jobs is `dailyJobsDone × 7` daily jobs plus `weeklyJobsDone`
-weekly jobs (daily counts are per-day and multiplied out to the week; weekly
-counts are already per-week).
+A full week of jobs is simply `dailiesPerWeek` daily jobs plus
+`weeklyJobsPerWeek` weekly jobs — both entered as per-week totals.
 
 ### 2. Matches
 
@@ -69,13 +70,21 @@ score for that match — the game's single per-match performance number. The
 per-match payout is:
 
 ```
-creditsPerMatch = round( avgImpact × 0.97 × premiumMultiplier )
+creditsPerMatch = round( avgImpact × 0.97 × multiplier )
 ```
 
 - The `0.97` factor is the game's baseline impact-to-credits rate.
-- `premiumMultiplier` is `1.5` with Premium, otherwise `1.0`.
+- `multiplier` is `1.5` for a match played while Premium was active, otherwise
+  `1.0`.
 
-A week of matches is `creditsPerMatch × gamesPerDay × 7`.
+Because Premium may cover only part of a week, matches are entered as **two
+weekly counts** — `premiumGames` (played on Premium days, earning the 1.5×) and
+`freeGames` (played without it). A week of match Credits is therefore:
+
+```
+creditsFromMatches = round(avgImpact × 0.97 × 1.5) × premiumGames
+                   + round(avgImpact × 0.97)       × freeGames
+```
 
 ---
 
@@ -91,20 +100,41 @@ places** — this is easy to miss and was a key piece of context:
    | Daily jobs / day | 4 | 6 |
    | Weekly jobs / week | 2 | 3 |
 
-2. **It multiplies match Credits by 1.5** (the `premiumMultiplier` above).
+2. **It multiplies match Credits by 1.5.**
 
-So toggling Premium changes both how many jobs you're allowed to bank *and* how
-much each match is worth.
+The important shift from an earlier version of this panel: **Premium is no longer
+a single whole-week toggle.** Real play is rarely all-Premium or all-Free for a
+clean seven days, so the model stopped inferring your earnings from a tier flag
+and instead asks for the totals you *actually* earned:
+
+- Matches are split into `premiumGames` and `freeGames` (only the former get the
+  1.5×).
+- Jobs are entered as raw weekly totals, with **no cap enforced**.
+
+### Why jobs have no cap: the Wednesday reset overlap
+
+Daily and weekly jobs reset **Wednesday overnight**. A Premium purchase that
+straddles that reset therefore touches **two** game-weeks, and you can bank the
+Premium weekly-job bonus in *both* — so a single seven-day span can legitimately
+yield more weekly jobs than one week's cap of 3. The same logic applies to
+dailies on the Premium days either side of the reset. Rather than model the reset
+explicitly, the panel simply lets you enter whatever you completed; the two
+**seed buttons** (below) fill in a clean full free/premium week as a starting
+point you adjust from.
 
 ---
 
 ## Mapping earnings onto spending currencies
 
 The final piece: the calculator's costs are in Salvage + Intel, but play yields
-Credits + Intel. The bridge is a fixed conversion:
+Credits + Intel. The bridge is a Credit → Salvage conversion:
 
-- **1 Credit → 10 Salvage** (`creditToSalvage`). The game lets you convert
-  Credits into Salvage, so all Credit income is expressed as Salvage for
+- **`creditToSalvage`** is the salvage-per-credit rate, and unlike before it is a
+  **user input**, not a fixed constant. The game converts Credits to Salvage in
+  fixed bundles whose rate improves with size (6.25 → 7.5 → 10; see
+  [`BACKGROUND.md`](./BACKGROUND.md)). The panel offers those bundles as presets
+  and also accepts a manually entered **blended average** for players who buy
+  across several rates. All Credit income is expressed as Salvage at this rate for
   apples-to-apples comparison with upgrade costs.
 - **Intel is already a spending currency** and passes through unchanged.
 
@@ -112,10 +142,11 @@ Putting it together, the weekly totals are:
 
 | Source | Salvage | Intel |
 |--------|---------|-------|
-| **Jobs** | `(dailyJobs × 700 + weeklyJobs × 5,000) × 10` | `dailyJobs × 15 + weeklyJobs × 70` |
-| **Matches** | `creditsPerMatch × gamesPerDay × 7 × 10` | 0 |
+| **Jobs** | `(dailiesPerWeek × 700 + weeklyJobsPerWeek × 5,000) × rate` | `dailiesPerWeek × 15 + weeklyJobsPerWeek × 70` |
+| **Matches** | `creditsFromMatches × rate` | 0 |
 
-where `dailyJobs = dailyJobsDone × 7` and `weeklyJobs = weeklyJobsDone`.
+where `rate` is `creditToSalvage` and `creditsFromMatches` is the premium/free
+split shown above.
 
 The reference implementation is `computeWeeklyIncome()` in
 `cost-calculator-store.js`.
@@ -130,19 +161,37 @@ always visible while the drawer is open, independent of the shopping list above
 it.
 
 **Inputs** (all persisted to `localStorage` alongside the shopping list, so they
-survive reloads):
+survive reloads). There is **no Premium checkbox** anymore — every field is
+"how much of X did you actually do," and Premium is implicit in those numbers:
 
-- **Premium** — checkbox; drives both the job caps and the match multiplier.
-- **Games / day** — matches played per day.
 - **Avg impact / game** — your typical per-match impact score.
-- **Daily jobs / day** — completed daily jobs, clamped to the tier cap (6 / 4).
-- **Weekly jobs** — completed weekly jobs, clamped to the tier cap (3 / 2).
+- **Premium games / wk** — matches played while Premium was active (earn 1.5×).
+- **Free games / wk** — matches played without Premium.
+- **Dailies / wk** — total daily jobs completed this week.
+- **Weekly jobs / wk** — total weekly jobs completed this week.
+- **Rate (salvage / credit)** — the Credit → Salvage conversion rate.
 
-**Clamping behavior:** numeric inputs are floored at 0. Job counts are clamped
-to the current Premium tier's cap. Toggling Premium *off* clamps an over-cap
-value down, but toggling Premium *on* never auto-raises a value the user
-entered ("preserve & clamp down"). Defaults seed Premium on, 5 games/day, 250
-avg impact, and both job counts at their premium maximums.
+**Seed buttons** — `Free week` and `Premium week` sit above the activity fields
+under an "Autofill a full week" label, and each button shows the job counts it
+fills (`28 daily · 2 weekly`, `42 daily · 3 weekly`, from `JOB_SEEDS` in the
+store). They prefill the two job counts and also move the games split: the
+current games total shifts entirely into that tier's bucket — `Premium week`
+puts all games in **premium games**, `Free week` puts them all in **free games**
+(so the default 35/0 flips to 0/35 and back). Everything stays freely editable
+afterward for a partial-Premium week or the reset overlap.
+
+**Conversion presets** — the **Salvage / credit** field is a dropdown listing the
+in-game bundles (`CREDIT_SALVAGE_PRESETS`, e.g. `3.2k → 24k (7.5)`) plus a
+`Custom rate…` option. Picking a bundle applies its rate directly. Picking
+`Custom rate…` reveals a number box beneath the dropdown for a manually typed
+blended average. On load the stored rate is reflected back: an exact preset match
+selects that bundle (box hidden); any other value selects Custom and shows the
+box pre-filled.
+
+**Validation:** every numeric input is floored at 0, with **no maximum** — job
+counts can exceed a single week's cap to represent the reset overlap. Defaults
+seed a full Premium week: 250 avg impact, 35 premium games, 0 free games, 42
+dailies, 3 weekly jobs, and a rate of 10.
 
 **Outputs** are recomputed live on every input change (the store emits a
 `change` event carrying `weeklyIncome`) and shown split by source, matching the
@@ -150,9 +199,13 @@ model:
 
 - **Jobs** → Salvage + Intel
 - **Matches** → Salvage (matches produce no Intel, so no Intel row)
+- **Total** → combined Salvage + Intel across both sources
+  (`weeklyIncome.salvage` / `weeklyIncome.intel`)
 
 The panel is display-only in one direction: it reports what you *earn* per week;
 it does not currently subtract the shopping-list *cost* above it or compute a
-"weeks to afford" figure. Layout is a two-column grid — Premium on its own row,
-the four numeric fields as an aligned 2×2 grid, and the Jobs/Matches totals
-lined up under those columns.
+"weeks to afford" figure. Layout is three stacked blocks: a parameter row
+(avg impact and the salvage/credit rate, a 2-column grid that more scalar
+params can be added to later), then the seed buttons on their own full-width
+row, then the four activity fields (premium/free games and dailies/weekly jobs)
+as a 2-column grid beneath them. The Jobs/Matches totals line up below.

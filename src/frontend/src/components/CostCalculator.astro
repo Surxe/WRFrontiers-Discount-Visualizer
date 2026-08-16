@@ -67,24 +67,48 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   <section id="weekly-income" class="income-section">
     <h4 class="income-title">Weekly income</h4>
+    <!-- Parameter row: scalar inputs. Extensible - more params can be added here. -->
     <div class="income-inputs">
-      <label class="income-check">
-        <input type="checkbox" id="income-premium" /> Premium
-      </label>
-      <label class="income-field">
-        <span>Games / day</span>
-        <input type="number" id="income-games" min="0" step="1" inputmode="numeric" />
-      </label>
       <label class="income-field">
         <span>Avg impact / game</span>
         <input type="number" id="income-impact" min="0" step="1" inputmode="numeric" />
       </label>
       <label class="income-field">
-        <span>Daily jobs / day</span>
-        <input type="number" id="income-daily-jobs" min="0" step="1" inputmode="numeric" />
+        <span>Salvage / credit</span>
+        <select id="income-rate-select" class="income-rate-select" aria-label="Salvage per credit conversion rate"></select>
+        <input type="number" id="income-rate" class="income-rate-custom" min="0" step="0.01" inputmode="decimal" placeholder="Custom salvage/credits" hidden />
+      </label>
+    </div>
+
+    <!-- Autofill buttons: always their own row, above the four activity fields. -->
+    <div class="income-seed">
+      <span class="income-seed-label">Autofill a full week:</span>
+      <div class="income-seed-btns">
+        <button type="button" id="income-seed-free" class="income-seed-btn">
+          Free week <small>28 daily &middot; 2 weekly</small>
+        </button>
+        <button type="button" id="income-seed-premium" class="income-seed-btn">
+          Premium week <small>42 daily &middot; 3 weekly</small>
+        </button>
+      </div>
+    </div>
+
+    <!-- Four activity fields the buttons/premium relate to: games + jobs, 2 columns. -->
+    <div class="income-inputs">
+      <label class="income-field">
+        <span>Premium games / wk</span>
+        <input type="number" id="income-premium-games" min="0" step="1" inputmode="numeric" />
       </label>
       <label class="income-field">
-        <span>Weekly jobs</span>
+        <span>Free games / wk</span>
+        <input type="number" id="income-free-games" min="0" step="1" inputmode="numeric" />
+      </label>
+      <label class="income-field">
+        <span>Dailies / wk</span>
+        <input type="number" id="income-dailies" min="0" step="1" inputmode="numeric" />
+      </label>
+      <label class="income-field">
+        <span>Weekly jobs / wk</span>
         <input type="number" id="income-weekly-jobs" min="0" step="1" inputmode="numeric" />
       </label>
     </div>
@@ -93,12 +117,10 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <span class="income-group-title">Jobs</span>
         <span class="income-total">
           <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
-          <span class="income-total-label">Salvage</span>
           <span id="income-jobs-salvage" class="income-total-val">0</span>
         </span>
         <span class="income-total">
           <img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" />
-          <span class="income-total-label">Intel</span>
           <span id="income-jobs-intel" class="income-total-val">0</span>
         </span>
       </div>
@@ -106,8 +128,18 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         <span class="income-group-title">Matches</span>
         <span class="income-total">
           <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
-          <span class="income-total-label">Salvage</span>
           <span id="income-matches-salvage" class="income-total-val">0</span>
+        </span>
+      </div>
+      <div class="income-group">
+        <span class="income-group-title">Total</span>
+        <span class="income-total">
+          <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
+          <span id="income-total-salvage" class="income-total-val">0</span>
+        </span>
+        <span class="income-total">
+          <img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" />
+          <span id="income-total-intel" class="income-total-val">0</span>
         </span>
       </div>
     </div>
@@ -590,30 +622,20 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     color: #fff;
   }
 
+  /* Field groups: a 2-column grid on both desktop and mobile. Fields stretch to
+     fill the extra desktop width rather than adding more columns. */
   .income-inputs {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 8.5rem));
-    justify-content: start;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: end;
-    gap: 0.75rem 1rem;
+    gap: 0.7rem 0.75rem;
   }
 
-  .income-check {
-    /* Global toggle: give it its own full-width row above the number fields
-       so it no longer hangs off the labelled inputs' baseline. */
-    grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.8rem;
-    color: #cdd0d6;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-
-  .income-check input {
-    accent-color: #4caf50;
-    cursor: pointer;
+  /* Vertical separation between the param row, the seed buttons, and the
+     activity fields. */
+  .income-inputs + .income-seed,
+  .income-seed + .income-inputs {
+    margin-top: 0.85rem;
   }
 
   .income-field {
@@ -622,6 +644,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     gap: 0.2rem;
     font-size: 0.72rem;
     color: var(--text-muted, #8b92a5);
+    min-width: 0; /* let inputs/selects shrink to the column instead of overflowing */
   }
 
   .income-field input {
@@ -639,6 +662,83 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   .income-field input:focus {
     border-color: #555;
+  }
+
+  /* "Free week" / "Premium week" job seed buttons (replace old premium toggle).
+     Always their own full-width row, above the four activity fields. */
+  .income-seed {
+    min-width: 0;
+  }
+
+  .income-seed-label {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--text-muted, #8b92a5);
+    margin-bottom: 0.4rem;
+    text-align: center;
+  }
+
+  .income-seed-btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  .income-seed-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+    padding: 5px 10px;
+    background: #1c1f27;
+    border: 1px solid #333;
+    color: #cdd0d6;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .income-seed-btn small {
+    font-size: 0.66rem;
+    color: var(--text-muted, #8b92a5);
+  }
+
+  .income-seed-btn:hover {
+    border-color: #555;
+    background: #242833;
+  }
+
+  /* Credit -> salvage: a preset dropdown; the number box appears only when
+     "Custom rate" is chosen, so presets don't crowd the input. */
+  .income-rate-select {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 4px 22px 4px 6px; /* right pad reserves room for the arrow */
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    text-overflow: ellipsis;
+  }
+
+  .income-rate-select:focus {
+    border-color: #555;
+  }
+
+  .income-rate-custom {
+    margin-top: 0.35rem;
+  }
+
+  .income-rate-custom[hidden] {
+    display: none;
   }
 
   .income-totals {
@@ -670,10 +770,6 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     font-size: 0.8rem;
   }
 
-  .income-total-label {
-    color: var(--text-muted, #8b92a5);
-  }
-
   .income-total-val {
     font-family: 'Courier New', monospace;
     font-weight: 700;
@@ -699,7 +795,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 </script>
 
 <script>
-  import { calculatorStore } from '../scripts/cost-calculator-store.js';
+  import { calculatorStore, CREDIT_SALVAGE_PRESETS, JOB_SEEDS } from '../scripts/cost-calculator-store.js';
 
   const drawer = document.getElementById('cost-calculator-drawer');
   const closeBtn = document.getElementById('close-calculator');
@@ -712,45 +808,103 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   const totalIntelEl = document.getElementById('calc-total-intel');
   const searchInput = document.getElementById('module-search-input');
   const searchResults = document.getElementById('module-search-results');
-  const incomePremiumEl = document.getElementById('income-premium');
-  const incomeGamesEl = document.getElementById('income-games');
   const incomeImpactEl = document.getElementById('income-impact');
-  const incomeDailyJobsEl = document.getElementById('income-daily-jobs');
+  const incomePremiumGamesEl = document.getElementById('income-premium-games');
+  const incomeFreeGamesEl = document.getElementById('income-free-games');
+  const incomeDailiesEl = document.getElementById('income-dailies');
   const incomeWeeklyJobsEl = document.getElementById('income-weekly-jobs');
+  const incomeRateEl = document.getElementById('income-rate');
+  const incomeRateSelectEl = document.getElementById('income-rate-select');
+  const incomeSeedFreeEl = document.getElementById('income-seed-free');
+  const incomeSeedPremiumEl = document.getElementById('income-seed-premium');
   const incomeJobsSalvageEl = document.getElementById('income-jobs-salvage');
   const incomeJobsIntelEl = document.getElementById('income-jobs-intel');
   const incomeMatchesSalvageEl = document.getElementById('income-matches-salvage');
-
-  // Keep the job-count inputs' max attribute in sync with the premium tier.
-  function syncJobMaxAttrs(premium) {
-    incomeDailyJobsEl.max = premium ? 6 : 4;
-    incomeWeeklyJobsEl.max = premium ? 3 : 2;
-  }
+  const incomeTotalSalvageEl = document.getElementById('income-total-salvage');
+  const incomeTotalIntelEl = document.getElementById('income-total-intel');
 
   // --- Weekly income inputs ---
   // Hydrate from persisted store state, then push edits back to the store.
-  incomePremiumEl.checked = !!calculatorStore.income.premium;
-  incomeGamesEl.value = calculatorStore.income.gamesPerDay || '';
   incomeImpactEl.value = calculatorStore.income.avgImpact || '';
-  incomeDailyJobsEl.value = calculatorStore.income.dailyJobsDone ?? '';
-  incomeWeeklyJobsEl.value = calculatorStore.income.weeklyJobsDone ?? '';
-  syncJobMaxAttrs(!!calculatorStore.income.premium);
+  incomePremiumGamesEl.value = calculatorStore.income.premiumGames ?? '';
+  incomeFreeGamesEl.value = calculatorStore.income.freeGames ?? '';
+  incomeDailiesEl.value = calculatorStore.income.dailiesPerWeek ?? '';
+  incomeWeeklyJobsEl.value = calculatorStore.income.weeklyJobsPerWeek ?? '';
 
-  incomePremiumEl.addEventListener('change', () => {
-    syncJobMaxAttrs(incomePremiumEl.checked);
-    calculatorStore.setIncome({ premium: incomePremiumEl.checked });
-  });
-  incomeGamesEl.addEventListener('input', () => {
-    calculatorStore.setIncome({ gamesPerDay: incomeGamesEl.value });
-  });
+  // Credit -> salvage rate: a dropdown of preset bundles plus a "Custom rate"
+  // option. The number box only appears for Custom, so presets don't crowd it.
+  const fmtK = (n) => (n % 1000 === 0 ? `${n / 1000}k` : n.toLocaleString());
+  incomeRateSelectEl.innerHTML =
+    CREDIT_SALVAGE_PRESETS.map((p) =>
+      `<option value="${p.rate}">${p.rate} · ${fmtK(p.credits)}→${fmtK(p.salvage)}</option>`
+    ).join('') +
+    '<option value="custom">Custom salvage/credits…</option>';
+
+  // Reflect a stored rate into the dropdown + (conditionally shown) custom box:
+  // an exact preset match selects that preset; anything else is a custom average.
+  function reflectRate(rate) {
+    // findLast so a rate shared by two bundles (10 = 6k→60k and 9k→90k) resolves
+    // to the larger bundle, making 9k→90k the default shown for the default rate.
+    const preset = CREDIT_SALVAGE_PRESETS.findLast((p) => Number(p.rate) === Number(rate));
+    if (preset) {
+      incomeRateSelectEl.value = String(preset.rate);
+      incomeRateEl.hidden = true;
+    } else {
+      incomeRateSelectEl.value = 'custom';
+      incomeRateEl.hidden = false;
+      incomeRateEl.value = rate ?? '';
+    }
+  }
+  reflectRate(calculatorStore.income.creditToSalvage);
+
   incomeImpactEl.addEventListener('input', () => {
     calculatorStore.setIncome({ avgImpact: incomeImpactEl.value });
   });
-  incomeDailyJobsEl.addEventListener('input', () => {
-    calculatorStore.setIncome({ dailyJobsDone: incomeDailyJobsEl.value });
+  incomePremiumGamesEl.addEventListener('input', () => {
+    calculatorStore.setIncome({ premiumGames: incomePremiumGamesEl.value });
+  });
+  incomeFreeGamesEl.addEventListener('input', () => {
+    calculatorStore.setIncome({ freeGames: incomeFreeGamesEl.value });
+  });
+  incomeDailiesEl.addEventListener('input', () => {
+    calculatorStore.setIncome({ dailiesPerWeek: incomeDailiesEl.value });
   });
   incomeWeeklyJobsEl.addEventListener('input', () => {
-    calculatorStore.setIncome({ weeklyJobsDone: incomeWeeklyJobsEl.value });
+    calculatorStore.setIncome({ weeklyJobsPerWeek: incomeWeeklyJobsEl.value });
+  });
+  incomeRateEl.addEventListener('input', () => {
+    calculatorStore.setIncome({ creditToSalvage: incomeRateEl.value });
+  });
+
+  // Seed buttons prefill a full free/premium week: the (uncapped) job counts,
+  // and the games split — the current games total moves entirely into the tier's
+  // bucket (Premium week -> all premium, Free week -> all free), keeping volume.
+  function applyWeek(tier) {
+    const seed = JOB_SEEDS[tier];
+    const totalGames = (Number(calculatorStore.income.premiumGames) || 0)
+                     + (Number(calculatorStore.income.freeGames) || 0);
+    const premiumGames = tier === 'premium' ? totalGames : 0;
+    const freeGames = tier === 'premium' ? 0 : totalGames;
+    incomeDailiesEl.value = seed.dailiesPerWeek;
+    incomeWeeklyJobsEl.value = seed.weeklyJobsPerWeek;
+    incomePremiumGamesEl.value = premiumGames;
+    incomeFreeGamesEl.value = freeGames;
+    calculatorStore.setIncome({ ...seed, premiumGames, freeGames });
+  }
+  incomeSeedFreeEl.addEventListener('click', () => applyWeek('free'));
+  incomeSeedPremiumEl.addEventListener('click', () => applyWeek('premium'));
+
+  // Choosing "Custom rate" reveals the number box; choosing a preset hides it
+  // and applies that rate directly.
+  incomeRateSelectEl.addEventListener('change', () => {
+    if (incomeRateSelectEl.value === 'custom') {
+      incomeRateEl.hidden = false;
+      incomeRateEl.focus();
+      calculatorStore.setIncome({ creditToSalvage: incomeRateEl.value });
+    } else {
+      incomeRateEl.hidden = true;
+      calculatorStore.setIncome({ creditToSalvage: incomeRateSelectEl.value });
+    }
   });
 
   // --- Week Select ---
@@ -932,17 +1086,21 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     // Keep income inputs in sync (e.g. after Clear resets them) without
     // clobbering the field the user is actively typing in.
     if (income) {
-      if (document.activeElement !== incomePremiumEl) incomePremiumEl.checked = !!income.premium;
-      if (document.activeElement !== incomeGamesEl) incomeGamesEl.value = income.gamesPerDay || '';
       if (document.activeElement !== incomeImpactEl) incomeImpactEl.value = income.avgImpact || '';
-      if (document.activeElement !== incomeDailyJobsEl) incomeDailyJobsEl.value = income.dailyJobsDone ?? '';
-      if (document.activeElement !== incomeWeeklyJobsEl) incomeWeeklyJobsEl.value = income.weeklyJobsDone ?? '';
-      syncJobMaxAttrs(!!income.premium);
+      if (document.activeElement !== incomePremiumGamesEl) incomePremiumGamesEl.value = income.premiumGames ?? '';
+      if (document.activeElement !== incomeFreeGamesEl) incomeFreeGamesEl.value = income.freeGames ?? '';
+      if (document.activeElement !== incomeDailiesEl) incomeDailiesEl.value = income.dailiesPerWeek ?? '';
+      if (document.activeElement !== incomeWeeklyJobsEl) incomeWeeklyJobsEl.value = income.weeklyJobsPerWeek ?? '';
+      if (document.activeElement !== incomeRateEl && document.activeElement !== incomeRateSelectEl) {
+        reflectRate(income.creditToSalvage);
+      }
     }
     if (weeklyIncome) {
       incomeJobsSalvageEl.textContent = weeklyIncome.jobs.salvage.toLocaleString();
       incomeJobsIntelEl.textContent = weeklyIncome.jobs.intel.toLocaleString();
       incomeMatchesSalvageEl.textContent = weeklyIncome.matches.salvage.toLocaleString();
+      incomeTotalSalvageEl.textContent = weeklyIncome.salvage.toLocaleString();
+      incomeTotalIntelEl.textContent = weeklyIncome.intel.toLocaleString();
     }
   });
 
