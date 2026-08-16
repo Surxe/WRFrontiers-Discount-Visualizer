@@ -591,13 +591,17 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .income-inputs {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 8.5rem));
+    justify-content: start;
+    align-items: end;
     gap: 0.75rem 1rem;
   }
 
   .income-check {
+    /* Global toggle: give it its own full-width row above the number fields
+       so it no longer hangs off the labelled inputs' baseline. */
+    grid-column: 1 / -1;
     display: flex;
     align-items: center;
     gap: 0.35rem;
@@ -621,7 +625,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .income-field input {
-    width: 5.5rem;
+    width: 100%;
+    box-sizing: border-box;
     padding: 4px 6px;
     background: #111;
     border: 1px solid #333;
