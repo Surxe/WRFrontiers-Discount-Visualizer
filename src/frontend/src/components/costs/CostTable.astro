@@ -16,10 +16,10 @@ const { rarities = [], baseUrl = '/' } = Astro.props;
       <tr>
         <th class="sticky-col">Rarity</th>
         <th>Level</th>
-        <th>Currency</th>
-        <th class="num">Base Cost</th>
-        <th class="num">Discounted Cost</th>
-        <th class="num">Savings</th>
+        <th><span class="lbl-full">Currency</span><span class="lbl-abbr">Cur.</span></th>
+        <th class="num"><span class="lbl-full">Base Cost</span><span class="lbl-abbr">Base</span></th>
+        <th class="num"><span class="lbl-full">Discounted Cost</span><span class="lbl-abbr">Disc.</span></th>
+        <th class="num"><span class="lbl-full">Savings</span><span class="lbl-abbr">Save</span></th>
       </tr>
     </thead>
     <tbody>
@@ -32,8 +32,8 @@ const { rarities = [], baseUrl = '/' } = Astro.props;
           )}
           <td>{l.level}</td>
           <td class="cur-cell">
-            <CurrencyIcon currency={l.currency} baseUrl={baseUrl} alt="" />
-            {l.currency === 'intel' ? 'Intel' : 'Salvage'}
+            <CurrencyIcon currency={l.currency} baseUrl={baseUrl} alt={l.currency === 'intel' ? 'Intel' : 'Salvage'} />
+            <span class="cur-name">{l.currency === 'intel' ? 'Intel' : 'Salvage'}</span>
           </td>
           <td class="num">{formatCost(l.base)}</td>
           <td class="num">{l.discounted != null ? formatCost(l.discounted) : '—'}</td>
@@ -118,8 +118,38 @@ const { rarities = [], baseUrl = '/' } = Astro.props;
 
   .no-off { color: var(--text-muted, #8b92a5); }
 
+  /* Abbreviated header labels are swapped in on phones (see below). */
+  .lbl-abbr { display: none; }
+
   @media (max-width: 768px) {
     .cost-table th,
     .cost-table td { padding: 0.45rem 0.5rem; font-size: 0.78rem; }
+  }
+
+  /* Phones: reclaim horizontal space so the table stops needing a side-scroll.
+     Drop the redundant currency word (the icon carries it), use short header
+     labels, and tighten the rarity column. */
+  @media (max-width: 480px) {
+    .cost-table th,
+    .cost-table td { padding: 0.4rem 0.35rem; font-size: 0.74rem; }
+
+    .lbl-full { display: none; }
+    .lbl-abbr { display: inline; }
+
+    .cur-name { display: none; }
+
+    .rarity-cell {
+      font-size: 0.8rem;
+      border-left-width: 3px;
+    }
+
+    .rarity-cell .rarity-dot {
+      width: 9px;
+      height: 9px;
+      margin-right: 0.25rem;
+    }
+
+    .cost-table td.num,
+    .cost-table th.num { white-space: nowrap; }
   }
 </style>

@@ -66,7 +66,12 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   </div>
 
   <section id="weekly-income" class="income-section">
-    <h4 class="income-title">Weekly income</h4>
+    <details id="income-details" class="income-details" open>
+    <summary class="income-summary">
+      <h4 class="income-title">Weekly income</h4>
+      <svg class="income-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </summary>
+    <div class="income-body">
     <!-- Parameter row: scalar inputs. Extensible - more params can be added here. -->
     <div class="income-inputs">
       <label class="income-field">
@@ -143,6 +148,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
         </span>
       </div>
     </div>
+    </div>
+    </details>
   </section>
 </aside>
 
@@ -174,6 +181,40 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     .calculator-drawer {
       width: 100%;
       right: -100%;
+    }
+
+    /* Size the item list to its content so the Weekly income panel sits directly
+       under the table instead of being pinned to the bottom behind a big empty
+       gap. When many items are added the list still scrolls internally. The
+       two-class selector outranks the base `.calculator-content { flex: 1 }`
+       defined later in this stylesheet. */
+    .calculator-drawer .calculator-content {
+      flex: 0 1 auto;
+    }
+
+    /* Larger touch targets for the header controls. Selectors are intentionally
+       two-class (higher specificity) so they win over the base single-class
+       rules defined later in this stylesheet, regardless of source order. */
+    .calculator-header .close-btn {
+      font-size: 1.9rem;
+      padding: 0 0.6rem;
+      min-height: 36px;
+    }
+
+    .header-actions .header-select {
+      padding: 6px 8px;
+      font-size: 0.85rem;
+      max-width: none;
+    }
+
+    .header-actions .clear-btn {
+      padding: 6px 12px;
+      font-size: 0.85rem;
+    }
+
+    :global(.calculator-table .qty-btn) {
+      width: 28px;
+      height: 28px;
     }
   }
 
@@ -546,61 +587,125 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   @media (max-width: 480px) {
-    /* Compress the calculator table to fit without horizontal scrolling */
-    .calculator-table {
-      font-size: 0.7rem;
-    }
-    
-    .calculator-table th,
-    :global(.calculator-table td) {
-      padding: 0.2rem 0.1rem;
-    }
-    
-    .calculator-table th:first-child,
-    :global(.calculator-table td.module-col) {
-      padding-left: 0.2rem;
-    }
-    
-    :global(.module-col-inner) {
-      gap: 0.2rem;
-    }
-    
-    :global(.search-result-icon) {
-      width: 20px;
-      height: 20px;
-    }
-    
-    :global(.qty-btn) {
-      width: 18px;
-      height: 18px;
-      line-height: 16px;
-      font-size: 0.9rem;
-    }
-    
-    :global(.qty-col) {
-      font-size: 0.7rem;
-    }
-    
-    :global(.level-select) {
-      padding: 0;
-      font-size: 0.7rem;
-      max-width: 32px;
-    }
-    
-    .header-currency-icon {
-      width: 12px;
-      height: 12px;
-      margin-right: 1px;
-    }
-    
-    /* Hide the "Disc?" column (now 5th) on very small screens to save horizontal space */
-    .calculator-table th:nth-child(5),
-    :global(.calculator-table td:nth-child(5)) {
+    /* ---- Card layout ----------------------------------------------------
+       On phones the 7-column table can't hold every control at a usable size,
+       so each item becomes a stacked "card": the module name spans the top,
+       and Qty / From / To / Disc / costs flow underneath with pseudo-labels
+       (the header row is hidden). This keeps the per-item discount toggle
+       reachable — previously the whole Disc column was hidden here. */
+    .calculator-table thead {
       display: none;
     }
-    
+
+    .calculator-table,
+    .calculator-table tbody,
+    .calculator-table tfoot {
+      display: block;
+      width: 100%;
+    }
+
+    :global(.calculator-table tbody tr) {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem 0.6rem;
+      padding: 0.6rem 0.15rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    :global(.calculator-table tbody td) {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0;
+      border: none;
+      text-align: left;
+      font-size: 0.82rem;
+    }
+
+    /* Module name + icon: full-width card header. */
+    :global(.calculator-table td.module-col) {
+      flex: 1 1 100%;
+      padding-left: 0;
+    }
+
+    :global(.module-col-name) {
+      -webkit-line-clamp: 1;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* Pseudo-labels stand in for the hidden header row. */
+    :global(.calculator-table tbody td[data-label]::before) {
+      content: attr(data-label);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--text-muted, #8b92a5);
+    }
+
+    /* Costs share their own line, pushed after the controls. */
+    :global(.calculator-table td.cost-cell) {
+      flex: 1 1 42%;
+      font-size: 0.85rem;
+    }
+
+    /* Totals footer as simple label / value rows. */
+    :global(.calculator-table tfoot tr) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.15rem;
+    }
+
+    :global(.calculator-table tfoot td) {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0;
+      border: none;
+    }
+
+    :global(.calculator-table tfoot td:empty) {
+      display: none;
+    }
+
+    :global(.total-label) {
+      text-align: left;
+    }
+
+    :global(.search-result-icon) {
+      width: 28px;
+      height: 28px;
+    }
+
+    /* Larger, thumb-friendly controls. */
+    :global(.qty-btn) {
+      width: 30px;
+      height: 30px;
+      font-size: 1.1rem;
+    }
+
+    :global(.qty-col) {
+      font-size: 0.82rem;
+    }
+
+    :global(.level-select) {
+      min-height: 34px;
+      min-width: 48px;
+      padding: 2px 4px;
+      font-size: 0.85rem;
+    }
+
+    :global(.disc-toggle-btn) {
+      min-width: 36px;
+      min-height: 32px;
+      font-size: 1rem;
+    }
+
     .calculator-header {
-      padding: 0.5rem;
+      padding: 0.6rem;
     }
 
     .calculator-header h3 {
@@ -620,6 +725,52 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     margin: 0 0 0.65rem;
     font-size: 0.9rem;
     color: #fff;
+  }
+
+  /* Collapsible "Weekly income" section (native <details>). */
+  .income-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    padding: 0.15rem 0;
+    border-radius: 4px;
+  }
+
+  .income-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .income-summary:hover .income-title,
+  .income-summary:hover .income-chevron {
+    color: var(--text-color, #e0e0e0);
+  }
+
+  .income-summary:focus-visible {
+    outline: 2px solid var(--accent-color, #3a86ff);
+    outline-offset: 2px;
+  }
+
+  /* Title has no bottom margin inside the summary row; the body owns the gap. */
+  .income-summary .income-title {
+    margin: 0;
+  }
+
+  .income-chevron {
+    color: var(--text-muted, #8b92a5);
+    transition: transform 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .income-details[open] .income-chevron {
+    transform: rotate(180deg);
+  }
+
+  .income-body {
+    margin-top: 0.75rem;
   }
 
   /* Field groups: a 2-column grid on both desktop and mobile. Fields stretch to
@@ -894,6 +1045,19 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   incomeSeedFreeEl.addEventListener('click', () => applyWeek('free'));
   incomeSeedPremiumEl.addEventListener('click', () => applyWeek('premium'));
 
+  // --- Weekly income collapse: remember open/closed across page loads ---
+  const incomeDetails = document.getElementById('income-details');
+  if (incomeDetails) {
+    try {
+      const saved = localStorage.getItem('wrf-income-open');
+      if (saved === 'false') incomeDetails.open = false;
+      else if (saved === 'true') incomeDetails.open = true;
+    } catch (e) {}
+    incomeDetails.addEventListener('toggle', () => {
+      try { localStorage.setItem('wrf-income-open', String(incomeDetails.open)); } catch (e) {}
+    });
+  }
+
   // Choosing "Custom rate" reveals the number box; choosing a preset hides it
   // and applies that rate directly.
   incomeRateSelectEl.addEventListener('change', () => {
@@ -966,6 +1130,22 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     }
   });
 
+  // --- Help tooltip: tap-to-toggle on touch devices ---
+  // The "?" tooltips are hover-only in CSS, which never fires on touch. Tapping
+  // the icon toggles a `.tooltip-open` class on its wrapper; tapping elsewhere
+  // dismisses it. Hover still works unchanged on pointer devices.
+  document.addEventListener('click', (e) => {
+    const icon = e.target.closest('.tooltip-icon');
+    const openWrap = icon ? icon.closest('.header-with-tooltip') : null;
+    document.querySelectorAll('.header-with-tooltip.tooltip-open').forEach((w) => {
+      if (w !== openWrap) w.classList.remove('tooltip-open');
+    });
+    if (openWrap) {
+      e.stopPropagation();
+      openWrap.classList.toggle('tooltip-open');
+    }
+  });
+
   // --- Level select builder helpers ---
   function makeLevelSelect(name, selectedVal, min, max, instanceId) {
     let opts = '';
@@ -1034,16 +1214,16 @@ const baseUrl = import.meta.env.BASE_URL || '/';
             <span class="module-col-name">${item.name}</span>
           </div>
         </td>
-        <td class="qty-col">
+        <td class="qty-col" data-label="Qty">
           <button class="qty-btn" data-action="minus" data-id="${item.instanceId}">−</button>
           ${item.quantity}
           <button class="qty-btn" data-action="plus" data-id="${item.instanceId}">+</button>
         </td>
-        <td>${fromSelect}</td>
-        <td>${toSelect}</td>
-        <td>${discCell}</td>
-        <td class="cost-cell">${salvageStr}</td>
-        <td class="cost-cell">${intelStr}</td>
+        <td data-label="From">${fromSelect}</td>
+        <td data-label="To">${toSelect}</td>
+        <td data-label="Disc">${discCell}</td>
+        <td class="cost-cell" data-label="Salvage">${salvageStr}</td>
+        <td class="cost-cell" data-label="Intel">${intelStr}</td>
       </tr>`;
     }).join('');
 

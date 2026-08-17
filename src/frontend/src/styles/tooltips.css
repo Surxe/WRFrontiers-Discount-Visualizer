@@ -60,6 +60,14 @@
   transform: translateX(-50%) translateY(0);
 }
 
+/* Tap-to-toggle on touch devices (no hover): JS adds `.tooltip-open` to the
+   wrapper on tap. Mirrors the :hover reveal so touch users can read the help. */
+.header-with-tooltip.tooltip-open .custom-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
 /* ── Edge Clipping Prevention (Global) ─────────────────────── */
 /* Adjust tooltips that appear near the right edge of the screen/drawer */
 th:last-child .custom-tooltip,
@@ -72,7 +80,10 @@ th:nth-last-child(2) .custom-tooltip,
 
 th:last-child .header-with-tooltip:hover .custom-tooltip,
 th:nth-last-child(2) .header-with-tooltip:hover .custom-tooltip,
-.header-actions .header-with-tooltip:hover .custom-tooltip {
+.header-actions .header-with-tooltip:hover .custom-tooltip,
+th:last-child .header-with-tooltip.tooltip-open .custom-tooltip,
+th:nth-last-child(2) .header-with-tooltip.tooltip-open .custom-tooltip,
+.header-actions .header-with-tooltip.tooltip-open .custom-tooltip {
   transform: translateY(0);
 }
 
@@ -82,9 +93,17 @@ th:nth-last-child(2) .header-with-tooltip:hover .custom-tooltip,
     gap: 0.15rem;
   }
 
+  /* Larger tap target for the "?" help icon on touch. */
+  .tooltip-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
   .custom-tooltip,
   .item-tooltip {
-    max-width: 160px;
-    font-size: 0.7rem;
+    max-width: 200px;
+    font-size: 0.72rem;
   }
 }
