@@ -113,6 +113,29 @@ export function getLastDiscountBeforeDate(discountWeeks, currentDate) {
 	return null;
 }
 
+export function getWeeksSinceLastDiscount(discountWeeks, currentDate) {
+	if (!discountWeeks || discountWeeks.length === 0) {
+		return null;
+	}
+
+	const currentWeekDate = new Date(currentDate);
+
+	// Sort weeks in descending order (most recent first)
+	const sortedWeeks = [...discountWeeks].sort((a, b) => {
+		return new Date(b) - new Date(a);
+	});
+
+	// Find the most recent discount on or before the current week
+	for (const week of sortedWeeks) {
+		const weekDate = new Date(week);
+		if (weekDate <= currentWeekDate) {
+			return calculateWeeksAgo(week, currentDate);
+		}
+	}
+
+	return null;
+}
+
 export function formatDiscountDate(dateStr) {
 	if (!dateStr) return 'Never';
 	const date = new Date(dateStr);
