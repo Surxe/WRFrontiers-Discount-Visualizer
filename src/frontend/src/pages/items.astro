@@ -6,12 +6,24 @@ import MobileBottomNav from '../components/MobileBottomNav.astro';
 import { fetchModuleGroups, fetchCatIcons, fetchModulesByGroup } from '../utils/moduleData.js';
 import { getTexturePath } from '../utils/textures.js';
 import { fetchAllVbots, getVbotName, getVbotIconPath, getVbotCharacterType } from '../utils/vbotData.js';
-import { getVbotDiscountWeeks, getModuleDiscountWeeks, getModuleVirtualBots, fetchDiscountHistory, getModuleAverageWeeks, getVbotAverageWeeks } from '../utils/discountHistory.js';
+import { getVbotDiscountWeeks, getModuleDiscountWeeks, getModuleVirtualBots, fetchDiscountHistory, getModuleAverageWeeks, getVbotAverageWeeks, getWeeksSinceLastDiscount } from '../utils/discountHistory.js';
+import { fetchWeeksManifest } from '../utils/weeksManifest.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const groups = fetchModuleGroups();
 const catIcons = fetchCatIcons();
 const vbots = fetchAllVbots();
+
+// Current (latest) week is the first entry in the manifest
+const weeksManifest = fetchWeeksManifest();
+const currentWeekSlug = weeksManifest && weeksManifest.length > 0 ? weeksManifest[0].slug : null;
+
+// Format weeks-since-last-discount for display
+const formatWeeksSince = (weeksSince: number | null) => {
+	if (weeksSince === null) return null;
+	if (weeksSince <= 0) return 'This week';
+	return `${weeksSince} week${weeksSince !== 1 ? 's' : ''}`;
+};
 
 // Get total weeks and virtual bots for percentage calculations
 const discountHistory = fetchDiscountHistory();
@@ -60,6 +72,7 @@ const filteredGroups = Object.entries(groups)
 			const discountWeeks = getModuleDiscountWeeks(module.id);
 			const virtualBots = getModuleVirtualBots(module.id);
 			const avgWeeks = getModuleAverageWeeks(module.id);
+			const weeksSince = getWeeksSinceLastDiscount(discountWeeks, currentWeekSlug);
 			const discountPercentage = totalWeeks > 0 ? ((discountWeeks.length / totalWeeks) * 100).toFixed(1) : '0';
 			const vbotPortion = totalVbots > 0 ? ((virtualBots.length / totalVbots) * 100).toFixed(1) : '0';
 			
@@ -68,6 +81,7 @@ const filteredGroups = Object.entries(groups)
 				discountWeeks,
 				virtualBots,
 				avgWeeks,
+				weeksSince,
 				discountPercentage,
 				vbotPortion,
 			};
@@ -81,6 +95,7 @@ const mechList = Object.entries(vbots)
 	.map(([id, vbot]) => {
 		const discountWeeks = getVbotDiscountWeeks(id);
 		const avgWeeks = getVbotAverageWeeks(id);
+		const weeksSince = getWeeksSinceLastDiscount(discountWeeks, currentWeekSlug);
 		const discountPercentage = totalWeeks > 0 ? ((discountWeeks.length / totalWeeks) * 100).toFixed(1) : '0';
 		return {
 			id,
@@ -88,6 +103,7 @@ const mechList = Object.entries(vbots)
 			iconPath: getVbotIconPath(vbot),
 			discountWeeks,
 			avgWeeks,
+			weeksSince,
 			discountPercentage,
 		};
 	})
@@ -149,6 +165,7 @@ const titanList = Object.entries(vbots)
 	.map(([id, vbot]) => {
 		const discountWeeks = getVbotDiscountWeeks(id);
 		const avgWeeks = getVbotAverageWeeks(id);
+		const weeksSince = getWeeksSinceLastDiscount(discountWeeks, currentWeekSlug);
 		const discountPercentage = totalWeeks > 0 ? ((discountWeeks.length / totalWeeks) * 100).toFixed(1) : '0';
 		return {
 			id,
@@ -156,6 +173,7 @@ const titanList = Object.entries(vbots)
 			iconPath: getVbotIconPath(vbot),
 			discountWeeks,
 			avgWeeks,
+			weeksSince,
 			discountPercentage,
 		};
 	})
@@ -219,6 +237,14 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 										<span class="custom-tooltip">Average number of weeks between discounts</span>
 									</span>
 								</th>
+								<th>
+									<span class="header-with-tooltip">
+										<span class="desktop-text">Weeks Since Discount</span>
+										<span class="mobile-text">Since</span>
+										<span class="tooltip-icon">?</span>
+										<span class="custom-tooltip">Weeks since this item was last discounted</span>
+									</span>
+								</th>
 								{group.showVirtualBots && (
 									<th>
 										<span class="header-with-tooltip">
@@ -269,6 +295,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 										</td>
 										<td class="percentage-cell">{module.discountPercentage}%</td>
 										<td>{module.avgWeeks !== null ? `Every ${module.avgWeeks} weeks` : ''}</td>
+										<td class="weeks-since-cell">{module.weeksSince !== null ? formatWeeksSince(module.weeksSince) : (<span class="never-discounted">Never</span>)}</td>
 										{group.showVirtualBots && (
 											<td class="percentage-cell">{module.vbotPortion}% ({module.virtualBots.length})</td>
 										)}
@@ -276,7 +303,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 								))
 							) : (
 								<tr>
-									<td colspan={group.showVirtualBots ? 5 : 4}>No modules found in this group</td>
+									<td colspan={group.showVirtualBots ? 6 : 5}>No modules found in this group</td>
 								</tr>
 							)}
 						</tbody>
@@ -316,6 +343,14 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 									<span class="mobile-text">Avg Int</span>
 									<span class="tooltip-icon">?</span>
 									<span class="custom-tooltip">Average number of weeks between discounts</span>
+								</span>
+							</th>
+							<th>
+								<span class="header-with-tooltip">
+									<span class="desktop-text">Weeks Since Discount</span>
+									<span class="mobile-text">Since</span>
+									<span class="tooltip-icon">?</span>
+									<span class="custom-tooltip">Weeks since this item was last discounted</span>
 								</span>
 							</th>
 						</tr>
@@ -358,11 +393,12 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 									</td>
 									<td class="percentage-cell">{vbot.discountPercentage}%</td>
 									<td>{vbot.avgWeeks !== null ? `Every ${vbot.avgWeeks} weeks` : ''}</td>
+									<td class="weeks-since-cell">{vbot.weeksSince !== null ? formatWeeksSince(vbot.weeksSince) : (<span class="never-discounted">Never</span>)}</td>
 								</tr>
 							))
 						) : (
 							<tr>
-								<td colspan="4">No mechs found</td>
+								<td colspan="5">No mechs found</td>
 							</tr>
 						)}
 					</tbody>
@@ -401,6 +437,14 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 									<span class="mobile-text">Avg Int</span>
 									<span class="tooltip-icon">?</span>
 									<span class="custom-tooltip">Average number of weeks between discounts</span>
+								</span>
+							</th>
+							<th>
+								<span class="header-with-tooltip">
+									<span class="desktop-text">Weeks Since Discount</span>
+									<span class="mobile-text">Since</span>
+									<span class="tooltip-icon">?</span>
+									<span class="custom-tooltip">Weeks since this item was last discounted</span>
 								</span>
 							</th>
 						</tr>
@@ -443,11 +487,12 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 									</td>
 									<td class="percentage-cell">{vbot.discountPercentage}%</td>
 									<td>{vbot.avgWeeks !== null ? `Every ${vbot.avgWeeks} weeks` : ''}</td>
+									<td class="weeks-since-cell">{vbot.weeksSince !== null ? formatWeeksSince(vbot.weeksSince) : (<span class="never-discounted">Never</span>)}</td>
 								</tr>
 							))
 						) : (
 							<tr>
-								<td colspan="4">No titans found</td>
+								<td colspan="5">No titans found</td>
 							</tr>
 						)}
 					</tbody>
@@ -745,6 +790,11 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 		text-align: center;
 		font-family: 'Courier New', monospace;
 		font-weight: 500;
+	}
+
+	.weeks-since-cell {
+		text-align: center;
+		white-space: nowrap;
 	}
 
 	.year-group {
