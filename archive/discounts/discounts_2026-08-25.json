@@ -1,0 +1,31 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 8,
+    "start_day": 25,
+    "end_year": 2026,
+    "end_month": 9,
+    "end_day": 1
+  },
+  "items": [
+    "DA_Module_ChassisLancelot.2",
+    "DA_Module_TorsoLancelot.1",
+    "DA_Module_ShoulderLancelot.0",
+    "DA_Module_ChassisCyclops.2",
+    "DA_Module_TorsoCyclops.1",
+    "DA_Module_ShoulderCyclops.0",
+    "DA_Module_ChassisGriffin.2",
+    "DA_Module_TorsoGriffin.1",
+    "DA_Module_ShoulderGriffin.0",
+    "DA_Module_Weapon_Punisher.0",
+    "DA_Module_Weapon_Twinflare.0",
+    "DA_Module_Weapon_Buckshot.0",
+    "DA_Module_Weapon_Bayonet.0",
+    "DA_Module_Ability_SpeedBoost.1",
+    "DA_Module_Ability_DashBlinkedVisible.1",
+    "DA_Module_Ability_SmokeWall.1",
+    "DA_Module_Ability_CounterAttack.1",
+    "DA_Module_Ability_Homing.1",
+    "DA_Module_Ability_Umbrella.1"
+  ]
+}
