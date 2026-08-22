@@ -1063,6 +1063,19 @@
       ],
       "avg_weeks_between_discounts": 4.1
     },
+    "OBJID_Module::DA_Module_Weapon_Callisto.0": {
+      "weeks": [
+        "2026-07-28",
+        "2026-05-05",
+        "2026-01-27",
+        "2025-09-30",
+        "2025-07-15"
+      ],
+      "virtual_bots": [
+        "alpha"
+      ],
+      "avg_weeks_between_discounts": 13.5
+    },
     "OBJID_Module::DA_Module_ChassisSiren.2": {
       "weeks": [
         "2026-07-28",
@@ -1861,13 +1874,14 @@
     "OBJID_Module::DA_Module_Weapon_Hive.0": {
       "weeks": [
         "2026-05-12",
+        "2026-02-03",
         "2025-11-25",
         "2025-09-09"
       ],
       "virtual_bots": [
         "matriarch"
       ],
-      "avg_weeks_between_discounts": 17.5
+      "avg_weeks_between_discounts": 11.7
     },
     "OBJID_Module::DA_Module_Ability_FuelReserve.1": {
       "weeks": [
@@ -1887,6 +1901,19 @@
         "purifier"
       ],
       "avg_weeks_between_discounts": 5.2
+    },
+    "OBJID_Module::DA_Module_Weapon_Scrubber.0": {
+      "weeks": [
+        "2026-06-09",
+        "2026-05-12",
+        "2026-03-17",
+        "2026-01-13",
+        "2025-09-09"
+      ],
+      "virtual_bots": [
+        "matriarch"
+      ],
+      "avg_weeks_between_discounts": 9.8
     },
     "OBJID_Module::DA_Module_ChassisFenrir.2": {
       "weeks": [
@@ -1996,18 +2023,6 @@
       ],
       "avg_weeks_between_discounts": 13.7
     },
-    "OBJID_Module::DA_Module_Weapon_Callisto.0": {
-      "weeks": [
-        "2026-07-28",
-        "2026-05-05",
-        "2026-01-27",
-        "2025-09-30"
-      ],
-      "virtual_bots": [
-        "alpha"
-      ],
-      "avg_weeks_between_discounts": 14.3
-    },
     "OBJID_Module::DA_Module_Ability_Atrophy.1": {
       "weeks": [
         "2026-07-14",
@@ -2024,6 +2039,20 @@
         "kumo"
       ],
       "avg_weeks_between_discounts": 6.8
+    },
+    "OBJID_Module::DA_Module_Weapon_Bayonet.0": {
+      "weeks": [
+        "2026-08-25",
+        "2026-07-21",
+        "2026-05-05",
+        "2026-03-17",
+        "2026-01-06",
+        "2025-09-30"
+      ],
+      "virtual_bots": [
+        "alpha"
+      ],
+      "avg_weeks_between_discounts": 9.4
     },
     "OBJID_Module::DA_Module_ChassisGriffin.2": {
       "weeks": [
@@ -2352,18 +2381,6 @@
       "virtual_bots": [],
       "avg_weeks_between_discounts": 10.7
     },
-    "OBJID_Module::DA_Module_Weapon_Bayonet.0": {
-      "weeks": [
-        "2026-08-25",
-        "2026-07-21",
-        "2026-03-17",
-        "2026-01-06"
-      ],
-      "virtual_bots": [
-        "alpha"
-      ],
-      "avg_weeks_between_discounts": 11.0
-    },
     "OBJID_Module::DA_Module_ChassisKumo.2": {
       "weeks": [
         "2026-07-07",
@@ -2401,17 +2418,6 @@
         "kumo"
       ],
       "avg_weeks_between_discounts": 12.5
-    },
-    "OBJID_Module::DA_Module_Weapon_Scrubber.0": {
-      "weeks": [
-        "2026-06-09",
-        "2026-03-17",
-        "2026-01-13"
-      ],
-      "virtual_bots": [
-        "matriarch"
-      ],
-      "avg_weeks_between_discounts": 10.5
     },
     "OBJID_Module::DA_Module_ChassisKernel.2": {
       "weeks": [

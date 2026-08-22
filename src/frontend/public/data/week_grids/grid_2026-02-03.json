@@ -43,7 +43,7 @@
           "4": "OBJID_Module::DA_Module_ChassisRaven.2",
           "5": "OBJID_Module::DA_Module_Weapon_Gozer.0",
           "7": "OBJID_Module::DA_Module_Ability_BlastWave.1",
-          "8": "OBJID_Module::DA_Module_Ability_InfiniteAmmo_Tutorial.1"
+          "8": "OBJID_Module::DA_Module_Ability_InfiniteAmmo.1"
         }
       }
     ],
@@ -54,7 +54,8 @@
           "1": "OBJID_VirtualBot::matriarch",
           "2": "OBJID_Module::DA_Module_TorsoMatriarch.0",
           "3": "OBJID_Module::DA_Module_ShoulderLMatriarch.0",
-          "4": "OBJID_Module::DA_Module_ChassisMatriarch.1"
+          "4": "OBJID_Module::DA_Module_ChassisMatriarch.1",
+          "5": "OBJID_Module::DA_Module_Weapon_Hive.0"
         }
       }
     ]
