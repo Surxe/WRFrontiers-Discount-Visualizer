@@ -23,7 +23,8 @@
     "DA_Module_Ability_GhostTurret.1",
     "DA_Module_Ability_Homing.1",
     "DA_Module_Ability_SpeedBoost.1",
-    "DA_Module_Ability_Umbrella.1"
+    "DA_Module_Ability_Umbrella.1",
+    "DA_Module_Weapon_Bayonet.0"
   ],
   "week": {
     "start_year": 2026,

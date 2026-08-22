@@ -21,7 +21,8 @@
     "DA_Module_Ability_CounterAttack.1",
     "DA_Module_Ability_FuelReserve.1",
     "DA_Module_Ability_Regeneration.1",
-    "DA_Module_Ability_TensionLink.1"
+    "DA_Module_Ability_TensionLink.1",
+    "DA_Module_Weapon_Scrubber.0"
   ],
   "week": {
     "start_year": 2026,

@@ -23,7 +23,8 @@
     "DA_Module_Ability_GhostTurret.1",
     "DA_Module_Ability_CounterAttack.1",
     "DA_Module_Ability_SmokeWall.1",
-    "DA_Module_Ability_RegenerationFull.1"
+    "DA_Module_Ability_RegenerationFull.1",
+    "DA_Module_Weapon_Scrubber.0"
   ],
   "week": {
     "start_year": 2025,
