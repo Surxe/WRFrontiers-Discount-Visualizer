@@ -14,6 +14,7 @@ import { categorize } from '../utils/gridData.js';
 import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 import { fetchModules, fetchModuleRarities, getModuleDisplayName } from '../utils/moduleData.js';
 import { fetchDiscountHistory } from '../utils/discountHistory.js';
+import { fetchPredictions } from '../utils/predictions.js';
 import { getCurrentOrLatestWeek, getNextWeek, getPreviousWeek } from '../utils/dateValidator.js';
 import { formatWeek } from '../utils/weekDates.js';
 import { extractDiscountedItemsFromGrid } from '../utils/discountHistory.js';
@@ -29,6 +30,11 @@ const nextWeekHref = nextWeek
     ? baseUrl
     : `${baseUrl}week/${nextWeek.slug}`
   : null;
+// Predicted (not-yet-published) next week, surfaced as a "Next" link in the
+// sidebar that points at the /predictions page.
+const predictions = fetchPredictions();
+const predictedLabel = predictions?.predictedWeek?.label ?? null;
+const predictedHref = predictedLabel ? `${baseUrl}predictions` : null;
 const prevWeek = getPreviousWeek(weeks, currentSlug);
 const prevWeekHref = prevWeek
   ? mainPageWeek && prevWeek.slug === mainPageWeek.slug
@@ -165,6 +171,8 @@ const weekList = weekEntries.map(w => ({
 			baseUrl={baseUrl}
 			nextWeek={nextWeek}
 			nextWeekHref={nextWeekHref}
+			predictedLabel={predictedLabel}
+			predictedHref={predictedHref}
 		>
 			<div class="app-content">
 				<MobileTopBar showSidebarToggle={true} showCalcToggle={true} title="WRF Discounts" />

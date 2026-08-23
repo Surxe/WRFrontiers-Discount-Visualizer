@@ -3,7 +3,7 @@ import '../styles/all-weeks-sidebar.css';
 import { getCurrentOrLatestWeek } from '../utils/dateValidator.js';
 import { formatWeek, weekYear } from '../utils/weekDates.js';
 
-const { weeks, currentSlug, baseUrl, nextWeek, nextWeekHref } = Astro.props;
+const { weeks, currentSlug, baseUrl, nextWeek, nextWeekHref, predictedLabel, predictedHref } = Astro.props;
 const mainPageWeek = weeks && weeks.length > 0 ? weeks[0] : null;
 ---
 
@@ -60,11 +60,21 @@ const mainPageWeek = weeks && weeks.length > 0 ? weeks[0] : null;
                   const href = isMainPageWeek ? baseUrl : `${baseUrl}week/${week.slug}`;
 
                   return (
-                    <li>
-                      <a href={href} class={`week-link ${isActive ? 'active' : ''}`}>
-                        <span class="week-link__label">{week.displayLabel}</span>
-                      </a>
-                    </li>
+                    <>
+                      <li>
+                        <a href={href} class={`week-link ${isActive ? 'active' : ''}`}>
+                          <span class="week-link__label">{week.displayLabel}</span>
+                        </a>
+                      </li>
+                      {isMainPageWeek && predictedLabel && predictedHref && (
+                        <li>
+                          <a href={predictedHref} class="week-link week-link--predicted" title="Predicted next discounts">
+                            <span class="week-link__label">{predictedLabel}</span>
+                            <span class="badge upcoming">Next</span>
+                          </a>
+                        </li>
+                      )}
+                    </>
                   );
                 })}
               </ul>
