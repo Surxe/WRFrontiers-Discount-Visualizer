@@ -203,6 +203,30 @@
   display: block;
 }
 
+/* Predicted (not-yet-published) next week — reads as a forward-looking estimate */
+.week-link--predicted {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-muted, #8b92a5);
+  border-bottom: 1px dashed var(--accent-color, #3a86ff);
+  font-style: italic;
+}
+
+.week-link--predicted:hover {
+  background-color: rgba(255, 159, 28, 0.08);
+  color: var(--text-color, #e0e0e0);
+}
+
+.week-link--predicted.active {
+  color: var(--accent-color, #3a86ff);
+  font-style: italic;
+}
+
+.week-link--predicted .week-link__label {
+  white-space: nowrap;
+}
+
 .week-link:hover {
   background-color: rgba(255, 255, 255, 0.05);
   border-bottom-color: var(--accent-color, #3a86ff);
