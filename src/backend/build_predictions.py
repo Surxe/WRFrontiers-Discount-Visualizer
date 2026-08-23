@@ -199,12 +199,21 @@ def build_predictions():
             "char_type": char_type,
         }
 
+    # Every historical discount week (both pools). Scoring must cover ALL of
+    # these, including weeks where the pool had no discount at all -- those are
+    # genuine "miss" weeks for a prediction. Restricting to weeks the pool was
+    # discounted would condition accuracy on the outcome and overstate it
+    # (badly for titans, which are absent most weeks).
+    all_weeknums = sorted(
+        {w for pool in pools.values() for weeknums in pool.values() for w in weeknums}
+    )
+
     # Chronological (week_number, discounted-set) per pool for the backtest.
     def period_actuals(pool_weeknums):
-        by_week = {}
+        by_week = {w: set() for w in all_weeknums}
         for bot_id, weeknums in pool_weeknums.items():
             for w in weeknums:
-                by_week.setdefault(w, set()).add(bot_id)
+                by_week[w].add(bot_id)
         return sorted(by_week.items())
 
     # Predicted week + its week-number.

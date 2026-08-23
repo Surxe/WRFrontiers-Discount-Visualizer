@@ -1,11 +1,11 @@
 [
   {
     "predicted_week": "2026-09-01",
-    "generated_at": "2026-08-23T08:30:58.671163-05:00",
+    "generated_at": "2026-08-23T10:25:32.577374-05:00",
     "bots_precision": 0.344,
     "bots_at_least_one_top3": 0.76,
     "bots_scored_weeks": 50,
-    "titans_precision": 0.3684,
-    "titans_scored_weeks": 19
+    "titans_precision": 0.1458,
+    "titans_scored_weeks": 48
   }
 ]
