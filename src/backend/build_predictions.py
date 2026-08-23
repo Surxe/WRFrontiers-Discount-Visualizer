@@ -49,9 +49,19 @@ TITANS_TOP_N = 2
 # the page highlights for regular bots.
 AT_LEAST_ONE_KS = (1, 2, 3, 4, 5)
 
+# A bot needs at least this many prior discounts to be ranked or scored.
+# Recently-added bots (0 or 1 discounts) have no established cadence and would
+# otherwise dominate the "most overdue" ranking, so they are excluded from both
+# the predictions (numerator) and the accuracy backtest (denominator).
+MIN_HISTORY = 2
+
 
 def _slug_to_date(slug: str) -> date:
     return datetime.strptime(slug, "%Y-%m-%d").date()
+
+
+def _prior_count(weeknums, as_of_week: int) -> int:
+    return sum(1 for w in weeknums if w < as_of_week)
 
 
 def _week_number(d: date, origin: date) -> int:
@@ -59,20 +69,21 @@ def _week_number(d: date, origin: date) -> int:
     return round((d - origin).days / 7)
 
 
-def _rank_pool(pool_weeknums: dict, as_of_week: int) -> list[str]:
+def _rank_pool(pool_weeknums: dict, as_of_week: int, min_history: int = MIN_HISTORY) -> list[str]:
     """Rank a pool's bots by weeks-since-discount, most overdue first.
 
     ``pool_weeknums`` maps bot_id -> sorted list of week-numbers it was
     discounted. Only discounts strictly before ``as_of_week`` are considered, so
-    the ranking never peeks at the week it is predicting. Bots with no prior
-    discount are omitted (no baseline to measure overdue-ness from).
+    the ranking never peeks at the week it is predicting. Bots with fewer than
+    ``min_history`` prior discounts are omitted -- they have no established
+    cadence yet.
 
     Ties break on bot_id descending, purely for deterministic output.
     """
     candidates = []
     for bot_id, weeknums in pool_weeknums.items():
         prior = [w for w in weeknums if w < as_of_week]
-        if not prior:
+        if len(prior) < min_history:
             continue
         wsd = as_of_week - prior[-1]
         candidates.append((wsd, bot_id))
@@ -80,7 +91,8 @@ def _rank_pool(pool_weeknums: dict, as_of_week: int) -> list[str]:
     return [bot_id for _wsd, bot_id in candidates]
 
 
-def _calibrate(pool_weeknums: dict, period_actuals: list[tuple[int, set]], top_n: int) -> dict:
+def _calibrate(pool_weeknums: dict, period_actuals: list[tuple[int, set]], top_n: int,
+               min_history: int = MIN_HISTORY) -> dict:
     """Walk-forward backtest for one pool.
 
     ``period_actuals`` is a chronologically-ascending list of
@@ -104,9 +116,17 @@ def _calibrate(pool_weeknums: dict, period_actuals: list[tuple[int, set]], top_n
     any_weeks = 0  # scored weeks in which the pool had at least one discount
 
     for as_of_week, actual in period_actuals:
-        ranking = _rank_pool(pool_weeknums, as_of_week)
+        ranking = _rank_pool(pool_weeknums, as_of_week, min_history)
         if len(ranking) < top_n:
             continue
+        # Restrict the target set to bots that are eligible to be ranked, so a
+        # discount of an ineligible (too-new) bot counts as neither a hit nor a
+        # miss -- excluded from numerator and denominator alike.
+        eligible = {
+            bot_id for bot_id, weeknums in pool_weeknums.items()
+            if _prior_count(weeknums, as_of_week) >= min_history
+        }
+        actual = actual & eligible
         scored += 1
         if actual:
             any_weeks += 1
@@ -304,6 +324,14 @@ def build_predictions():
         # (regular bots only).
         pool_weeknums = pools[pool_name]
         calib = _calibrate(pool_weeknums, period_actuals(pool_weeknums), top_n)
+        # Real-world (unfiltered) share of all discount weeks in which this pool
+        # had ANY discount -- used for the "titans are absent most weeks" note.
+        # Kept separate from the eligibility-filtered backtest so the caveat
+        # reflects reality, not the thin-history exclusion.
+        present_weeks = {w for wns in pool_weeknums.values() for w in wns}
+        calib["presence_rate"] = (
+            round(len(present_weeks) / len(all_weeknums), 4) if all_weeknums else 0.0
+        )
         odds_key = "per_position_conditional" if conditional else "per_position"
         ranking = _rank_pool(pool_weeknums, pred_weeknum)[:top_n]
         listed = []

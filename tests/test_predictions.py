@@ -14,19 +14,25 @@ PREDICTIONS_JSON = os.path.join(
 
 
 class TestRankPool(unittest.TestCase):
-    def test_ranks_by_weeks_since_discount_and_excludes_no_history(self):
+    def test_ranks_by_wsd_and_excludes_thin_history(self):
         pool = {
-            'a': [0, 2],   # last prior discount at week 2 -> wsd 1
-            'b': [1],      # last prior discount at week 1 -> wsd 2 (more overdue)
-            'c': [5],      # first discount not before as_of -> excluded
+            'a': [0, 3],      # 2 priors -> wsd 5-3 = 2
+            'b': [1],         # only 1 prior -> excluded (no established cadence)
+            'c': [2, 4],      # 2 priors -> wsd 5-4 = 1
         }
-        ranking = _rank_pool(pool, as_of_week=3)
-        self.assertEqual(ranking, ['b', 'a'])
+        ranking = _rank_pool(pool, as_of_week=5)
+        self.assertEqual(ranking, ['a', 'c'])
+        self.assertNotIn('b', ranking)
 
     def test_only_counts_discounts_strictly_before(self):
-        # A discount exactly at as_of_week must not count as prior history.
-        pool = {'a': [3], 'b': [0]}
-        self.assertEqual(_rank_pool(pool, as_of_week=3), ['b'])
+        # A discount exactly at as_of_week must not count as prior history, so
+        # 'b' has only one qualifying prior and is excluded.
+        pool = {'a': [0, 3], 'b': [0, 5]}
+        self.assertEqual(_rank_pool(pool, as_of_week=5), ['a'])
+
+    def test_min_history_is_configurable(self):
+        pool = {'a': [1], 'b': [0, 2]}
+        self.assertEqual(_rank_pool(pool, as_of_week=3, min_history=1), ['a', 'b'])
 
 
 class TestCalibrate(unittest.TestCase):
@@ -45,12 +51,15 @@ class TestCalibrate(unittest.TestCase):
             (4, {'a'}),
             (6, {'a', 'b'}),
         ]
+        # With MIN_HISTORY=2, only weeks 4 and 6 are scorable (two eligible bots):
+        #   wk4: rank [a(wsd2), b(wsd1)], actual {a} -> pos1 hit
+        #   wk6: rank [b(wsd3), a(wsd2)], actual {a,b} -> both slots hit
         result = _calibrate(pool, period_actuals, top_n=2)
 
-        self.assertEqual(result['scored_weeks'], 5)
-        self.assertEqual(result['per_position'], [0.2, 0.6])
-        self.assertEqual(result['precision'], 0.4)
-        self.assertEqual(result['at_least_one'], {'1': 0.2, '2': 0.8})
+        self.assertEqual(result['scored_weeks'], 2)
+        self.assertEqual(result['per_position'], [1.0, 0.5])
+        self.assertEqual(result['precision'], 0.75)
+        self.assertEqual(result['at_least_one'], {'1': 1.0, '2': 1.0})
 
     def test_at_least_one_is_non_decreasing_in_k(self):
         pool = {
