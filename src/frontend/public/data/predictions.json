@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T10:25:32.577374-05:00",
+  "generated_at": "2026-08-23T10:49:43.282030-05:00",
   "method": "weeks-since-discount (most overdue first); position-calibrated odds",
   "predictedWeek": {
     "start_year": 2026,
@@ -66,7 +66,7 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
       "overdue_rank": 1,
       "weeks_since_discount": 16,
-      "likelihood_pct": 22.9
+      "likelihood_pct": 57.9
     },
     {
       "ref": "OBJID_VirtualBot::norna",
@@ -75,14 +75,23 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Norna",
       "overdue_rank": 2,
       "weeks_since_discount": 11,
-      "likelihood_pct": 6.2
+      "likelihood_pct": 15.8
     }
   ],
   "accuracy": {
     "bots": {
       "top_n": 5,
       "scored_weeks": 50,
+      "any_weeks": 50,
+      "any_rate": 1.0,
       "per_position": [
+        0.26,
+        0.54,
+        0.42,
+        0.28,
+        0.22
+      ],
+      "per_position_conditional": [
         0.26,
         0.54,
         0.42,
@@ -101,9 +110,15 @@
     "titans": {
       "top_n": 2,
       "scored_weeks": 48,
+      "any_weeks": 19,
+      "any_rate": 0.3958,
       "per_position": [
         0.2292,
         0.0625
+      ],
+      "per_position_conditional": [
+        0.5789,
+        0.1579
       ],
       "precision": 0.1458,
       "at_least_one": {

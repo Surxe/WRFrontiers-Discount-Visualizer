@@ -94,11 +94,15 @@ def _calibrate(pool_weeknums: dict, period_actuals: list[tuple[int, set]], top_n
     at_least_one_hits = {k: 0 for k in ks}
     scored = 0
 
+    any_weeks = 0  # scored weeks in which the pool had at least one discount
+
     for as_of_week, actual in period_actuals:
         ranking = _rank_pool(pool_weeknums, as_of_week)
         if len(ranking) < top_n:
             continue
         scored += 1
+        if actual:
+            any_weeks += 1
         top = ranking[:top_n]
         for i, bot_id in enumerate(top):
             if bot_id in actual:
@@ -112,10 +116,19 @@ def _calibrate(pool_weeknums: dict, period_actuals: list[tuple[int, set]], top_n
     at_least_one = {
         str(k): round(at_least_one_hits[k] / scored, 4) if scored else 0.0 for k in ks
     }
+    # Conditional on the pool being discounted at all that week: "if a bot from
+    # this pool is discounted, how often is it the one in this slot". This is the
+    # meaningful framing for a sparse pool like titans, which is absent most weeks.
+    per_position_conditional = [
+        round(h / any_weeks, 4) if any_weeks else 0.0 for h in pos_hits
+    ]
     return {
         "top_n": top_n,
         "scored_weeks": scored,
+        "any_weeks": any_weeks,
+        "any_rate": round(any_weeks / scored, 4) if scored else 0.0,
         "per_position": per_position,
+        "per_position_conditional": per_position_conditional,
         "precision": precision,
         "at_least_one": at_least_one,
     }
@@ -223,9 +236,14 @@ def build_predictions():
     pred_label = format_week(pred_week, style="long")
     pred_slug = week_slug(pred_week)
 
-    def build_pool(pool_name, top_n):
+    def build_pool(pool_name, top_n, conditional=False):
+        # conditional=True frames each likelihood as "if a bot from this pool is
+        # discounted, the odds it is this one" -- used for titans, which are
+        # discounted in a minority of weeks so an unconditional odds reads as
+        # misleadingly low.
         pool_weeknums = pools[pool_name]
         calib = _calibrate(pool_weeknums, period_actuals(pool_weeknums), top_n)
+        odds_key = "per_position_conditional" if conditional else "per_position"
         ranking = _rank_pool(pool_weeknums, pred_weeknum)[:top_n]
         listed = []
         for i, bot_id in enumerate(ranking):
@@ -237,7 +255,7 @@ def build_predictions():
                 "icon_path": meta[bot_id]["icon_path"],
                 "overdue_rank": i + 1,
                 "weeks_since_discount": pred_weeknum - last_week,
-                "likelihood_pct": round(calib["per_position"][i] * 100, 1),
+                "likelihood_pct": round(calib[odds_key][i] * 100, 1),
             })
         # The most-overdue bot is not necessarily the most likely (a very long dry
         # spell often means a bot that keeps getting skipped), so present the list
@@ -246,7 +264,7 @@ def build_predictions():
         return listed, calib
 
     bots, bots_calib = build_pool("Mech", BOTS_TOP_N)
-    titans, titans_calib = build_pool("Titan", TITANS_TOP_N)
+    titans, titans_calib = build_pool("Titan", TITANS_TOP_N, conditional=True)
 
     generated_at = datetime.now().astimezone().isoformat()
     predictions = {

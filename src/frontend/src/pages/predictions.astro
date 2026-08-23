@@ -18,9 +18,12 @@ const pct = (v: number | undefined) =>
 
 // Headline accuracy figures (recomputed from full history on every build).
 const botsAtLeastOneTop3 = pct(predictions?.accuracy?.bots?.at_least_one?.['3']);
-const titansAtLeastOne = pct(
-	predictions?.accuracy?.titans?.at_least_one?.[String(titans.length)],
-);
+
+// Titans are discounted in only a minority of weeks, so their odds are framed
+// conditionally ("of the next titan discount, the odds it's this one"). Surface
+// how often no titan is discounted at all.
+const titanAnyRate = predictions?.accuracy?.titans?.any_rate;
+const titanNoneRate = titanAnyRate == null ? null : `${Math.round((1 - titanAnyRate) * 100)}%`;
 ---
 
 <GenericPage
@@ -66,16 +69,17 @@ const titansAtLeastOne = pct(
 				</PredictionList>
 
 				<PredictionList
-					heading="Titans — most likely to be discounted"
+					heading="Titans — odds of being the next titan discounted"
 					bots={titans}
 					baseUrl={baseUrl}
+					oddsLabel="if a titan"
 				>
 					<Fragment slot="disclaimer">
-						{titansAtLeastOne && (
-							<>
-								Historically, there is a <strong>{titansAtLeastOne}</strong>{' '}
-								chance at least one of these {titans.length} is discounted.
-							</>
+						These are the odds of the next titan discount being each titan.
+						{titanNoneRate && (
+							<> Note that no titan is discounted in about{' '}
+							<strong>{titanNoneRate}</strong> of weeks, so the next titan
+							discount may not be next week.</>
 						)}
 					</Fragment>
 				</PredictionList>

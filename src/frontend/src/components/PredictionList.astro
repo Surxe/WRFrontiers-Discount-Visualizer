@@ -1,7 +1,7 @@
 ---
 import { getTexturePath } from '../utils/textures.js';
 
-const { heading, bots = [], baseUrl = '' } = Astro.props;
+const { heading, bots = [], baseUrl = '', oddsLabel = 'likely' } = Astro.props;
 ---
 
 <section class="prediction-list">
@@ -23,7 +23,7 @@ const { heading, bots = [], baseUrl = '' } = Astro.props;
 					</div>
 					<div class="prediction-card__odds">
 						<span class="prediction-card__pct">{bot.likelihood_pct}%</span>
-						<span class="prediction-card__pct-label">likely</span>
+						<span class="prediction-card__pct-label">{oddsLabel}</span>
 					</div>
 				</li>
 			);
