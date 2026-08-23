@@ -35,6 +35,9 @@ const nextWeekHref = nextWeek
 const predictions = fetchPredictions();
 const predictedLabel = predictions?.predictedWeek?.label ?? null;
 const predictedHref = predictedLabel ? `${baseUrl}predictions` : null;
+// On the latest week there is no archived "next" week, so the Next button
+// points at the predicted upcoming week instead of disappearing.
+const nextNavHref = nextWeekHref ?? predictedHref;
 const prevWeek = getPreviousWeek(weeks, currentSlug);
 const prevWeekHref = prevWeek
   ? mainPageWeek && prevWeek.slug === mainPageWeek.slug
@@ -199,7 +202,7 @@ const weekList = weekEntries.map(w => ({
 					<h1>War Robots Frontiers Upgrade Discounts</h1>
 					{dateRange && (
 						<div class="date-nav-wrapper">
-							<WeekNavigation prevWeekHref={prevWeekHref} nextWeekHref={nextWeekHref} />
+							<WeekNavigation prevWeekHref={prevWeekHref} nextWeekHref={nextNavHref} />
 						</div>
 					)}
 				</header>
