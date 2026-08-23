@@ -19,7 +19,7 @@ const nextLabel = nextIsPredicted ? 'Predicted Week' : 'Next Week';
   </div>
   <div class="nav-container next-container">
     {nextWeekHref && (
-      <a href={nextWeekHref} class="nav-arrow next" aria-label={nextIsPredicted ? 'Predicted week' : 'Next week'}>
+      <a href={nextWeekHref} class={`nav-arrow next ${nextIsPredicted ? 'predicted' : ''}`} aria-label={nextIsPredicted ? 'Predicted week' : 'Next week'}>
         <span class="nav-label">{nextLabel}</span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6"></polyline>
@@ -73,5 +73,15 @@ const nextLabel = nextIsPredicted ? 'Predicted Week' : 'Next Week';
     background-color: var(--active-bg, rgba(58, 134, 255, 0.1));
     color: var(--accent-hover, #2b65cc);
     border-bottom: none;
+  }
+
+  /* Predicted-week variant stands out from a real next-week link */
+  .nav-arrow.predicted {
+    color: var(--accent-color, #3a86ff);
+  }
+
+  .nav-arrow.predicted .nav-label {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 </style>
