@@ -1,0 +1,115 @@
+{
+  "generated_at": "2026-08-23T08:30:58.671163-05:00",
+  "method": "weeks-since-discount (most overdue first); position-calibrated odds",
+  "predictedWeek": {
+    "start_year": 2026,
+    "start_month": 9,
+    "start_day": 1,
+    "end_year": 2026,
+    "end_month": 9,
+    "end_day": 8,
+    "slug": "2026-09-01",
+    "label": "September 1 - 8 (2026)"
+  },
+  "bots": [
+    {
+      "ref": "OBJID_VirtualBot::phantom",
+      "id": "phantom",
+      "name": "Phantom",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPhantom",
+      "overdue_rank": 2,
+      "weeks_since_discount": 12,
+      "likelihood_pct": 54.0
+    },
+    {
+      "ref": "OBJID_VirtualBot::garuda",
+      "id": "garuda",
+      "name": "Garuda",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotGaruda",
+      "overdue_rank": 3,
+      "weeks_since_discount": 11,
+      "likelihood_pct": 42.0
+    },
+    {
+      "ref": "OBJID_VirtualBot::decker",
+      "id": "decker",
+      "name": "Decker",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotKernel",
+      "overdue_rank": 4,
+      "weeks_since_discount": 11,
+      "likelihood_pct": 28.0
+    },
+    {
+      "ref": "OBJID_VirtualBot::bulgasari",
+      "id": "bulgasari",
+      "name": "Bulgasari",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
+      "overdue_rank": 1,
+      "weeks_since_discount": 26,
+      "likelihood_pct": 26.0
+    },
+    {
+      "ref": "OBJID_VirtualBot::crix",
+      "id": "crix",
+      "name": "Crix",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotNipper",
+      "overdue_rank": 5,
+      "weeks_since_discount": 10,
+      "likelihood_pct": 22.0
+    }
+  ],
+  "titans": [
+    {
+      "ref": "OBJID_VirtualBot::matriarch",
+      "id": "matriarch",
+      "name": "Matriarch",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
+      "overdue_rank": 1,
+      "weeks_since_discount": 16,
+      "likelihood_pct": 57.9
+    },
+    {
+      "ref": "OBJID_VirtualBot::norna",
+      "id": "norna",
+      "name": "Norna",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Norna",
+      "overdue_rank": 2,
+      "weeks_since_discount": 11,
+      "likelihood_pct": 15.8
+    }
+  ],
+  "accuracy": {
+    "bots": {
+      "top_n": 5,
+      "scored_weeks": 50,
+      "per_position": [
+        0.26,
+        0.54,
+        0.42,
+        0.28,
+        0.22
+      ],
+      "precision": 0.344,
+      "at_least_one": {
+        "1": 0.26,
+        "2": 0.68,
+        "3": 0.76,
+        "4": 0.76,
+        "5": 0.8
+      }
+    },
+    "titans": {
+      "top_n": 2,
+      "scored_weeks": 19,
+      "per_position": [
+        0.5789,
+        0.1579
+      ],
+      "precision": 0.3684,
+      "at_least_one": {
+        "1": 0.5789,
+        "2": 0.7368
+      }
+    }
+  }
+}

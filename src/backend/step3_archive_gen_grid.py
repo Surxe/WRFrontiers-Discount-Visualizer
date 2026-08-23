@@ -16,6 +16,7 @@ from config import (
 from week_dates import format_week, normalize_week, week_slug, week_sort_key
 import grid_generator
 from build_reverse_lookup import build_reverse_lookup
+from build_predictions import build_predictions
 
 def process_discount():
     """
@@ -189,6 +190,9 @@ def process_discount():
     with open(WEEKS_MANIFEST, "w", encoding="utf-8") as f:
         json.dump(manifest_data, f, indent=2, ensure_ascii=False)
     print(f"  -> Updated manifest at {WEEKS_MANIFEST.relative_to(REPO_ROOT)}")
+
+    # Predictions depend on the freshly-written reverse lookup and weeks manifest.
+    build_predictions()
 
     return archive_data
 

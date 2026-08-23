@@ -1,0 +1,145 @@
+---
+import { getTexturePath } from '../utils/textures.js';
+
+const { heading, bots = [], baseUrl = '' } = Astro.props;
+---
+
+<section class="prediction-list">
+	<h2 class="prediction-list__heading">{heading}</h2>
+
+	<ol class="prediction-cards">
+		{bots.map((bot: any) => {
+			const iconSrc = getTexturePath(bot.icon_path, baseUrl);
+			return (
+				<li class="prediction-card">
+					<div class="prediction-card__icon">
+						{iconSrc && <img src={iconSrc} alt={bot.name} loading="lazy" />}
+					</div>
+					<div class="prediction-card__body">
+						<span class="prediction-card__name">{bot.name}</span>
+						<span class="prediction-card__meta">
+							{bot.weeks_since_discount} weeks since last discount
+						</span>
+					</div>
+					<div class="prediction-card__odds">
+						<span class="prediction-card__pct">{bot.likelihood_pct}%</span>
+						<span class="prediction-card__pct-label">likely</span>
+					</div>
+				</li>
+			);
+		})}
+	</ol>
+
+	<p class="prediction-list__disclaimer">
+		<slot name="disclaimer" />
+	</p>
+</section>
+
+<style>
+	.prediction-list__heading {
+		font-size: 1.1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		color: var(--text-muted, #8b92a5);
+		margin-bottom: 1rem;
+		text-align: center;
+	}
+
+	.prediction-cards {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		counter-reset: rank;
+	}
+
+	.prediction-card {
+		counter-increment: rank;
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+		padding: 0.7rem 1rem;
+		background: rgba(22, 25, 32, 0.75);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 12px;
+	}
+
+	.prediction-card::before {
+		content: counter(rank);
+		flex-shrink: 0;
+		width: 1.4rem;
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--text-muted, #8b92a5);
+		text-align: center;
+	}
+
+	.prediction-card__icon {
+		flex-shrink: 0;
+		width: 52px;
+		height: 52px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.prediction-card__icon img {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+	}
+
+	.prediction-card__body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		min-width: 0;
+		flex: 1;
+	}
+
+	.prediction-card__name {
+		font-weight: 600;
+		font-size: 1rem;
+		color: var(--text-color, #e0e0e0);
+	}
+
+	.prediction-card__meta {
+		font-size: 0.78rem;
+		color: var(--text-muted, #8b92a5);
+	}
+
+	.prediction-card__odds {
+		flex-shrink: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		line-height: 1.1;
+	}
+
+	.prediction-card__pct {
+		font-size: 1.25rem;
+		font-weight: 700;
+		color: var(--accent-color, #3a86ff);
+	}
+
+	.prediction-card__pct-label {
+		font-size: 0.68rem;
+		text-transform: uppercase;
+		letter-spacing: 0.4px;
+		color: var(--text-muted, #8b92a5);
+	}
+
+	.prediction-list__disclaimer {
+		margin-top: 0.9rem;
+		font-size: 0.8rem;
+		color: var(--text-muted, #8b92a5);
+		text-align: center;
+		line-height: 1.4;
+	}
+
+	.prediction-list__disclaimer:empty {
+		display: none;
+	}
+</style>
