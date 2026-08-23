@@ -1,7 +1,7 @@
 [
   {
     "predicted_week": "2026-09-01",
-    "generated_at": "2026-08-23T10:49:43.282030-05:00",
+    "generated_at": "2026-08-23T13:22:35.322268-05:00",
     "bots_precision": 0.344,
     "bots_at_least_one_top3": 0.76,
     "bots_scored_weeks": 50,

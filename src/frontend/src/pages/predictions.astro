@@ -24,6 +24,12 @@ const botsAtLeastOneTop3 = pct(predictions?.accuracy?.bots?.at_least_one?.['3'])
 // how often no titan is discounted at all.
 const titanAnyRate = predictions?.accuracy?.titans?.any_rate;
 const titanNoneRate = titanAnyRate == null ? null : `${Math.round((1 - titanAnyRate) * 100)}%`;
+
+// Bots are ranked by how long they have gone without a discount, but the single
+// most-overdue bot is historically LESS likely to be next, so the % column is
+// not in list order. This explains that to a reader.
+const botOddsTooltip =
+	'Bots are ranked by how long they have waited. The longest-overdue bot is historically less likely to be discounted than a bot on its normal cadence, so these percentages are not in list order.';
 ---
 
 <GenericPage
@@ -49,6 +55,10 @@ const titanNoneRate = titanAnyRate == null ? null : `${Math.round((1 - titanAnyR
 				Because each week's discounts are revealed up to a week early, this
 				may be up to two weeks away.
 			</p>
+			<p class="estimate-note">
+				These are statistical estimates based on past discount patterns — not
+				official announcements.
+			</p>
 		</header>
 
 		{predictions && (
@@ -57,6 +67,7 @@ const titanNoneRate = titanAnyRate == null ? null : `${Math.round((1 - titanAnyR
 					heading="Robots — most likely to be discounted"
 					bots={bots}
 					baseUrl={baseUrl}
+					oddsTooltip={botOddsTooltip}
 				>
 					<Fragment slot="disclaimer">
 						{botsAtLeastOneTop3 && (
@@ -121,6 +132,15 @@ const titanNoneRate = titanAnyRate == null ? null : `${Math.round((1 - titanAnyR
 		color: var(--text-muted, #8b92a5);
 		max-width: 560px;
 		margin: 0.5rem auto 0;
+		line-height: 1.4;
+	}
+
+	.estimate-note {
+		font-size: 0.8rem;
+		font-style: italic;
+		color: var(--text-muted, #8b92a5);
+		max-width: 560px;
+		margin: 0.6rem auto 0;
 		line-height: 1.4;
 	}
 

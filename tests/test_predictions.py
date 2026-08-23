@@ -97,6 +97,27 @@ class TestGeneratedPredictions(unittest.TestCase):
             pcts = [b['likelihood_pct'] for b in self.data[key]]
             self.assertEqual(pcts, sorted(pcts, reverse=True))
 
+    def test_regular_bots_carry_gear_and_avg_titans_do_not(self):
+        for bot in self.data['bots']:
+            self.assertIn('associated', bot)
+            self.assertIsInstance(bot['associated'], list)
+            self.assertIn('items_anchor', bot)
+            self.assertTrue(bot['items_anchor'].startswith('bot-'))
+            self.assertIn('avg_interval', bot)
+        # Titans are display-only for gear (no factory-weapon bundling shown).
+        for titan in self.data['titans']:
+            self.assertEqual(titan.get('associated', []), [])
+
+    def test_gear_items_are_well_formed(self):
+        for bot in self.data['bots']:
+            for gear in bot['associated']:
+                self.assertIn('name', gear)
+                self.assertIn('group', gear)
+                self.assertIn(
+                    gear['group'],
+                    {'light-weapon', 'heavy-weapon', 'supply-gear', 'cycle-gear'},
+                )
+
     def test_accuracy_precision_matches_positions(self):
         for pool in ('bots', 'titans'):
             acc = self.data['accuracy'][pool]

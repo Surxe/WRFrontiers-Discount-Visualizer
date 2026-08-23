@@ -358,7 +358,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 					<tbody>
 						{mechListWithFormattedWeeks.length > 0 ? (
 							mechListWithFormattedWeeks.map(vbot => (
-								<tr>
+								<tr id={`bot-${vbot.id}`} class="vbot-row">
 									<td>
 										<div class="name-with-icon-wrapper">
 											<span class="name-with-icon">
@@ -452,7 +452,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 					<tbody>
 						{titanListWithFormattedWeeks.length > 0 ? (
 							titanListWithFormattedWeeks.map(vbot => (
-								<tr>
+								<tr id={`bot-${vbot.id}`} class="vbot-row">
 									<td>
 										<div class="name-with-icon-wrapper">
 											<span class="name-with-icon">
@@ -643,6 +643,21 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 
 <style>
 	@import '../styles/tooltips.css';
+
+	/* Deep-link target (e.g. from the Predictions page): offset under any fixed
+	   bars and briefly highlight the row so it is easy to spot. */
+	.vbot-row {
+		scroll-margin-top: 90px;
+	}
+
+	.vbot-row:target {
+		animation: vbot-row-flash 2s ease-out 1;
+	}
+
+	@keyframes vbot-row-flash {
+		0%, 40% { background: rgba(58, 134, 255, 0.22); }
+		100% { background: transparent; }
+	}
 
 	:root {
 		--accent-color: #3a86ff;

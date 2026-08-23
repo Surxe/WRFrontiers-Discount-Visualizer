@@ -31,8 +31,15 @@ from config import (
     PREDICTIONS_OUTPUT,
     ACCURACY_HISTORY_OUTPUT,
     VIRTUAL_BOT_JSON,
+    MODULE_JSON,
+    CHARACTER_PRESET_JSON,
+    STANDALONE_MODULE_GROUPS,
 )
 from week_dates import format_week, normalize_week, week_slug
+
+# Discountable module groups that ride along with a regular bot's factory
+# loadout. Titan weapons are excluded (they never co-discount with a mech).
+GEAR_GROUPS = {g for g in STANDALONE_MODULE_GROUPS if g != "titan-weapon"}
 
 # How many bots to surface per pool on the page.
 BOTS_TOP_N = 5
@@ -134,6 +141,53 @@ def _calibrate(pool_weeknums: dict, period_actuals: list[tuple[int, set]], top_n
     }
 
 
+def _resolve_gear(bot_id, vbot_data, modules_data, preset_data):
+    """Weapons/gear bundled with a regular bot's factory preset.
+
+    This is display context, not a prediction: when a bot is discounted its
+    factory loadout's discountable modules (weapons + gear, titan weapons
+    excluded) are discounted alongside it. Deduped, in preset order.
+    """
+    vb = vbot_data.get(bot_id, {})
+    preset_refs = vb.get("factory_preset_refs", [])
+    if isinstance(preset_refs, str):
+        preset_refs = [preset_refs]
+    if not preset_refs:
+        return []
+    # Prefer the flagged factory preset; fall back to the first listed.
+    chosen = None
+    for ref in preset_refs:
+        pid = ref.split("::", 1)[-1]
+        preset = preset_data.get(pid)
+        if preset and preset.get("is_factory_preset"):
+            chosen = preset
+            break
+    if chosen is None:
+        chosen = preset_data.get(preset_refs[0].split("::", 1)[-1], {})
+
+    gear = []
+    seen = set()
+    for module_entry in chosen.get("modules", []):
+        mid = module_entry.get("module_ref", "").split("::", 1)[-1]
+        if not mid or mid in seen:
+            continue
+        seen.add(mid)
+        m = modules_data.get(mid)
+        if not m:
+            continue
+        group = (m.get("module_group_ref") or "").split("::", 1)[-1]
+        if group not in GEAR_GROUPS:
+            continue
+        gear.append({
+            "id": mid,
+            "name": (m.get("name") or {}).get("en", mid),
+            "icon_path": m.get("inventory_icon_path"),
+            "rarity": (m.get("module_rarity_ref") or "").split("::", 1)[-1] or None,
+            "group": group,
+        })
+    return gear
+
+
 def _predicted_week(manifest: dict) -> dict:
     """Date range of the next discount period, from the most recent one.
 
@@ -175,12 +229,16 @@ def build_predictions():
     with open(WEEKS_MANIFEST, encoding="utf-8") as f:
         manifest = json.load(f)
 
-    vbot_data = {}
-    if VIRTUAL_BOT_JSON.exists():
-        with open(VIRTUAL_BOT_JSON, encoding="utf-8") as f:
-            vbot_data = json.load(f)
-    else:
-        print(f"  [WARN] VirtualBot.json not found at {VIRTUAL_BOT_JSON}")
+    def _load(path, label):
+        if path.exists():
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+        print(f"  [WARN] {label} not found at {path}")
+        return {}
+
+    vbot_data = _load(VIRTUAL_BOT_JSON, "VirtualBot.json")
+    modules_data = _load(MODULE_JSON, "Module.json")
+    preset_data = _load(CHARACTER_PRESET_JSON, "CharacterPreset.json")
 
     vbots = discount_data.get("virtualBots", {})
 
@@ -210,6 +268,8 @@ def build_predictions():
             "name": (vb.get("name") or {}).get("en", bot_id),
             "icon_path": vb.get("icon_path"),
             "char_type": char_type,
+            "avg_interval": info.get("avg_weeks_between_discounts"),
+            "items_anchor": f"bot-{bot_id}",
         }
 
     # Every historical discount week (both pools). Scoring must cover ALL of
@@ -236,11 +296,12 @@ def build_predictions():
     pred_label = format_week(pred_week, style="long")
     pred_slug = week_slug(pred_week)
 
-    def build_pool(pool_name, top_n, conditional=False):
+    def build_pool(pool_name, top_n, conditional=False, include_gear=False):
         # conditional=True frames each likelihood as "if a bot from this pool is
         # discounted, the odds it is this one" -- used for titans, which are
         # discounted in a minority of weeks so an unconditional odds reads as
-        # misleadingly low.
+        # misleadingly low. include_gear attaches each bot's factory loadout
+        # (regular bots only).
         pool_weeknums = pools[pool_name]
         calib = _calibrate(pool_weeknums, period_actuals(pool_weeknums), top_n)
         odds_key = "per_position_conditional" if conditional else "per_position"
@@ -253,9 +314,15 @@ def build_predictions():
                 "id": bot_id,
                 "name": meta[bot_id]["name"],
                 "icon_path": meta[bot_id]["icon_path"],
+                "items_anchor": meta[bot_id]["items_anchor"],
                 "overdue_rank": i + 1,
                 "weeks_since_discount": pred_weeknum - last_week,
+                "avg_interval": meta[bot_id]["avg_interval"],
                 "likelihood_pct": round(calib[odds_key][i] * 100, 1),
+                "associated": (
+                    _resolve_gear(bot_id, vbot_data, modules_data, preset_data)
+                    if include_gear else []
+                ),
             })
         # The most-overdue bot is not necessarily the most likely (a very long dry
         # spell often means a bot that keeps getting skipped), so present the list
@@ -263,7 +330,7 @@ def build_predictions():
         listed.sort(key=lambda b: (b["likelihood_pct"], b["weeks_since_discount"]), reverse=True)
         return listed, calib
 
-    bots, bots_calib = build_pool("Mech", BOTS_TOP_N)
+    bots, bots_calib = build_pool("Mech", BOTS_TOP_N, include_gear=True)
     titans, titans_calib = build_pool("Titan", TITANS_TOP_N, conditional=True)
 
     generated_at = datetime.now().astimezone().isoformat()

@@ -1,0 +1,141 @@
+---
+import { getTexturePath } from '../utils/textures.js';
+import InfoTooltip from './InfoTooltip.astro';
+import AssociatedGear from './AssociatedGear.astro';
+
+const { bot, baseUrl = '', oddsLabel = 'likely', oddsTooltip = null, rank = null } = Astro.props;
+
+const iconSrc = getTexturePath(bot.icon_path, baseUrl);
+const itemsHref = bot.items_anchor ? `${baseUrl}items#${bot.items_anchor}` : `${baseUrl}items`;
+const avgText =
+	bot.avg_interval == null ? 'not enough history' : `avg ${bot.avg_interval} wks`;
+---
+
+<li class="prediction-card">
+	<div class="prediction-card__main">
+		{rank != null && <span class="prediction-card__rank" aria-hidden="true">{rank}</span>}
+		<a class="prediction-card__identity" href={itemsHref}>
+			<span class="prediction-card__icon">
+				{iconSrc && <img src={iconSrc} alt={bot.name} loading="lazy" />}
+			</span>
+			<span class="prediction-card__body">
+				<span class="prediction-card__name">{bot.name}</span>
+				<span class="prediction-card__meta">
+					{bot.weeks_since_discount} wks since last discount &middot; {avgText}
+				</span>
+			</span>
+		</a>
+		<div class="prediction-card__odds">
+			<span class="prediction-card__pct">{bot.likelihood_pct}%</span>
+			<span class="prediction-card__pct-label">
+				{oddsLabel}
+				{oddsTooltip && <InfoTooltip text={oddsTooltip} label="Why this percentage" />}
+			</span>
+		</div>
+	</div>
+
+	<AssociatedGear items={bot.associated} baseUrl={baseUrl} />
+</li>
+
+<style>
+	.prediction-card {
+		display: flex;
+		flex-direction: column;
+		padding: 0.7rem 1rem;
+		background: rgba(22, 25, 32, 0.75);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 12px;
+	}
+
+	.prediction-card__main {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+	}
+
+	.prediction-card__rank {
+		flex-shrink: 0;
+		width: 1.4rem;
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--text-muted, #8b92a5);
+		text-align: center;
+	}
+
+	.prediction-card__identity {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+		flex: 1;
+		min-width: 0;
+		text-decoration: none;
+		color: inherit;
+		border-bottom: none;
+	}
+
+	.prediction-card__identity:hover {
+		border-bottom: none;
+	}
+
+	.prediction-card__identity:hover .prediction-card__name {
+		color: var(--accent-color, #3a86ff);
+	}
+
+	.prediction-card__icon {
+		flex-shrink: 0;
+		width: 52px;
+		height: 52px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.prediction-card__icon img {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+	}
+
+	.prediction-card__body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		min-width: 0;
+	}
+
+	.prediction-card__name {
+		font-weight: 600;
+		font-size: 1rem;
+		color: var(--text-color, #e0e0e0);
+		transition: color 0.15s ease;
+	}
+
+	.prediction-card__meta {
+		font-size: 0.78rem;
+		color: var(--text-muted, #8b92a5);
+	}
+
+	.prediction-card__odds {
+		flex-shrink: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		line-height: 1.1;
+	}
+
+	.prediction-card__pct {
+		font-size: 1.25rem;
+		font-weight: 700;
+		color: var(--accent-color, #3a86ff);
+	}
+
+	.prediction-card__pct-label {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+		font-size: 0.68rem;
+		text-transform: uppercase;
+		letter-spacing: 0.4px;
+		color: var(--text-muted, #8b92a5);
+	}
+</style>
