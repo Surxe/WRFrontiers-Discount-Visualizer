@@ -56,7 +56,9 @@ const mainPageWeek = weeks && weeks.length > 0 ? weeks[0] : null;
                   let isActive = false;
                   if (currentSlug) {
                     isActive = week.slug === currentSlug;
-                  } else {
+                  } else if (!predictedActive) {
+                    // On the predictions page the predicted entry is the active
+                    // one, so don't also default-highlight the most-recent week.
                     isActive = mainPageWeek ? week.slug === mainPageWeek.slug : false;
                   }
                   const isMainPageWeek = mainPageWeek && week.slug === mainPageWeek.slug;

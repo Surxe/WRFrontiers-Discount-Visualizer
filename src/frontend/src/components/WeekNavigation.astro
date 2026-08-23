@@ -1,5 +1,6 @@
 ---
-const { prevWeekHref, nextWeekHref } = Astro.props;
+const { prevWeekHref, nextWeekHref, nextIsPredicted } = Astro.props;
+const nextLabel = nextIsPredicted ? 'Predicted Week' : 'Next Week';
 ---
 
 <div class="week-navigation">
@@ -18,8 +19,8 @@ const { prevWeekHref, nextWeekHref } = Astro.props;
   </div>
   <div class="nav-container next-container">
     {nextWeekHref && (
-      <a href={nextWeekHref} class="nav-arrow next" aria-label="Next week">
-        <span class="nav-label">Next Week</span>
+      <a href={nextWeekHref} class="nav-arrow next" aria-label={nextIsPredicted ? 'Predicted week' : 'Next week'}>
+        <span class="nav-label">{nextLabel}</span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
