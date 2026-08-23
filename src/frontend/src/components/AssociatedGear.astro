@@ -1,0 +1,68 @@
+---
+import { getTexturePath } from '../utils/textures.js';
+
+// The weapons/gear bundled with a bot's factory loadout, discounted alongside
+// it. Display-only context, not part of the prediction.
+const { items = [], baseUrl = '' } = Astro.props;
+---
+
+{items.length > 0 && (
+	<div class="associated-gear">
+		<span class="associated-gear__label">Weapons and Gear</span>
+		<ul class="associated-gear__list">
+			{items.map((item: any) => {
+				const iconSrc = getTexturePath(item.icon_path, baseUrl);
+				return (
+					<li class="associated-gear__item" title={item.name}>
+						{iconSrc && <img src={iconSrc} alt="" loading="lazy" />}
+						<span class="associated-gear__name">{item.name}</span>
+					</li>
+				);
+			})}
+		</ul>
+	</div>
+)}
+
+<style>
+	.associated-gear {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.4rem 0.6rem;
+		margin-top: 0.6rem;
+		padding-top: 0.6rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.06);
+	}
+
+	.associated-gear__label {
+		font-size: 0.66rem;
+		text-transform: uppercase;
+		letter-spacing: 0.4px;
+		color: var(--text-muted, #8b92a5);
+		flex-shrink: 0;
+	}
+
+	.associated-gear__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.35rem 0.75rem;
+	}
+
+	.associated-gear__item {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		font-size: 0.78rem;
+		color: var(--text-color, #e0e0e0);
+	}
+
+	.associated-gear__item img {
+		width: 22px;
+		height: 22px;
+		object-fit: contain;
+		flex-shrink: 0;
+	}
+</style>

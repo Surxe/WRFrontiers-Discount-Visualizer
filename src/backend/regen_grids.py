@@ -95,6 +95,12 @@ def run():
         json.dump({"weeks": manifest_entries}, f, indent=2, ensure_ascii=False)
     print(f"  -> Rebuilt weeks.json manifest")
 
+    # Keep derived data (reverse lookup + predictions) in sync after a full regen.
+    from build_reverse_lookup import build_reverse_lookup
+    from build_predictions import build_predictions
+    build_reverse_lookup(ARCHIVE_DIR)
+    build_predictions()
+
     print()
     print(f"Done. Regenerated {len(discount_files)} grid(s).")
 

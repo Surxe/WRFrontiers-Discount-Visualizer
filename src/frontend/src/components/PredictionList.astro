@@ -1,0 +1,63 @@
+---
+import PredictionCard from './PredictionCard.astro';
+
+const {
+	heading,
+	bots = [],
+	baseUrl = '',
+	oddsLabel = 'likely',
+	oddsTooltip = null,
+} = Astro.props;
+---
+
+<section class="prediction-list">
+	<h2 class="prediction-list__heading">{heading}</h2>
+
+	<ol class="prediction-cards">
+		{bots.map((bot: any, i: number) => (
+			<PredictionCard
+				bot={bot}
+				baseUrl={baseUrl}
+				oddsLabel={oddsLabel}
+				oddsTooltip={oddsTooltip}
+				rank={i + 1}
+			/>
+		))}
+	</ol>
+
+	<p class="prediction-list__disclaimer">
+		<slot name="disclaimer" />
+	</p>
+</section>
+
+<style>
+	.prediction-list__heading {
+		font-size: 1.1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		color: var(--text-muted, #8b92a5);
+		margin-bottom: 1rem;
+		text-align: center;
+	}
+
+	.prediction-cards {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+
+	.prediction-list__disclaimer {
+		margin-top: 0.9rem;
+		font-size: 0.8rem;
+		color: var(--text-muted, #8b92a5);
+		text-align: center;
+		line-height: 1.4;
+	}
+
+	.prediction-list__disclaimer:empty {
+		display: none;
+	}
+</style>

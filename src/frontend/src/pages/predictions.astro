@@ -1,0 +1,157 @@
+---
+import GenericPage from '../components/GenericPage.astro';
+import NavBar from '../components/NavBar.astro';
+import MobileTopBar from '../components/MobileTopBar.astro';
+import MobileBottomNav from '../components/MobileBottomNav.astro';
+import PredictionList from '../components/PredictionList.astro';
+import { fetchPredictions } from '../utils/predictions.js';
+
+const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
+const predictions = fetchPredictions();
+
+const dateRange = predictions?.predictedWeek?.label ?? null;
+const bots = predictions?.bots ?? [];
+const titans = predictions?.titans ?? [];
+
+const pct = (v: number | undefined) =>
+	v == null ? null : `${Math.round(v * 100)}%`;
+
+// Headline accuracy figures (recomputed from full history on every build).
+const botsAtLeastOneTop3 = pct(predictions?.accuracy?.bots?.at_least_one?.['3']);
+
+// Titans are discounted in only a minority of weeks, so their odds are framed
+// conditionally ("of the next titan discount, the odds it's this one"). Surface
+// how often no titan is discounted at all.
+const titanPresence = predictions?.accuracy?.titans?.presence_rate;
+const titanNoneRate = titanPresence == null ? null : `${Math.round((1 - titanPresence) * 100)}%`;
+
+// The list is ordered by likelihood, so the "weeks since" values are not in
+// order -- a much longer wait does not mean a higher chance. Explain gently.
+const botOddsTooltip =
+	'Ordered by likelihood, not by how long each bot has waited. A bot that is very overdue is often one that rarely gets discounted, so a longer wait does not always mean a higher chance.';
+---
+
+<GenericPage
+	title="Predictions - WRF Discounts"
+	description="Predicted upcoming Mech and Titan discounts, with historical accuracy."
+	baseUrl={baseUrl}
+>
+	<MobileTopBar showSidebarToggle={false} showCalcToggle={false} title="WRF Predictions" />
+	<NavBar baseUrl={baseUrl} currentPage="predictions" />
+
+	<div class="predictions-page">
+		<header class="predictions-header">
+			<h1>Discount Predictions</h1>
+			{dateRange ? (
+				<p class="predicted-range">
+					Predicted discounts for <strong>{dateRange}</strong>
+				</p>
+			) : (
+				<p class="predicted-range">Predictions are not available yet.</p>
+			)}
+			<p class="predicted-note">
+				This is the next discount period after the most recently published one.
+				Because each week's discounts are revealed up to a week early, this
+				may be up to two weeks away.
+			</p>
+			<p class="estimate-note">
+				These are statistical estimates based on past discount patterns — not
+				official announcements.
+			</p>
+		</header>
+
+		{predictions && (
+			<div class="prediction-sections">
+				<PredictionList
+					heading="Robots — most likely to be discounted"
+					bots={bots}
+					baseUrl={baseUrl}
+					oddsTooltip={botOddsTooltip}
+				>
+					<Fragment slot="disclaimer">
+						{botsAtLeastOneTop3 && (
+							<>
+								Historically, there is a <strong>{botsAtLeastOneTop3}</strong>{' '}
+								chance at least one of the top 3 is discounted.
+							</>
+						)}
+					</Fragment>
+				</PredictionList>
+
+				<PredictionList
+					heading="Titans — odds of being the next titan discounted"
+					bots={titans}
+					baseUrl={baseUrl}
+					oddsLabel="if a titan"
+				>
+					<Fragment slot="disclaimer">
+						These are the odds of the next titan discount being each titan.
+						{titanNoneRate && (
+							<> Note that no titan is discounted in about{' '}
+							<strong>{titanNoneRate}</strong> of weeks, so the next titan
+							discount may not be next week.</>
+						)}
+					</Fragment>
+				</PredictionList>
+			</div>
+		)}
+	</div>
+
+	<MobileBottomNav baseUrl={baseUrl} currentPage="predictions" slot="bottom-nav" />
+</GenericPage>
+
+<style>
+	.predictions-page {
+		max-width: 900px;
+		margin: 0 auto;
+		padding: 5.5rem 1rem 5rem;
+	}
+
+	.predictions-header {
+		text-align: center;
+		margin-bottom: 2rem;
+	}
+
+	.predictions-header h1 {
+		margin-bottom: 0.5rem;
+	}
+
+	.predicted-range {
+		font-size: 1.15rem;
+		color: var(--text-color, #e0e0e0);
+		margin: 0.25rem 0;
+	}
+
+	.predicted-range strong {
+		color: var(--accent-color, #3a86ff);
+	}
+
+	.predicted-note {
+		font-size: 0.85rem;
+		color: var(--text-muted, #8b92a5);
+		max-width: 560px;
+		margin: 0.5rem auto 0;
+		line-height: 1.4;
+	}
+
+	.estimate-note {
+		font-size: 0.8rem;
+		font-style: italic;
+		color: var(--text-muted, #8b92a5);
+		max-width: 560px;
+		margin: 0.6rem auto 0;
+		line-height: 1.4;
+	}
+
+	.prediction-sections {
+		display: flex;
+		flex-direction: column;
+		gap: 2.5rem;
+	}
+
+	@media (max-width: 768px) {
+		.predictions-page {
+			padding-top: 4.5rem;
+		}
+	}
+</style>
