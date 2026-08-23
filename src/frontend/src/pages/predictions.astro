@@ -17,9 +17,7 @@ const pct = (v: number | undefined) =>
 	v == null ? null : `${Math.round(v * 100)}%`;
 
 // Headline accuracy figures (recomputed from full history on every build).
-const botsPrecision = pct(predictions?.accuracy?.bots?.precision);
 const botsAtLeastOneTop3 = pct(predictions?.accuracy?.bots?.at_least_one?.['3']);
-const titansPrecision = pct(predictions?.accuracy?.titans?.precision);
 const titansAtLeastOne = pct(
 	predictions?.accuracy?.titans?.at_least_one?.[String(titans.length)],
 );
@@ -58,14 +56,10 @@ const titansAtLeastOne = pct(
 					baseUrl={baseUrl}
 				>
 					<Fragment slot="disclaimer">
-						{botsPrecision && (
+						{botsAtLeastOneTop3 && (
 							<>
-								These predictions are historically only{' '}
-								<strong>{botsPrecision}</strong> accurate per listed slot.
-								{botsAtLeastOneTop3 && (
-									<> There is a <strong>{botsAtLeastOneTop3}</strong> chance at
-									least one of the top 3 is discounted.</>
-								)}
+								Historically, there is a <strong>{botsAtLeastOneTop3}</strong>{' '}
+								chance at least one of the top 3 below is discounted.
 							</>
 						)}
 					</Fragment>
@@ -77,14 +71,10 @@ const titansAtLeastOne = pct(
 					baseUrl={baseUrl}
 				>
 					<Fragment slot="disclaimer">
-						{titansPrecision && (
+						{titansAtLeastOne && (
 							<>
-								These predictions are historically only{' '}
-								<strong>{titansPrecision}</strong> accurate per listed slot.
-								{titansAtLeastOne && (
-									<> There is a <strong>{titansAtLeastOne}</strong> chance at
-									least one of these {titans.length} is discounted.</>
-								)}
+								Historically, there is a <strong>{titansAtLeastOne}</strong>{' '}
+								chance at least one of these {titans.length} is discounted.
 							</>
 						)}
 					</Fragment>
