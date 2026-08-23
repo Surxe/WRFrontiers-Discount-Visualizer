@@ -218,6 +218,11 @@
   color: var(--text-color, #e0e0e0);
 }
 
+.week-link--predicted.active {
+  color: var(--accent-color, #3a86ff);
+  font-style: italic;
+}
+
 .week-link--predicted .week-link__label {
   white-space: nowrap;
 }

@@ -4,12 +4,16 @@ import NavBar from '../components/NavBar.astro';
 import MobileTopBar from '../components/MobileTopBar.astro';
 import MobileBottomNav from '../components/MobileBottomNav.astro';
 import PredictionList from '../components/PredictionList.astro';
+import AllWeeksSidebar from '../components/AllWeeksSidebar.astro';
 import { fetchPredictions } from '../utils/predictions.js';
+import { fetchWeeksManifest } from '../utils/weeksManifest.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const predictions = fetchPredictions();
+const weeks = fetchWeeksManifest();
 
 const dateRange = predictions?.predictedWeek?.label ?? null;
+const predictedHref = dateRange ? `${baseUrl}predictions` : null;
 const bots = predictions?.bots ?? [];
 const titans = predictions?.titans ?? [];
 
@@ -34,14 +38,20 @@ const botOddsTooltip =
 // Copied to the clipboard by the "Copy to share" button below.
 const SITE_ORIGIN = 'https://surxe.github.io';
 const shareUrl = `${SITE_ORIGIN}${baseUrl}predictions`.replace(/([^:])\/\/+/g, '$1/');
-const topBotNames = bots.slice(0, 3).map((b) => b?.name).filter(Boolean);
+// likelihood_pct is stored 0-100.
+const withPct = (b: any) =>
+	b?.likelihood_pct == null ? b?.name : `${b.name} (${Math.round(b.likelihood_pct)}%)`;
+const topBots = bots.slice(0, 3).filter((b) => b?.name);
 const topTitanName = titans?.[0]?.name ?? null;
 const shareLines = [
 	dateRange ? `WRF discount predictions for ${dateRange}:` : 'WRF discount predictions:',
 ];
-if (topBotNames.length) shareLines.push(`Robots: ${topBotNames.join(', ')}`);
-if (topTitanName) shareLines.push(`Titan: ${topTitanName}`);
-shareLines.push(shareUrl);
+if (topBots.length) shareLines.push(`Robots: ${topBots.map(withPct).join(', ')}`);
+// Titans aren't discounted every week, so this is framed as the next titan
+// discount rather than tied to a specific week.
+if (topTitanName) shareLines.push(`Next titan: ${topTitanName}`);
+// Wrapped in <> so chat clients (Discord) don't expand a link embed.
+shareLines.push(`<${shareUrl}>`);
 const shareText = shareLines.join('\n');
 ---
 
@@ -50,7 +60,15 @@ const shareText = shareLines.join('\n');
 	description="Predicted upcoming Mech and Titan discounts, with historical accuracy."
 	baseUrl={baseUrl}
 >
-	<MobileTopBar showSidebarToggle={false} showCalcToggle={false} title="WRF Predictions" />
+	<AllWeeksSidebar
+		weeks={weeks}
+		currentSlug={null}
+		baseUrl={baseUrl}
+		predictedLabel={dateRange}
+		predictedHref={predictedHref}
+		predictedActive={true}
+	>
+	<MobileTopBar showSidebarToggle={true} showCalcToggle={false} title="WRF Predictions" />
 	<NavBar baseUrl={baseUrl} currentPage="predictions" />
 
 	<div class="predictions-page">
@@ -119,6 +137,7 @@ const shareText = shareLines.join('\n');
 			</div>
 		)}
 	</div>
+	</AllWeeksSidebar>
 
 	<MobileBottomNav baseUrl={baseUrl} currentPage="predictions" slot="bottom-nav" />
 </GenericPage>
