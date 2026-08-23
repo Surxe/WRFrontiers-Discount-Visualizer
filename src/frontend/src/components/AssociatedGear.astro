@@ -8,7 +8,7 @@ const { items = [], baseUrl = '' } = Astro.props;
 
 {items.length > 0 && (
 	<div class="associated-gear">
-		<span class="associated-gear__label">Bundled gear</span>
+		<span class="associated-gear__label">Weapons and Gear</span>
 		<ul class="associated-gear__list">
 			{items.map((item: any) => {
 				const iconSrc = getTexturePath(item.icon_path, baseUrl);

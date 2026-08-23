@@ -25,11 +25,10 @@ const botsAtLeastOneTop3 = pct(predictions?.accuracy?.bots?.at_least_one?.['3'])
 const titanPresence = predictions?.accuracy?.titans?.presence_rate;
 const titanNoneRate = titanPresence == null ? null : `${Math.round((1 - titanPresence) * 100)}%`;
 
-// Bots are ranked by how long they have gone without a discount, but the single
-// most-overdue bot is historically LESS likely to be next, so the % column is
-// not in list order. This explains that to a reader.
+// The list is ordered by likelihood, so the "weeks since" values are not in
+// order -- a much longer wait does not mean a higher chance. Explain gently.
 const botOddsTooltip =
-	'Bots are ranked by how long they have waited. The longest-overdue bot is historically less likely to be discounted than a bot on its normal cadence, so these percentages are not in list order.';
+	'Ordered by likelihood, not by how long each bot has waited. A bot that is very overdue is often one that rarely gets discounted, so a longer wait does not always mean a higher chance.';
 ---
 
 <GenericPage

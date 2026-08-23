@@ -45,6 +45,10 @@ const { text, label = 'More information' } = Astro.props;
 		font-weight: 500;
 		line-height: 1.35;
 		text-align: left;
+		/* The tooltip is often nested inside uppercase labels; keep its own copy
+		   in normal sentence case so it does not read as shouting. */
+		text-transform: none;
+		letter-spacing: normal;
 		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
 		opacity: 0;
 		visibility: hidden;
