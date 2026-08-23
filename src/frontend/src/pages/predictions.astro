@@ -4,12 +4,16 @@ import NavBar from '../components/NavBar.astro';
 import MobileTopBar from '../components/MobileTopBar.astro';
 import MobileBottomNav from '../components/MobileBottomNav.astro';
 import PredictionList from '../components/PredictionList.astro';
+import AllWeeksSidebar from '../components/AllWeeksSidebar.astro';
 import { fetchPredictions } from '../utils/predictions.js';
+import { fetchWeeksManifest } from '../utils/weeksManifest.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const predictions = fetchPredictions();
+const weeks = fetchWeeksManifest();
 
 const dateRange = predictions?.predictedWeek?.label ?? null;
+const predictedHref = dateRange ? `${baseUrl}predictions` : null;
 const bots = predictions?.bots ?? [];
 const titans = predictions?.titans ?? [];
 
@@ -29,6 +33,26 @@ const titanNoneRate = titanPresence == null ? null : `${Math.round((1 - titanPre
 // order -- a much longer wait does not mean a higher chance. Explain gently.
 const botOddsTooltip =
 	'Ordered by likelihood, not by how long each bot has waited. A bot that is very overdue is often one that rarely gets discounted, so a longer wait does not always mean a higher chance.';
+
+// Shareable summary, assembled at build time from the same predictions object.
+// Copied to the clipboard by the "Copy to share" button below.
+const SITE_ORIGIN = 'https://surxe.github.io';
+const shareUrl = `${SITE_ORIGIN}${baseUrl}predictions`.replace(/([^:])\/\/+/g, '$1/');
+// likelihood_pct is stored 0-100.
+const withPct = (b: any) =>
+	b?.likelihood_pct == null ? b?.name : `${b.name} (${Math.round(b.likelihood_pct)}%)`;
+const topBots = bots.slice(0, 3).filter((b) => b?.name);
+const topTitanName = titans?.[0]?.name ?? null;
+const shareLines = [
+	dateRange ? `WRF discount predictions for ${dateRange}:` : 'WRF discount predictions:',
+];
+if (topBots.length) shareLines.push(`Robots: ${topBots.map(withPct).join(', ')}`);
+// Titans aren't discounted every week, so this is framed as the next titan
+// discount rather than tied to a specific week.
+if (topTitanName) shareLines.push(`Next titan: ${topTitanName}`);
+// Wrapped in <> so chat clients (Discord) don't expand a link embed.
+shareLines.push(`<${shareUrl}>`);
+const shareText = shareLines.join('\n');
 ---
 
 <GenericPage
@@ -36,7 +60,15 @@ const botOddsTooltip =
 	description="Predicted upcoming Mech and Titan discounts, with historical accuracy."
 	baseUrl={baseUrl}
 >
-	<MobileTopBar showSidebarToggle={false} showCalcToggle={false} title="WRF Predictions" />
+	<AllWeeksSidebar
+		weeks={weeks}
+		currentSlug={null}
+		baseUrl={baseUrl}
+		predictedLabel={dateRange}
+		predictedHref={predictedHref}
+		predictedActive={true}
+	>
+	<MobileTopBar showSidebarToggle={true} showCalcToggle={false} title="WRF Predictions" />
 	<NavBar baseUrl={baseUrl} currentPage="predictions" />
 
 	<div class="predictions-page">
@@ -58,6 +90,15 @@ const botOddsTooltip =
 				These are statistical estimates based on past discount patterns — not
 				official announcements.
 			</p>
+			{predictions && (
+				<button type="button" id="share-button" class="share-button" aria-live="polite">
+					<svg class="share-button__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+						<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+					</svg>
+					<span class="share-button__label">Copy to share</span>
+				</button>
+			)}
 		</header>
 
 		{predictions && (
@@ -96,9 +137,56 @@ const botOddsTooltip =
 			</div>
 		)}
 	</div>
+	</AllWeeksSidebar>
 
 	<MobileBottomNav baseUrl={baseUrl} currentPage="predictions" slot="bottom-nav" />
 </GenericPage>
+
+<script define:vars={{ shareText }}>
+	const btn = document.getElementById('share-button');
+	if (btn) {
+		const label = btn.querySelector('.share-button__label');
+		const original = label ? label.textContent : '';
+		let resetTimer;
+
+		async function copyShareText() {
+			try {
+				if (navigator.clipboard && navigator.clipboard.writeText) {
+					await navigator.clipboard.writeText(shareText);
+					return true;
+				}
+			} catch (e) { /* fall through to legacy path */ }
+
+			// Fallback for browsers without the async clipboard API (or non-secure contexts).
+			try {
+				const ta = document.createElement('textarea');
+				ta.value = shareText;
+				ta.setAttribute('readonly', '');
+				ta.style.position = 'absolute';
+				ta.style.left = '-9999px';
+				document.body.appendChild(ta);
+				ta.select();
+				const ok = document.execCommand('copy');
+				document.body.removeChild(ta);
+				return ok;
+			} catch (e) {
+				return false;
+			}
+		}
+
+		btn.addEventListener('click', async () => {
+			const ok = await copyShareText();
+			if (label) label.textContent = ok ? 'Copied!' : 'Press Ctrl+C to copy';
+			btn.classList.remove('is-copied', 'is-error');
+			btn.classList.add(ok ? 'is-copied' : 'is-error');
+			clearTimeout(resetTimer);
+			resetTimer = setTimeout(() => {
+				if (label) label.textContent = original;
+				btn.classList.remove('is-copied', 'is-error');
+			}, 1800);
+		});
+	}
+</script>
 
 <style>
 	.predictions-page {
@@ -141,6 +229,45 @@ const botOddsTooltip =
 		max-width: 560px;
 		margin: 0.6rem auto 0;
 		line-height: 1.4;
+	}
+
+	.share-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		margin: 1rem auto 0;
+		padding: 0.45rem 0.9rem;
+		font-family: inherit;
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--text-color, #e0e0e0);
+		background: #232733;
+		border: 1px solid #333;
+		border-radius: 8px;
+		cursor: pointer;
+		transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+	}
+
+	.share-button:hover {
+		background-color: var(--active-bg, rgba(58, 134, 255, 0.1));
+		color: var(--accent-color, #3a86ff);
+		border-color: var(--accent-color, #3a86ff);
+	}
+
+	.share-button.is-copied {
+		color: #2ec4b6;
+		border-color: #2ec4b6;
+		background-color: rgba(46, 196, 182, 0.1);
+	}
+
+	.share-button.is-error {
+		color: #ff9f1c;
+		border-color: #ff9f1c;
+		background-color: rgba(255, 159, 28, 0.1);
+	}
+
+	.share-button__icon {
+		flex-shrink: 0;
 	}
 
 	.prediction-sections {
