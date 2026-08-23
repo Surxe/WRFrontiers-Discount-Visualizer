@@ -208,7 +208,7 @@
   flex-direction: row;
   align-items: center;
   gap: 0.35rem;
-  color: var(--text-muted, #8b92a5);
+  color: #b8c0d0;
   border-bottom: 1px dashed var(--accent-color, #3a86ff);
   font-style: italic;
 }
@@ -225,6 +225,9 @@
 
 .week-link--predicted .week-link__label {
   white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 2px;
 }
 
 .week-link:hover {
