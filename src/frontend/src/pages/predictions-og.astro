@@ -1,0 +1,256 @@
+---
+// Dedicated 1200x630 social/og card for /predictions.
+// Not linked in nav; rendered so a Puppeteer capture can screenshot #og-card
+// and produce predictions-og.png. Self-contained (no sidebar/nav/footer).
+import { fetchPredictions } from '../utils/predictions.js';
+import { getTexturePath } from '../utils/textures.js';
+
+const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
+const predictions = fetchPredictions();
+const rawLabel = predictions?.predictedWeek?.label ?? null;
+// "September 1 - 8 (2026)" -> "September 1 - 8, 2026"
+const dateRange = rawLabel ? rawLabel.replace(/\s*\((\d{4})\)\s*$/, ', $1') : null;
+
+const bots = (predictions?.bots ?? []).slice(0, 5);
+const titans = (predictions?.titans ?? []).slice(0, 2);
+
+const row = (b: any) => ({
+	name: b?.name ?? '',
+	icon: getTexturePath(b?.icon_path, baseUrl),
+	pct: b?.likelihood_pct == null ? null : Math.round(b.likelihood_pct),
+	meta:
+		b?.weeks_since_discount == null
+			? ''
+			: `${b.weeks_since_discount} wks since${b?.avg_interval == null ? '' : ` · avg ${b.avg_interval}`}`,
+});
+const botRows = bots.map(row);
+const titanRows = titans.map(row);
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Predictions og card</title>
+		<link rel="stylesheet" href={`${baseUrl}global.css`} />
+		<meta name="robots" content="noindex" />
+	</head>
+	<body>
+		<div id="og-card" class="og-card">
+			<header class="og-head">
+				<div class="og-titles">
+					<h1 class="og-title">Discount Predictions</h1>
+					{dateRange && <p class="og-sub">Predicted for <strong>{dateRange}</strong></p>}
+				</div>
+				<div class="og-brand">WRF Discounts</div>
+			</header>
+
+			<div class="og-body">
+				<section class="og-col">
+					<h2 class="og-colhead">Robots &mdash; most likely</h2>
+					<ol class="og-rows">
+						{botRows.map((r, i) => (
+							<li class="og-row">
+								<span class="og-rank">{i + 1}</span>
+								<span class="og-icon">{r.icon && <img src={r.icon} alt={r.name} />}</span>
+								<span class="og-idbody">
+									<span class="og-name">{r.name}</span>
+									<span class="og-meta">{r.meta}</span>
+								</span>
+								{r.pct != null && <span class="og-pct">{r.pct}%</span>}
+							</li>
+						))}
+					</ol>
+				</section>
+
+				<section class="og-col og-col--titans">
+					<h2 class="og-colhead">Titans &mdash; next discount</h2>
+					<ol class="og-rows">
+						{titanRows.map((r, i) => (
+							<li class="og-row">
+								<span class="og-rank">{i + 1}</span>
+								<span class="og-icon">{r.icon && <img src={r.icon} alt={r.name} />}</span>
+								<span class="og-idbody">
+									<span class="og-name">{r.name}</span>
+									<span class="og-meta">{r.meta}</span>
+								</span>
+								{r.pct != null && <span class="og-pct">{r.pct}%</span>}
+							</li>
+						))}
+					</ol>
+					<p class="og-note">Statistical estimates from past discount patterns &mdash; not official.</p>
+				</section>
+			</div>
+		</div>
+	</body>
+</html>
+
+<style>
+	:global(body) {
+		margin: 0;
+		background: #0f1115;
+	}
+
+	.og-card {
+		box-sizing: border-box;
+		width: 1200px;
+		height: 630px;
+		padding: 44px 52px;
+		background:
+			radial-gradient(1100px 500px at 82% -10%, rgba(58, 134, 255, 0.16), transparent 60%),
+			linear-gradient(160deg, #12151c 0%, #0d0f14 100%);
+		color: #e0e0e0;
+		font-family: 'Montserrat', sans-serif;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	.og-head {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+		padding-bottom: 20px;
+	}
+
+	.og-title {
+		margin: 0;
+		font-size: 46px;
+		font-weight: 700;
+		letter-spacing: -0.5px;
+		text-align: left;
+	}
+
+	.og-sub {
+		margin: 8px 0 0;
+		font-size: 21px;
+		color: #b7bdca;
+	}
+
+	.og-sub strong {
+		color: #3a86ff;
+		font-weight: 700;
+	}
+
+	.og-brand {
+		flex-shrink: 0;
+		margin-top: 6px;
+		font-size: 15px;
+		font-weight: 700;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		color: #6b7488;
+	}
+
+	.og-body {
+		flex: 1;
+		display: grid;
+		grid-template-columns: 1.32fr 1fr;
+		gap: 40px;
+		padding-top: 26px;
+		min-height: 0;
+	}
+
+	.og-col {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+
+	.og-col--titans {
+		border-left: 1px solid rgba(255, 255, 255, 0.07);
+		padding-left: 40px;
+	}
+
+	.og-colhead {
+		margin: 0 0 16px;
+		font-size: 16px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		color: #8b92a5;
+	}
+
+	.og-rows {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.og-row {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		padding: 10px 14px;
+		background: rgba(22, 25, 32, 0.72);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 12px;
+	}
+
+	.og-rank {
+		flex-shrink: 0;
+		width: 20px;
+		font-size: 18px;
+		font-weight: 700;
+		color: #6b7488;
+		text-align: center;
+	}
+
+	.og-icon {
+		flex-shrink: 0;
+		width: 46px;
+		height: 46px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.og-icon img {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+	}
+
+	.og-idbody {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.og-name {
+		font-size: 21px;
+		font-weight: 700;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.og-meta {
+		font-size: 14px;
+		color: #8b92a5;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.og-pct {
+		flex-shrink: 0;
+		font-size: 26px;
+		font-weight: 700;
+		color: #3a86ff;
+	}
+
+	.og-note {
+		margin: auto 0 0;
+		padding-top: 18px;
+		font-size: 14px;
+		font-style: italic;
+		color: #6b7488;
+		line-height: 1.4;
+	}
+</style>

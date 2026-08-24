@@ -36,4 +36,7 @@ runs:
         if [ -f public/discount-table.png ]; then
           mv public/discount-table.png public/discount-table-${SHORT_SHA}.png
         fi
+        if [ -f public/predictions-og.png ]; then
+          mv public/predictions-og.png public/predictions-og-${SHORT_SHA}.png
+        fi
         PUBLIC_IMAGE_SHA=$SHORT_SHA npm run build

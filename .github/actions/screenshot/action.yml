@@ -46,16 +46,23 @@ runs:
       working-directory: src/frontend
       run: npm run capture
 
-    - name: Upload screenshot artifact
+    - name: Capture predictions og:image
+      shell: bash
+      working-directory: src/frontend
+      run: npm run capture:og
+
+    - name: Upload screenshot artifacts
       uses: actions/upload-artifact@v4
       with:
         name: discount-table
-        path: src/frontend/public/discount-table.png
+        path: |
+          src/frontend/public/discount-table.png
+          src/frontend/public/predictions-og.png
         retention-days: 7
 
-    - name: Commit and push screenshot
+    - name: Commit and push screenshots
       if: inputs.commit == 'true'
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: 'chore(data): update discount-table.png [skip ci]'
-        file_pattern: 'src/frontend/public/discount-table.png'
+        commit_message: 'chore(data): update discount-table.png + predictions-og.png [skip ci]'
+        file_pattern: 'src/frontend/public/discount-table.png src/frontend/public/predictions-og.png'
