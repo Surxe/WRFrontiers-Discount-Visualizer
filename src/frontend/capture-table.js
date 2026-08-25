@@ -110,7 +110,10 @@ async function main() {
   try {
     browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      // --disable-gpu forces CPU rasterization. Without it, newer headless Chrome
+      // stalls indefinitely painting the grid at deviceScaleFactor 2 via SwiftShader,
+      // which hangs the screenshot (and every CDP call that needs the main thread).
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
     });
 
     const page = await browser.newPage();
@@ -126,7 +129,8 @@ async function main() {
 
     // Force grid scale to 1 to bypass container query circular dependencies in headless Chrome
     // Also hide the Astro dev toolbar if it is injected
-    await page.addStyleTag({ content: `${GRID_SELECTOR} { --grid-scale: 1 !important; } astro-dev-toolbar { display: none !important; }` });
+    // Also hide the "add to calculator" + badges/buttons, which have no place in the static og:image
+    await page.addStyleTag({ content: `${GRID_SELECTOR} { --grid-scale: 1 !important; } astro-dev-toolbar { display: none !important; } .add-to-calc-btn, .mobile-calc-hint { display: none !important; }` });
 
     // Extra settle time for icon images, fonts, etc.
     await new Promise((r) => setTimeout(r, 1000));
