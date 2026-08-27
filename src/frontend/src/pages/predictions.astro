@@ -117,9 +117,11 @@ const shareText = shareLines.join('\n');
 						{botsAtLeastOneTop3 && (
 							<>
 								Historically, there is a <strong>{botsAtLeastOneTop3}</strong>{' '}
-								chance at least one of the top 3 is discounted.
+								chance at least one of the top 3 is discounted.{' '}
 							</>
 						)}
+						Robots discounted fewer than 2 times are excluded, as they
+						have no established cadence to predict from.
 					</Fragment>
 				</PredictionList>
 
