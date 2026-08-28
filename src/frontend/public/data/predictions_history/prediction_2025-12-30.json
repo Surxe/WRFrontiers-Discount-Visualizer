@@ -1,0 +1,248 @@
+{
+  "week": {
+    "start_year": 2025,
+    "start_month": 12,
+    "start_day": 30,
+    "end_year": 2026,
+    "end_month": 1,
+    "end_day": 6
+  },
+  "slug": "2025-12-30",
+  "label": "December 30 2025 - January 6 2026",
+  "reconstructed": true,
+  "graded": true,
+  "insufficient_history": {
+    "bots": false,
+    "titans": false
+  },
+  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "bots": [
+    {
+      "ref": "OBJID_VirtualBot::phantom",
+      "id": "phantom",
+      "name": "Phantom",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPhantom",
+      "items_anchor": "bot-phantom",
+      "overdue_rank": 4,
+      "weeks_since_discount": 7,
+      "avg_interval": 9.1,
+      "likelihood_pct": 22.2,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Toxin.0",
+          "name": "Lighter",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Toxin",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_BlockingField.1",
+          "name": "Energy Wall",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlockingField",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_MineField.1",
+          "name": "Minefield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_MineField",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::loki",
+      "id": "loki",
+      "name": "Loki",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLoki",
+      "items_anchor": "bot-loki",
+      "overdue_rank": 5,
+      "weeks_since_discount": 7,
+      "avg_interval": 9.2,
+      "likelihood_pct": 22.2,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Glory.0",
+          "name": "Halo",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Glory",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Grounded.1",
+          "name": "Fuel Burn",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Grounded",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Spotlight.1",
+          "name": "Recon Mode",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Spotlight",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::ravana",
+      "id": "ravana",
+      "name": "Ravana",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRavana",
+      "items_anchor": "bot-ravana",
+      "overdue_rank": 1,
+      "weeks_since_discount": 14,
+      "avg_interval": 12.8,
+      "likelihood_pct": 11.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_StickyGun.0",
+          "name": "Magneto",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_StickyGun",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_SpeedBoost.1",
+          "name": "Sprint Reactor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SpeedBoost",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_RegenerationFull.1",
+          "name": "Nanite Repair",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::ares",
+      "id": "ares",
+      "name": "Ares",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAres",
+      "items_anchor": "bot-ares",
+      "overdue_rank": 2,
+      "weeks_since_discount": 13,
+      "avg_interval": 12.5,
+      "likelihood_pct": 11.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Scourge.0",
+          "name": "Scourge",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Scourge",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_SmokeWall.1",
+          "name": "Holofield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SmokeWall",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::typhon",
+      "id": "typhon",
+      "name": "Typhon",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyphon",
+      "items_anchor": "bot-typhon",
+      "overdue_rank": 3,
+      "weeks_since_discount": 12,
+      "avg_interval": 12.8,
+      "likelihood_pct": 11.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Shocktrain.0",
+          "name": "Shocktrain",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shocktrain",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Umbrella.1",
+          "name": "Umbrella",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    }
+  ],
+  "titans": [
+    {
+      "ref": "OBJID_VirtualBot::matriarch",
+      "id": "matriarch",
+      "name": "Matriarch",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
+      "items_anchor": "bot-matriarch",
+      "overdue_rank": 2,
+      "weeks_since_discount": 5,
+      "avg_interval": 11.7,
+      "likelihood_pct": 100.0,
+      "associated": [],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::alpha",
+      "id": "alpha",
+      "name": "Alpha",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
+      "items_anchor": "bot-alpha",
+      "overdue_rank": 1,
+      "weeks_since_discount": 13,
+      "avg_interval": 13.5,
+      "likelihood_pct": 0.0,
+      "associated": [],
+      "hit": false
+    }
+  ],
+  "actuals": {
+    "bots": [
+      "loki",
+      "phantom",
+      "raven"
+    ],
+    "titans": []
+  },
+  "result": {
+    "bots": {
+      "hits": 2,
+      "listed": 5,
+      "eligible_actual": 3,
+      "top_hit": true,
+      "top3_hit": false
+    },
+    "titans": {
+      "hits": 0,
+      "listed": 2,
+      "eligible_actual": 0,
+      "top_hit": false,
+      "any_titan": false
+    }
+  }
+}

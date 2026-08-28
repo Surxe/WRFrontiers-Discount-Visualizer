@@ -1,0 +1,248 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 7,
+    "start_day": 7,
+    "end_year": 2026,
+    "end_month": 7,
+    "end_day": 14
+  },
+  "slug": "2026-07-07",
+  "label": "July 7 - 14 (2026)",
+  "reconstructed": true,
+  "graded": true,
+  "insufficient_history": {
+    "bots": false,
+    "titans": false
+  },
+  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "bots": [
+    {
+      "ref": "OBJID_VirtualBot::ravana",
+      "id": "ravana",
+      "name": "Ravana",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRavana",
+      "items_anchor": "bot-ravana",
+      "overdue_rank": 2,
+      "weeks_since_discount": 11,
+      "avg_interval": 12.8,
+      "likelihood_pct": 41.7,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_StickyGun.0",
+          "name": "Magneto",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_StickyGun",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_SpeedBoost.1",
+          "name": "Sprint Reactor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SpeedBoost",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_RegenerationFull.1",
+          "name": "Nanite Repair",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::kumo",
+      "id": "kumo",
+      "name": "Kumo",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotKumo",
+      "items_anchor": "bot-kumo",
+      "overdue_rank": 3,
+      "weeks_since_discount": 11,
+      "avg_interval": 12.5,
+      "likelihood_pct": 27.8,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Horde.0",
+          "name": "Horde",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Horde",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Atrophy.1",
+          "name": "Suppressor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_TensionLink.1",
+          "name": "Gamma Beam",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_TensionLink",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::bulgasari",
+      "id": "bulgasari",
+      "name": "Bulgasari",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
+      "items_anchor": "bot-bulgasari",
+      "overdue_rank": 1,
+      "weeks_since_discount": 18,
+      "avg_interval": 10.0,
+      "likelihood_pct": 25.0,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Shredder.0",
+          "name": "Shredder",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shredder",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_ArmorShield.1",
+          "name": "Emergency Shield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_InfiniteAmmo.1",
+          "name": "Infinite Ammo",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::anansi",
+      "id": "anansi",
+      "name": "Anansi",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
+      "items_anchor": "bot-anansi",
+      "overdue_rank": 4,
+      "weeks_since_discount": 11,
+      "avg_interval": 13.7,
+      "likelihood_pct": 25.0,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_MLx2.0",
+          "name": "MLx2",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_MLx2",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Atrophy.1",
+          "name": "Suppressor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::typhon",
+      "id": "typhon",
+      "name": "Typhon",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyphon",
+      "items_anchor": "bot-typhon",
+      "overdue_rank": 5,
+      "weeks_since_discount": 10,
+      "avg_interval": 12.8,
+      "likelihood_pct": 11.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Shocktrain.0",
+          "name": "Shocktrain",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shocktrain",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Umbrella.1",
+          "name": "Umbrella",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    }
+  ],
+  "titans": [
+    {
+      "ref": "OBJID_VirtualBot::volta",
+      "id": "volta",
+      "name": "Volta",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
+      "items_anchor": "bot-volta",
+      "overdue_rank": 1,
+      "weeks_since_discount": 17,
+      "avg_interval": 17.0,
+      "likelihood_pct": 66.7,
+      "associated": [],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::alpha",
+      "id": "alpha",
+      "name": "Alpha",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
+      "items_anchor": "bot-alpha",
+      "overdue_rank": 2,
+      "weeks_since_discount": 9,
+      "avg_interval": 13.5,
+      "likelihood_pct": 22.2,
+      "associated": [],
+      "hit": false
+    }
+  ],
+  "actuals": {
+    "bots": [
+      "kumo",
+      "ravana",
+      "typhon"
+    ],
+    "titans": []
+  },
+  "result": {
+    "bots": {
+      "hits": 3,
+      "listed": 5,
+      "eligible_actual": 3,
+      "top_hit": true,
+      "top3_hit": true
+    },
+    "titans": {
+      "hits": 0,
+      "listed": 2,
+      "eligible_actual": 0,
+      "top_hit": false,
+      "any_titan": false
+    }
+  }
+}

@@ -94,6 +94,9 @@ const shareText = shareLines.join('\n');
 				These are statistical estimates based on past discount patterns — not
 				official announcements.
 			</p>
+			<a class="history-link" href={`${baseUrl}history`}>
+				See how past predictions did &rarr;
+			</a>
 			{predictions && (
 				<button type="button" id="share-button" class="share-button" aria-live="polite">
 					<svg class="share-button__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -235,6 +238,18 @@ const shareText = shareLines.join('\n');
 		max-width: 560px;
 		margin: 0.6rem auto 0;
 		line-height: 1.4;
+	}
+
+	.history-link {
+		display: block;
+		margin-top: 0.7rem;
+		font-size: 0.85rem;
+		color: var(--accent-color, #3a86ff);
+		text-decoration: none;
+	}
+
+	.history-link:hover {
+		text-decoration: underline;
 	}
 
 	.share-button {

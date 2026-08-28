@@ -3,7 +3,9 @@ import { getTexturePath } from '../utils/textures.js';
 import InfoTooltip from './InfoTooltip.astro';
 import AssociatedGear from './AssociatedGear.astro';
 
-const { bot, baseUrl = '', oddsLabel = 'likely', oddsTooltip = null, rank = null } = Astro.props;
+const { bot, baseUrl = '', oddsLabel = 'likely', oddsTooltip = null, rank = null, hit = null } = Astro.props;
+// `hit` is only passed on the /history page (graded snapshots); left null on the
+// live predictions page, where a pick has no outcome yet.
 
 const iconSrc = getTexturePath(bot.icon_path, baseUrl);
 const itemsHref = bot.items_anchor ? `${baseUrl}items#${bot.items_anchor}` : `${baseUrl}items`;
@@ -11,9 +13,25 @@ const avgText =
 	bot.avg_interval == null ? 'not enough history' : `avg ${bot.avg_interval} wks`;
 ---
 
-<li class="prediction-card">
+<li class:list={["prediction-card", { "is-hit": hit === true, "is-miss": hit === false }]}>
 	<div class="prediction-card__main">
 		{rank != null && <span class="prediction-card__rank" aria-hidden="true">{rank}</span>}
+		{hit !== null && (
+			<span class:list={["prediction-card__result", hit ? "is-hit" : "is-miss"]}
+				title={hit ? "Discounted this week" : "Not discounted"}
+				aria-label={hit ? "Discounted this week" : "Not discounted"}>
+				{hit ? (
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<polyline points="20 6 9 17 4 12"></polyline>
+					</svg>
+				) : (
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<line x1="18" y1="6" x2="6" y2="18"></line>
+						<line x1="6" y1="6" x2="18" y2="18"></line>
+					</svg>
+				)}
+			</span>
+		)}
 		<a class="prediction-card__identity" href={itemsHref}>
 			<span class="prediction-card__icon">
 				{iconSrc && <img src={iconSrc} alt={bot.name} loading="lazy" />}
@@ -137,5 +155,36 @@ const avgText =
 		text-transform: uppercase;
 		letter-spacing: 0.4px;
 		color: var(--text-muted, #8b92a5);
+	}
+
+	/* Graded snapshots (/history) only: a discounted pick reads green, a missed
+	   one is dimmed. Live predictions pass no `hit`, so neither applies. */
+	.prediction-card.is-hit {
+		border-color: rgba(46, 196, 182, 0.5);
+		background: rgba(46, 196, 182, 0.08);
+	}
+
+	.prediction-card.is-miss {
+		opacity: 0.62;
+	}
+
+	.prediction-card__result {
+		flex-shrink: 0;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.4rem;
+		height: 1.4rem;
+		border-radius: 50%;
+	}
+
+	.prediction-card__result.is-hit {
+		color: #2ec4b6;
+		background: rgba(46, 196, 182, 0.15);
+	}
+
+	.prediction-card__result.is-miss {
+		color: var(--text-muted, #8b92a5);
+		background: rgba(139, 146, 165, 0.12);
 	}
 </style>

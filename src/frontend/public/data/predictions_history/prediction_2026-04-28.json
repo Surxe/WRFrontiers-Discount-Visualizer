@@ -1,0 +1,255 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 4,
+    "start_day": 28,
+    "end_year": 2026,
+    "end_month": 5,
+    "end_day": 5
+  },
+  "slug": "2026-04-28",
+  "label": "April 28 - May 5 (2026)",
+  "reconstructed": true,
+  "graded": true,
+  "insufficient_history": {
+    "bots": false,
+    "titans": false
+  },
+  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "bots": [
+    {
+      "ref": "OBJID_VirtualBot::tyr",
+      "id": "tyr",
+      "name": "Tyr",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyr",
+      "items_anchor": "bot-tyr",
+      "overdue_rank": 2,
+      "weeks_since_discount": 11,
+      "avg_interval": 9.8,
+      "likelihood_pct": 26.9,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Vortex.0",
+          "name": "Vortex",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Vortex",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Homing.1",
+          "name": "Homing Missile",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::typhon",
+      "id": "typhon",
+      "name": "Typhon",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyphon",
+      "items_anchor": "bot-typhon",
+      "overdue_rank": 1,
+      "weeks_since_discount": 12,
+      "avg_interval": 12.8,
+      "likelihood_pct": 23.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Shocktrain.0",
+          "name": "Shocktrain",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shocktrain",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Umbrella.1",
+          "name": "Umbrella",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::fury",
+      "id": "fury",
+      "name": "Fury",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFury",
+      "items_anchor": "bot-fury",
+      "overdue_rank": 4,
+      "weeks_since_discount": 10,
+      "avg_interval": 10.0,
+      "likelihood_pct": 23.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Pulsar.0",
+          "name": "Pulsar",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Pulsar",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_DashBlinkedVisible.1",
+          "name": "Blink",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_DashBlinkedVisible",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Homing.1",
+          "name": "Homing Missile",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::siren",
+      "id": "siren",
+      "name": "Siren",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotSiren",
+      "items_anchor": "bot-siren",
+      "overdue_rank": 5,
+      "weeks_since_discount": 9,
+      "avg_interval": 10.4,
+      "likelihood_pct": 15.4,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Trident.0",
+          "name": "Trident",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Trident",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_BlockingField.1",
+          "name": "Energy Wall",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlockingField",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Umbrella.1",
+          "name": "Umbrella",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        },
+        {
+          "id": "DA_Module_Weapon_Railgun.0",
+          "name": "Railgun",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Railgun",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::loki",
+      "id": "loki",
+      "name": "Loki",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLoki",
+      "items_anchor": "bot-loki",
+      "overdue_rank": 3,
+      "weeks_since_discount": 11,
+      "avg_interval": 9.2,
+      "likelihood_pct": 7.7,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Glory.0",
+          "name": "Halo",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Glory",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Grounded.1",
+          "name": "Fuel Burn",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Grounded",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Spotlight.1",
+          "name": "Recon Mode",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Spotlight",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    }
+  ],
+  "titans": [
+    {
+      "ref": "OBJID_VirtualBot::alpha",
+      "id": "alpha",
+      "name": "Alpha",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
+      "items_anchor": "bot-alpha",
+      "overdue_rank": 1,
+      "weeks_since_discount": 13,
+      "avg_interval": 13.5,
+      "likelihood_pct": 75.0,
+      "associated": [],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::matriarch",
+      "id": "matriarch",
+      "name": "Matriarch",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
+      "items_anchor": "bot-matriarch",
+      "overdue_rank": 2,
+      "weeks_since_discount": 12,
+      "avg_interval": 11.7,
+      "likelihood_pct": 25.0,
+      "associated": [],
+      "hit": false
+    }
+  ],
+  "actuals": {
+    "bots": [
+      "harpy",
+      "loki",
+      "typhon"
+    ],
+    "titans": []
+  },
+  "result": {
+    "bots": {
+      "hits": 2,
+      "listed": 5,
+      "eligible_actual": 3,
+      "top_hit": false,
+      "top3_hit": true
+    },
+    "titans": {
+      "hits": 0,
+      "listed": 2,
+      "eligible_actual": 0,
+      "top_hit": false,
+      "any_titan": false
+    }
+  }
+}

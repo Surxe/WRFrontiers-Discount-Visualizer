@@ -1,0 +1,250 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 5,
+    "start_day": 12,
+    "end_year": 2026,
+    "end_month": 5,
+    "end_day": 19
+  },
+  "slug": "2026-05-12",
+  "label": "May 12 - 19 (2026)",
+  "reconstructed": true,
+  "graded": true,
+  "insufficient_history": {
+    "bots": false,
+    "titans": false
+  },
+  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "bots": [
+    {
+      "ref": "OBJID_VirtualBot::purifier",
+      "id": "purifier",
+      "name": "Purifier",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPurifier",
+      "items_anchor": "bot-purifier",
+      "overdue_rank": 1,
+      "weeks_since_discount": 10,
+      "avg_interval": 10.8,
+      "likelihood_pct": 28.6,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Incinerator.0",
+          "name": "Incinerator",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Incinerator",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_FuelReserve.1",
+          "name": "Fuel Reserve",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FuelReserve",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_CounterAttack.1",
+          "name": "Reflector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::mesa",
+      "id": "mesa",
+      "name": "Mesa",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotMesa",
+      "items_anchor": "bot-mesa",
+      "overdue_rank": 2,
+      "weeks_since_discount": 10,
+      "avg_interval": 11.3,
+      "likelihood_pct": 28.6,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Locust.0",
+          "name": "Locust",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Locust",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_AmmoGenerator.1",
+          "name": "Ammo Fabricator",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AmmoGenerator",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_TensionLink.1",
+          "name": "Gamma Beam",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_TensionLink",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::bulgasari",
+      "id": "bulgasari",
+      "name": "Bulgasari",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
+      "items_anchor": "bot-bulgasari",
+      "overdue_rank": 4,
+      "weeks_since_discount": 10,
+      "avg_interval": 10.0,
+      "likelihood_pct": 21.4,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Shredder.0",
+          "name": "Shredder",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shredder",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_ArmorShield.1",
+          "name": "Emergency Shield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_InfiniteAmmo.1",
+          "name": "Infinite Ammo",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::fenrir",
+      "id": "fenrir",
+      "name": "Fenrir",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFenrir",
+      "items_anchor": "bot-fenrir",
+      "overdue_rank": 3,
+      "weeks_since_discount": 10,
+      "avg_interval": 8.6,
+      "likelihood_pct": 14.3,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Fowler.0",
+          "name": "Fowler",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Fowler",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Regeneration.1",
+          "name": "Quick Repair",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_ArmorRepairing2",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_CounterAttack.1",
+          "name": "Reflector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::varangian",
+      "id": "varangian",
+      "name": "Varangian",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotVarangian",
+      "items_anchor": "bot-varangian",
+      "overdue_rank": 5,
+      "weeks_since_discount": 9,
+      "avg_interval": 11.2,
+      "likelihood_pct": 14.3,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Orkan.0",
+          "name": "Orkan",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Orkan",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Grounded.1",
+          "name": "Fuel Burn",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Grounded",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    }
+  ],
+  "titans": [
+    {
+      "ref": "OBJID_VirtualBot::matriarch",
+      "id": "matriarch",
+      "name": "Matriarch",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
+      "items_anchor": "bot-matriarch",
+      "overdue_rank": 1,
+      "weeks_since_discount": 14,
+      "avg_interval": 11.7,
+      "likelihood_pct": 80.0,
+      "associated": [],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::norna",
+      "id": "norna",
+      "name": "Norna",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Norna",
+      "items_anchor": "bot-norna",
+      "overdue_rank": 2,
+      "weeks_since_discount": 10,
+      "avg_interval": 6.0,
+      "likelihood_pct": 20.0,
+      "associated": [],
+      "hit": false
+    }
+  ],
+  "actuals": {
+    "bots": [
+      "fenrir",
+      "mesa",
+      "purifier"
+    ],
+    "titans": [
+      "matriarch"
+    ]
+  },
+  "result": {
+    "bots": {
+      "hits": 3,
+      "listed": 5,
+      "eligible_actual": 3,
+      "top_hit": true,
+      "top3_hit": true
+    },
+    "titans": {
+      "hits": 1,
+      "listed": 2,
+      "eligible_actual": 1,
+      "top_hit": true,
+      "any_titan": true
+    }
+  }
+}
