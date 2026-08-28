@@ -1,0 +1,46 @@
+{
+  "week": {
+    "start_year": 2025,
+    "start_month": 5,
+    "start_day": 23,
+    "end_year": 2025,
+    "end_month": 6,
+    "end_day": 3
+  },
+  "slug": "2025-05-23",
+  "label": "May 23 - June 3 (2025)",
+  "reconstructed": true,
+  "graded": true,
+  "insufficient_history": {
+    "bots": true,
+    "titans": true
+  },
+  "odds_available": {
+    "bots": false,
+    "titans": false
+  },
+  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "bots": [],
+  "titans": [],
+  "actuals": {
+    "bots": [],
+    "titans": []
+  },
+  "result": {
+    "bots": {
+      "hits": 0,
+      "listed": 0,
+      "eligible_actual": 0,
+      "top_hit": false,
+      "top3_hit": false,
+      "three_of_five": false
+    },
+    "titans": {
+      "hits": 0,
+      "listed": 0,
+      "eligible_actual": 0,
+      "top_hit": false,
+      "any_titan": false
+    }
+  }
+}

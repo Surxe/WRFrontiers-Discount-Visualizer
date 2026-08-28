@@ -1,0 +1,253 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 6,
+    "start_day": 16,
+    "end_year": 2026,
+    "end_month": 6,
+    "end_day": 23
+  },
+  "slug": "2026-06-16",
+  "label": "June 16 - 23 (2026)",
+  "reconstructed": true,
+  "graded": true,
+  "insufficient_history": {
+    "bots": false,
+    "titans": false
+  },
+  "odds_available": {
+    "bots": true,
+    "titans": true
+  },
+  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "bots": [
+    {
+      "ref": "OBJID_VirtualBot::decker",
+      "id": "decker",
+      "name": "Decker",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotKernel",
+      "items_anchor": "bot-decker",
+      "overdue_rank": 2,
+      "weeks_since_discount": 10,
+      "avg_interval": 10.5,
+      "likelihood_pct": 36.4,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Hefty.0",
+          "name": "Hefty",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Hefty",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_ArmorShield.1",
+          "name": "Emergency Shield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_SupplySurge.1",
+          "name": "Supply Surge",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SupplySurge",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::bulgasari",
+      "id": "bulgasari",
+      "name": "Bulgasari",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
+      "items_anchor": "bot-bulgasari",
+      "overdue_rank": 1,
+      "weeks_since_discount": 15,
+      "avg_interval": 10.0,
+      "likelihood_pct": 27.3,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Shredder.0",
+          "name": "Shredder",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shredder",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_ArmorShield.1",
+          "name": "Emergency Shield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_InfiniteAmmo.1",
+          "name": "Infinite Ammo",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::ceres",
+      "id": "ceres",
+      "name": "Ceres",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCeres",
+      "items_anchor": "bot-ceres",
+      "overdue_rank": 3,
+      "weeks_since_discount": 10,
+      "avg_interval": 10.2,
+      "likelihood_pct": 27.3,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Bisector.0",
+          "name": "Bisector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Bisector",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_CounterAttack.1",
+          "name": "Reflector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::crix",
+      "id": "crix",
+      "name": "Crix",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotNipper",
+      "items_anchor": "bot-crix",
+      "overdue_rank": 4,
+      "weeks_since_discount": 9,
+      "avg_interval": 10.5,
+      "likelihood_pct": 24.2,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Stormpike.0",
+          "name": "Stormpike",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Stormpike",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Grounded.1",
+          "name": "Fuel Burn",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Grounded",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_MineField.1",
+          "name": "Minefield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_MineField",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::bulwark",
+      "id": "bulwark",
+      "name": "Bulwark",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulwark",
+      "items_anchor": "bot-bulwark",
+      "overdue_rank": 5,
+      "weeks_since_discount": 9,
+      "avg_interval": 10.2,
+      "likelihood_pct": 12.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Thunder.0",
+          "name": "Thunder",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Thunder",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_SmokeWall.1",
+          "name": "Holofield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SmokeWall",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_RegenerationFull.1",
+          "name": "Nanite Repair",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    }
+  ],
+  "titans": [
+    {
+      "ref": "OBJID_VirtualBot::volta",
+      "id": "volta",
+      "name": "Volta",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
+      "items_anchor": "bot-volta",
+      "overdue_rank": 1,
+      "weeks_since_discount": 14,
+      "avg_interval": 17.0,
+      "likelihood_pct": 85.7,
+      "associated": [],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::grim",
+      "id": "grim",
+      "name": "Grim",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Grim",
+      "items_anchor": "bot-grim",
+      "overdue_rank": 2,
+      "weeks_since_discount": 12,
+      "avg_interval": 11.2,
+      "likelihood_pct": 14.3,
+      "associated": [],
+      "hit": false
+    }
+  ],
+  "actuals": {
+    "bots": [
+      "decker"
+    ],
+    "titans": [
+      "norna"
+    ]
+  },
+  "result": {
+    "bots": {
+      "hits": 1,
+      "listed": 5,
+      "eligible_actual": 1,
+      "top_hit": true,
+      "top3_hit": true,
+      "three_of_five": false
+    },
+    "titans": {
+      "hits": 0,
+      "listed": 2,
+      "eligible_actual": 1,
+      "top_hit": false,
+      "any_titan": true
+    }
+  }
+}

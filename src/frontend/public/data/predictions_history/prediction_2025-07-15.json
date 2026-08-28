@@ -1,0 +1,46 @@
+{
+  "week": {
+    "start_year": 2025,
+    "start_month": 7,
+    "start_day": 15,
+    "end_year": 2025,
+    "end_month": 7,
+    "end_day": 29
+  },
+  "slug": "2025-07-15",
+  "label": "July 15 - 29 (2025)",
+  "reconstructed": true,
+  "graded": true,
+  "insufficient_history": {
+    "bots": true,
+    "titans": true
+  },
+  "odds_available": {
+    "bots": false,
+    "titans": false
+  },
+  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "bots": [],
+  "titans": [],
+  "actuals": {
+    "bots": [],
+    "titans": []
+  },
+  "result": {
+    "bots": {
+      "hits": 0,
+      "listed": 0,
+      "eligible_actual": 0,
+      "top_hit": false,
+      "top3_hit": false,
+      "three_of_five": false
+    },
+    "titans": {
+      "hits": 0,
+      "listed": 0,
+      "eligible_actual": 0,
+      "top_hit": false,
+      "any_titan": true
+    }
+  }
+}

@@ -18,6 +18,13 @@ manifest (``weeks.json``), then:
 
 Predictions are position-based: the likelihood shown for the Nth-listed bot is
 the historical hit-rate of the Nth rank slot, not a per-bot number.
+
+This module also builds the *per-week prediction history* (see
+``build_prediction_history``): for every already-archived week it reconstructs
+the prediction that would have been shown that week -- using only the history
+strictly before it -- and grades it against what was actually discounted. That
+frozen, contemporaneous record is what the ``/history`` page renders, and it is
+kept distinct from the live calibration trend in ``accuracy_history.json``.
 """
 
 import json
@@ -30,12 +37,14 @@ from config import (
     REVERSE_LOOKUP_OUTPUT,
     PREDICTIONS_OUTPUT,
     ACCURACY_HISTORY_OUTPUT,
+    PREDICTION_HISTORY_DIR,
+    PREDICTION_HISTORY_INDEX,
     VIRTUAL_BOT_JSON,
     MODULE_JSON,
     CHARACTER_PRESET_JSON,
     STANDALONE_MODULE_GROUPS,
 )
-from week_dates import format_week, normalize_week, week_slug
+from week_dates import format_week, normalize_week, week_slug, week_sort_key
 
 # Discountable module groups that ride along with a regular bot's factory
 # loadout. Titan weapons are excluded (they never co-discount with a mech).
@@ -44,6 +53,21 @@ GEAR_GROUPS = {g for g in STANDALONE_MODULE_GROUPS if g != "titan-weapon"}
 # How many bots to surface per pool on the page.
 BOTS_TOP_N = 5
 TITANS_TOP_N = 2
+
+# Raw detail retained on each snapshot: whether at least one of the K most-overdue
+# picks was discounted (matches the live page's ``at_least_one`` framing).
+BOTS_HEADLINE_K = 3
+
+# The /history headline metric for regular bots: a week counts as a hit when at
+# least this many of the top-5 predicted robots were actually discounted. ("At
+# least one of the top 3" is trivially ~100% over recent weeks, so it is kept
+# only as raw detail.)
+BOTS_HEADLINE_MIN_HITS = 3
+
+# The /history headline scoreboard summarizes only the most recent this-many
+# weeks, so it tracks current accuracy instead of being diluted by the earliest
+# thin-history weeks. The full per-week list below it is unaffected.
+SCOREBOARD_WINDOW = 15
 
 # "At least one of the top K" figures to compute per pool. Top 3 is the headline
 # the page highlights for regular bots.
@@ -234,9 +258,34 @@ def _predicted_week(manifest: dict) -> dict:
     }
 
 
-def build_predictions():
-    print("  -> Building upcoming-week predictions...")
+def period_actuals(pool_weeknums: dict, all_weeknums: list[int], max_weeknum: int | None = None):
+    """Chronological ``(week_number, discounted-set)`` pairs for a pool.
 
+    Covers every historical discount week (both pools) so weeks in which the
+    pool had no discount count as genuine "miss" weeks. When ``max_weeknum`` is
+    given, only weeks strictly before it are included -- used to reconstruct a
+    past week's prediction from the history that preceded it, with no look-ahead.
+    """
+    weeks = [w for w in all_weeknums if max_weeknum is None or w < max_weeknum]
+    by_week = {w: set() for w in weeks}
+    for bot_id, weeknums in pool_weeknums.items():
+        for w in weeknums:
+            if w in by_week:
+                by_week[w].add(bot_id)
+    return sorted(by_week.items())
+
+
+def _load_pools():
+    """Load discount history and split the roster into Mech/Titan pools.
+
+    Returns a context dict shared by the live prediction and the per-week
+    history reconstruction, or ``None`` if required inputs are missing.
+
+    Keys: ``pools`` (name -> {bot_id: sorted week-numbers}), ``meta`` (bot_id ->
+    display metadata), ``origin`` (date fixing week-number 0), ``all_weeknums``
+    (sorted, both pools), ``manifest``, and the raw ``vbot_data`` /
+    ``modules_data`` / ``preset_data`` needed to resolve gear.
+    """
     if not REVERSE_LOOKUP_OUTPUT.exists():
         print(f"  [WARN] {REVERSE_LOOKUP_OUTPUT} missing; skipping predictions.")
         return None
@@ -301,65 +350,116 @@ def build_predictions():
         {w for pool in pools.values() for weeknums in pool.values() for w in weeknums}
     )
 
-    # Chronological (week_number, discounted-set) per pool for the backtest.
-    def period_actuals(pool_weeknums):
-        by_week = {w: set() for w in all_weeknums}
-        for bot_id, weeknums in pool_weeknums.items():
-            for w in weeknums:
-                by_week[w].add(bot_id)
-        return sorted(by_week.items())
+    return {
+        "discount_data": discount_data,
+        "manifest": manifest,
+        "vbot_data": vbot_data,
+        "modules_data": modules_data,
+        "preset_data": preset_data,
+        "pools": pools,
+        "meta": meta,
+        "origin": origin,
+        "all_weeknums": all_weeknums,
+    }
+
+
+def _build_pool(ctx, pool_name, as_of_weeknum, top_n, *,
+                conditional=False, include_gear=False, calib_max_weeknum=None):
+    """Build one pool's ranked prediction as-of ``as_of_weeknum``.
+
+    ``conditional=True`` frames each likelihood as "if a bot from this pool is
+    discounted, the odds it is this one" -- used for titans, which are
+    discounted in a minority of weeks so an unconditional odds reads as
+    misleadingly low. ``include_gear`` attaches each regular bot's factory
+    loadout.
+
+    ``calib_max_weeknum`` restricts the walk-forward calibration to weeks
+    strictly before it. Leave it ``None`` for the live upcoming prediction (all
+    history); set it to the target week to reconstruct a past week's prediction
+    faithfully, with no look-ahead.
+
+    Returns ``(listed, calib)`` where ``listed`` is the display-ordered picks.
+    """
+    pools = ctx["pools"]
+    meta = ctx["meta"]
+    all_weeknums = ctx["all_weeknums"]
+    pool_weeknums = pools[pool_name]
+
+    pa = period_actuals(pool_weeknums, all_weeknums, max_weeknum=calib_max_weeknum)
+    calib = _calibrate(pool_weeknums, pa, top_n)
+
+    # Real-world (unfiltered) share of discount weeks in which this pool had ANY
+    # discount -- used for the "titans are absent most weeks" note. Kept separate
+    # from the eligibility-filtered backtest so the caveat reflects reality. When
+    # reconstructing a past week, measure it over that week's prior history only.
+    window = [w for w in all_weeknums if calib_max_weeknum is None or w < calib_max_weeknum]
+    present_weeks = {
+        w for wns in pool_weeknums.values() for w in wns
+        if calib_max_weeknum is None or w < calib_max_weeknum
+    }
+    calib["presence_rate"] = round(len(present_weeks) / len(window), 4) if window else 0.0
+
+    odds_key = "per_position_conditional" if conditional else "per_position"
+    ranking = _rank_pool(pool_weeknums, as_of_weeknum)[:top_n]
+    # When reconstructing a very early week the backtest may have scored so few
+    # prior weeks that no rank slot has ever been hit -- every position then
+    # calibrates to 0%, which reads as a confident "no chance" rather than the
+    # truth ("not enough history to estimate yet"). Detect that degenerate case
+    # and surface the likelihood as null so the UI can say so instead of 0%.
+    # Live predictions always have hits, so this never fires for them.
+    odds = calib[odds_key]
+    odds_available = any(odds[i] > 0 for i in range(len(ranking)))
+    listed = []
+    for i, bot_id in enumerate(ranking):
+        last_week = [w for w in pool_weeknums[bot_id] if w < as_of_weeknum]
+        last_week = last_week[-1] if last_week else pool_weeknums[bot_id][-1]
+        listed.append({
+            "ref": meta[bot_id]["ref"],
+            "id": bot_id,
+            "name": meta[bot_id]["name"],
+            "icon_path": meta[bot_id]["icon_path"],
+            "items_anchor": meta[bot_id]["items_anchor"],
+            "overdue_rank": i + 1,
+            "weeks_since_discount": as_of_weeknum - last_week,
+            "avg_interval": meta[bot_id]["avg_interval"],
+            "likelihood_pct": round(odds[i] * 100, 1) if odds_available else None,
+            "associated": (
+                _resolve_gear(bot_id, ctx["vbot_data"], ctx["modules_data"], ctx["preset_data"])
+                if include_gear else []
+            ),
+        })
+    # The most-overdue bot is not necessarily the most likely (a very long dry
+    # spell often means a bot that keeps getting skipped), so present the list
+    # ordered by its calibrated likelihood to match the "most likely" framing.
+    # With no odds available, fall back to most-overdue-first via the tiebreak.
+    listed.sort(
+        key=lambda b: (
+            b["likelihood_pct"] if b["likelihood_pct"] is not None else -1.0,
+            b["weeks_since_discount"],
+        ),
+        reverse=True,
+    )
+    return listed, calib
+
+
+def build_predictions():
+    print("  -> Building upcoming-week predictions...")
+
+    ctx = _load_pools()
+    if ctx is None:
+        return None
 
     # Predicted week + its week-number.
-    pred_week = _predicted_week(manifest)
+    pred_week = _predicted_week(ctx["manifest"])
     pred_start = date(pred_week["start_year"], pred_week["start_month"], pred_week["start_day"])
-    pred_weeknum = _week_number(pred_start, origin)
+    pred_weeknum = _week_number(pred_start, ctx["origin"])
     pred_label = format_week(pred_week, style="long")
     pred_slug = week_slug(pred_week)
 
-    def build_pool(pool_name, top_n, conditional=False, include_gear=False):
-        # conditional=True frames each likelihood as "if a bot from this pool is
-        # discounted, the odds it is this one" -- used for titans, which are
-        # discounted in a minority of weeks so an unconditional odds reads as
-        # misleadingly low. include_gear attaches each bot's factory loadout
-        # (regular bots only).
-        pool_weeknums = pools[pool_name]
-        calib = _calibrate(pool_weeknums, period_actuals(pool_weeknums), top_n)
-        # Real-world (unfiltered) share of all discount weeks in which this pool
-        # had ANY discount -- used for the "titans are absent most weeks" note.
-        # Kept separate from the eligibility-filtered backtest so the caveat
-        # reflects reality, not the thin-history exclusion.
-        present_weeks = {w for wns in pool_weeknums.values() for w in wns}
-        calib["presence_rate"] = (
-            round(len(present_weeks) / len(all_weeknums), 4) if all_weeknums else 0.0
-        )
-        odds_key = "per_position_conditional" if conditional else "per_position"
-        ranking = _rank_pool(pool_weeknums, pred_weeknum)[:top_n]
-        listed = []
-        for i, bot_id in enumerate(ranking):
-            last_week = pool_weeknums[bot_id][-1]
-            listed.append({
-                "ref": meta[bot_id]["ref"],
-                "id": bot_id,
-                "name": meta[bot_id]["name"],
-                "icon_path": meta[bot_id]["icon_path"],
-                "items_anchor": meta[bot_id]["items_anchor"],
-                "overdue_rank": i + 1,
-                "weeks_since_discount": pred_weeknum - last_week,
-                "avg_interval": meta[bot_id]["avg_interval"],
-                "likelihood_pct": round(calib[odds_key][i] * 100, 1),
-                "associated": (
-                    _resolve_gear(bot_id, vbot_data, modules_data, preset_data)
-                    if include_gear else []
-                ),
-            })
-        # The most-overdue bot is not necessarily the most likely (a very long dry
-        # spell often means a bot that keeps getting skipped), so present the list
-        # ordered by its calibrated likelihood to match the "most likely" framing.
-        listed.sort(key=lambda b: (b["likelihood_pct"], b["weeks_since_discount"]), reverse=True)
-        return listed, calib
-
-    bots, bots_calib = build_pool("Mech", BOTS_TOP_N, include_gear=True)
-    titans, titans_calib = build_pool("Titan", TITANS_TOP_N, conditional=True)
+    # Live prediction calibrates over ALL accumulated history (nothing is later
+    # than the upcoming week), so calib_max_weeknum stays None.
+    bots, bots_calib = _build_pool(ctx, "Mech", pred_weeknum, BOTS_TOP_N, include_gear=True)
+    titans, titans_calib = _build_pool(ctx, "Titan", pred_weeknum, TITANS_TOP_N, conditional=True)
 
     generated_at = datetime.now().astimezone().isoformat()
     predictions = {
@@ -423,5 +523,194 @@ def _append_accuracy_history(pred_slug, generated_at, bots_calib, titans_calib):
     print(f"  -> Updated accuracy history at {ACCURACY_HISTORY_OUTPUT.relative_to(REPO_ROOT)}")
 
 
+# ---------------------------------------------------------------------------
+# Per-week prediction history (the /history page)
+# ---------------------------------------------------------------------------
+
+def _grade_pool(listed, actual_ids, headline_k=None):
+    """Mark each listed pick hit/miss and summarize the pool's result.
+
+    ``actual_ids`` is the set of bot_ids from this pool actually discounted the
+    graded week (eligibility-restricted, so too-new bots are neither hit nor
+    miss). ``headline_k`` (e.g. 3 for bots) reports whether at least one of the
+    K most-overdue picks was discounted -- the same framing as the calibration
+    ``at_least_one`` figure. Mutates ``listed`` in place (adds ``hit``).
+    """
+    hits = 0
+    for pick in listed:
+        pick["hit"] = pick["id"] in actual_ids
+        if pick["hit"]:
+            hits += 1
+    result = {
+        "hits": hits,
+        "listed": len(listed),
+        "eligible_actual": len(actual_ids),
+        "top_hit": bool(listed) and listed[0]["id"] in actual_ids,
+    }
+    if headline_k is not None:
+        top_k = {p["id"] for p in listed if p["overdue_rank"] <= headline_k}
+        result["top3_hit"] = bool(top_k & actual_ids)
+    return result
+
+
+def _eligible_actual(pool_weeknums, weeknum):
+    """Bot_ids of this pool discounted in ``weeknum`` that were eligible then."""
+    return {
+        bot_id for bot_id, weeknums in pool_weeknums.items()
+        if weeknum in weeknums and _prior_count(weeknums, weeknum) >= MIN_HISTORY
+    }
+
+
+def _snapshot_week(ctx, week):
+    """Reconstruct and grade the prediction for one already-archived week.
+
+    Uses only history strictly before the week, so the snapshot is the
+    prediction that would have been shown that week. Returns the per-week record
+    plus a compact index row.
+    """
+    slug = week_slug(week)
+    start = date(week["start_year"], week["start_month"], week["start_day"])
+    weeknum = _week_number(start, ctx["origin"])
+    label = format_week(week, style="long")
+
+    bots, _ = _build_pool(ctx, "Mech", weeknum, BOTS_TOP_N,
+                          include_gear=True, calib_max_weeknum=weeknum)
+    titans, _ = _build_pool(ctx, "Titan", weeknum, TITANS_TOP_N,
+                            conditional=True, calib_max_weeknum=weeknum)
+
+    # A pool is "insufficient" when the prior history cannot produce a full slate
+    # of ranked candidates -- there is not yet an established cadence to predict
+    # from, so the week is shown as such and left out of the scoreboard.
+    bots_insufficient = len(bots) < BOTS_TOP_N
+    titans_insufficient = len(titans) < TITANS_TOP_N
+    if bots_insufficient:
+        bots = []
+    if titans_insufficient:
+        titans = []
+    insufficient = {"bots": bots_insufficient, "titans": titans_insufficient}
+
+    actual_bots = _eligible_actual(ctx["pools"]["Mech"], weeknum)
+    actual_titans = _eligible_actual(ctx["pools"]["Titan"], weeknum)
+    any_titan = any(weeknum in wns for wns in ctx["pools"]["Titan"].values())
+
+    bots_result = _grade_pool(bots, actual_bots, headline_k=BOTS_HEADLINE_K)
+    # Headline: at least BOTS_HEADLINE_MIN_HITS of the top-5 picks were discounted.
+    bots_result["three_of_five"] = bots_result["hits"] >= BOTS_HEADLINE_MIN_HITS
+    titans_result = _grade_pool(titans, actual_titans)
+    titans_result["any_titan"] = any_titan
+
+    # Whether calibrated odds could be shown (see _build_pool). Picks and their
+    # grading are still valid when odds are unavailable -- only the % is hidden.
+    odds_available = {
+        "bots": bool(bots) and bots[0]["likelihood_pct"] is not None,
+        "titans": bool(titans) and titans[0]["likelihood_pct"] is not None,
+    }
+
+    record = {
+        "week": week,
+        "slug": slug,
+        "label": label,
+        "reconstructed": True,
+        "graded": True,
+        "insufficient_history": insufficient,
+        "odds_available": odds_available,
+        "method": "weeks-since-discount; walk-forward, history-before-week only",
+        "bots": bots,
+        "titans": titans,
+        "actuals": {"bots": sorted(actual_bots), "titans": sorted(actual_titans)},
+        "result": {"bots": bots_result, "titans": titans_result},
+    }
+    index_row = {
+        "slug": slug,
+        "week": week,
+        "label": label,
+        "file": f"predictions_history/prediction_{slug}.json",
+        "graded": True,
+        "insufficient_history": insufficient,
+        "result": {"bots": bots_result, "titans": titans_result},
+    }
+    return record, index_row
+
+
+def build_prediction_history():
+    """Reconstruct and grade a per-week prediction snapshot for every archived
+    week, then write the index + rolling scoreboard.
+
+    Idempotent: overwrites each ``prediction_<slug>.json`` in place and prunes
+    snapshots whose week is no longer in the manifest. Cheap enough (dozens of
+    weeks) to regenerate wholesale, so both the pipeline and a full regen call
+    it, and it doubles as the one-time historical migration.
+    """
+    print("  -> Building per-week prediction history...")
+
+    ctx = _load_pools()
+    if ctx is None:
+        return None
+
+    weeks = ctx["manifest"].get("weeks", [])
+    if not weeks:
+        print("  [WARN] weeks.json manifest is empty; skipping prediction history.")
+        return None
+
+    PREDICTION_HISTORY_DIR.mkdir(parents=True, exist_ok=True)
+
+    index_rows = []
+    kept_files = set()
+    for entry in weeks:
+        week = normalize_week(entry["week"])
+        record, index_row = _snapshot_week(ctx, week)
+        out = PREDICTION_HISTORY_DIR / f"prediction_{record['slug']}.json"
+        with open(out, "w", encoding="utf-8") as f:
+            json.dump(record, f, indent=2, ensure_ascii=False)
+        kept_files.add(out.name)
+        index_rows.append(index_row)
+
+    # Prune stale snapshots for weeks that dropped out of the manifest.
+    for stale in PREDICTION_HISTORY_DIR.glob("prediction_*.json"):
+        if stale.name not in kept_files:
+            stale.unlink()
+
+    index_rows.sort(key=lambda r: week_sort_key(r["week"]), reverse=True)
+
+    # Rolling scoreboard over the most recent weeks only, so the headline
+    # reflects current accuracy rather than being diluted by the thin-history
+    # early weeks. Rows are newest-first, so the window is a simple slice.
+    recent = index_rows[:SCOREBOARD_WINDOW]
+
+    # Headline is the "at least 3 of the top 5 robots were discounted" hit rate.
+    bots_scored = [r for r in recent if not r["insufficient_history"]["bots"]]
+    bots_hits = sum(1 for r in bots_scored if r["result"]["bots"].get("three_of_five"))
+    # A titan week counts as correct when the top predicted titan was the one
+    # discounted OR no titan was discounted at all -- since titans are absent
+    # most weeks, "no titan" is a correct call for a next-titan prediction, not a
+    # miss.
+    titans_scored = [r for r in recent if not r["insufficient_history"]["titans"]]
+    titans_hits = sum(
+        1 for r in titans_scored
+        if r["result"]["titans"].get("top_hit") or not r["result"]["titans"].get("any_titan")
+    )
+    scoreboard = {
+        "window_weeks": len(recent),
+        "bots_scored_weeks": len(bots_scored),
+        "bots_hits": bots_hits,
+        "bots_rate": round(bots_hits / len(bots_scored), 4) if bots_scored else 0.0,
+        "titans_scored_weeks": len(titans_scored),
+        "titans_hits": titans_hits,
+        "titans_rate": round(titans_hits / len(titans_scored), 4) if titans_scored else 0.0,
+    }
+
+    index = {
+        "generated_at": datetime.now().astimezone().isoformat(),
+        "scoreboard": scoreboard,
+        "weeks": index_rows,
+    }
+    with open(PREDICTION_HISTORY_INDEX, "w", encoding="utf-8") as f:
+        json.dump(index, f, indent=2, ensure_ascii=False)
+    print(f"  -> Wrote prediction history ({len(index_rows)} weeks) to "
+          f"{PREDICTION_HISTORY_DIR.relative_to(REPO_ROOT)}")
+    return index
+
+
 if __name__ == "__main__":
     build_predictions()
+    build_prediction_history()

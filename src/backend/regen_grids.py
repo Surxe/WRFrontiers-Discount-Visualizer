@@ -97,9 +97,10 @@ def run():
 
     # Keep derived data (reverse lookup + predictions) in sync after a full regen.
     from build_reverse_lookup import build_reverse_lookup
-    from build_predictions import build_predictions
+    from build_predictions import build_predictions, build_prediction_history
     build_reverse_lookup(ARCHIVE_DIR)
     build_predictions()
+    build_prediction_history()
 
     print()
     print(f"Done. Regenerated {len(discount_files)} grid(s).")

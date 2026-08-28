@@ -16,7 +16,7 @@ from config import (
 from week_dates import format_week, normalize_week, week_slug, week_sort_key
 import grid_generator
 from build_reverse_lookup import build_reverse_lookup
-from build_predictions import build_predictions
+from build_predictions import build_predictions, build_prediction_history
 
 def process_discount():
     """
@@ -193,6 +193,9 @@ def process_discount():
 
     # Predictions depend on the freshly-written reverse lookup and weeks manifest.
     build_predictions()
+    # Now that this week is archived it is gradable, so refresh the per-week
+    # prediction history (snapshot-on-reveal).
+    build_prediction_history()
 
     return archive_data
 

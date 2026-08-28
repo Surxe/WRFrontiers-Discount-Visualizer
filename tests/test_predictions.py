@@ -6,11 +6,13 @@ import unittest
 # Add src/backend to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'backend'))
 
-from build_predictions import _rank_pool, _calibrate
+from build_predictions import _rank_pool, _calibrate, period_actuals, _grade_pool
 
-PREDICTIONS_JSON = os.path.join(
-    os.path.dirname(__file__), '..', 'src', 'frontend', 'public', 'data', 'predictions.json'
+DATA_DIR = os.path.join(
+    os.path.dirname(__file__), '..', 'src', 'frontend', 'public', 'data'
 )
+PREDICTIONS_JSON = os.path.join(DATA_DIR, 'predictions.json')
+HISTORY_INDEX_JSON = os.path.join(DATA_DIR, 'predictions_history', 'index.json')
 
 
 class TestRankPool(unittest.TestCase):
@@ -133,6 +135,113 @@ class TestGeneratedPredictions(unittest.TestCase):
             per_pos = acc['per_position']
             expected = round(sum(per_pos) / len(per_pos), 4)
             self.assertAlmostEqual(acc['precision'], expected, places=3)
+
+
+class TestPeriodActualsCutoff(unittest.TestCase):
+    """Walk-forward reconstruction must not peek past the target week."""
+
+    def test_max_weeknum_excludes_the_week_and_later(self):
+        pool = {'a': [0, 2, 4], 'b': [1, 3]}
+        all_weeknums = [0, 1, 2, 3, 4]
+        pa = period_actuals(pool, all_weeknums, max_weeknum=3)
+        weeks = [w for w, _ in pa]
+        self.assertEqual(weeks, [0, 1, 2])  # 3 and 4 excluded
+        self.assertEqual(dict(pa), {0: {'a'}, 1: {'b'}, 2: {'a'}})
+
+    def test_no_cutoff_covers_all_weeks(self):
+        pool = {'a': [0, 2], 'b': [1]}
+        pa = period_actuals(pool, [0, 1, 2], max_weeknum=None)
+        self.assertEqual([w for w, _ in pa], [0, 1, 2])
+
+
+class TestGradePool(unittest.TestCase):
+    def test_marks_hits_and_headline(self):
+        listed = [
+            {'id': 'x', 'overdue_rank': 2},  # display order != rank order
+            {'id': 'y', 'overdue_rank': 1},
+            {'id': 'z', 'overdue_rank': 4},
+        ]
+        result = _grade_pool(listed, {'x', 'z'}, headline_k=3)
+        self.assertEqual([p['hit'] for p in listed], [True, False, True])
+        self.assertEqual(result['hits'], 2)
+        self.assertEqual(result['listed'], 3)
+        self.assertEqual(result['eligible_actual'], 2)
+        self.assertTrue(result['top_hit'])       # listed[0] ('x') was discounted
+        self.assertTrue(result['top3_hit'])      # rank<=3 picks x,y; x hit
+
+    def test_top3_ignores_picks_below_rank_3(self):
+        listed = [
+            {'id': 'y', 'overdue_rank': 1},
+            {'id': 'z', 'overdue_rank': 5},
+        ]
+        # Only the rank-5 pick was discounted -> not a top-3 hit.
+        result = _grade_pool(listed, {'z'}, headline_k=3)
+        self.assertFalse(result['top3_hit'])
+        self.assertFalse(result['top_hit'])
+        self.assertEqual(result['hits'], 1)
+
+
+class TestPredictionHistoryIndex(unittest.TestCase):
+    """Invariants on the on-disk prediction history (skipped if not generated)."""
+
+    @classmethod
+    def setUpClass(cls):
+        if not os.path.exists(HISTORY_INDEX_JSON):
+            raise unittest.SkipTest('prediction history not generated')
+        with open(HISTORY_INDEX_JSON, encoding='utf-8') as f:
+            cls.index = json.load(f)
+
+    def test_scoreboard_windowed_to_recent_weeks(self):
+        board = self.index['scoreboard']
+        # Rows are newest-first; the scoreboard summarizes only the recent window.
+        recent = self.index['weeks'][:board['window_weeks']]
+        self.assertLessEqual(board['window_weeks'], len(self.index['weeks']))
+
+        # Bots headline: at least 3 of the top 5 predicted robots were discounted.
+        scored = [r for r in recent if not r['insufficient_history']['bots']]
+        hits = sum(1 for r in scored if r['result']['bots'].get('three_of_five'))
+        self.assertEqual(board['bots_scored_weeks'], len(scored))
+        self.assertEqual(board['bots_hits'], hits)
+        if scored:
+            self.assertAlmostEqual(board['bots_rate'], hits / len(scored), places=3)
+        # three_of_five must agree with the raw hit count on every scored week.
+        for r in scored:
+            self.assertEqual(r['result']['bots']['three_of_five'], r['result']['bots']['hits'] >= 3)
+
+        # A titan week is correct when the top titan hit OR no titan appeared.
+        t_scored = [r for r in recent if not r['insufficient_history']['titans']]
+        t_hits = sum(
+            1 for r in t_scored
+            if r['result']['titans'].get('top_hit') or not r['result']['titans'].get('any_titan')
+        )
+        self.assertEqual(board['titans_scored_weeks'], len(t_scored))
+        self.assertEqual(board['titans_hits'], t_hits)
+
+    def test_every_row_snapshot_exists_and_is_consistent(self):
+        for row in self.index['weeks']:
+            snap_path = os.path.join(DATA_DIR, row['file'])
+            self.assertTrue(os.path.exists(snap_path), f"missing snapshot {row['file']}")
+            with open(snap_path, encoding='utf-8') as f:
+                snap = json.load(f)
+            self.assertEqual(snap['slug'], row['slug'])
+            self.assertTrue(snap['reconstructed'])
+            # Insufficient pools carry no picks; sufficient bot pools are full.
+            if row['insufficient_history']['bots']:
+                self.assertEqual(snap['bots'], [])
+            else:
+                self.assertEqual(len(snap['bots']), 5)
+            # Each pick's hit flag must agree with the graded actuals set.
+            for pick in snap['bots']:
+                self.assertEqual(pick['hit'], pick['id'] in snap['actuals']['bots'])
+            # Odds are suppressed (null) together when the pool has no calibration
+            # basis yet, never a confusing all-zero slate.
+            if snap['bots']:
+                available = snap['odds_available']['bots']
+                for pick in snap['bots']:
+                    self.assertEqual(pick['likelihood_pct'] is not None, available)
+                if available:
+                    # If odds are shown, at least one slot must be non-zero.
+                    self.assertTrue(any(p['likelihood_pct'] for p in snap['bots']))
 
 
 if __name__ == '__main__':
