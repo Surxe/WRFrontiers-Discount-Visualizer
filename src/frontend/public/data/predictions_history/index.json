@@ -1,12 +1,13 @@
 {
-  "generated_at": "2026-08-27T22:31:21.923764-05:00",
+  "generated_at": "2026-08-27T22:41:22.718549-05:00",
   "scoreboard": {
-    "bots_scored_weeks": 44,
-    "bots_top3_hits": 27,
-    "bots_top3_rate": 0.6136,
-    "titans_scored_weeks": 42,
-    "titans_hits": 32,
-    "titans_rate": 0.7619
+    "window_weeks": 15,
+    "bots_scored_weeks": 15,
+    "bots_top3_hits": 15,
+    "bots_top3_rate": 1.0,
+    "titans_scored_weeks": 15,
+    "titans_hits": 12,
+    "titans_rate": 0.8
   },
   "weeks": [
     {

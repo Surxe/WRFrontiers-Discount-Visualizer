@@ -21,6 +21,7 @@ const snapshots = rows
 const pct = (v: number | undefined | null) =>
 	v == null ? null : `${Math.round(v * 100)}%`;
 
+const windowWeeks = scoreboard?.window_weeks;
 const boardRate = pct(scoreboard?.bots_top3_rate);
 const boardHits = scoreboard?.bots_top3_hits;
 const boardWeeks = scoreboard?.bots_scored_weeks;
@@ -59,23 +60,26 @@ function weekOutcome(snap: any) {
 
 		{scoreboard && boardWeeks ? (
 			<section class="scoreboard">
-				<div class="scoreboard__stat">
-					<span class="scoreboard__value">{boardRate}</span>
-					<span class="scoreboard__label">
-						of weeks, at least one of the top 3 robots was discounted
-					</span>
-					<span class="scoreboard__detail">{boardHits} of {boardWeeks} scored weeks</span>
-				</div>
-				{titanWeeks ? (
+				<p class="scoreboard__caption">Accuracy over the last {windowWeeks} weeks</p>
+				<div class="scoreboard__stats">
 					<div class="scoreboard__stat">
-						<span class="scoreboard__value">{titanRate}</span>
+						<span class="scoreboard__value">{boardRate}</span>
 						<span class="scoreboard__label">
-							of weeks, the top predicted titan was the one discounted, or no
-							titan was discounted
+							of weeks, at least one of the top 3 robots was discounted
 						</span>
-						<span class="scoreboard__detail">{titanHits} of {titanWeeks} scored weeks</span>
+						<span class="scoreboard__detail">{boardHits} of {boardWeeks} recent weeks</span>
 					</div>
-				) : null}
+					{titanWeeks ? (
+						<div class="scoreboard__stat">
+							<span class="scoreboard__value">{titanRate}</span>
+							<span class="scoreboard__label">
+								of weeks, the top predicted titan was the one discounted, or no
+								titan was discounted
+							</span>
+							<span class="scoreboard__detail">{titanHits} of {titanWeeks} recent weeks</span>
+						</div>
+					) : null}
+				</div>
 			</section>
 		) : (
 			<p class="history-empty">No graded weeks yet.</p>
@@ -178,11 +182,23 @@ function weekOutcome(snap: any) {
 	}
 
 	.scoreboard {
+		margin-bottom: 2.25rem;
+	}
+
+	.scoreboard__caption {
+		text-align: center;
+		font-size: 0.78rem;
+		text-transform: uppercase;
+		letter-spacing: 0.6px;
+		color: var(--text-muted, #8b92a5);
+		margin: 0 0 0.9rem;
+	}
+
+	.scoreboard__stats {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 1rem;
 		justify-content: center;
-		margin-bottom: 2.25rem;
 	}
 
 	.scoreboard__stat {

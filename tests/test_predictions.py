@@ -191,10 +191,13 @@ class TestPredictionHistoryIndex(unittest.TestCase):
         with open(HISTORY_INDEX_JSON, encoding='utf-8') as f:
             cls.index = json.load(f)
 
-    def test_scoreboard_matches_row_counts(self):
-        rows = self.index['weeks']
+    def test_scoreboard_windowed_to_recent_weeks(self):
         board = self.index['scoreboard']
-        scored = [r for r in rows if not r['insufficient_history']['bots']]
+        # Rows are newest-first; the scoreboard summarizes only the recent window.
+        recent = self.index['weeks'][:board['window_weeks']]
+        self.assertLessEqual(board['window_weeks'], len(self.index['weeks']))
+
+        scored = [r for r in recent if not r['insufficient_history']['bots']]
         hits = sum(1 for r in scored if r['result']['bots'].get('top3_hit'))
         self.assertEqual(board['bots_scored_weeks'], len(scored))
         self.assertEqual(board['bots_top3_hits'], hits)
@@ -202,7 +205,7 @@ class TestPredictionHistoryIndex(unittest.TestCase):
             self.assertAlmostEqual(board['bots_top3_rate'], hits / len(scored), places=3)
 
         # A titan week is correct when the top titan hit OR no titan appeared.
-        t_scored = [r for r in rows if not r['insufficient_history']['titans']]
+        t_scored = [r for r in recent if not r['insufficient_history']['titans']]
         t_hits = sum(
             1 for r in t_scored
             if r['result']['titans'].get('top_hit') or not r['result']['titans'].get('any_titan')

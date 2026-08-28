@@ -59,6 +59,11 @@ TITANS_TOP_N = 2
 # ``at_least_one`` figure the backtest reports.
 BOTS_HEADLINE_K = 3
 
+# The /history headline scoreboard summarizes only the most recent this-many
+# weeks, so it tracks current accuracy instead of being diluted by the earliest
+# thin-history weeks. The full per-week list below it is unaffected.
+SCOREBOARD_WINDOW = 15
+
 # "At least one of the top K" figures to compute per pool. Top 3 is the headline
 # the page highlights for regular bots.
 AT_LEAST_ONE_KS = (1, 2, 3, 4, 5)
@@ -660,20 +665,25 @@ def build_prediction_history():
 
     index_rows.sort(key=lambda r: week_sort_key(r["week"]), reverse=True)
 
-    # Rolling scoreboard over graded, sufficient-history weeks. Headline is the
-    # "at least one of the top 3 robots was discounted" hit rate.
-    bots_scored = [r for r in index_rows if not r["insufficient_history"]["bots"]]
+    # Rolling scoreboard over the most recent weeks only, so the headline
+    # reflects current accuracy rather than being diluted by the thin-history
+    # early weeks. Rows are newest-first, so the window is a simple slice.
+    recent = index_rows[:SCOREBOARD_WINDOW]
+
+    # Headline is the "at least one of the top 3 robots was discounted" hit rate.
+    bots_scored = [r for r in recent if not r["insufficient_history"]["bots"]]
     bots_hits = sum(1 for r in bots_scored if r["result"]["bots"].get("top3_hit"))
     # A titan week counts as correct when the top predicted titan was the one
     # discounted OR no titan was discounted at all -- since titans are absent
     # most weeks, "no titan" is a correct call for a next-titan prediction, not a
     # miss.
-    titans_scored = [r for r in index_rows if not r["insufficient_history"]["titans"]]
+    titans_scored = [r for r in recent if not r["insufficient_history"]["titans"]]
     titans_hits = sum(
         1 for r in titans_scored
         if r["result"]["titans"].get("top_hit") or not r["result"]["titans"].get("any_titan")
     )
     scoreboard = {
+        "window_weeks": len(recent),
         "bots_scored_weeks": len(bots_scored),
         "bots_top3_hits": bots_hits,
         "bots_top3_rate": round(bots_hits / len(bots_scored), 4) if bots_scored else 0.0,
