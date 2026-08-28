@@ -100,6 +100,12 @@ function weekOutcome(snap: any) {
 						) : (
 							<div class="week-block__body">
 								<h3 class="week-block__heading">Robots predicted</h3>
+								{snap?.odds_available && !snap.odds_available.bots && (
+									<p class="week-block__hint">
+										Odds aren't shown this early — too little history to calibrate
+										them yet. Picks are the most overdue robots and are graded normally.
+									</p>
+								)}
 								<ol class="prediction-cards">
 									{snap.bots.map((bot: any) => (
 										<PredictionCard bot={bot} baseUrl={baseUrl} rank={bot.overdue_rank} hit={bot.hit} />
@@ -304,6 +310,14 @@ function weekOutcome(snap: any) {
 		padding: 0 1.1rem 1.1rem;
 		font-size: 0.85rem;
 		color: var(--text-muted, #8b92a5);
+	}
+
+	.week-block__hint {
+		margin: 0 0 0.7rem;
+		font-size: 0.78rem;
+		font-style: italic;
+		color: var(--text-muted, #8b92a5);
+		line-height: 1.4;
 	}
 
 	.week-block__link {

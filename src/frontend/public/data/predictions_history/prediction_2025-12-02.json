@@ -15,6 +15,10 @@
     "bots": false,
     "titans": false
   },
+  "odds_available": {
+    "bots": true,
+    "titans": false
+  },
   "method": "weeks-since-discount; walk-forward, history-before-week only",
   "bots": [
     {
@@ -203,7 +207,7 @@
       "overdue_rank": 1,
       "weeks_since_discount": 9,
       "avg_interval": 13.5,
-      "likelihood_pct": 0.0,
+      "likelihood_pct": null,
       "associated": [],
       "hit": false
     },
@@ -216,7 +220,7 @@
       "overdue_rank": 2,
       "weeks_since_discount": 7,
       "avg_interval": 11.2,
-      "likelihood_pct": 0.0,
+      "likelihood_pct": null,
       "associated": [],
       "hit": false
     }

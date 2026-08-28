@@ -391,6 +391,14 @@ def _build_pool(ctx, pool_name, as_of_weeknum, top_n, *,
 
     odds_key = "per_position_conditional" if conditional else "per_position"
     ranking = _rank_pool(pool_weeknums, as_of_weeknum)[:top_n]
+    # When reconstructing a very early week the backtest may have scored so few
+    # prior weeks that no rank slot has ever been hit -- every position then
+    # calibrates to 0%, which reads as a confident "no chance" rather than the
+    # truth ("not enough history to estimate yet"). Detect that degenerate case
+    # and surface the likelihood as null so the UI can say so instead of 0%.
+    # Live predictions always have hits, so this never fires for them.
+    odds = calib[odds_key]
+    odds_available = any(odds[i] > 0 for i in range(len(ranking)))
     listed = []
     for i, bot_id in enumerate(ranking):
         last_week = [w for w in pool_weeknums[bot_id] if w < as_of_weeknum]
@@ -404,7 +412,7 @@ def _build_pool(ctx, pool_name, as_of_weeknum, top_n, *,
             "overdue_rank": i + 1,
             "weeks_since_discount": as_of_weeknum - last_week,
             "avg_interval": meta[bot_id]["avg_interval"],
-            "likelihood_pct": round(calib[odds_key][i] * 100, 1),
+            "likelihood_pct": round(odds[i] * 100, 1) if odds_available else None,
             "associated": (
                 _resolve_gear(bot_id, ctx["vbot_data"], ctx["modules_data"], ctx["preset_data"])
                 if include_gear else []
@@ -413,7 +421,14 @@ def _build_pool(ctx, pool_name, as_of_weeknum, top_n, *,
     # The most-overdue bot is not necessarily the most likely (a very long dry
     # spell often means a bot that keeps getting skipped), so present the list
     # ordered by its calibrated likelihood to match the "most likely" framing.
-    listed.sort(key=lambda b: (b["likelihood_pct"], b["weeks_since_discount"]), reverse=True)
+    # With no odds available, fall back to most-overdue-first via the tiebreak.
+    listed.sort(
+        key=lambda b: (
+            b["likelihood_pct"] if b["likelihood_pct"] is not None else -1.0,
+            b["weeks_since_discount"],
+        ),
+        reverse=True,
+    )
     return listed, calib
 
 
@@ -572,6 +587,13 @@ def _snapshot_week(ctx, week):
     titans_result = _grade_pool(titans, actual_titans)
     titans_result["any_titan"] = any_titan
 
+    # Whether calibrated odds could be shown (see _build_pool). Picks and their
+    # grading are still valid when odds are unavailable -- only the % is hidden.
+    odds_available = {
+        "bots": bool(bots) and bots[0]["likelihood_pct"] is not None,
+        "titans": bool(titans) and titans[0]["likelihood_pct"] is not None,
+    }
+
     record = {
         "week": week,
         "slug": slug,
@@ -579,6 +601,7 @@ def _snapshot_week(ctx, week):
         "reconstructed": True,
         "graded": True,
         "insufficient_history": insufficient,
+        "odds_available": odds_available,
         "method": "weeks-since-discount; walk-forward, history-before-week only",
         "bots": bots,
         "titans": titans,

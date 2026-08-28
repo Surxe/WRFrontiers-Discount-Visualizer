@@ -15,6 +15,10 @@
     "bots": false,
     "titans": false
   },
+  "odds_available": {
+    "bots": true,
+    "titans": true
+  },
   "method": "weeks-since-discount; walk-forward, history-before-week only",
   "bots": [
     {

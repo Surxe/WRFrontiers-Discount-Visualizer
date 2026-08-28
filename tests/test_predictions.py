@@ -226,6 +226,15 @@ class TestPredictionHistoryIndex(unittest.TestCase):
             # Each pick's hit flag must agree with the graded actuals set.
             for pick in snap['bots']:
                 self.assertEqual(pick['hit'], pick['id'] in snap['actuals']['bots'])
+            # Odds are suppressed (null) together when the pool has no calibration
+            # basis yet, never a confusing all-zero slate.
+            if snap['bots']:
+                available = snap['odds_available']['bots']
+                for pick in snap['bots']:
+                    self.assertEqual(pick['likelihood_pct'] is not None, available)
+                if available:
+                    # If odds are shown, at least one slot must be non-zero.
+                    self.assertTrue(any(p['likelihood_pct'] for p in snap['bots']))
 
 
 if __name__ == '__main__':

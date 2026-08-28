@@ -15,6 +15,10 @@
     "bots": false,
     "titans": true
   },
+  "odds_available": {
+    "bots": false,
+    "titans": false
+  },
   "method": "weeks-since-discount; walk-forward, history-before-week only",
   "bots": [
     {
@@ -26,7 +30,7 @@
       "overdue_rank": 1,
       "weeks_since_discount": 7,
       "avg_interval": 9.1,
-      "likelihood_pct": 0.0,
+      "likelihood_pct": null,
       "associated": [
         {
           "id": "DA_Module_Weapon_Toxin.0",
@@ -61,7 +65,7 @@
       "overdue_rank": 2,
       "weeks_since_discount": 3,
       "avg_interval": 12.8,
-      "likelihood_pct": 0.0,
+      "likelihood_pct": null,
       "associated": [
         {
           "id": "DA_Module_Weapon_StickyGun.0",
@@ -96,7 +100,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 3,
       "avg_interval": 12.7,
-      "likelihood_pct": 0.0,
+      "likelihood_pct": null,
       "associated": [
         {
           "id": "DA_Module_Weapon_Zeus.0",
@@ -131,7 +135,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 2,
       "avg_interval": 9.7,
-      "likelihood_pct": 0.0,
+      "likelihood_pct": null,
       "associated": [
         {
           "id": "DA_Module_Weapon_Punisher.0",
@@ -166,7 +170,7 @@
       "overdue_rank": 5,
       "weeks_since_discount": 2,
       "avg_interval": 12.5,
-      "likelihood_pct": 0.0,
+      "likelihood_pct": null,
       "associated": [
         {
           "id": "DA_Module_Weapon_Scourge.0",
