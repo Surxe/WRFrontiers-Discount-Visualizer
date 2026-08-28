@@ -463,6 +463,7 @@
     },
     "OBJID_Module::DA_Module_Weapon_Toxin.0": {
       "weeks": [
+        "2026-09-01",
         "2026-06-09",
         "2026-03-31",
         "2026-01-20",
@@ -474,7 +475,7 @@
       "virtual_bots": [
         "phantom"
       ],
-      "avg_weeks_between_discounts": 9.1
+      "avg_weeks_between_discounts": 9.5
     },
     "OBJID_Module::DA_Module_Ability_BlastWave.1": {
       "weeks": [
