@@ -197,12 +197,16 @@ class TestPredictionHistoryIndex(unittest.TestCase):
         recent = self.index['weeks'][:board['window_weeks']]
         self.assertLessEqual(board['window_weeks'], len(self.index['weeks']))
 
+        # Bots headline: at least 3 of the top 5 predicted robots were discounted.
         scored = [r for r in recent if not r['insufficient_history']['bots']]
-        hits = sum(1 for r in scored if r['result']['bots'].get('top3_hit'))
+        hits = sum(1 for r in scored if r['result']['bots'].get('three_of_five'))
         self.assertEqual(board['bots_scored_weeks'], len(scored))
-        self.assertEqual(board['bots_top3_hits'], hits)
+        self.assertEqual(board['bots_hits'], hits)
         if scored:
-            self.assertAlmostEqual(board['bots_top3_rate'], hits / len(scored), places=3)
+            self.assertAlmostEqual(board['bots_rate'], hits / len(scored), places=3)
+        # three_of_five must agree with the raw hit count on every scored week.
+        for r in scored:
+            self.assertEqual(r['result']['bots']['three_of_five'], r['result']['bots']['hits'] >= 3)
 
         # A titan week is correct when the top titan hit OR no titan appeared.
         t_scored = [r for r in recent if not r['insufficient_history']['titans']]

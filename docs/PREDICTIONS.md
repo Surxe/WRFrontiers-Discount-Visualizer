@@ -37,9 +37,12 @@ against what was actually discounted ("snapshot on reveal").
   `period_actuals(..., max_weeknum=weeknum)`). The earliest weeks lack enough
   history to rank a full slate and are flagged `insufficient_history` and left
   out of the scoreboard.
-- **Grading / metric:** the headline is "at least one of the top 3 robots was
-  discounted" (same framing as the live page); each snapshot also stores raw hit
-  data (per-pick `hit`, exact-rank hits, titan hit/miss).
+- **Grading / metric:** the regular-bot headline is "at least 3 of the top 5
+  predicted robots were discounted"; the titan headline is "the top predicted
+  titan was discounted, or no titan was discounted at all". The scoreboard is
+  windowed to the most recent `SCOREBOARD_WINDOW` (15) weeks so it tracks
+  current accuracy. Each snapshot also stores raw hit data (per-pick `hit`,
+  exact-rank hits, "at least one of top 3", titan hit/miss).
 - **Kept separate from calibration:** the realized per-week accuracy here is
   distinct from the live calibration trend in `accuracy_history.json`; the two
   are never conflated.

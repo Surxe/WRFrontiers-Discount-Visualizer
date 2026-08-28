@@ -54,10 +54,15 @@ GEAR_GROUPS = {g for g in STANDALONE_MODULE_GROUPS if g != "titan-weapon"}
 BOTS_TOP_N = 5
 TITANS_TOP_N = 2
 
-# The headline metric grades "at least one of the top K" -- top 3 for regular
-# bots. "Top K" means the K most-overdue (lowest overdue_rank), matching the
-# ``at_least_one`` figure the backtest reports.
+# Raw detail retained on each snapshot: whether at least one of the K most-overdue
+# picks was discounted (matches the live page's ``at_least_one`` framing).
 BOTS_HEADLINE_K = 3
+
+# The /history headline metric for regular bots: a week counts as a hit when at
+# least this many of the top-5 predicted robots were actually discounted. ("At
+# least one of the top 3" is trivially ~100% over recent weeks, so it is kept
+# only as raw detail.)
+BOTS_HEADLINE_MIN_HITS = 3
 
 # The /history headline scoreboard summarizes only the most recent this-many
 # weeks, so it tracks current accuracy instead of being diluted by the earliest
@@ -589,6 +594,8 @@ def _snapshot_week(ctx, week):
     any_titan = any(weeknum in wns for wns in ctx["pools"]["Titan"].values())
 
     bots_result = _grade_pool(bots, actual_bots, headline_k=BOTS_HEADLINE_K)
+    # Headline: at least BOTS_HEADLINE_MIN_HITS of the top-5 picks were discounted.
+    bots_result["three_of_five"] = bots_result["hits"] >= BOTS_HEADLINE_MIN_HITS
     titans_result = _grade_pool(titans, actual_titans)
     titans_result["any_titan"] = any_titan
 
@@ -670,9 +677,9 @@ def build_prediction_history():
     # early weeks. Rows are newest-first, so the window is a simple slice.
     recent = index_rows[:SCOREBOARD_WINDOW]
 
-    # Headline is the "at least one of the top 3 robots was discounted" hit rate.
+    # Headline is the "at least 3 of the top 5 robots were discounted" hit rate.
     bots_scored = [r for r in recent if not r["insufficient_history"]["bots"]]
-    bots_hits = sum(1 for r in bots_scored if r["result"]["bots"].get("top3_hit"))
+    bots_hits = sum(1 for r in bots_scored if r["result"]["bots"].get("three_of_five"))
     # A titan week counts as correct when the top predicted titan was the one
     # discounted OR no titan was discounted at all -- since titans are absent
     # most weeks, "no titan" is a correct call for a next-titan prediction, not a
@@ -685,8 +692,8 @@ def build_prediction_history():
     scoreboard = {
         "window_weeks": len(recent),
         "bots_scored_weeks": len(bots_scored),
-        "bots_top3_hits": bots_hits,
-        "bots_top3_rate": round(bots_hits / len(bots_scored), 4) if bots_scored else 0.0,
+        "bots_hits": bots_hits,
+        "bots_rate": round(bots_hits / len(bots_scored), 4) if bots_scored else 0.0,
         "titans_scored_weeks": len(titans_scored),
         "titans_hits": titans_hits,
         "titans_rate": round(titans_hits / len(titans_scored), 4) if titans_scored else 0.0,

@@ -22,20 +22,22 @@ const pct = (v: number | undefined | null) =>
 	v == null ? null : `${Math.round(v * 100)}%`;
 
 const windowWeeks = scoreboard?.window_weeks;
-const boardRate = pct(scoreboard?.bots_top3_rate);
-const boardHits = scoreboard?.bots_top3_hits;
+const boardRate = pct(scoreboard?.bots_rate);
+const boardHits = scoreboard?.bots_hits;
 const boardWeeks = scoreboard?.bots_scored_weeks;
 const titanRate = pct(scoreboard?.titans_rate);
 const titanHits = scoreboard?.titans_hits;
 const titanWeeks = scoreboard?.titans_scored_weeks;
 
-// Per-week outcome summary used for the collapsed header badge.
+// Per-week outcome summary used for the collapsed header badge: did at least 3
+// of the top 5 predicted robots get discounted that week.
 function weekOutcome(snap: any) {
 	const insufficientBots = snap?.insufficient_history?.bots;
 	if (insufficientBots) return { kind: 'na', label: 'Not enough history' };
-	return snap?.result?.bots?.top3_hit
-		? { kind: 'hit', label: 'Top 3 hit' }
-		: { kind: 'miss', label: 'Top 3 missed' };
+	const hits = snap?.result?.bots?.hits ?? 0;
+	return snap?.result?.bots?.three_of_five
+		? { kind: 'hit', label: `${hits} of top 5 hit` }
+		: { kind: 'miss', label: `${hits} of top 5 hit` };
 }
 ---
 
@@ -65,7 +67,7 @@ function weekOutcome(snap: any) {
 					<div class="scoreboard__stat">
 						<span class="scoreboard__value">{boardRate}</span>
 						<span class="scoreboard__label">
-							of weeks, at least one of the top 3 robots was discounted
+							of weeks, at least 3 of the top 5 predicted robots were discounted
 						</span>
 						<span class="scoreboard__detail">{boardHits} of {boardWeeks} recent weeks</span>
 					</div>

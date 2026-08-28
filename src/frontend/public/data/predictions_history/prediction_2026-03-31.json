@@ -239,7 +239,8 @@
       "listed": 5,
       "eligible_actual": 3,
       "top_hit": false,
-      "top3_hit": false
+      "top3_hit": false,
+      "three_of_five": false
     },
     "titans": {
       "hits": 0,
