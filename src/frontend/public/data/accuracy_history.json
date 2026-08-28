@@ -7,5 +7,14 @@
     "bots_scored_weeks": 44,
     "titans_precision": 0.119,
     "titans_scored_weeks": 42
+  },
+  {
+    "predicted_week": "2026-09-08",
+    "generated_at": "2026-08-28T13:31:40.993868+00:00",
+    "bots_precision": 0.3067,
+    "bots_at_least_one_top3": 0.6222,
+    "bots_scored_weeks": 45,
+    "titans_precision": 0.1163,
+    "titans_scored_weeks": 43
   }
 ]

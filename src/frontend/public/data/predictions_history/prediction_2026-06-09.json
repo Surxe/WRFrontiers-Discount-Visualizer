@@ -29,7 +29,7 @@
       "items_anchor": "bot-phantom",
       "overdue_rank": 2,
       "weeks_since_discount": 10,
-      "avg_interval": 9.1,
+      "avg_interval": 9.5,
       "likelihood_pct": 34.4,
       "associated": [
         {
@@ -169,7 +169,7 @@
       "items_anchor": "bot-decker",
       "overdue_rank": 5,
       "weeks_since_discount": 9,
-      "avg_interval": 10.5,
+      "avg_interval": 10.7,
       "likelihood_pct": 12.5,
       "associated": [
         {

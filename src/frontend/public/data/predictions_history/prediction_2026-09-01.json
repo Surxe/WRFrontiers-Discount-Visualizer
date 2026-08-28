@@ -1,14 +1,14 @@
 {
   "week": {
     "start_year": 2026,
-    "start_month": 6,
-    "start_day": 16,
+    "start_month": 9,
+    "start_day": 1,
     "end_year": 2026,
-    "end_month": 6,
-    "end_day": 23
+    "end_month": 9,
+    "end_day": 8
   },
-  "slug": "2026-06-16",
-  "label": "June 16 - 23 (2026)",
+  "slug": "2026-09-01",
+  "label": "September 1 - 8 (2026)",
   "reconstructed": true,
   "graded": true,
   "insufficient_history": {
@@ -22,13 +22,48 @@
   "method": "weeks-since-discount; walk-forward, history-before-week only",
   "bots": [
     {
+      "ref": "OBJID_VirtualBot::phantom",
+      "id": "phantom",
+      "name": "Phantom",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPhantom",
+      "items_anchor": "bot-phantom",
+      "overdue_rank": 2,
+      "weeks_since_discount": 12,
+      "avg_interval": 9.5,
+      "likelihood_pct": 52.3,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Toxin.0",
+          "name": "Lighter",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Toxin",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_BlockingField.1",
+          "name": "Energy Wall",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlockingField",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_MineField.1",
+          "name": "Minefield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_MineField",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
       "ref": "OBJID_VirtualBot::decker",
       "id": "decker",
       "name": "Decker",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotKernel",
       "items_anchor": "bot-decker",
-      "overdue_rank": 2,
-      "weeks_since_discount": 10,
+      "overdue_rank": 3,
+      "weeks_since_discount": 11,
       "avg_interval": 10.7,
       "likelihood_pct": 36.4,
       "associated": [
@@ -57,15 +92,50 @@
       "hit": true
     },
     {
+      "ref": "OBJID_VirtualBot::crix",
+      "id": "crix",
+      "name": "Crix",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotNipper",
+      "items_anchor": "bot-crix",
+      "overdue_rank": 4,
+      "weeks_since_discount": 10,
+      "avg_interval": 10.5,
+      "likelihood_pct": 27.3,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Stormpike.0",
+          "name": "Stormpike",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Stormpike",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Grounded.1",
+          "name": "Fuel Burn",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Grounded",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_MineField.1",
+          "name": "Minefield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_MineField",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
       "ref": "OBJID_VirtualBot::bulgasari",
       "id": "bulgasari",
       "name": "Bulgasari",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
       "items_anchor": "bot-bulgasari",
       "overdue_rank": 1,
-      "weeks_since_discount": 15,
+      "weeks_since_discount": 26,
       "avg_interval": 10.0,
-      "likelihood_pct": 27.3,
+      "likelihood_pct": 20.4,
       "associated": [
         {
           "id": "DA_Module_Weapon_Shredder.0",
@@ -97,10 +167,10 @@
       "name": "Ceres",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCeres",
       "items_anchor": "bot-ceres",
-      "overdue_rank": 3,
+      "overdue_rank": 5,
       "weeks_since_discount": 10,
       "avg_interval": 10.2,
-      "likelihood_pct": 27.3,
+      "likelihood_pct": 15.9,
       "associated": [
         {
           "id": "DA_Module_Weapon_Bisector.0",
@@ -125,119 +195,48 @@
         }
       ],
       "hit": false
-    },
-    {
-      "ref": "OBJID_VirtualBot::crix",
-      "id": "crix",
-      "name": "Crix",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotNipper",
-      "items_anchor": "bot-crix",
-      "overdue_rank": 4,
-      "weeks_since_discount": 9,
-      "avg_interval": 10.5,
-      "likelihood_pct": 24.2,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Stormpike.0",
-          "name": "Stormpike",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Stormpike",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_Grounded.1",
-          "name": "Fuel Burn",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Grounded",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_MineField.1",
-          "name": "Minefield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_MineField",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
-      "ref": "OBJID_VirtualBot::bulwark",
-      "id": "bulwark",
-      "name": "Bulwark",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulwark",
-      "items_anchor": "bot-bulwark",
-      "overdue_rank": 5,
-      "weeks_since_discount": 9,
-      "avg_interval": 10.2,
-      "likelihood_pct": 12.1,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Thunder.0",
-          "name": "Thunder",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Thunder",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_SmokeWall.1",
-          "name": "Holofield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SmokeWall",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_RegenerationFull.1",
-          "name": "Nanite Repair",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
     }
   ],
   "titans": [
     {
-      "ref": "OBJID_VirtualBot::volta",
-      "id": "volta",
-      "name": "Volta",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
-      "items_anchor": "bot-volta",
+      "ref": "OBJID_VirtualBot::matriarch",
+      "id": "matriarch",
+      "name": "Matriarch",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
+      "items_anchor": "bot-matriarch",
       "overdue_rank": 1,
-      "weeks_since_discount": 14,
-      "avg_interval": 17.0,
-      "likelihood_pct": 85.7,
+      "weeks_since_discount": 16,
+      "avg_interval": 11.7,
+      "likelihood_pct": 63.6,
       "associated": [],
       "hit": false
     },
     {
-      "ref": "OBJID_VirtualBot::grim",
-      "id": "grim",
-      "name": "Grim",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Grim",
-      "items_anchor": "bot-grim",
+      "ref": "OBJID_VirtualBot::norna",
+      "id": "norna",
+      "name": "Norna",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Norna",
+      "items_anchor": "bot-norna",
       "overdue_rank": 2,
-      "weeks_since_discount": 12,
-      "avg_interval": 11.2,
-      "likelihood_pct": 14.3,
+      "weeks_since_discount": 11,
+      "avg_interval": 6.0,
+      "likelihood_pct": 27.3,
       "associated": [],
       "hit": false
     }
   ],
   "actuals": {
     "bots": [
-      "decker"
+      "decker",
+      "phantom"
     ],
-    "titans": [
-      "norna"
-    ]
+    "titans": []
   },
   "result": {
     "bots": {
-      "hits": 1,
+      "hits": 2,
       "listed": 5,
-      "eligible_actual": 1,
+      "eligible_actual": 2,
       "top_hit": true,
       "top3_hit": true,
       "three_of_five": false
@@ -245,9 +244,9 @@
     "titans": {
       "hits": 0,
       "listed": 2,
-      "eligible_actual": 1,
+      "eligible_actual": 0,
       "top_hit": false,
-      "any_titan": true
+      "any_titan": false
     }
   }
 }
