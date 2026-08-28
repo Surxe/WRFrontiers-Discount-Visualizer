@@ -3,7 +3,7 @@ import GenericPage from '../components/GenericPage.astro';
 import NavBar from '../components/NavBar.astro';
 import MobileTopBar from '../components/MobileTopBar.astro';
 import MobileBottomNav from '../components/MobileBottomNav.astro';
-import PredictionCard from '../components/PredictionCard.astro';
+import PredictionWeekBlock from '../components/PredictionWeekBlock.astro';
 import AllWeeksSidebar from '../components/AllWeeksSidebar.astro';
 import { fetchWeeksManifest } from '../utils/weeksManifest.js';
 import { fetchPredictionHistoryIndex, fetchPredictionSnapshot } from '../utils/predictionHistory.js';
@@ -28,17 +28,6 @@ const boardWeeks = scoreboard?.bots_scored_weeks;
 const titanRate = pct(scoreboard?.titans_rate);
 const titanHits = scoreboard?.titans_hits;
 const titanWeeks = scoreboard?.titans_scored_weeks;
-
-// Per-week outcome summary used for the collapsed header badge: did at least 3
-// of the top 5 predicted robots get discounted that week.
-function weekOutcome(snap: any) {
-	const insufficientBots = snap?.insufficient_history?.bots;
-	if (insufficientBots) return { kind: 'na', label: 'Not enough history' };
-	const hits = snap?.result?.bots?.hits ?? 0;
-	return snap?.result?.bots?.three_of_five
-		? { kind: 'hit', label: `${hits} of top 5 hit` }
-		: { kind: 'miss', label: `${hits} of top 5 hit` };
-}
 ---
 
 <GenericPage
@@ -88,58 +77,14 @@ function weekOutcome(snap: any) {
 		)}
 
 		<div class="week-blocks">
-			{snapshots.map(({ row, snap }: any, i: number) => {
-				const outcome = weekOutcome(snap);
-				const insufficient = snap?.insufficient_history?.bots;
-				const titanResult = snap?.result?.titans;
-				return (
-					<details class="week-block" open={i === 0}>
-						<summary class="week-block__summary">
-							<span class="week-block__label">{snap.label}</span>
-							<span class:list={["week-block__badge", `is-${outcome.kind}`]}>{outcome.label}</span>
-						</summary>
-
-						{insufficient ? (
-							<p class="week-block__note">
-								Too few prior discounts to make a prediction this early.
-							</p>
-						) : (
-							<div class="week-block__body">
-								<h3 class="week-block__heading">Robots predicted</h3>
-								{snap?.odds_available && !snap.odds_available.bots && (
-									<p class="week-block__hint">
-										Odds aren't shown this early — too little history to calibrate
-										them yet. Picks are the most overdue robots and are graded normally.
-									</p>
-								)}
-								<ol class="prediction-cards">
-									{snap.bots.map((bot: any) => (
-										<PredictionCard bot={bot} baseUrl={baseUrl} rank={bot.overdue_rank} hit={bot.hit} />
-									))}
-								</ol>
-								{snap.titans && snap.titans.length > 0 && (
-									<>
-										<h3 class="week-block__heading">
-											Titans predicted
-											{titanResult && !titanResult.any_titan && (
-												<span class="week-block__sub"> — no titan was discounted</span>
-											)}
-										</h3>
-										<ol class="prediction-cards">
-											{snap.titans.map((titan: any) => (
-												<PredictionCard bot={titan} baseUrl={baseUrl} rank={titan.overdue_rank} oddsLabel="if a titan" hit={titan.hit} />
-											))}
-										</ol>
-									</>
-								)}
-								<a class="week-block__link" href={`${baseUrl}week/${row.slug}`}>
-									See this week's full discounts &rarr;
-								</a>
-							</div>
-						)}
-					</details>
-				);
-			})}
+			{snapshots.map(({ row, snap }: any, i: number) => (
+				<PredictionWeekBlock
+					snap={snap}
+					baseUrl={baseUrl}
+					open={i === 0}
+					footer={{ href: `${baseUrl}week/${row.slug}`, text: "See this week's full discounts →" }}
+				/>
+			))}
 		</div>
 	</div>
 	</AllWeeksSidebar>
@@ -244,110 +189,6 @@ function weekOutcome(snap: any) {
 		display: flex;
 		flex-direction: column;
 		gap: 0.7rem;
-	}
-
-	.week-block {
-		background: rgba(22, 25, 32, 0.5);
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		border-radius: 12px;
-		overflow: hidden;
-	}
-
-	.week-block__summary {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		padding: 0.85rem 1.1rem;
-		cursor: pointer;
-		list-style: none;
-	}
-
-	.week-block__summary::-webkit-details-marker {
-		display: none;
-	}
-
-	.week-block__label {
-		font-weight: 600;
-		font-size: 0.98rem;
-	}
-
-	.week-block__badge {
-		flex-shrink: 0;
-		font-size: 0.72rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.4px;
-		padding: 0.25rem 0.6rem;
-		border-radius: 999px;
-	}
-
-	.week-block__badge.is-hit {
-		color: #2ec4b6;
-		background: rgba(46, 196, 182, 0.14);
-	}
-
-	.week-block__badge.is-miss {
-		color: #ff9f1c;
-		background: rgba(255, 159, 28, 0.14);
-	}
-
-	.week-block__badge.is-na {
-		color: var(--text-muted, #8b92a5);
-		background: rgba(139, 146, 165, 0.12);
-	}
-
-	.week-block__body {
-		padding: 0 1.1rem 1.1rem;
-	}
-
-	.week-block__heading {
-		font-size: 0.8rem;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-		color: var(--text-muted, #8b92a5);
-		margin: 1rem 0 0.6rem;
-	}
-
-	.week-block__sub {
-		text-transform: none;
-		letter-spacing: 0;
-		font-weight: 400;
-	}
-
-	.prediction-cards {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 0.6rem;
-	}
-
-	.week-block__note {
-		padding: 0 1.1rem 1.1rem;
-		font-size: 0.85rem;
-		color: var(--text-muted, #8b92a5);
-	}
-
-	.week-block__hint {
-		margin: 0 0 0.7rem;
-		font-size: 0.78rem;
-		font-style: italic;
-		color: var(--text-muted, #8b92a5);
-		line-height: 1.4;
-	}
-
-	.week-block__link {
-		display: inline-block;
-		margin-top: 0.9rem;
-		font-size: 0.82rem;
-		color: var(--accent-color, #3a86ff);
-		text-decoration: none;
-	}
-
-	.week-block__link:hover {
-		text-decoration: underline;
 	}
 
 	@media (max-width: 768px) {

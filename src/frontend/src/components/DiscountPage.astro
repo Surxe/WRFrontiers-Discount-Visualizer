@@ -8,6 +8,7 @@ import NavBar from './NavBar.astro';
 import MobileTopBar from './MobileTopBar.astro';
 import MobileBottomNav from './MobileBottomNav.astro';
 import LastDiscountTable from './LastDiscountTable.astro';
+import PredictionWeekBlock from './PredictionWeekBlock.astro';
 import CostCalculator from './CostCalculator.astro';
 import { getTexturePath, getRarityBackgroundUrl } from '../utils/textures.js';
 import { categorize } from '../utils/gridData.js';
@@ -15,6 +16,7 @@ import { fetchEnrichedDiscounts } from '../utils/dataFetcher.js';
 import { fetchModules, fetchModuleRarities, getModuleDisplayName } from '../utils/moduleData.js';
 import { fetchDiscountHistory } from '../utils/discountHistory.js';
 import { fetchPredictions } from '../utils/predictions.js';
+import { fetchPredictionSnapshot } from '../utils/predictionHistory.js';
 import { getCurrentOrLatestWeek, getNextWeek, getPreviousWeek } from '../utils/dateValidator.js';
 import { formatWeek } from '../utils/weekDates.js';
 import { extractDiscountedItemsFromGrid } from '../utils/discountHistory.js';
@@ -39,6 +41,13 @@ const predictedHref = predictedLabel ? `${baseUrl}predictions` : null;
 // points at the predicted upcoming week instead of disappearing.
 const nextNavHref = nextWeekHref ?? predictedHref;
 const nextIsPredicted = !nextWeekHref && !!predictedHref;
+// The frozen prediction that was made for this week (using only history before
+// it), graded against what was actually discounted. Shown expanded below the
+// grid. Omitted on the earliest weeks that lacked enough history to predict.
+const predictionSnapshot = currentSlug
+  ? fetchPredictionSnapshot(`predictions_history/prediction_${currentSlug}.json`)
+  : null;
+const showPredictionBlock = !!predictionSnapshot && !predictionSnapshot?.insufficient_history?.bots;
 const prevWeek = getPreviousWeek(weeks, currentSlug);
 const prevWeekHref = prevWeek
   ? mainPageWeek && prevWeek.slug === mainPageWeek.slug
@@ -209,6 +218,22 @@ const weekList = weekEntries.map(w => ({
 				</header>
 
 				<DiscountGrid dateRange={dateRange} gridData={gridData} shopCards={shopCards} catIcons={catIcons} vbotMetaById={vbotMetaById} currentWeekSlug={currentSlug} />
+
+				{showPredictionBlock && (
+					<section class="week-prediction">
+						<h2 class="week-prediction__title">Predicted for this week</h2>
+						<p class="week-prediction__sub">
+							What the model predicted before this week began, using only earlier
+							history, graded against what was actually discounted.
+						</p>
+						<PredictionWeekBlock
+							snap={predictionSnapshot}
+							baseUrl={baseUrl}
+							open={true}
+							footer={{ href: `${baseUrl}history`, text: 'See all prediction history →' }}
+						/>
+					</section>
+				)}
 
 				<LastDiscountTable items={discountedItems} currentWeekSlug={currentSlug} baseUrl={baseUrl} />
 
@@ -392,6 +417,26 @@ const weekList = weekEntries.map(w => ({
 		display: flex;
 		justify-content: center;
 		margin: 0.5rem 0 1rem;
+	}
+
+	.week-prediction {
+		max-width: 900px;
+		margin: 2rem auto 0;
+		padding: 0 1rem;
+	}
+
+	.week-prediction__title {
+		justify-content: flex-start;
+		font-size: 1.1rem;
+		color: var(--text-color, #e0e0e0);
+		margin-bottom: 0.25rem;
+	}
+
+	.week-prediction__sub {
+		font-size: 0.82rem;
+		color: var(--text-muted, #8b92a5);
+		line-height: 1.45;
+		margin: 0 0 0.9rem;
 	}
 
 

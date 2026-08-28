@@ -241,7 +241,7 @@ const shareText = shareLines.join('\n');
 	}
 
 	.history-link {
-		display: block;
+		display: inline-block;
 		margin-top: 0.7rem;
 		font-size: 0.85rem;
 		color: var(--accent-color, #3a86ff);
@@ -253,7 +253,8 @@ const shareText = shareLines.join('\n');
 	}
 
 	.share-button {
-		display: inline-flex;
+		display: flex;
+		width: fit-content;
 		align-items: center;
 		gap: 0.4rem;
 		margin: 1rem auto 0;
