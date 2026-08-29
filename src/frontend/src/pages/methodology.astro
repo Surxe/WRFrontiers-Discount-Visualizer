@@ -15,75 +15,72 @@ const round1 = (v: number | null | undefined) =>
 	v == null ? null : Math.round(v * 10) / 10;
 // slot_hit_rate is 0-1; likelihood_pct is already 0-100.
 const slotRatePct = ex ? round1(ex.slot_hit_rate * 100) : null;
+
+// Small plain-language ordinal for the overdue position (1st, 2nd, ...).
+const ordinal = (n: number) => {
+	const s = ['th', 'st', 'nd', 'rd'];
+	const v = n % 100;
+	return n + (s[(v - 20) % 10] || s[v] || s[0]);
+};
+const rankOrdinal = ex ? ordinal(ex.overdue_rank) : null;
 ---
 
 <GenericPage
 	title="Methodology - WRF Discounts"
-	description="How the WRFrontiers discount predictions are calculated: ranking by weeks-since-discount, then position-calibrated odds from a no-look-ahead backtest."
+	description="How the WRFrontiers discount predictions work, in plain terms: line robots up by how overdue they are, then show how often each spot has paid off in the past."
 	baseUrl={baseUrl}
 >
 	<NavBar baseUrl={baseUrl} currentPage="predictions" />
 	<h1>How predictions are calculated</h1>
 	<div class="method-content">
 		<p class="intro">
-			The <a href={`${baseUrl}predictions`}>Predictions</a> page estimates which
-			robots and titans are most likely to be discounted next. Nothing here is an
-			official announcement &mdash; it is a statistical read of past discount
-			patterns. This page lays out exactly how the numbers are produced, in two
-			steps: first an <strong>ordering</strong>, then a <strong>likelihood</strong>
-			for each position in that ordering.
+			The <a href={`${baseUrl}predictions`}>Predictions</a> page is our best guess
+			at which robots and titans get discounted next &mdash; not an official
+			announcement, just a read of how discounts have gone in the past. Here is the
+			whole idea in two simple steps.
 		</p>
 
 		<section>
-			<h2>Step 1 &mdash; Rank by how overdue each robot is</h2>
+			<h2>Step 1 &mdash; Line them up by how overdue they are</h2>
 			<p>
-				Every robot that has been discounted before has an average cadence. The
-				ranking signal is simply <strong>weeks since it was last discounted</strong>:
-				the most overdue robot ranks first, the next most overdue second, and so on.
-				This plain "most overdue wins" rule was the most accurate ordering we
-				tested &mdash; notably, it beat dividing the wait by each robot's average
-				interval, so the raw wait is what we use.
+				Robots tend to come back around for a discount on a rough cycle. So we line
+				every robot up by one thing: <strong>how long it has been since its last
+				discount</strong>. The robot that has waited longest goes to the front of
+				the line, the next-longest behind it, and so on. The ones near the front are
+				"due".
 			</p>
 			<p class="fine">
-				A robot needs at least <strong>2 prior discounts</strong> to be ranked. A
-				robot discounted zero or one times has no established cadence yet, so it is
-				left out of the ranking and out of the accuracy math alike. In practice
-				these are usually the <strong>newest robots</strong>.
-			</p>
-			<p class="fine">
-				One honest consequence: an excluded robot can still take a discount slot
-				&mdash; a brand-new robot getting its long-awaited first or second discount
-				&mdash; and when it does, it displaces one of the robots we listed. Because
-				that robot has no cadence to measure, we cannot fold its long wait into the
-				odds in any accurate way, so we leave it out entirely. The upshot is that
-				the real chance for each listed robot is <strong>slightly lower</strong>
-				than the percentage shown, by however often a newcomer claims a slot.
+				A robot needs at least <strong>2 past discounts</strong> before we include
+				it, so we have some idea of its cycle. That mostly leaves out the
+				<strong>newest robots</strong> &mdash; and there is an honest catch to that:
+				a brand-new robot can still swoop in and grab a discount slot, bumping one of
+				the robots we listed. We have no cycle to judge a newcomer by, so we leave it
+				out rather than guess. The practical effect is that each listed robot's real
+				chance is <strong>a little lower</strong> than the number shown.
 			</p>
 		</section>
 
 		<section>
-			<h2>Step 2 &mdash; Turn each rank position into a likelihood</h2>
+			<h2>Step 2 &mdash; How likely is each one?</h2>
 			<p>
-				The percentage shown is <strong>position-calibrated</strong>. We replay
-				history week by week &mdash; each week using <em>only</em> the discounts
-				before it, so the model never sees the answer it is predicting &mdash; and
-				measure how often the robot sitting in each rank slot was actually
-				discounted. That measured hit-rate becomes the likelihood for whoever lands
-				in that slot next.
+				Being at the front of the line is not a guarantee, so we put a real number
+				on it &mdash; and that number comes straight from the track record of each
+				spot in the line.
 			</p>
-			<div class="formula">
-				likelihood(slot) = weeks the slot was actually discounted &divide; weeks scored
-			</div>
 			<p>
-				Because it is measured directly, the likelihood cannot drift from reality:
-				it <em>is</em> the observed frequency. The backtest reruns on every build,
-				so as new weeks are archived the numbers recalibrate themselves.
+				We look back over every past week and ask a simple question: when a robot was
+				sitting in <em>this</em> spot in the overdue line, how often did it actually
+				get discounted? If a spot came through in, say, 24 of the last 45 weeks,
+				that is about a 53&percnt; chance &mdash; so that is the number we show for
+				whoever is in that spot now.
 			</p>
 			<p class="fine">
-				The cards are then sorted by this likelihood, not by the raw wait. That is
-				deliberate: a very long dry spell often belongs to a robot that keeps being
-				skipped, so being the <em>most</em> overdue is not the same as being the
-				<em>most likely</em>. The worked example below shows exactly this.
+				Because it is just counting what really happened, the percentage stays honest
+				on its own, and it updates as new weeks are added. One surprise falls out of
+				it: the robot that has waited the <em>longest</em> is not always the most
+				likely &mdash; a very long dry spell often means a robot that keeps getting
+				skipped. That is why the cards are ordered by the percentage, not by the
+				wait. The example below shows exactly that.
 			</p>
 		</section>
 
@@ -99,51 +96,46 @@ const slotRatePct = ex ? round1(ex.slot_hit_rate * 100) : null;
 				<ol class="walk">
 					<li>
 						<strong>{ex.name}</strong> was last discounted{' '}
-						<strong>{ex.weeks_since_discount}</strong> weeks ago, which makes it the{' '}
-						<strong>#{ex.overdue_rank}</strong> most overdue eligible robot this
-						week (Step&nbsp;1).
+						<strong>{ex.weeks_since_discount}</strong> weeks ago &mdash; the{' '}
+						<strong>{rankOrdinal}</strong> longest wait in the line right now
+						(Step&nbsp;1).
 					</li>
 					<li>
-						Across <strong>{scoredWeeks}</strong> backtested weeks, the robot in
-						rank slot <strong>#{ex.overdue_rank}</strong> was actually discounted{' '}
-						<strong>{ex.slot_hits}</strong> times (Step&nbsp;2).
+						Looking back over the last <strong>{scoredWeeks}</strong> weeks, whoever
+						sat in that <strong>{rankOrdinal}</strong> spot ended up discounted in{' '}
+						<strong>{ex.slot_hits}</strong> of them (Step&nbsp;2).
 					</li>
 					<li>
 						<div class="formula formula--calc">
-							{ex.slot_hits} &divide; {scoredWeeks} = {slotRatePct}%
+							{ex.slot_hits} out of {scoredWeeks} = {slotRatePct}&percnt;
 						</div>
 						So <strong>{ex.name}</strong> is shown at{' '}
-						<strong>{round1(ex.likelihood_pct)}%</strong> &mdash; the number on its
-						card on the Predictions page.
+						<strong>{round1(ex.likelihood_pct)}&percnt;</strong> &mdash; the number
+						on its card on the Predictions page.
 					</li>
 				</ol>
-				<p class="fine">
-					Note that the rank&nbsp;#{ex.overdue_rank} slot can out-score the
-					rank&nbsp;#1 slot &mdash; the most overdue robot is not always the most
-					likely, which is why the list is sorted by likelihood.
-				</p>
 			</section>
 		)}
 
 		<section>
-			<h2>Titans</h2>
+			<h2>What about titans?</h2>
 			<p>
-				Titans are discounted in only a minority of weeks, so their odds are framed
-				conditionally: "if a titan is discounted next, the odds it is this one." The
-				Predictions page also notes how often no titan is discounted at all, since
-				the next titan discount may not fall next week.
+				Titans work the same way, with one twist: they are only discounted some
+				weeks, not every week. So instead of "the chance this titan is discounted
+				next week", their percentage answers "<em>when</em> a titan does get
+				discounted, the chance it is this one." The{' '}
+				<a href={`${baseUrl}predictions`}>Predictions page</a> also tells you how
+				often no titan is discounted at all.
 			</p>
 		</section>
 
 		<section>
-			<h2>Honesty &amp; track record</h2>
+			<h2>Does it actually work?</h2>
 			<p>
-				Every past week's prediction is frozen at the time it was made and graded
-				against what was actually discounted &mdash; see the{' '}
-				<a href={`${baseUrl}history`}>Prediction History</a> page for the week-by-week
-				record and a rolling accuracy scoreboard. The live calibration trend is also
-				kept as raw data in <code>accuracy_history.json</code>, so anyone can audit
-				how the numbers have held up over time.
+				We keep ourselves honest: every past week's prediction is saved exactly as
+				it was shown at the time, then checked against what was really discounted.
+				You can see the full week-by-week record, and how often we get it right, on
+				the <a href={`${baseUrl}history`}>Prediction History</a> page.
 			</p>
 		</section>
 
