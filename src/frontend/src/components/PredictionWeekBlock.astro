@@ -10,12 +10,12 @@ const { snap, baseUrl = '', open = false, footer = null } = Astro.props;
 const insufficient = snap?.insufficient_history?.bots;
 const titanResult = snap?.result?.titans;
 
-// Collapsed-header badge: did at least 3 of the top 5 predicted robots get
+// Collapsed-header badge: did at least 2 of the top 5 predicted robots get
 // discounted that week.
 function weekOutcome(s: any) {
 	if (s?.insufficient_history?.bots) return { kind: 'na', label: 'Not enough history' };
 	const hits = s?.result?.bots?.hits ?? 0;
-	return s?.result?.bots?.three_of_five
+	return s?.result?.bots?.headline_hit
 		? { kind: 'hit', label: `${hits} of top 5 hit` }
 		: { kind: 'miss', label: `${hits} of top 5 hit` };
 }

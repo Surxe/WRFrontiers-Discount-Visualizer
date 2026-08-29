@@ -239,7 +239,7 @@
       "eligible_actual": 2,
       "top_hit": true,
       "top3_hit": true,
-      "three_of_five": false
+      "headline_hit": true
     },
     "titans": {
       "hits": 0,

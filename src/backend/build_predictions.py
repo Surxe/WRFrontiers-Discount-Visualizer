@@ -61,8 +61,11 @@ BOTS_HEADLINE_K = 3
 # The /history headline metric for regular bots: a week counts as a hit when at
 # least this many of the top-5 predicted robots were actually discounted. ("At
 # least one of the top 3" is trivially ~100% over recent weeks, so it is kept
-# only as raw detail.)
-BOTS_HEADLINE_MIN_HITS = 3
+# only as raw detail.) Set to 2 rather than 3 because bots with fewer than
+# MIN_HISTORY prior discounts are excluded from the predictions yet can still
+# take a discount slot in the actual week, so a 2-of-5 bar is a fairer read of
+# the model's real skill.
+BOTS_HEADLINE_MIN_HITS = 2
 
 # The /history headline scoreboard summarizes only the most recent this-many
 # weeks, so it tracks current accuracy instead of being diluted by the earliest
@@ -595,7 +598,7 @@ def _snapshot_week(ctx, week):
 
     bots_result = _grade_pool(bots, actual_bots, headline_k=BOTS_HEADLINE_K)
     # Headline: at least BOTS_HEADLINE_MIN_HITS of the top-5 picks were discounted.
-    bots_result["three_of_five"] = bots_result["hits"] >= BOTS_HEADLINE_MIN_HITS
+    bots_result["headline_hit"] = bots_result["hits"] >= BOTS_HEADLINE_MIN_HITS
     titans_result = _grade_pool(titans, actual_titans)
     titans_result["any_titan"] = any_titan
 
@@ -677,9 +680,9 @@ def build_prediction_history():
     # early weeks. Rows are newest-first, so the window is a simple slice.
     recent = index_rows[:SCOREBOARD_WINDOW]
 
-    # Headline is the "at least 3 of the top 5 robots were discounted" hit rate.
+    # Headline is the "at least 2 of the top 5 robots were discounted" hit rate.
     bots_scored = [r for r in recent if not r["insufficient_history"]["bots"]]
-    bots_hits = sum(1 for r in bots_scored if r["result"]["bots"].get("three_of_five"))
+    bots_hits = sum(1 for r in bots_scored if r["result"]["bots"].get("headline_hit"))
     # A titan week counts as correct when the top predicted titan was the one
     # discounted OR no titan was discounted at all -- since titans are absent
     # most weeks, "no titan" is a correct call for a next-titan prediction, not a

@@ -37,9 +37,14 @@ against what was actually discounted ("snapshot on reveal").
   `period_actuals(..., max_weeknum=weeknum)`). The earliest weeks lack enough
   history to rank a full slate and are flagged `insufficient_history` and left
   out of the scoreboard.
-- **Grading / metric:** the regular-bot headline is "at least 3 of the top 5
-  predicted robots were discounted"; the titan headline is "the top predicted
-  titan was discounted, or no titan was discounted at all". The scoreboard is
+- **Grading / metric:** the regular-bot headline is "at least 2 of the top 5
+  predicted robots were discounted" (the threshold is `BOTS_HEADLINE_MIN_HITS`;
+  each snapshot stores the boolean as `result.bots.headline_hit`). It is set to
+  2 rather than 3 because bots with fewer than `MIN_HISTORY` prior discounts are
+  excluded from the predictions yet can still take a discount slot in the actual
+  week, so 2-of-5 is a fairer read of the model's skill. The titan headline is
+  "the top predicted titan was discounted, or no titan was discounted at all".
+  The scoreboard is
   windowed to the most recent `SCOREBOARD_WINDOW` (15) weeks so it tracks
   current accuracy. Each snapshot also stores raw hit data (per-pick `hit`,
   exact-rank hits, "at least one of top 3", titan hit/miss).
