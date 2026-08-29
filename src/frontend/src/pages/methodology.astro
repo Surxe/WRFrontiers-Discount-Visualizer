@@ -1,0 +1,261 @@
+---
+import GenericPage from '../components/GenericPage.astro';
+import NavBar from '../components/NavBar.astro';
+import { fetchPredictions } from '../utils/predictions.js';
+
+const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
+const predictions = fetchPredictions();
+
+const methodology = predictions?.methodology ?? null;
+const ex = methodology?.example ?? null;
+const scoredWeeks = methodology?.scored_weeks ?? null;
+const weekLabel = predictions?.predictedWeek?.label ?? null;
+
+const round1 = (v: number | null | undefined) =>
+	v == null ? null : Math.round(v * 10) / 10;
+// slot_hit_rate is 0-1; likelihood_pct is already 0-100.
+const slotRatePct = ex ? round1(ex.slot_hit_rate * 100) : null;
+---
+
+<GenericPage
+	title="Methodology - WRF Discounts"
+	description="How the WRFrontiers discount predictions are calculated: ranking by weeks-since-discount, then position-calibrated odds from a no-look-ahead backtest."
+	baseUrl={baseUrl}
+>
+	<NavBar baseUrl={baseUrl} currentPage="predictions" />
+	<h1>How predictions are calculated</h1>
+	<div class="method-content">
+		<p class="intro">
+			The <a href={`${baseUrl}predictions`}>Predictions</a> page estimates which
+			robots and titans are most likely to be discounted next. Nothing here is an
+			official announcement &mdash; it is a statistical read of past discount
+			patterns. This page lays out exactly how the numbers are produced, in two
+			steps: first an <strong>ordering</strong>, then a <strong>likelihood</strong>
+			for each position in that ordering.
+		</p>
+
+		<section>
+			<h2>Step 1 &mdash; Rank by how overdue each robot is</h2>
+			<p>
+				Every robot that has been discounted before has an average cadence. The
+				ranking signal is simply <strong>weeks since it was last discounted</strong>:
+				the most overdue robot ranks first, the next most overdue second, and so on.
+				This plain "most overdue wins" rule was the most accurate ordering we
+				tested &mdash; notably, it beat dividing the wait by each robot's average
+				interval, so the raw wait is what we use.
+			</p>
+			<p class="fine">
+				A robot needs at least <strong>2 prior discounts</strong> to be ranked. A
+				robot discounted zero or one times has no established cadence yet, so it is
+				left out of the ranking and out of the accuracy math alike. In practice
+				these are usually the <strong>newest robots</strong>.
+			</p>
+			<p class="fine">
+				One honest consequence: an excluded robot can still take a discount slot
+				&mdash; a brand-new robot getting its long-awaited first or second discount
+				&mdash; and when it does, it displaces one of the robots we listed. Because
+				that robot has no cadence to measure, we cannot fold its long wait into the
+				odds in any accurate way, so we leave it out entirely. The upshot is that
+				the real chance for each listed robot is <strong>slightly lower</strong>
+				than the percentage shown, by however often a newcomer claims a slot.
+			</p>
+		</section>
+
+		<section>
+			<h2>Step 2 &mdash; Turn each rank position into a likelihood</h2>
+			<p>
+				The percentage shown is <strong>position-calibrated</strong>. We replay
+				history week by week &mdash; each week using <em>only</em> the discounts
+				before it, so the model never sees the answer it is predicting &mdash; and
+				measure how often the robot sitting in each rank slot was actually
+				discounted. That measured hit-rate becomes the likelihood for whoever lands
+				in that slot next.
+			</p>
+			<div class="formula">
+				likelihood(slot) = weeks the slot was actually discounted &divide; weeks scored
+			</div>
+			<p>
+				Because it is measured directly, the likelihood cannot drift from reality:
+				it <em>is</em> the observed frequency. The backtest reruns on every build,
+				so as new weeks are archived the numbers recalibrate themselves.
+			</p>
+			<p class="fine">
+				The cards are then sorted by this likelihood, not by the raw wait. That is
+				deliberate: a very long dry spell often belongs to a robot that keeps being
+				skipped, so being the <em>most</em> overdue is not the same as being the
+				<em>most likely</em>. The worked example below shows exactly this.
+			</p>
+		</section>
+
+		{ex && (
+			<section class="example">
+				<h2>Worked example{weekLabel ? <> &mdash; {weekLabel}</> : null}</h2>
+				<p class="disclaimer">
+					These figures are this week's actual numbers, shown only to make the
+					method concrete. <strong>They change every week</strong> as the history
+					grows and the predicted week moves &mdash; do not read them as fixed
+					constants.
+				</p>
+				<ol class="walk">
+					<li>
+						<strong>{ex.name}</strong> was last discounted{' '}
+						<strong>{ex.weeks_since_discount}</strong> weeks ago, which makes it the{' '}
+						<strong>#{ex.overdue_rank}</strong> most overdue eligible robot this
+						week (Step&nbsp;1).
+					</li>
+					<li>
+						Across <strong>{scoredWeeks}</strong> backtested weeks, the robot in
+						rank slot <strong>#{ex.overdue_rank}</strong> was actually discounted{' '}
+						<strong>{ex.slot_hits}</strong> times (Step&nbsp;2).
+					</li>
+					<li>
+						<div class="formula formula--calc">
+							{ex.slot_hits} &divide; {scoredWeeks} = {slotRatePct}%
+						</div>
+						So <strong>{ex.name}</strong> is shown at{' '}
+						<strong>{round1(ex.likelihood_pct)}%</strong> &mdash; the number on its
+						card on the Predictions page.
+					</li>
+				</ol>
+				<p class="fine">
+					Note that the rank&nbsp;#{ex.overdue_rank} slot can out-score the
+					rank&nbsp;#1 slot &mdash; the most overdue robot is not always the most
+					likely, which is why the list is sorted by likelihood.
+				</p>
+			</section>
+		)}
+
+		<section>
+			<h2>Titans</h2>
+			<p>
+				Titans are discounted in only a minority of weeks, so their odds are framed
+				conditionally: "if a titan is discounted next, the odds it is this one." The
+				Predictions page also notes how often no titan is discounted at all, since
+				the next titan discount may not fall next week.
+			</p>
+		</section>
+
+		<section>
+			<h2>Honesty &amp; track record</h2>
+			<p>
+				Every past week's prediction is frozen at the time it was made and graded
+				against what was actually discounted &mdash; see the{' '}
+				<a href={`${baseUrl}history`}>Prediction History</a> page for the week-by-week
+				record and a rolling accuracy scoreboard. The live calibration trend is also
+				kept as raw data in <code>accuracy_history.json</code>, so anyone can audit
+				how the numbers have held up over time.
+			</p>
+		</section>
+
+		<p class="back">
+			<a href={`${baseUrl}predictions`}>&larr; Back to predictions</a>
+		</p>
+	</div>
+</GenericPage>
+
+<style>
+	.method-content {
+		max-width: 820px;
+		margin: 0 auto;
+		line-height: 1.75;
+	}
+
+	.intro {
+		color: var(--text-color);
+		margin-bottom: 2rem;
+	}
+
+	section {
+		margin-bottom: 2.25rem;
+		padding-bottom: 1.5rem;
+		border-bottom: 1px solid var(--sidebar-border);
+	}
+
+	section:last-of-type {
+		border-bottom: none;
+	}
+
+	h2 {
+		color: var(--accent-color);
+		margin-bottom: 0.85rem;
+	}
+
+	p {
+		margin-bottom: 1rem;
+		color: var(--text-color);
+	}
+
+	.fine {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+	}
+
+	a {
+		color: var(--accent-color);
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	.formula {
+		font-family: 'Courier New', ui-monospace, monospace;
+		background: var(--sidebar-bg);
+		border: 1px solid var(--sidebar-border);
+		border-radius: 8px;
+		padding: 0.85rem 1rem;
+		margin: 1rem 0;
+		color: var(--text-color);
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+
+	.formula--calc {
+		font-size: 1.15rem;
+		color: var(--accent-color);
+	}
+
+	.example {
+		background: var(--active-bg);
+		border: 1px solid var(--sidebar-border);
+		border-radius: 12px;
+		padding: 1.25rem 1.5rem;
+	}
+
+	.disclaimer {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		font-style: italic;
+	}
+
+	.walk {
+		margin: 1rem 0;
+		padding-left: 1.25rem;
+	}
+
+	.walk li {
+		margin-bottom: 0.9rem;
+		color: var(--text-color);
+	}
+
+	code {
+		font-family: 'Courier New', ui-monospace, monospace;
+		background: var(--sidebar-bg);
+		border: 1px solid var(--sidebar-border);
+		border-radius: 4px;
+		padding: 0.1rem 0.35rem;
+		font-size: 0.85em;
+	}
+
+	.back {
+		margin-top: 2rem;
+		text-align: center;
+	}
+
+	@media (max-width: 768px) {
+		.method-content {
+			padding: 0 0.5rem;
+		}
+	}
+</style>

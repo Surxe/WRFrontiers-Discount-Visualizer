@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T16:13:59.403901+00:00",
+  "generated_at": "2026-08-29T14:57:03.002606-05:00",
   "method": "weeks-since-discount (most overdue first); position-calibrated odds",
   "predictedWeek": {
     "start_year": 2026,
@@ -258,6 +258,20 @@
         "2": 0.2326
       },
       "presence_rate": 0.3962
+    }
+  },
+  "methodology": {
+    "method": "position-calibrated",
+    "predicted_week": "2026-09-08",
+    "scored_weeks": 45,
+    "example": {
+      "bot_id": "crix",
+      "name": "Crix",
+      "overdue_rank": 2,
+      "weeks_since_discount": 11,
+      "slot_hit_rate": 0.5333,
+      "slot_hits": 24,
+      "likelihood_pct": 53.3
     }
   }
 }

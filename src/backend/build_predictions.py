@@ -445,6 +445,42 @@ def _build_pool(ctx, pool_name, as_of_weeknum, top_n, *,
     return listed, calib
 
 
+def _methodology_example(bots, bots_calib, pred_slug):
+    """Precompute the worked example the /methodology page renders.
+
+    Documents the live position-calibrated method for the top displayed robot, so
+    the page's arithmetic always reproduces the number on that card and refreshes
+    every deploy. Pure read-out of quantities already computed -- no new method.
+
+    The top card (``bots[0]``, already sorted by likelihood) sits in overdue rank
+    slot R; its likelihood is that slot's historical hit-rate over the backtested
+    weeks, i.e. ``slot_hits / scored_weeks``.
+    """
+    if not bots:
+        return None
+    top = bots[0]
+    rank = top.get("overdue_rank")
+    per_pos = bots_calib.get("per_position") or []
+    scored = bots_calib.get("scored_weeks") or 0
+    if not rank or rank - 1 >= len(per_pos):
+        return None
+    slot_rate = per_pos[rank - 1]
+    return {
+        "method": "position-calibrated",
+        "predicted_week": pred_slug,
+        "scored_weeks": scored,
+        "example": {
+            "bot_id": top.get("id"),
+            "name": top.get("name"),
+            "overdue_rank": rank,
+            "weeks_since_discount": top.get("weeks_since_discount"),
+            "slot_hit_rate": slot_rate,
+            "slot_hits": round(slot_rate * scored),
+            "likelihood_pct": top.get("likelihood_pct"),
+        },
+    }
+
+
 def build_predictions():
     print("  -> Building upcoming-week predictions...")
 
@@ -479,6 +515,7 @@ def build_predictions():
             "bots": bots_calib,
             "titans": titans_calib,
         },
+        "methodology": _methodology_example(bots, bots_calib, pred_slug),
     }
 
     with open(PREDICTIONS_OUTPUT, "w", encoding="utf-8") as f:
