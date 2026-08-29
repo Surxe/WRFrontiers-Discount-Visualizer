@@ -30,10 +30,14 @@ const { text, label = 'More information' } = Astro.props;
 	}
 
 	.info-tooltip__bubble {
-		position: absolute;
-		bottom: calc(100% + 8px);
-		left: 50%;
-		transform: translateX(-50%);
+		/* Fixed positioning lets the bubble escape any `overflow: hidden`
+		   ancestor (e.g. the rounded `.week-block` card that otherwise shears
+		   it off). The script below sets top/left on reveal to anchor it above
+		   the icon; --tt-shift nudges it back inside the viewport near an edge. */
+		position: fixed;
+		top: 0;
+		left: 0;
+		transform: translate(calc(-50% + var(--tt-shift, 0px)), calc(-100% - 8px));
 		width: max-content;
 		max-width: 220px;
 		padding: 0.5rem 0.65rem;
@@ -53,7 +57,7 @@ const { text, label = 'More information' } = Astro.props;
 		opacity: 0;
 		visibility: hidden;
 		transition: opacity 0.15s ease, visibility 0.15s ease;
-		z-index: 20;
+		z-index: 1000;
 		pointer-events: none;
 	}
 
@@ -64,3 +68,41 @@ const { text, label = 'More information' } = Astro.props;
 		visibility: visible;
 	}
 </style>
+
+<script>
+	// The bubble is position:fixed so it escapes any `overflow: hidden` ancestor.
+	// On each reveal we anchor it above the icon and shift it back inside the
+	// viewport if it would run off an edge. Astro bundles this module once
+	// regardless of how many InfoTooltips render.
+	const MARGIN = 8;
+
+	function placeBubble(tip: Element) {
+		const bubble = tip.querySelector<HTMLElement>('.info-tooltip__bubble');
+		if (!bubble) return;
+		// Anchor: centered horizontally over the icon, sitting just above it.
+		const icon = tip.getBoundingClientRect();
+		bubble.style.setProperty('--tt-shift', '0px');
+		bubble.style.left = `${icon.left + icon.width / 2}px`;
+		bubble.style.top = `${icon.top}px`;
+		// Now measure and pull back inside the viewport if it overflows an edge.
+		const rect = bubble.getBoundingClientRect();
+		let shift = 0;
+		if (rect.right > window.innerWidth - MARGIN) {
+			shift = -(rect.right - (window.innerWidth - MARGIN));
+		} else if (rect.left < MARGIN) {
+			shift = MARGIN - rect.left;
+		}
+		if (shift !== 0) bubble.style.setProperty('--tt-shift', `${shift}px`);
+	}
+
+	function handle(e: Event) {
+		const target = e.target as Element | null;
+		const tip = target?.closest?.('.info-tooltip');
+		if (tip) placeBubble(tip);
+	}
+
+	// mouseover/focusin both bubble, so a single delegated listener covers every
+	// tooltip on the page, including any added later.
+	document.addEventListener('mouseover', handle);
+	document.addEventListener('focusin', handle);
+</script>
