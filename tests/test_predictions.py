@@ -142,6 +142,29 @@ class TestGeneratedPredictions(unittest.TestCase):
             expected = round(sum(per_pos) / len(per_pos), 4)
             self.assertAlmostEqual(acc['precision'], expected, places=3)
 
+    def test_methodology_example_reproduces_top_card(self):
+        """The /methodology worked example must match the top robot's card and the
+        calibrated slot rate, so the page's arithmetic can never contradict it."""
+        m = self.data.get('methodology')
+        if not self.data['bots']:
+            self.assertIsNone(m)
+            return
+        self.assertIsNotNone(m)
+        ex = m['example']
+        top = self.data['bots'][0]
+        # Example is the top displayed robot.
+        self.assertEqual(ex['bot_id'], top['id'])
+        self.assertEqual(ex['likelihood_pct'], top['likelihood_pct'])
+        self.assertEqual(ex['overdue_rank'], top['overdue_rank'])
+        # Its likelihood is exactly its overdue-rank slot's calibrated hit-rate.
+        per_pos = self.data['accuracy']['bots']['per_position']
+        slot_rate = per_pos[ex['overdue_rank'] - 1]
+        self.assertAlmostEqual(ex['slot_hit_rate'], slot_rate, places=4)
+        self.assertEqual(m['scored_weeks'], self.data['accuracy']['bots']['scored_weeks'])
+        self.assertEqual(ex['slot_hits'], round(slot_rate * m['scored_weeks']))
+        # The shown % is the slot rate as a percentage.
+        self.assertAlmostEqual(ex['likelihood_pct'], round(slot_rate * 100, 1), places=1)
+
 
 class TestPeriodActualsCutoff(unittest.TestCase):
     """Walk-forward reconstruction must not peek past the target week."""

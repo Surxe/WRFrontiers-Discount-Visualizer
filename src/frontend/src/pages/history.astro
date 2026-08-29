@@ -47,6 +47,7 @@ const titanWeeks = scoreboard?.titans_scored_weeks;
 				actually discounted. Each week uses only the history before it.
 			</p>
 			<a class="back-link" href={`${baseUrl}predictions`}>&larr; Upcoming prediction</a>
+			<a class="method-link" href={`${baseUrl}methodology`}>How these are calculated &rarr;</a>
 		</header>
 
 		{scoreboard && boardWeeks ? (
@@ -125,6 +126,19 @@ const titanWeeks = scoreboard?.titans_scored_weeks;
 	}
 
 	.back-link:hover {
+		text-decoration: underline;
+	}
+
+	.method-link {
+		display: inline-block;
+		margin-top: 0.9rem;
+		margin-left: 1rem;
+		font-size: 0.85rem;
+		color: var(--accent-color, #3a86ff);
+		text-decoration: none;
+	}
+
+	.method-link:hover {
 		text-decoration: underline;
 	}
 

@@ -13,7 +13,11 @@ Predicts the most likely bot and titan discounts for the upcoming period, on the
 - **Likelihoods** are position-calibrated: the % on the Nth-listed bot is the
   historical hit-rate of that rank slot, from a walk-forward, no-look-ahead
   backtest recomputed over all history on every build. The list is sorted by
-  likelihood, so the most-overdue bot is not necessarily first.
+  likelihood, so the most-overdue bot is not necessarily first. This method is
+  explained publicly on the `/methodology` page (`src/pages/methodology.astro`),
+  which renders a worked example precomputed into the `methodology` block of
+  `predictions.json` by `_methodology_example()`. A formula-based alternative was
+  prototyped and rejected by backtest -- see `PREDICTION_FORMULA.md`.
 - **Regular bots** headline the chance at least one of the top 3 is discounted;
   cards also show each bot's factory-preset weapons and gear (bundled at
   discount) and link to its items-page entry.

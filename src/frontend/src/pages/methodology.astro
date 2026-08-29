@@ -1,0 +1,253 @@
+---
+import GenericPage from '../components/GenericPage.astro';
+import NavBar from '../components/NavBar.astro';
+import { fetchPredictions } from '../utils/predictions.js';
+
+const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
+const predictions = fetchPredictions();
+
+const methodology = predictions?.methodology ?? null;
+const ex = methodology?.example ?? null;
+const scoredWeeks = methodology?.scored_weeks ?? null;
+const weekLabel = predictions?.predictedWeek?.label ?? null;
+
+const round1 = (v: number | null | undefined) =>
+	v == null ? null : Math.round(v * 10) / 10;
+// slot_hit_rate is 0-1; likelihood_pct is already 0-100.
+const slotRatePct = ex ? round1(ex.slot_hit_rate * 100) : null;
+
+// Small plain-language ordinal for the overdue position (1st, 2nd, ...).
+const ordinal = (n: number) => {
+	const s = ['th', 'st', 'nd', 'rd'];
+	const v = n % 100;
+	return n + (s[(v - 20) % 10] || s[v] || s[0]);
+};
+const rankOrdinal = ex ? ordinal(ex.overdue_rank) : null;
+---
+
+<GenericPage
+	title="Methodology - WRF Discounts"
+	description="How the WRFrontiers discount predictions work, in plain terms: line robots up by how overdue they are, then show how often each spot has paid off in the past."
+	baseUrl={baseUrl}
+>
+	<NavBar baseUrl={baseUrl} currentPage="predictions" />
+	<h1>How predictions are calculated</h1>
+	<div class="method-content">
+		<p class="intro">
+			The <a href={`${baseUrl}predictions`}>Predictions</a> page is our best guess
+			at which robots and titans get discounted next &mdash; not an official
+			announcement, just a read of how discounts have gone in the past. Here is the
+			whole idea in two simple steps.
+		</p>
+
+		<section>
+			<h2>Step 1 &mdash; Line them up by how overdue they are</h2>
+			<p>
+				Robots tend to come back around for a discount on a rough cycle. So we line
+				every robot up by one thing: <strong>how long it has been since its last
+				discount</strong>. The robot that has waited longest goes to the front of
+				the line, the next-longest behind it, and so on. The ones near the front are
+				"due".
+			</p>
+			<p class="fine">
+				A robot needs at least <strong>2 past discounts</strong> before we include
+				it, so we have some idea of its cycle. That mostly leaves out the
+				<strong>newest robots</strong> &mdash; and there is an honest catch to that:
+				a brand-new robot can still swoop in and grab a discount slot, bumping one of
+				the robots we listed. We have no cycle to judge a newcomer by, so we leave it
+				out rather than guess. The practical effect is that each listed robot's real
+				chance is <strong>a little lower</strong> than the number shown.
+			</p>
+		</section>
+
+		<section>
+			<h2>Step 2 &mdash; How likely is each one?</h2>
+			<p>
+				Being at the front of the line is not a guarantee, so we put a real number
+				on it &mdash; and that number comes straight from the track record of each
+				spot in the line.
+			</p>
+			<p>
+				We look back over every past week and ask a simple question: when a robot was
+				sitting in <em>this</em> spot in the overdue line, how often did it actually
+				get discounted? If a spot came through in, say, 24 of the last 45 weeks,
+				that is about a 53&percnt; chance &mdash; so that is the number we show for
+				whoever is in that spot now.
+			</p>
+			<p class="fine">
+				Because it is just counting what really happened, the percentage stays honest
+				on its own, and it updates as new weeks are added. One surprise falls out of
+				it: the robot that has waited the <em>longest</em> is not always the most
+				likely &mdash; a very long dry spell often means a robot that keeps getting
+				skipped. That is why the cards are ordered by the percentage, not by the
+				wait. The example below shows exactly that.
+			</p>
+		</section>
+
+		{ex && (
+			<section class="example">
+				<h2>Worked example{weekLabel ? <> &mdash; {weekLabel}</> : null}</h2>
+				<p class="disclaimer">
+					These figures are this week's actual numbers, shown only to make the
+					method concrete. <strong>They change every week</strong> as the history
+					grows and the predicted week moves &mdash; do not read them as fixed
+					constants.
+				</p>
+				<ol class="walk">
+					<li>
+						<strong>{ex.name}</strong> was last discounted{' '}
+						<strong>{ex.weeks_since_discount}</strong> weeks ago &mdash; the{' '}
+						<strong>{rankOrdinal}</strong> longest wait in the line right now
+						(Step&nbsp;1).
+					</li>
+					<li>
+						Looking back over the last <strong>{scoredWeeks}</strong> weeks, whoever
+						sat in that <strong>{rankOrdinal}</strong> spot ended up discounted in{' '}
+						<strong>{ex.slot_hits}</strong> of them (Step&nbsp;2).
+					</li>
+					<li>
+						<div class="formula formula--calc">
+							{ex.slot_hits} out of {scoredWeeks} = {slotRatePct}&percnt;
+						</div>
+						So <strong>{ex.name}</strong> is shown at{' '}
+						<strong>{round1(ex.likelihood_pct)}&percnt;</strong> &mdash; the number
+						on its card on the Predictions page.
+					</li>
+				</ol>
+			</section>
+		)}
+
+		<section>
+			<h2>What about titans?</h2>
+			<p>
+				Titans work the same way, with one twist: they are only discounted some
+				weeks, not every week. So instead of "the chance this titan is discounted
+				next week", their percentage answers "<em>when</em> a titan does get
+				discounted, the chance it is this one." The{' '}
+				<a href={`${baseUrl}predictions`}>Predictions page</a> also tells you how
+				often no titan is discounted at all.
+			</p>
+		</section>
+
+		<section>
+			<h2>Does it actually work?</h2>
+			<p>
+				We keep ourselves honest: every past week's prediction is saved exactly as
+				it was shown at the time, then checked against what was really discounted.
+				You can see the full week-by-week record, and how often we get it right, on
+				the <a href={`${baseUrl}history`}>Prediction History</a> page.
+			</p>
+		</section>
+
+		<p class="back">
+			<a href={`${baseUrl}predictions`}>&larr; Back to predictions</a>
+		</p>
+	</div>
+</GenericPage>
+
+<style>
+	.method-content {
+		max-width: 820px;
+		margin: 0 auto;
+		line-height: 1.75;
+	}
+
+	.intro {
+		color: var(--text-color);
+		margin-bottom: 2rem;
+	}
+
+	section {
+		margin-bottom: 2.25rem;
+		padding-bottom: 1.5rem;
+		border-bottom: 1px solid var(--sidebar-border);
+	}
+
+	section:last-of-type {
+		border-bottom: none;
+	}
+
+	h2 {
+		color: var(--accent-color);
+		margin-bottom: 0.85rem;
+	}
+
+	p {
+		margin-bottom: 1rem;
+		color: var(--text-color);
+	}
+
+	.fine {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+	}
+
+	a {
+		color: var(--accent-color);
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	.formula {
+		font-family: 'Courier New', ui-monospace, monospace;
+		background: var(--sidebar-bg);
+		border: 1px solid var(--sidebar-border);
+		border-radius: 8px;
+		padding: 0.85rem 1rem;
+		margin: 1rem 0;
+		color: var(--text-color);
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+
+	.formula--calc {
+		font-size: 1.15rem;
+		color: var(--accent-color);
+	}
+
+	.example {
+		background: var(--active-bg);
+		border: 1px solid var(--sidebar-border);
+		border-radius: 12px;
+		padding: 1.25rem 1.5rem;
+	}
+
+	.disclaimer {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		font-style: italic;
+	}
+
+	.walk {
+		margin: 1rem 0;
+		padding-left: 1.25rem;
+	}
+
+	.walk li {
+		margin-bottom: 0.9rem;
+		color: var(--text-color);
+	}
+
+	code {
+		font-family: 'Courier New', ui-monospace, monospace;
+		background: var(--sidebar-bg);
+		border: 1px solid var(--sidebar-border);
+		border-radius: 4px;
+		padding: 0.1rem 0.35rem;
+		font-size: 0.85em;
+	}
+
+	.back {
+		margin-top: 2rem;
+		text-align: center;
+	}
+
+	@media (max-width: 768px) {
+		.method-content {
+			padding: 0 0.5rem;
+		}
+	}
+</style>
