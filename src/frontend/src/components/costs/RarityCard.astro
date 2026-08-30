@@ -31,8 +31,8 @@ const { rarity: r, baseUrl = '/' } = Astro.props;
 
 <style>
   .rarity-card {
-    background: var(--sidebar-bg, #161920);
-    border: 1px solid var(--sidebar-border, #232733);
+    background: var(--wrf-surface);
+    border: 1px solid var(--wrf-border);
     border-left: 4px solid var(--rarity);
     border-radius: 0.6rem;
     padding: 1rem 1.25rem 1.25rem;
@@ -44,7 +44,7 @@ const { rarity: r, baseUrl = '/' } = Astro.props;
     gap: 0.6rem;
     margin-bottom: 0.9rem;
     padding-bottom: 0.6rem;
-    border-bottom: 1px solid var(--sidebar-border, #232733);
+    border-bottom: 1px solid var(--wrf-border);
     flex-wrap: wrap;
   }
 
@@ -59,7 +59,7 @@ const { rarity: r, baseUrl = '/' } = Astro.props;
   .rarity-name {
     margin: 0;
     font-size: 1.15rem;
-    color: var(--text-color, #e0e0e0);
+    color: var(--wrf-text);
   }
 
   .rarity-savings {

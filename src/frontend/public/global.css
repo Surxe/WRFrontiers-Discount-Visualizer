@@ -5,13 +5,13 @@
 
 /* Global link styling - minimalist dotted underline */
 a {
-	color: var(--text-color, #e0e0e0);
+	color: var(--wrf-link);
 	text-decoration: none;
-	border-bottom: 1px dotted var(--text-muted, #8b92a5);
+	border-bottom: 1px dotted var(--wrf-link-underline);
 	transition: border-color 0.2s, color 0.2s;
 }
 
 a:hover {
-	border-bottom-color: var(--accent-color, #3a86ff);
-	color: var(--accent-color, #3a86ff);
+	border-bottom-color: var(--wrf-link-hover);
+	color: var(--wrf-link-hover);
 }

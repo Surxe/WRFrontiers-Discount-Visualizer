@@ -119,7 +119,7 @@ const {
     .top-bar-title {
       font-size: 0.85rem;
       font-weight: 700;
-      color: var(--text-color, #e0e0e0);
+      color: var(--wrf-text);
       letter-spacing: 0.3px;
       white-space: nowrap;
     }
@@ -136,7 +136,7 @@ const {
       justify-content: center;
       background: transparent;
       border: none;
-      color: var(--text-muted, #8b92a5);
+      color: var(--wrf-text-muted);
       border-radius: 8px;
       cursor: pointer;
       transition: color 0.2s ease, background 0.2s ease;
@@ -144,7 +144,7 @@ const {
     }
 
     .top-bar-icon-btn:hover {
-      color: var(--text-color, #e0e0e0);
+      color: var(--wrf-text);
       background: rgba(255, 255, 255, 0.06);
     }
 
@@ -157,7 +157,7 @@ const {
       position: absolute;
       top: 4px;
       right: 4px;
-      background: #ef233c;
+      background: var(--wrf-danger);
       color: white;
       font-size: 0.6rem;
       font-weight: bold;
@@ -172,9 +172,9 @@ const {
     }
 
     @keyframes badge-flash {
-      0% { transform: scale(1); background-color: #ef233c; }
+      0% { transform: scale(1); background-color: var(--wrf-danger); }
       50% { transform: scale(1.4); background-color: #ff4d6d; }
-      100% { transform: scale(1); background-color: #ef233c; }
+      100% { transform: scale(1); background-color: var(--wrf-danger); }
     }
 
     .badge-flash-anim {

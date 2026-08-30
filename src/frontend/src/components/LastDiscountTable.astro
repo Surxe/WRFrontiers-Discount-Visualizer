@@ -93,15 +93,15 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 	.last-discount-section {
 		margin-top: 2rem;
 		padding: 1.5rem;
-		background-color: var(--sidebar-bg, #161920);
-		border: 1px solid var(--sidebar-border, #232733);
+		background-color: var(--wrf-surface);
+		border: 1px solid var(--wrf-border);
 		border-radius: 0.5rem;
 	}
 
 	.last-discount-section h2 {
 		font-size: 1.25rem;
 		margin-bottom: 1rem;
-		color: var(--text-color, #e0e0e0);
+		color: var(--wrf-text);
 	}
 
 	.last-discount-table {
@@ -113,18 +113,18 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 	.last-discount-table td {
 		padding: 0.75rem;
 		text-align: left;
-		border-bottom: 1px solid var(--sidebar-border, #232733);
-		color: var(--text-color, #e0e0e0);
+		border-bottom: 1px solid var(--wrf-border);
+		color: var(--wrf-text);
 	}
 
 	.last-discount-table th {
-		background-color: rgba(58, 134, 255, 0.1);
+		background-color: rgba(79, 195, 247, 0.1);
 		font-weight: 600;
-		color: var(--accent-color, #3a86ff);
+		color: var(--wrf-accent);
 	}
 
 	.last-discount-table tr:hover {
-		background-color: rgba(58, 134, 255, 0.05);
+		background-color: rgba(79, 195, 247, 0.05);
 	}
 
 	.category-cell {
@@ -142,19 +142,19 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 	}
 
 	.date-link {
-		color: var(--text-color, #e0e0e0);
+		color: var(--wrf-text);
 		text-decoration: none;
-		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		border-bottom: 1px dotted var(--wrf-text-muted);
 		transition: border-color 0.2s, color 0.2s;
 	}
 
 	.date-link:hover {
-		border-bottom-color: var(--accent-color, #3a86ff);
-		color: var(--accent-color, #3a86ff);
+		border-bottom-color: var(--wrf-accent);
+		color: var(--wrf-accent);
 	}
 
 	.weeks-ago {
-		color: var(--text-muted, #8b92a5);
+		color: var(--wrf-text-muted);
 		font-size: 0.875em;
 	}
 
@@ -172,15 +172,15 @@ const sortedItems = itemsWithLastDiscount.sort((a, b) => {
 	}
 
 	.item-name-link {
-		color: var(--text-color, #e0e0e0);
+		color: var(--wrf-text);
 		text-decoration: none;
-		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		border-bottom: 1px dotted var(--wrf-text-muted);
 		transition: border-color 0.2s, color 0.2s;
 	}
 
 	.item-name-link:hover {
-		border-bottom-color: var(--accent-color, #3a86ff);
-		color: var(--accent-color, #3a86ff);
+		border-bottom-color: var(--wrf-accent);
+		color: var(--wrf-accent);
 	}
 
 	@media (max-width: 768px) {

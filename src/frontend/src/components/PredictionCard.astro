@@ -88,7 +88,7 @@ const avgText =
 		width: 1.4rem;
 		font-size: 0.85rem;
 		font-weight: 700;
-		color: var(--text-muted, #8b92a5);
+		color: var(--wrf-text-muted);
 		text-align: center;
 	}
 
@@ -108,7 +108,7 @@ const avgText =
 	}
 
 	.prediction-card__identity:hover .prediction-card__name {
-		color: var(--accent-color, #3a86ff);
+		color: var(--wrf-accent);
 	}
 
 	.prediction-card__icon {
@@ -136,13 +136,13 @@ const avgText =
 	.prediction-card__name {
 		font-weight: 600;
 		font-size: 1rem;
-		color: var(--text-color, #e0e0e0);
+		color: var(--wrf-text);
 		transition: color 0.15s ease;
 	}
 
 	.prediction-card__meta {
 		font-size: 0.78rem;
-		color: var(--text-muted, #8b92a5);
+		color: var(--wrf-text-muted);
 	}
 
 	.prediction-card__odds {
@@ -156,11 +156,11 @@ const avgText =
 	.prediction-card__pct {
 		font-size: 1.25rem;
 		font-weight: 700;
-		color: var(--accent-color, #3a86ff);
+		color: var(--wrf-accent);
 	}
 
 	.prediction-card__pct--na {
-		color: var(--text-muted, #8b92a5);
+		color: var(--wrf-text-muted);
 	}
 
 	.prediction-card__pct-label {
@@ -170,7 +170,7 @@ const avgText =
 		font-size: 0.68rem;
 		text-transform: uppercase;
 		letter-spacing: 0.4px;
-		color: var(--text-muted, #8b92a5);
+		color: var(--wrf-text-muted);
 	}
 
 	/* Graded snapshots (/history) only: a discounted pick reads green, a missed
@@ -200,7 +200,7 @@ const avgText =
 	}
 
 	.prediction-card__result.is-miss {
-		color: var(--text-muted, #8b92a5);
+		color: var(--wrf-text-muted);
 		background: rgba(139, 146, 165, 0.12);
 	}
 </style>

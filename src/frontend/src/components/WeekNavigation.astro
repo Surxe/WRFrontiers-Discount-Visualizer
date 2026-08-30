@@ -54,7 +54,7 @@ const nextLabel = nextIsPredicted ? 'Predicted Week' : 'Next Week';
     height: 44px;
     padding: 0 16px;
     gap: 8px;
-    color: var(--text-color, #ffffff);
+    color: var(--wrf-text);
     border-radius: 22px;
     transition: background-color 0.2s ease, color 0.2s ease;
     border-bottom: none;
@@ -70,14 +70,14 @@ const nextLabel = nextIsPredicted ? 'Predicted Week' : 'Next Week';
   }
 
   .nav-arrow:hover {
-    background-color: var(--active-bg, rgba(58, 134, 255, 0.1));
-    color: var(--accent-hover, #2b65cc);
+    background-color: var(--wrf-accent-active-bg));
+    color: var(--wrf-accent-hover);
     border-bottom: none;
   }
 
   /* Predicted-week variant stands out from a real next-week link */
   .nav-arrow.predicted {
-    color: var(--accent-color, #3a86ff);
+    color: var(--wrf-accent);
   }
 
   .nav-arrow.predicted .nav-label {

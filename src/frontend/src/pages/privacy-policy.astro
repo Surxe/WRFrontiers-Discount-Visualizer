@@ -111,7 +111,7 @@ const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/
 
 	.last-updated {
 		text-align: center;
-		color: var(--text-muted);
+		color: var(--wrf-text-muted);
 		font-style: italic;
 		margin-bottom: 2rem;
 	}
@@ -119,7 +119,7 @@ const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/
 	section {
 		margin-bottom: 2.5rem;
 		padding-bottom: 1.5rem;
-		border-bottom: 1px solid var(--sidebar-border);
+		border-bottom: 1px solid var(--wrf-border);
 	}
 
 	section:last-of-type {
@@ -127,13 +127,13 @@ const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/
 	}
 
 	h2 {
-		color: var(--accent-color);
+		color: var(--wrf-accent);
 		margin-bottom: 1rem;
 	}
 
 	p {
 		margin-bottom: 1rem;
-		color: var(--text-color);
+		color: var(--wrf-text);
 	}
 
 	ul {
@@ -143,7 +143,7 @@ const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/
 
 	li {
 		margin-bottom: 0.5rem;
-		color: var(--text-color);
+		color: var(--wrf-text);
 	}
 
 	@media (max-width: 768px) {

@@ -58,8 +58,8 @@ const { rarities = [], baseUrl = '/' } = Astro.props;
   .cost-table {
     width: 100%;
     border-collapse: collapse;
-    background: var(--sidebar-bg, #161920);
-    border: 1px solid var(--sidebar-border, #232733);
+    background: var(--wrf-surface);
+    border: 1px solid var(--wrf-border);
     border-radius: 0.5rem;
     overflow: hidden;
   }
@@ -68,12 +68,12 @@ const { rarities = [], baseUrl = '/' } = Astro.props;
   .cost-table td {
     padding: 0.6rem 0.9rem;
     text-align: left;
-    border-bottom: 1px solid var(--sidebar-border, #232733);
+    border-bottom: 1px solid var(--wrf-border);
   }
 
   .cost-table th {
     font-weight: 600;
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.4px;
@@ -109,14 +109,14 @@ const { rarities = [], baseUrl = '/' } = Astro.props;
     vertical-align: middle;
   }
 
-  .rarity-start td { border-top: 2px solid var(--sidebar-border, #232733); }
+  .rarity-start td { border-top: 2px solid var(--wrf-border); }
 
   .off-pill {
     color: #35a95c;
     font-weight: 700;
   }
 
-  .no-off { color: var(--text-muted, #8b92a5); }
+  .no-off { color: var(--wrf-text-muted); }
 
   /* Abbreviated header labels are swapped in on phones (see below). */
   .lbl-abbr { display: none; }

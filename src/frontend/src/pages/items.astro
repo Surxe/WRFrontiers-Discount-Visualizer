@@ -655,15 +655,15 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 	}
 
 	@keyframes vbot-row-flash {
-		0%, 40% { background: rgba(58, 134, 255, 0.22); }
+		0%, 40% { background: rgba(79, 195, 247, 0.22); }
 		100% { background: transparent; }
 	}
 
 	.category {
 		margin-bottom: 1rem;
-		border: 1px solid var(--sidebar-border);
+		border: 1px solid var(--wrf-border);
 		border-radius: 0.5rem;
-		background-color: var(--sidebar-bg);
+		background-color: var(--wrf-surface);
 		overflow: visible;
 	}
 
@@ -676,7 +676,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 
 	.action-button {
 		padding: 0.5rem 1rem;
-		background-color: var(--accent-color, #3a86ff);
+		background-color: var(--wrf-accent);
 		color: white;
 		border: none;
 		border-radius: 0.25rem;
@@ -687,7 +687,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 	}
 
 	.action-button:hover {
-		background-color: var(--accent-hover, #2b65cc);
+		background-color: var(--wrf-accent-hover);
 		transform: translateY(-1px);
 	}
 
@@ -703,7 +703,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 		padding: 1rem;
 		background: none;
 		border: none;
-		color: var(--text-color);
+		color: var(--wrf-text);
 		font-size: 1.25rem;
 		font-weight: 600;
 		cursor: pointer;
@@ -712,7 +712,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 	}
 
 	.category-header:hover {
-		background-color: var(--active-bg);
+		background-color: var(--wrf-accent-active-bg);
 	}
 
 	.category-icon {
@@ -783,12 +783,12 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 	.category-table td {
 		padding: 0.75rem;
 		text-align: left;
-		border-bottom: 1px solid var(--sidebar-border);
+		border-bottom: 1px solid var(--wrf-border);
 		position: relative;
 	}
 
 	.category-table th {
-		background-color: var(--sidebar-bg);
+		background-color: var(--wrf-surface);
 		font-weight: 600;
 	}
 
@@ -811,7 +811,7 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 
 	.year-label {
 		font-weight: 600;
-		color: var(--accent-color, #3a86ff);
+		color: var(--wrf-accent);
 		margin-right: 0.25rem;
 	}
 
@@ -820,20 +820,20 @@ const titanListWithFormattedWeeks = titanList.map(titan => ({
 	}
 
 	.never-discounted {
-		color: var(--text-muted, #8b92a5);
+		color: var(--wrf-text-muted);
 		font-style: italic;
 	}
 
 	.date-link {
-		color: var(--text-color, #e0e0e0);
+		color: var(--wrf-text);
 		text-decoration: none;
-		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		border-bottom: 1px dotted var(--wrf-text-muted);
 		transition: border-color 0.2s, color 0.2s;
 	}
 
 	.date-link:hover {
-		border-bottom-color: var(--accent-color, #3a86ff);
-		color: var(--accent-color, #3a86ff);
+		border-bottom-color: var(--wrf-accent);
+		color: var(--wrf-accent);
 	}
 
 	.vbot-icon {
