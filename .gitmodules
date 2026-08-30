@@ -1,0 +1,3 @@
+[submodule "src/frontend/vendor/wrf-design"]
+	path = src/frontend/vendor/wrf-design
+	url = https://github.com/Surxe/WRFrontiersDB-Design

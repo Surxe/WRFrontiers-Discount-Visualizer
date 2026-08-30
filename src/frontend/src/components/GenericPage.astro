@@ -1,5 +1,6 @@
 ---
 import Footer from './Footer.astro';
+import '../../vendor/wrf-design/index.css';
 
 const {
 	title,
@@ -50,17 +51,6 @@ const imageFilename = imageSha ? `${ogImage}-${imageSha}.png` : `${ogImage}.png`
 </html>
 
 <style>
-	:root {
-		--bg-color: #0f1115;
-		--sidebar-bg: #161920;
-		--sidebar-border: #232733;
-		--text-color: #e0e0e0;
-		--text-muted: #8b92a5;
-		--accent-color: #3a86ff;
-		--accent-hover: #2b65cc;
-		--active-bg: rgba(58, 134, 255, 0.1);
-	}
-
 	body {
 		background-color: var(--bg-color);
 		color: var(--text-color);

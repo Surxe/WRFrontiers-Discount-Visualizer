@@ -1,4 +1,5 @@
 ---
+import '../../vendor/wrf-design/index.css';
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 ---
 
@@ -25,13 +26,6 @@ const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/
 </html>
 
 <style>
-	:root {
-		--bg-color: #0f1115;
-		--text-color: #e0e0e0;
-		--accent-color: #3a86ff;
-		--accent-hover: #2b65cc;
-	}
-
 	body {
 		background-color: var(--bg-color);
 		color: var(--text-color);
