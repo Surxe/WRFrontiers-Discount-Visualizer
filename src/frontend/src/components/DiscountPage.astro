@@ -1,4 +1,5 @@
 ---
+import '../../vendor/wrf-design/index.css';
 import DiscountGrid from './grid/DiscountGrid.astro';
 import DiscountInfo from './DiscountInfo.astro';
 import AllWeeksSidebar from './AllWeeksSidebar.astro';
@@ -295,17 +296,6 @@ const weekList = weekEntries.map(w => ({
 </script>
 
 <style>
-	:root {
-		--bg-color: #0f1115;
-		--sidebar-bg: #161920;
-		--sidebar-border: #232733;
-		--text-color: #e0e0e0;
-		--text-muted: #8b92a5;
-		--accent-color: #3a86ff;
-		--accent-hover: #2b65cc;
-		--active-bg: rgba(58, 134, 255, 0.1);
-	}
-
 	body {
 		background-color: var(--bg-color);
 		color: var(--text-color);
