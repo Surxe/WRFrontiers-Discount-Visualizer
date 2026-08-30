@@ -27,8 +27,8 @@ const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/
 
 <style>
 	body {
-		background-color: var(--bg-color);
-		color: var(--text-color);
+		background-color: var(--wrf-bg);
+		color: var(--wrf-text);
 		font-family: 'Montserrat', sans-serif;
 		margin: 0;
 		padding: 0;
@@ -50,26 +50,26 @@ const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/
 	h1 {
 		font-size: 6rem;
 		margin-bottom: 0.5rem;
-        color: var(--accent-color);
+        color: var(--wrf-accent);
 	}
 
 	h2 {
 		font-size: 2rem;
-		color: #bfbfbf;
+		color: var(--wrf-text-muted);
 		margin-bottom: 1.5rem;
 	}
 
     .error-message p {
         font-size: 1.2rem;
         margin-bottom: 2rem;
-        color: var(--text-color);
+        color: var(--wrf-text);
     }
 
     .back-link {
         display: inline-block;
         padding: 0.75rem 1.5rem;
-        background-color: var(--accent-color);
-        color: #ffffff;
+        background-color: var(--wrf-accent);
+        color: var(--wrf-text);
         text-decoration: none;
         border-radius: 4px;
         font-weight: 600;
@@ -78,7 +78,7 @@ const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/
     }
 
     .back-link:hover {
-        background-color: var(--accent-hover);
+        background-color: var(--wrf-accent-hover);
         border-bottom: none;
     }
 </style>

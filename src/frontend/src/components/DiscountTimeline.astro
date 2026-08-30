@@ -70,8 +70,8 @@ let lastYear: string | null = null;
 		margin-top: 2rem;
 		margin-bottom: 2rem;
 		padding: 1.5rem;
-		background-color: var(--sidebar-bg, #161920);
-		border: 1px solid var(--sidebar-border, #232733);
+		background-color: var(--wrf-surface);
+		border: 1px solid var(--wrf-border);
 		border-radius: 0.5rem;
 	}
 
@@ -79,8 +79,8 @@ let lastYear: string | null = null;
 		font-size: 1.5rem;
 		margin-top: 0;
 		margin-bottom: 1.5rem;
-		color: var(--text-color, #e0e0e0);
-		border-bottom: 1px solid var(--sidebar-border, #232733);
+		color: var(--wrf-text);
+		border-bottom: 1px solid var(--wrf-border);
 		padding-bottom: 0.5rem;
 	}
 
@@ -95,11 +95,11 @@ let lastYear: string | null = null;
 		width: 100%;
 		font-size: 1rem;
 		font-weight: 700;
-		color: var(--accent-color, #3a86ff);
+		color: var(--wrf-accent);
 		margin-top: 1rem;
 		margin-bottom: 0.5rem;
 		padding-bottom: 0.25rem;
-		border-bottom: 2px solid var(--accent-color, #3a86ff);
+		border-bottom: 2px solid var(--wrf-accent);
 	}
 
 	.timeline-year-header:first-child {
@@ -116,24 +116,24 @@ let lastYear: string | null = null;
 
 	.timeline-week-link {
 		text-decoration: none;
-		border-bottom: 1px dotted var(--text-muted, #8b92a5);
+		border-bottom: 1px dotted var(--wrf-text-muted);
 		transition: border-color 0.2s, color 0.2s;
 	}
 
 	.timeline-week-link:hover {
-		border-bottom-color: var(--accent-color, #3a86ff);
+		border-bottom-color: var(--wrf-accent);
 	}
 
 	.timeline-week {
 		font-size: 0.875rem;
-		color: var(--accent-color, #3a86ff);
+		color: var(--wrf-accent);
 		font-weight: 600;
 		text-align: center;
 		transition: color 0.2s;
 	}
 
 	.timeline-week-link:hover .timeline-week {
-		color: var(--accent-hover, #2b65cc);
+		color: var(--wrf-accent-hover);
 	}
 
 	.timeline-icons {
@@ -161,14 +161,14 @@ let lastYear: string | null = null;
 		height: 56px;
 		object-fit: contain;
 		border-radius: 0.25rem;
-		background-color: var(--sidebar-bg, #161920);
-		border: 1px solid var(--sidebar-border, #232733);
+		background-color: var(--wrf-surface);
+		border: 1px solid var(--wrf-border);
 		padding: 2px;
 	}
 
 	.timeline-icon-name {
 		font-size: 0.65rem;
-		color: var(--text-secondary, #888);
+		color: var(--text-secondary, var(--wrf-text-muted));
 		margin-top: 0.25rem;
 		text-align: center;
 		max-width: 70px;

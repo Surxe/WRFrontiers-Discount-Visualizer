@@ -15,8 +15,8 @@
   left: 0;
   bottom: 0;
   width: 10rem;
-  background-color: var(--sidebar-bg);
-  border-right: 1px solid var(--sidebar-border);
+  background-color: var(--wrf-surface);
+  border-right: 1px solid var(--wrf-border);
   z-index: 100;
   transform: translateX(0);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -96,7 +96,7 @@
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-muted);
+  color: var(--wrf-text-muted);
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
   cursor: pointer;
@@ -111,12 +111,12 @@
 }
 
 .sidebar-toggle:hover {
-  color: var(--text-color);
+  color: var(--wrf-text);
   background: rgba(255, 255, 255, 0.06);
 }
 
 .layout-container.sidebar-hidden .sidebar-toggle {
-  color: var(--accent-color);
+  color: var(--wrf-accent);
 }
 
 .toggle-label {
@@ -156,7 +156,7 @@
 .year-label {
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--wrf-text-muted);
   margin-bottom: 0.35rem;
   text-align: center;
   letter-spacing: 0.5px;
@@ -185,12 +185,12 @@
   box-sizing: border-box;
   padding: 0.4rem 0.4rem;
   border-radius: 5px;
-  color: var(--text-color);
+  color: var(--wrf-text);
   text-decoration: none;
   font-weight: 500;
   transition: all 0.2s ease;
   border: 1px solid transparent;
-  border-bottom: 1px dotted var(--text-muted, #8b92a5);
+  border-bottom: 1px dotted var(--wrf-text-muted);
 }
 
 .week-link__label {
@@ -208,18 +208,18 @@
   flex-direction: row;
   align-items: center;
   gap: 0.35rem;
-  color: var(--text-muted, #8b92a5);
-  border-bottom: 1px dashed var(--accent-color, #3a86ff);
+  color: var(--wrf-text-muted);
+  border-bottom: 1px dashed var(--wrf-accent);
   font-style: italic;
 }
 
 .week-link--predicted:hover {
   background-color: rgba(255, 159, 28, 0.08);
-  color: var(--text-color, #e0e0e0);
+  color: var(--wrf-text);
 }
 
 .week-link--predicted.active {
-  color: var(--accent-color, #3a86ff);
+  color: var(--wrf-accent);
   font-style: italic;
 }
 
@@ -229,14 +229,14 @@
 
 .week-link:hover {
   background-color: rgba(255, 255, 255, 0.05);
-  border-bottom-color: var(--accent-color, #3a86ff);
+  border-bottom-color: var(--wrf-accent);
 }
 
 .week-link.active {
-  background-color: var(--active-bg);
-  color: var(--accent-color);
-  border-color: rgba(58, 134, 255, 0.3);
-  border-bottom-color: var(--accent-color, #3a86ff);
+  background-color: var(--wrf-accent-active-bg);
+  color: var(--wrf-accent);
+  border-color: rgba(79, 195, 247, 0.3);
+  border-bottom-color: var(--wrf-accent);
 }
 
 .badge {
@@ -252,12 +252,12 @@
 
 .badge.current {
   background-color: #2ec4b6;
-  color: #0f1115;
+  color: var(--wrf-bg);
 }
 
 .badge.upcoming {
   background-color: #ff9f1c;
-  color: #0f1115;
+  color: var(--wrf-bg);
 }
 
 .all-weeks-sidebar__main {

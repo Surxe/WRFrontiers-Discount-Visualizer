@@ -297,8 +297,8 @@ const weekList = weekEntries.map(w => ({
 
 <style>
 	body {
-		background-color: var(--bg-color);
-		color: var(--text-color);
+		background-color: var(--wrf-bg);
+		color: var(--wrf-text);
 		font-family: 'Montserrat', sans-serif;
 		margin: 0;
 		padding: 0;
@@ -321,9 +321,9 @@ const weekList = weekEntries.map(w => ({
 		position: absolute;
 		top: 1rem;
 		right: 1.5rem;
-		background: #232733;
-		border: 1px solid #333;
-		color: #e0e0e0;
+		background: var(--wrf-border);
+		border: 1px solid var(--wrf-surface-2);
+		color: var(--wrf-text);
 		border-radius: 8px;
 		padding: 0 1rem;
 		height: 40px;
@@ -339,15 +339,15 @@ const weekList = weekEntries.map(w => ({
 	}
 
 	.calculator-toggle:hover {
-		background-color: var(--active-bg);
-		color: var(--accent-color);
+		background-color: var(--wrf-accent-active-bg);
+		color: var(--wrf-accent);
 	}
 
 	.calculator-badge {
 		position: absolute;
 		top: -5px;
 		right: -5px;
-		background: #ef233c;
+		background: var(--wrf-danger);
 		color: white;
 		font-size: 0.7rem;
 		font-weight: bold;
@@ -360,9 +360,9 @@ const weekList = weekEntries.map(w => ({
 	}
 
 	@keyframes badge-flash {
-		0% { transform: scale(1); background-color: #ef233c; }
+		0% { transform: scale(1); background-color: var(--wrf-danger); }
 		50% { transform: scale(1.4); background-color: #ff4d6d; }
-		100% { transform: scale(1); background-color: #ef233c; }
+		100% { transform: scale(1); background-color: var(--wrf-danger); }
 	}
 
 	.badge-flash-anim {
@@ -387,7 +387,7 @@ const weekList = weekEntries.map(w => ({
 		gap: 4px;
 		font-size: 1.25rem;
 		/* slightly more grey than before */
-		color: #bfbfbf;
+		color: var(--wrf-text-muted);
 		margin-bottom: 0.5rem;
 	}
 
@@ -400,7 +400,7 @@ const weekList = weekEntries.map(w => ({
 
 	/* keep the date (inside <strong>) the main text color */
 	header h2 strong {
-		color: var(--text-color);
+		color: var(--wrf-text);
 	}
 
 	.date-nav-wrapper {
@@ -418,13 +418,13 @@ const weekList = weekEntries.map(w => ({
 	.week-prediction__title {
 		justify-content: flex-start;
 		font-size: 1.1rem;
-		color: var(--text-color, #e0e0e0);
+		color: var(--wrf-text);
 		margin-bottom: 0.25rem;
 	}
 
 	.week-prediction__sub {
 		font-size: 0.82rem;
-		color: var(--text-muted, #8b92a5);
+		color: var(--wrf-text-muted);
 		line-height: 1.45;
 		margin: 0 0 0.9rem;
 	}

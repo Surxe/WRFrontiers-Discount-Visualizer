@@ -88,7 +88,7 @@ const titanRows = titans.map(row);
 <style>
 	:global(body) {
 		margin: 0;
-		background: #0f1115;
+		background: var(--wrf-bg);
 	}
 
 	.og-card {
@@ -97,9 +97,9 @@ const titanRows = titans.map(row);
 		height: 630px;
 		padding: 44px 52px;
 		background:
-			radial-gradient(1100px 500px at 82% -10%, rgba(58, 134, 255, 0.16), transparent 60%),
+			radial-gradient(1100px 500px at 82% -10%, rgba(79, 195, 247, 0.16), transparent 60%),
 			linear-gradient(160deg, #12151c 0%, #0d0f14 100%);
-		color: #e0e0e0;
+		color: var(--wrf-text);
 		font-family: 'Montserrat', sans-serif;
 		display: flex;
 		flex-direction: column;
@@ -125,11 +125,11 @@ const titanRows = titans.map(row);
 	.og-sub {
 		margin: 8px 0 0;
 		font-size: 21px;
-		color: #b7bdca;
+		color: var(--wrf-text-muted);
 	}
 
 	.og-sub strong {
-		color: #3a86ff;
+		color: var(--wrf-accent);
 		font-weight: 700;
 	}
 
@@ -140,7 +140,7 @@ const titanRows = titans.map(row);
 		font-weight: 700;
 		letter-spacing: 2px;
 		text-transform: uppercase;
-		color: #6b7488;
+		color: var(--wrf-text-muted);
 	}
 
 	.og-body {
@@ -169,7 +169,7 @@ const titanRows = titans.map(row);
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 1px;
-		color: #8b92a5;
+		color: var(--wrf-text-muted);
 	}
 
 	.og-rows {
@@ -196,7 +196,7 @@ const titanRows = titans.map(row);
 		width: 20px;
 		font-size: 18px;
 		font-weight: 700;
-		color: #6b7488;
+		color: var(--wrf-text-muted);
 		text-align: center;
 	}
 
@@ -233,7 +233,7 @@ const titanRows = titans.map(row);
 
 	.og-meta {
 		font-size: 14px;
-		color: #8b92a5;
+		color: var(--wrf-text-muted);
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -243,7 +243,7 @@ const titanRows = titans.map(row);
 		flex-shrink: 0;
 		font-size: 26px;
 		font-weight: 700;
-		color: #3a86ff;
+		color: var(--wrf-accent);
 	}
 
 	.og-note {
@@ -251,7 +251,7 @@ const titanRows = titans.map(row);
 		padding-top: 18px;
 		font-size: 14px;
 		font-style: italic;
-		color: #6b7488;
+		color: var(--wrf-text-muted);
 		line-height: 1.4;
 	}
 </style>

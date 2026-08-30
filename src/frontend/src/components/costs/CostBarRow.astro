@@ -52,7 +52,7 @@ const ariaLabel = hasDisc
     font-family: 'Courier New', monospace;
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
     text-align: right;
   }
 
@@ -65,7 +65,7 @@ const ariaLabel = hasDisc
   }
 
   .bar-pay {
-    background: #7c869c;
+    background: var(--wrf-text-muted);
     border-radius: 4px 0 0 4px;
     min-width: 3px;
   }
@@ -87,10 +87,10 @@ const ariaLabel = hasDisc
     white-space: nowrap;
   }
 
-  .v-disc { color: var(--text-color, #e0e0e0); font-weight: 700; }
+  .v-disc { color: var(--wrf-text); font-weight: 700; }
 
   .v-base {
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
     text-decoration: line-through;
     font-size: 0.72rem;
   }
@@ -98,7 +98,7 @@ const ariaLabel = hasDisc
   .v-off { color: #35a95c; font-weight: 700; font-size: 0.72rem; }
 
   .v-nodisc {
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
     font-style: italic;
     font-size: 0.72rem;
     font-family: 'Montserrat', sans-serif;

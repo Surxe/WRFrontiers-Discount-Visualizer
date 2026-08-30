@@ -163,8 +163,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     width: 500px;
     max-width: 100%;
     height: 100vh;
-    background-color: var(--sidebar-bg, #161920);
-    border-left: 1px solid var(--sidebar-border, #232733);
+    background-color: var(--wrf-surface);
+    border-left: 1px solid var(--wrf-border);
     z-index: 9999;
     transition: right 0.3s ease;
     display: flex;
@@ -220,7 +220,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   .calculator-header {
     padding: 1rem;
-    border-bottom: 1px solid var(--sidebar-border, #232733);
+    border-bottom: 1px solid var(--wrf-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -238,13 +238,13 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   .calculator-header h3 {
     margin: 0;
     font-size: 1.1rem;
-    color: #fff;
+    color: var(--wrf-text);
   }
 
   .clear-btn {
     background: transparent;
-    border: 1px solid #444;
-    color: #aaa;
+    border: 1px solid var(--wrf-border);
+    color: var(--wrf-text-muted);
     border-radius: 4px;
     padding: 2px 8px;
     font-size: 0.8rem;
@@ -253,14 +253,14 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .clear-btn:hover {
-    background: #444;
-    color: #fff;
+    background: var(--wrf-border);
+    color: var(--wrf-text);
   }
 
   .header-select {
-    background: #232733;
-    border: 1px solid #444;
-    color: #e0e0e0;
+    background: var(--wrf-border);
+    border: 1px solid var(--wrf-border);
+    color: var(--wrf-text);
     border-radius: 4px;
     padding: 2px 6px;
     font-size: 0.8rem;
@@ -270,14 +270,14 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .header-select:focus {
-    border-color: #666;
+    border-color: var(--wrf-text-muted);
   }
 
 
   .close-btn {
     background: none;
     border: none;
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
     font-size: 1.5rem;
     cursor: pointer;
     line-height: 1;
@@ -285,7 +285,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .close-btn:hover {
-    color: #fff;
+    color: var(--wrf-text);
   }
 
   .calculator-content {
@@ -297,7 +297,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   .empty-state {
     text-align: center;
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
     margin-top: 2rem;
     font-style: italic;
     padding: 1rem;
@@ -324,12 +324,12 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .calculator-table th {
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
     font-weight: normal;
     font-size: 0.75rem;
     position: sticky;
     top: 0;
-    background: var(--sidebar-bg, #161920);
+    background: var(--wrf-surface);
     z-index: 1;
   }
 
@@ -383,9 +383,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   :global(.qty-btn) {
-    background: #333;
+    background: var(--wrf-surface-2);
     border: none;
-    color: #fff;
+    color: var(--wrf-text);
     cursor: pointer;
     width: 18px;
     height: 18px;
@@ -399,13 +399,13 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   :global(.qty-btn:hover) {
-    background: #444;
+    background: var(--wrf-border);
   }
 
   :global(.level-select) {
-    background: #232733;
-    border: 1px solid #333;
-    color: #e0e0e0;
+    background: var(--wrf-border);
+    border: 1px solid var(--wrf-surface-2);
+    color: var(--wrf-text);
     border-radius: 3px;
     padding: 1px 2px;
     font-size: 0.75rem;
@@ -417,7 +417,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   :global(.cost-cell) {
     font-family: 'Courier New', monospace;
     font-size: 0.75rem;
-    color: #cdd0d6;
+    color: var(--wrf-text);
   }
 
   :global(.disc-yes) {
@@ -426,11 +426,11 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   :global(.disc-no) {
-    color: #666;
+    color: var(--wrf-text-muted);
   }
 
   :global(.disc-none) {
-    color: #555;
+    color: var(--wrf-border);
   }
 
   :global(.disc-toggle-btn) {
@@ -467,7 +467,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     text-align: right;
     font-weight: bold;
     font-size: 0.8rem;
-    color: #aaa;
+    color: var(--wrf-text-muted);
   }
 
   :global(.discount-label) {
@@ -491,7 +491,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   #calc-total-intel {
     font-family: 'Courier New', monospace;
     font-weight: 700;
-    color: #e0e0e0;
+    color: var(--wrf-text);
   }
 
   /* Search Styles */
@@ -505,9 +505,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   #module-search-input {
     width: 100%;
     padding: 10px 12px;
-    background: #111;
-    border: 1px solid #333;
-    color: #fff;
+    background: var(--wrf-bg);
+    border: 1px solid var(--wrf-surface-2);
+    color: var(--wrf-text);
     border-radius: 4px;
     font-size: 0.9rem;
     outline: none;
@@ -516,7 +516,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   #module-search-input:focus {
-    border-color: #555;
+    border-color: var(--wrf-border);
   }
 
   .search-results {
@@ -525,7 +525,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     left: 1rem;
     right: 1rem;
     background: #1a1e27;
-    border: 1px solid #333;
+    border: 1px solid var(--wrf-surface-2);
     border-top: none;
     border-radius: 0 0 6px 6px;
     margin: 0;
@@ -559,7 +559,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   :global(.search-result-name) {
     font-size: 0.9rem;
-    color: #e0e0e0;
+    color: var(--wrf-text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -641,7 +641,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       font-size: 0.6rem;
       text-transform: uppercase;
       letter-spacing: 0.03em;
-      color: var(--text-muted, #8b92a5);
+      color: var(--wrf-text-muted);
     }
 
     /* Costs share their own line, pushed after the controls. */
@@ -717,14 +717,14 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   .income-section {
     flex-shrink: 0;
     padding: 0.85rem 1rem 1.1rem;
-    border-top: 1px solid var(--sidebar-border, #232733);
-    background: var(--sidebar-bg, #161920);
+    border-top: 1px solid var(--wrf-border);
+    background: var(--wrf-surface);
   }
 
   .income-title {
     margin: 0 0 0.65rem;
     font-size: 0.9rem;
-    color: #fff;
+    color: var(--wrf-text);
   }
 
   /* Collapsible "Weekly income" section (native <details>). */
@@ -746,11 +746,11 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   .income-summary:hover .income-title,
   .income-summary:hover .income-chevron {
-    color: var(--text-color, #e0e0e0);
+    color: var(--wrf-text);
   }
 
   .income-summary:focus-visible {
-    outline: 2px solid var(--accent-color, #3a86ff);
+    outline: 2px solid var(--wrf-accent);
     outline-offset: 2px;
   }
 
@@ -760,7 +760,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .income-chevron {
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
     transition: transform 0.2s ease, color 0.2s ease;
     flex-shrink: 0;
   }
@@ -794,7 +794,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     flex-direction: column;
     gap: 0.2rem;
     font-size: 0.72rem;
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
     min-width: 0; /* let inputs/selects shrink to the column instead of overflowing */
   }
 
@@ -802,9 +802,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     width: 100%;
     box-sizing: border-box;
     padding: 4px 6px;
-    background: #111;
-    border: 1px solid #333;
-    color: #fff;
+    background: var(--wrf-bg);
+    border: 1px solid var(--wrf-surface-2);
+    color: var(--wrf-text);
     border-radius: 4px;
     font-size: 0.85rem;
     outline: none;
@@ -812,7 +812,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .income-field input:focus {
-    border-color: #555;
+    border-color: var(--wrf-border);
   }
 
   /* "Free week" / "Premium week" job seed buttons (replace old premium toggle).
@@ -824,7 +824,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   .income-seed-label {
     display: block;
     font-size: 0.72rem;
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
     margin-bottom: 0.4rem;
     text-align: center;
   }
@@ -843,8 +843,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     gap: 0.1rem;
     padding: 5px 10px;
     background: #1c1f27;
-    border: 1px solid #333;
-    color: #cdd0d6;
+    border: 1px solid var(--wrf-surface-2);
+    color: var(--wrf-text);
     border-radius: 4px;
     font-size: 0.8rem;
     line-height: 1.2;
@@ -854,11 +854,11 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
   .income-seed-btn small {
     font-size: 0.66rem;
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
   }
 
   .income-seed-btn:hover {
-    border-color: #555;
+    border-color: var(--wrf-border);
     background: #242833;
   }
 
@@ -869,9 +869,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     min-width: 0;
     box-sizing: border-box;
     padding: 4px 22px 4px 6px; /* right pad reserves room for the arrow */
-    background: #111;
-    border: 1px solid #333;
-    color: #fff;
+    background: var(--wrf-bg);
+    border: 1px solid var(--wrf-surface-2);
+    color: var(--wrf-text);
     border-radius: 4px;
     font-size: 0.82rem;
     outline: none;
@@ -881,7 +881,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   }
 
   .income-rate-select:focus {
-    border-color: #555;
+    border-color: var(--wrf-border);
   }
 
   .income-rate-custom {
@@ -911,7 +911,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: var(--text-muted, #8b92a5);
+    color: var(--wrf-text-muted);
   }
 
   .income-total {
@@ -924,7 +924,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   .income-total-val {
     font-family: 'Courier New', monospace;
     font-weight: 700;
-    color: #e0e0e0;
+    color: var(--wrf-text);
   }
 
 </style>

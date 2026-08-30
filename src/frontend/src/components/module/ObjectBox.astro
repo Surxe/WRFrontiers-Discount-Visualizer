@@ -227,7 +227,7 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     pointer-events: none;
     white-space: normal;
     background: rgba(20, 20, 20, 0.95);
-    color: #fff;
+    color: var(--wrf-text);
     padding: 8px 12px;
     border-radius: 999px;
     font-size: 0.78rem;
@@ -259,7 +259,7 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: rgba(58, 134, 255, 0.9);
+      background-color: rgba(79, 195, 247, 0.9);
       border: none;
       border-radius: 50%;
       color: white;
@@ -277,7 +277,7 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
     }
 
     .add-to-calc-btn:hover {
-      background-color: #2b65cc;
+      background-color: var(--wrf-accent-hover);
       transform: translate(-50%, -50%) scale(1.1);
     }
 
@@ -306,7 +306,7 @@ const href = category ? `${baseUrl}items?group=${category}` : null;
       right: 3px;
       width: 14px;
       height: 14px;
-      background-color: rgba(58, 134, 255, 0.85);
+      background-color: rgba(79, 195, 247, 0.85);
       border-radius: 50%;
       display: flex;
       align-items: center;
