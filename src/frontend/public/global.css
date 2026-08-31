@@ -1,17 +1,5 @@
-/* Montserrat is self-hosted via the WRFrontiersDB-Design submodule (index.css). */
+/* Montserrat is self-hosted via the WRFrontiersDB-Design submodule (index.css);
+   links, scrollbars and text selection also come from the shared elements.css. */
 * {
   font-family: 'Montserrat', sans-serif;
-}
-
-/* Global link styling - minimalist dotted underline */
-a {
-	color: var(--wrf-link);
-	text-decoration: none;
-	border-bottom: 1px dotted var(--wrf-link-underline);
-	transition: border-color 0.2s, color 0.2s;
-}
-
-a:hover {
-	border-bottom-color: var(--wrf-link-hover);
-	color: var(--wrf-link-hover);
 }
