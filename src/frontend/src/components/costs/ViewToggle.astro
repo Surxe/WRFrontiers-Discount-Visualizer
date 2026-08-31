@@ -8,9 +8,9 @@
  */
 ---
 
-<div class="view-toggle" role="tablist" aria-label="View mode">
-  <button id="btn-visual" class="toggle-btn active" role="tab" aria-selected="true">Visual</button>
-  <button id="btn-table" class="toggle-btn" role="tab" aria-selected="false">Table</button>
+<div class="view-toggle wrf-toggle" role="tablist" aria-label="View mode">
+  <button id="btn-visual" class="wrf-toggle__btn active" role="tab" aria-selected="true">Visual</button>
+  <button id="btn-table" class="wrf-toggle__btn" role="tab" aria-selected="false">Table</button>
 </div>
 
 <script>
@@ -40,35 +40,11 @@
 </script>
 
 <style>
-  .view-toggle {
+  /* Visual style comes from the shared .wrf-toggle (elements.css); this only
+     centers the control and sets its bottom margin. Higher specificity than the
+     shared .wrf-toggle so display:flex wins for margin-auto centering. */
+  .view-toggle.wrf-toggle {
     display: flex;
-    justify-content: center;
-    gap: 0;
     margin: 0 auto 2rem;
-    width: fit-content;
-    background: var(--wrf-surface);
-    border: 1px solid var(--wrf-border);
-    border-radius: 999px;
-    padding: 0.25rem;
-  }
-
-  .toggle-btn {
-    background: none;
-    border: none;
-    color: var(--wrf-text-muted);
-    font-family: inherit;
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 0.45rem 1.4rem;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: color 0.2s, background 0.2s;
-  }
-
-  .toggle-btn:hover { color: var(--wrf-text); }
-
-  .toggle-btn.active {
-    color: var(--wrf-text);
-    background: var(--wrf-accent);
   }
 </style>
