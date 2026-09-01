@@ -1,0 +1,317 @@
+---
+// The "Weekly income" panel of the Cost Calculator. Static form markup + scoped
+// styles; the parent CostCalculator's script wires up the #income-* inputs by id.
+import { getCurrencyIconUrl } from '../utils/textures.js';
+const baseUrl = import.meta.env.BASE_URL || '/';
+---
+
+<section id="weekly-income" class="income-section">
+  <details id="income-details" class="income-details" open>
+    <summary class="income-summary">
+      <h4 class="income-title">Weekly income</h4>
+      <svg class="income-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </summary>
+    <div class="income-body">
+      <!-- Parameter row: scalar inputs. Extensible - more params can be added here. -->
+      <div class="income-inputs">
+        <label class="income-field">
+          <span>Avg impact / game</span>
+          <input type="number" id="income-impact" min="0" step="1" inputmode="numeric" />
+        </label>
+        <label class="income-field">
+          <span>Salvage / credit</span>
+          <select id="income-rate-select" class="income-rate-select" aria-label="Salvage per credit conversion rate"></select>
+          <input type="number" id="income-rate" class="income-rate-custom" min="0" step="0.01" inputmode="decimal" placeholder="Custom salvage/credits" hidden />
+        </label>
+      </div>
+
+      <!-- Autofill buttons: always their own row, above the four activity fields. -->
+      <div class="income-seed">
+        <span class="income-seed-label">Autofill a full week:</span>
+        <div class="income-seed-btns">
+          <button type="button" id="income-seed-free" class="income-seed-btn">
+            Free week <small>28 daily &middot; 2 weekly</small>
+          </button>
+          <button type="button" id="income-seed-premium" class="income-seed-btn">
+            Premium week <small>42 daily &middot; 3 weekly</small>
+          </button>
+        </div>
+      </div>
+
+      <!-- Four activity fields the buttons/premium relate to: games + jobs, 2 columns. -->
+      <div class="income-inputs">
+        <label class="income-field">
+          <span>Premium games / wk</span>
+          <input type="number" id="income-premium-games" min="0" step="1" inputmode="numeric" />
+        </label>
+        <label class="income-field">
+          <span>Free games / wk</span>
+          <input type="number" id="income-free-games" min="0" step="1" inputmode="numeric" />
+        </label>
+        <label class="income-field">
+          <span>Dailies / wk</span>
+          <input type="number" id="income-dailies" min="0" step="1" inputmode="numeric" />
+        </label>
+        <label class="income-field">
+          <span>Weekly jobs / wk</span>
+          <input type="number" id="income-weekly-jobs" min="0" step="1" inputmode="numeric" />
+        </label>
+      </div>
+      <div class="income-totals">
+        <div class="income-group">
+          <span class="income-group-title">Jobs</span>
+          <span class="income-total">
+            <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
+            <span id="income-jobs-salvage" class="income-total-val">0</span>
+          </span>
+          <span class="income-total">
+            <img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" />
+            <span id="income-jobs-intel" class="income-total-val">0</span>
+          </span>
+        </div>
+        <div class="income-group">
+          <span class="income-group-title">Matches</span>
+          <span class="income-total">
+            <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
+            <span id="income-matches-salvage" class="income-total-val">0</span>
+          </span>
+        </div>
+        <div class="income-group">
+          <span class="income-group-title">Total</span>
+          <span class="income-total">
+            <img src={getCurrencyIconUrl('salvage', baseUrl)} alt="Salvage" class="header-currency-icon" />
+            <span id="income-total-salvage" class="income-total-val">0</span>
+          </span>
+          <span class="income-total">
+            <img src={getCurrencyIconUrl('intel', baseUrl)} alt="Intel" class="header-currency-icon" />
+            <span id="income-total-intel" class="income-total-val">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </details>
+</section>
+
+<style>
+  .income-section {
+    flex-shrink: 0;
+    padding: 0.85rem 1rem 1.1rem;
+    border-top: 1px solid var(--wrf-border);
+    background: var(--wrf-surface);
+  }
+
+  .income-title {
+    margin: 0 0 0.65rem;
+    font-size: 0.9rem;
+    color: var(--wrf-text);
+  }
+
+  /* Collapsible "Weekly income" section (native <details>). */
+  .income-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    padding: 0.15rem 0;
+    border-radius: 4px;
+  }
+
+  .income-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .income-summary:hover .income-title,
+  .income-summary:hover .income-chevron {
+    color: var(--wrf-text);
+  }
+
+  .income-summary:focus-visible {
+    outline: 2px solid var(--wrf-accent);
+    outline-offset: 2px;
+  }
+
+  /* Title has no bottom margin inside the summary row; the body owns the gap. */
+  .income-summary .income-title {
+    margin: 0;
+  }
+
+  .income-chevron {
+    color: var(--wrf-text-muted);
+    transition: transform 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .income-details[open] .income-chevron {
+    transform: rotate(180deg);
+  }
+
+  .income-body {
+    margin-top: 0.75rem;
+  }
+
+  /* Field groups: a 2-column grid on both desktop and mobile. Fields stretch to
+     fill the extra desktop width rather than adding more columns. */
+  .income-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: end;
+    gap: 0.7rem 0.75rem;
+  }
+
+  /* Vertical separation between the param row, the seed buttons, and the
+     activity fields. */
+  .income-inputs + .income-seed,
+  .income-seed + .income-inputs {
+    margin-top: 0.85rem;
+  }
+
+  .income-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.72rem;
+    color: var(--wrf-text-muted);
+    min-width: 0; /* let inputs/selects shrink to the column instead of overflowing */
+  }
+
+  .income-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px 6px;
+    background: var(--wrf-bg);
+    border: 1px solid var(--wrf-surface-2);
+    color: var(--wrf-text);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .income-field input:focus {
+    border-color: var(--wrf-border);
+  }
+
+  /* "Free week" / "Premium week" job seed buttons (replace old premium toggle).
+     Always their own full-width row, above the four activity fields. */
+  .income-seed {
+    min-width: 0;
+  }
+
+  .income-seed-label {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--wrf-text-muted);
+    margin-bottom: 0.4rem;
+    text-align: center;
+  }
+
+  .income-seed-btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  .income-seed-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+    padding: 5px 10px;
+    background: #1c1f27;
+    border: 1px solid var(--wrf-surface-2);
+    color: var(--wrf-text);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .income-seed-btn small {
+    font-size: 0.66rem;
+    color: var(--wrf-text-muted);
+  }
+
+  .income-seed-btn:hover {
+    border-color: var(--wrf-border);
+    background: #242833;
+  }
+
+  /* Credit -> salvage: a preset dropdown; the number box appears only when
+     "Custom rate" is chosen, so presets don't crowd the input. */
+  .income-rate-select {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 4px 22px 4px 6px; /* right pad reserves room for the arrow */
+    background: var(--wrf-bg);
+    border: 1px solid var(--wrf-surface-2);
+    color: var(--wrf-text);
+    border-radius: 4px;
+    font-size: 0.82rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    text-overflow: ellipsis;
+  }
+
+  .income-rate-select:focus {
+    border-color: var(--wrf-border);
+  }
+
+  .income-rate-custom {
+    margin-top: 0.35rem;
+  }
+
+  .income-rate-custom[hidden] {
+    display: none;
+  }
+
+  .income-totals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 2.25rem;
+    margin-top: 0.9rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .income-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .income-group-title {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--wrf-text-muted);
+  }
+
+  .income-total {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .income-total-val {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: var(--wrf-text);
+  }
+
+  /* Shared with the calculator table header (kept in sync with CostCalculator). */
+  .header-currency-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    vertical-align: text-bottom;
+    margin-right: 2px;
+  }
+</style>
