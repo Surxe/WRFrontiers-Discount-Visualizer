@@ -1,25 +1,13 @@
 ---
 import { getCurrencyIconUrl } from '../utils/textures.js';
 import WeeklyIncome from './WeeklyIncome.astro';
+import CalcHeader from './CalcHeader.astro';
 
 const { searchableModules = [], rarityUpgradeCosts = {}, discountSchedule = {}, weekList = [], currentWeekSlug = null } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL || '/';
 ---
 <aside id="cost-calculator-drawer" class="calculator-drawer">
-  <div class="calculator-header">
-    <h3>Cost Calculator</h3>
-    <div class="header-actions">
-      <span class="header-with-tooltip">
-        <select id="calc-week-select" class="header-select" aria-label="Target Week">
-          <option value="">Target Week...</option>
-        </select>
-        <span class="tooltip-icon">?</span>
-        <span class="custom-tooltip">Select a week to calculate costs based on its specific discount schedule.</span>
-      </span>
-      <button id="clear-calculator" class="clear-btn" aria-label="Clear Calculator">Clear</button>
-      <button id="close-calculator" class="close-btn" aria-label="Close Calculator">&times;</button>
-    </div>
-  </div>
+  <CalcHeader />
   <div class="calculator-content">
     <div class="search-container">
       <input type="text" id="module-search-input" placeholder="Search for a module to add..." autocomplete="off" />
@@ -70,8 +58,6 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 </aside>
 
 <style>
-  @import '../styles/tooltips.css';
-
   .calculator-drawer {
     position: fixed;
     top: 0;
@@ -108,101 +94,12 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       flex: 0 1 auto;
     }
 
-    /* Larger touch targets for the header controls. Selectors are intentionally
-       two-class (higher specificity) so they win over the base single-class
-       rules defined later in this stylesheet, regardless of source order. */
-    .calculator-header .close-btn {
-      font-size: 1.9rem;
-      padding: 0 0.6rem;
-      min-height: 36px;
-    }
-
-    .header-actions .header-select {
-      padding: 6px 8px;
-      font-size: 0.85rem;
-      max-width: none;
-    }
-
-    .header-actions .clear-btn {
-      padding: 6px 12px;
-      font-size: 0.85rem;
-    }
-
     :global(.calculator-table .qty-btn) {
       width: 28px;
       height: 28px;
     }
   }
 
-  .calculator-header {
-    padding: 1rem;
-    border-bottom: 1px solid var(--wrf-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .calculator-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: var(--wrf-text);
-  }
-
-  .clear-btn {
-    background: transparent;
-    border: 1px solid var(--wrf-border);
-    color: var(--wrf-text-muted);
-    border-radius: 4px;
-    padding: 2px 8px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .clear-btn:hover {
-    background: var(--wrf-border);
-    color: var(--wrf-text);
-  }
-
-  .header-select {
-    background: var(--wrf-border);
-    border: 1px solid var(--wrf-border);
-    color: var(--wrf-text);
-    border-radius: 4px;
-    padding: 2px 6px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    outline: none;
-    max-width: 140px;
-  }
-
-  .header-select:focus {
-    border-color: var(--wrf-text-muted);
-  }
-
-
-  .close-btn {
-    background: none;
-    border: none;
-    color: var(--wrf-text-muted);
-    font-size: 1.5rem;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0 0.5rem;
-  }
-
-  .close-btn:hover {
-    color: var(--wrf-text);
-  }
 
   .calculator-content {
     overflow-y: auto;
@@ -617,14 +514,6 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     :global(.disc-toggle-btn) {
       min-width: 36px;
       min-height: 32px;
-      font-size: 1rem;
-    }
-
-    .calculator-header {
-      padding: 0.6rem;
-    }
-
-    .calculator-header h3 {
       font-size: 1rem;
     }
   }
