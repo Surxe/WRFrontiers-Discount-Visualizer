@@ -1,0 +1,13 @@
+{
+  "roots": ["src/frontend/src", "src/frontend/public"],
+  "extensions": [".astro", ".css"],
+  "allow": [
+    "#4caf50",
+    "#35a95c",
+    "#2ec4b6",
+    "#ff9f1c",
+    "#5865f2",
+    "#12151c",
+    "#0d0f14"
+  ]
+}
