@@ -183,6 +183,11 @@ cython_debug/
 # Personal
 notes/
 
+# Per-tool agent dirs (mirrors of .agents/, recreated by .agents/setup-symlinks.sh)
+.claude/
+.windsurf/
+.cursor/
+
 # WRFrontiers Discount Visualizer
 WRFrontiersDB-Data/
 .env
