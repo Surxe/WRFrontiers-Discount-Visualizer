@@ -22,41 +22,6 @@
   "method": "weeks-since-discount; walk-forward, history-before-week only",
   "bots": [
     {
-      "ref": "OBJID_VirtualBot::varangian",
-      "id": "varangian",
-      "name": "Varangian",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotVarangian",
-      "items_anchor": "bot-varangian",
-      "overdue_rank": 2,
-      "weeks_since_discount": 10,
-      "avg_interval": 11.2,
-      "likelihood_pct": 25.0,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Orkan.0",
-          "name": "Orkan",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Orkan",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_Grounded.1",
-          "name": "Fuel Burn",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Grounded",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Dazzle.1",
-          "name": "Flashbang",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::fenrir",
       "id": "fenrir",
       "name": "Fenrir",
@@ -85,6 +50,76 @@
           "id": "DA_Module_Ability_CounterAttack.1",
           "name": "Reflector",
           "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::varangian",
+      "id": "varangian",
+      "name": "Varangian",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotVarangian",
+      "items_anchor": "bot-varangian",
+      "overdue_rank": 2,
+      "weeks_since_discount": 10,
+      "avg_interval": 11.2,
+      "likelihood_pct": 18.8,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Orkan.0",
+          "name": "Orkan",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Orkan",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Grounded.1",
+          "name": "Fuel Burn",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Grounded",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::orochi",
+      "id": "orochi",
+      "name": "Orochi",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotOrochi",
+      "items_anchor": "bot-orochi",
+      "overdue_rank": 3,
+      "weeks_since_discount": 10,
+      "avg_interval": 12.7,
+      "likelihood_pct": 18.8,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Zeus.0",
+          "name": "Zeus",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Zeus",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_BlastWave.1",
+          "name": "Blast Wave",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlastWave",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Spotlight.1",
+          "name": "Recon Mode",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Spotlight",
           "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
@@ -164,41 +199,6 @@
           "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Railgun",
           "rarity": "DA_ModuleRarity_Common.0",
           "group": "light-weapon"
-        }
-      ],
-      "hit": false
-    },
-    {
-      "ref": "OBJID_VirtualBot::orochi",
-      "id": "orochi",
-      "name": "Orochi",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotOrochi",
-      "items_anchor": "bot-orochi",
-      "overdue_rank": 3,
-      "weeks_since_discount": 10,
-      "avg_interval": 12.7,
-      "likelihood_pct": 12.5,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Zeus.0",
-          "name": "Zeus",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Zeus",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_BlastWave.1",
-          "name": "Blast Wave",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlastWave",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Spotlight.1",
-          "name": "Recon Mode",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Spotlight",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "cycle-gear"
         }
       ],
       "hit": false

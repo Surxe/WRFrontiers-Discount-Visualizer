@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T14:57:03.002606-05:00",
+  "generated_at": "2026-09-04T23:25:16.218666-05:00",
   "method": "weeks-since-discount (most overdue first); position-calibrated odds",
   "predictedWeek": {
     "start_year": 2026,
@@ -21,7 +21,7 @@
       "overdue_rank": 2,
       "weeks_since_discount": 11,
       "avg_interval": 10.5,
-      "likelihood_pct": 53.3,
+      "likelihood_pct": 39.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Stormpike.0",
@@ -55,7 +55,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 11,
       "avg_interval": 10.2,
-      "likelihood_pct": 37.8,
+      "likelihood_pct": 39.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Bisector.0",
@@ -89,7 +89,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 11,
       "avg_interval": 10.2,
-      "likelihood_pct": 26.7,
+      "likelihood_pct": 39.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Thunder.0",
@@ -271,7 +271,23 @@
       "weeks_since_discount": 11,
       "slot_hit_rate": 0.5333,
       "slot_hits": 24,
-      "likelihood_pct": 53.3
+      "likelihood_pct": 39.3,
+      "pooled": true,
+      "tie_ranks": [
+        2,
+        3,
+        4
+      ],
+      "tie_slot_rates": [
+        0.5333,
+        0.3778,
+        0.2667
+      ],
+      "tie_slot_hits": [
+        24,
+        17,
+        12
+      ]
     }
   }
 }

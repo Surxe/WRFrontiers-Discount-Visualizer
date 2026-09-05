@@ -100,7 +100,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 10,
       "avg_interval": 10.5,
-      "likelihood_pct": 26.5,
+      "likelihood_pct": 20.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Stormpike.0",
@@ -135,7 +135,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 10,
       "avg_interval": 10.2,
-      "likelihood_pct": 23.5,
+      "likelihood_pct": 20.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Thunder.0",
@@ -170,7 +170,7 @@
       "overdue_rank": 5,
       "weeks_since_discount": 10,
       "avg_interval": 12.5,
-      "likelihood_pct": 11.8,
+      "likelihood_pct": 20.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Scourge.0",

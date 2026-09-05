@@ -22,41 +22,6 @@
   "method": "weeks-since-discount; walk-forward, history-before-week only",
   "bots": [
     {
-      "ref": "OBJID_VirtualBot::scorpion",
-      "id": "scorpion",
-      "name": "Scorpion",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotScorpion",
-      "items_anchor": "bot-scorpion",
-      "overdue_rank": 2,
-      "weeks_since_discount": 10,
-      "avg_interval": 10.6,
-      "likelihood_pct": 32.3,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Tusk.0",
-          "name": "Tusk",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Tusk",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_Repulsor.1",
-          "name": "Repulsor",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Repulsor",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_TensionLink.1",
-          "name": "Gamma Beam",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_TensionLink",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": true
-    },
-    {
       "ref": "OBJID_VirtualBot::bulgasari",
       "id": "bulgasari",
       "name": "Bulgasari",
@@ -92,6 +57,41 @@
       "hit": false
     },
     {
+      "ref": "OBJID_VirtualBot::scorpion",
+      "id": "scorpion",
+      "name": "Scorpion",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotScorpion",
+      "items_anchor": "bot-scorpion",
+      "overdue_rank": 2,
+      "weeks_since_discount": 10,
+      "avg_interval": 10.6,
+      "likelihood_pct": 27.4,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Tusk.0",
+          "name": "Tusk",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Tusk",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Repulsor.1",
+          "name": "Repulsor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Repulsor",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_TensionLink.1",
+          "name": "Gamma Beam",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_TensionLink",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
       "ref": "OBJID_VirtualBot::lancelot",
       "id": "lancelot",
       "name": "Lancelot",
@@ -100,7 +100,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 10,
       "avg_interval": 9.7,
-      "likelihood_pct": 22.6,
+      "likelihood_pct": 27.4,
       "associated": [
         {
           "id": "DA_Module_Weapon_Punisher.0",
@@ -135,7 +135,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 9,
       "avg_interval": 8.5,
-      "likelihood_pct": 19.4,
+      "likelihood_pct": 16.1,
       "associated": [
         {
           "id": "DA_Module_Weapon_Gozer.0",
@@ -170,7 +170,7 @@
       "overdue_rank": 5,
       "weeks_since_discount": 9,
       "avg_interval": 9.5,
-      "likelihood_pct": 12.9,
+      "likelihood_pct": 16.1,
       "associated": [
         {
           "id": "DA_Module_Weapon_Toxin.0",
@@ -238,7 +238,7 @@
       "hits": 3,
       "listed": 5,
       "eligible_actual": 3,
-      "top_hit": true,
+      "top_hit": false,
       "top3_hit": true,
       "headline_hit": true
     },

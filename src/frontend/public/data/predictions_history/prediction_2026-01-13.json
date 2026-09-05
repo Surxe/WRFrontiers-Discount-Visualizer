@@ -142,7 +142,7 @@
       "overdue_rank": 2,
       "weeks_since_discount": 7,
       "avg_interval": 10.2,
-      "likelihood_pct": 18.2,
+      "likelihood_pct": 13.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Bisector.0",
@@ -177,7 +177,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 7,
       "avg_interval": 10.2,
-      "likelihood_pct": 9.1,
+      "likelihood_pct": 13.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Thunder.0",

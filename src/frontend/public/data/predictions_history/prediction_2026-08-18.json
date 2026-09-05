@@ -65,7 +65,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 11,
       "avg_interval": 10.6,
-      "likelihood_pct": 35.7,
+      "likelihood_pct": 24.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Tusk.0",
@@ -100,7 +100,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 11,
       "avg_interval": 8.5,
-      "likelihood_pct": 23.8,
+      "likelihood_pct": 24.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Gozer.0",
@@ -125,6 +125,41 @@
         }
       ],
       "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::lancelot",
+      "id": "lancelot",
+      "name": "Lancelot",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLancelot",
+      "items_anchor": "bot-lancelot",
+      "overdue_rank": 5,
+      "weeks_since_discount": 11,
+      "avg_interval": 9.7,
+      "likelihood_pct": 24.6,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Punisher.0",
+          "name": "Punisher",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Punisher",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_SpeedBoost.1",
+          "name": "Sprint Reactor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SpeedBoost",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_CounterAttack.1",
+          "name": "Reflector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
     },
     {
       "ref": "OBJID_VirtualBot::bulgasari",
@@ -156,41 +191,6 @@
           "name": "Infinite Ammo",
           "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
           "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
-      "ref": "OBJID_VirtualBot::lancelot",
-      "id": "lancelot",
-      "name": "Lancelot",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLancelot",
-      "items_anchor": "bot-lancelot",
-      "overdue_rank": 5,
-      "weeks_since_discount": 11,
-      "avg_interval": 9.7,
-      "likelihood_pct": 14.3,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Punisher.0",
-          "name": "Punisher",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Punisher",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_SpeedBoost.1",
-          "name": "Sprint Reactor",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SpeedBoost",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_CounterAttack.1",
-          "name": "Reflector",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
       ],

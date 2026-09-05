@@ -188,6 +188,34 @@ def _calibrate(pool_weeknums: dict, period_actuals: list[tuple[int, set]], top_n
     }
 
 
+def _pool_tied_odds(odds: list[float], wsd_by_pos: list[int]) -> list[float]:
+    """Share slot odds equally across each run of picks tied on the ranking signal.
+
+    ``odds`` are the per-position (slot) hit-rates in ranked order and
+    ``wsd_by_pos`` the weeks-since-discount of the pick in each of those slots.
+    Bots tied on weeks-since-discount are interchangeable to the model -- the only
+    thing separating them is the deterministic bot_id tiebreak in ``_rank_pool``,
+    which arbitrarily drops one into a fatter slot than another. Handing each the
+    distinct slot odds it happened to fall into would invent a ranking among
+    equals, so every position in a tied run instead gets the mean of that run's
+    slot odds. Untied positions keep their own slot's odds unchanged. The pooled
+    list is position-aligned with the inputs and preserves their sum.
+    """
+    pooled = list(odds)
+    i = 0
+    n = len(wsd_by_pos)
+    while i < n:
+        j = i
+        while j < n and wsd_by_pos[j] == wsd_by_pos[i]:
+            j += 1
+        if j - i > 1:
+            shared = sum(odds[i:j]) / (j - i)
+            for k in range(i, j):
+                pooled[k] = shared
+        i = j
+    return pooled
+
+
 def _resolve_gear(bot_id, vbot_data, modules_data, preset_data):
     """Weapons/gear bundled with a regular bot's factory preset.
 
@@ -412,10 +440,22 @@ def _build_pool(ctx, pool_name, as_of_weeknum, top_n, *,
     # Live predictions always have hits, so this never fires for them.
     odds = calib[odds_key]
     odds_available = any(odds[i] > 0 for i in range(len(ranking)))
+
+    # Weeks-since-discount for each ranked pick -- the sole ranking signal, and
+    # what decides which picks are tied. (Eligible bots always have a prior
+    # discount; the fallback only guards a degenerate reconstruction.)
+    wsd_by_pos = []
+    for bot_id in ranking:
+        prior = [w for w in pool_weeknums[bot_id] if w < as_of_weeknum]
+        last_week = prior[-1] if prior else pool_weeknums[bot_id][-1]
+        wsd_by_pos.append(as_of_weeknum - last_week)
+
+    # Picks tied on weeks-since-discount share their slots' odds equally, so an
+    # arbitrary tiebreak can't fabricate a likelihood gap between equals.
+    pooled_odds = _pool_tied_odds(odds[:len(ranking)], wsd_by_pos)
+
     listed = []
     for i, bot_id in enumerate(ranking):
-        last_week = [w for w in pool_weeknums[bot_id] if w < as_of_weeknum]
-        last_week = last_week[-1] if last_week else pool_weeknums[bot_id][-1]
         listed.append({
             "ref": meta[bot_id]["ref"],
             "id": bot_id,
@@ -423,9 +463,9 @@ def _build_pool(ctx, pool_name, as_of_weeknum, top_n, *,
             "icon_path": meta[bot_id]["icon_path"],
             "items_anchor": meta[bot_id]["items_anchor"],
             "overdue_rank": i + 1,
-            "weeks_since_discount": as_of_weeknum - last_week,
+            "weeks_since_discount": wsd_by_pos[i],
             "avg_interval": meta[bot_id]["avg_interval"],
-            "likelihood_pct": round(odds[i] * 100, 1) if odds_available else None,
+            "likelihood_pct": round(pooled_odds[i] * 100, 1) if odds_available else None,
             "associated": (
                 _resolve_gear(bot_id, ctx["vbot_data"], ctx["modules_data"], ctx["preset_data"])
                 if include_gear else []
@@ -454,7 +494,11 @@ def _methodology_example(bots, bots_calib, pred_slug):
 
     The top card (``bots[0]``, already sorted by likelihood) sits in overdue rank
     slot R; its likelihood is that slot's historical hit-rate over the backtested
-    weeks, i.e. ``slot_hits / scored_weeks``.
+    weeks, i.e. ``slot_hits / scored_weeks``. When the top card is tied with other
+    robots on weeks-since-discount, those tied slots' rates are pooled (averaged)
+    into the shared number on the card (see ``_pool_tied_odds``); the example
+    exposes the tie so the page reproduces that averaging rather than a single
+    slot's rate.
     """
     if not bots:
         return None
@@ -464,6 +508,20 @@ def _methodology_example(bots, bots_calib, pred_slug):
     scored = bots_calib.get("scored_weeks") or 0
     if not rank or rank - 1 >= len(per_pos):
         return None
+
+    # The tie group is every displayed pick sharing the top card's wait, ordered
+    # by the slot it occupies. A lone top card yields a one-element group and the
+    # example collapses to the simple single-slot walk-through.
+    wsd = top.get("weeks_since_discount")
+    tie_group = sorted(
+        (b for b in bots
+         if b.get("weeks_since_discount") == wsd
+         and b.get("overdue_rank") and b["overdue_rank"] - 1 < len(per_pos)),
+        key=lambda b: b["overdue_rank"],
+    )
+    tie_ranks = [b["overdue_rank"] for b in tie_group]
+    tie_slot_rates = [per_pos[r - 1] for r in tie_ranks]
+    tie_slot_hits = [round(r * scored) for r in tie_slot_rates]
     slot_rate = per_pos[rank - 1]
     return {
         "method": "position-calibrated",
@@ -473,10 +531,14 @@ def _methodology_example(bots, bots_calib, pred_slug):
             "bot_id": top.get("id"),
             "name": top.get("name"),
             "overdue_rank": rank,
-            "weeks_since_discount": top.get("weeks_since_discount"),
+            "weeks_since_discount": wsd,
             "slot_hit_rate": slot_rate,
             "slot_hits": round(slot_rate * scored),
             "likelihood_pct": top.get("likelihood_pct"),
+            "pooled": len(tie_ranks) > 1,
+            "tie_ranks": tie_ranks,
+            "tie_slot_rates": tie_slot_rates,
+            "tie_slot_hits": tie_slot_hits,
         },
     }
 

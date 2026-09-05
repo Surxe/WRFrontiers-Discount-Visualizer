@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T14:57:03.061800-05:00",
+  "generated_at": "2026-09-04T23:25:16.280228-05:00",
   "scoreboard": {
     "window_weeks": 15,
     "bots_scored_weeks": 15,
@@ -487,7 +487,7 @@
           "hits": 3,
           "listed": 5,
           "eligible_actual": 3,
-          "top_hit": true,
+          "top_hit": false,
           "top3_hit": true,
           "headline_hit": true
         },
@@ -662,7 +662,7 @@
           "hits": 2,
           "listed": 5,
           "eligible_actual": 3,
-          "top_hit": false,
+          "top_hit": true,
           "top3_hit": true,
           "headline_hit": true
         },
@@ -732,7 +732,7 @@
           "hits": 2,
           "listed": 5,
           "eligible_actual": 2,
-          "top_hit": false,
+          "top_hit": true,
           "top3_hit": true,
           "headline_hit": true
         },
@@ -977,7 +977,7 @@
           "hits": 3,
           "listed": 5,
           "eligible_actual": 3,
-          "top_hit": false,
+          "top_hit": true,
           "top3_hit": true,
           "headline_hit": true
         },
@@ -1082,7 +1082,7 @@
           "hits": 2,
           "listed": 5,
           "eligible_actual": 3,
-          "top_hit": true,
+          "top_hit": false,
           "top3_hit": true,
           "headline_hit": true
         },

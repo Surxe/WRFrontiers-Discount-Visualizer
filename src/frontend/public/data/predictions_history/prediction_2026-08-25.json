@@ -65,7 +65,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 11,
       "avg_interval": 9.5,
-      "likelihood_pct": 37.2,
+      "likelihood_pct": 25.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Toxin.0",
@@ -127,6 +127,41 @@
       "hit": true
     },
     {
+      "ref": "OBJID_VirtualBot::cyclops",
+      "id": "cyclops",
+      "name": "Cyclops",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCyclops",
+      "items_anchor": "bot-cyclops",
+      "overdue_rank": 5,
+      "weeks_since_discount": 11,
+      "avg_interval": 9.3,
+      "likelihood_pct": 25.6,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Twinflare.0",
+          "name": "Gemini",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Twinflare",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_DashBlinkedVisible.1",
+          "name": "Blink",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_DashBlinkedVisible",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Homing.1",
+          "name": "Homing Missile",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
       "ref": "OBJID_VirtualBot::bulgasari",
       "id": "bulgasari",
       "name": "Bulgasari",
@@ -160,41 +195,6 @@
         }
       ],
       "hit": false
-    },
-    {
-      "ref": "OBJID_VirtualBot::cyclops",
-      "id": "cyclops",
-      "name": "Cyclops",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCyclops",
-      "items_anchor": "bot-cyclops",
-      "overdue_rank": 5,
-      "weeks_since_discount": 11,
-      "avg_interval": 9.3,
-      "likelihood_pct": 14.0,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Twinflare.0",
-          "name": "Gemini",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Twinflare",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_DashBlinkedVisible.1",
-          "name": "Blink",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_DashBlinkedVisible",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Homing.1",
-          "name": "Homing Missile",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": true
     }
   ],
   "titans": [

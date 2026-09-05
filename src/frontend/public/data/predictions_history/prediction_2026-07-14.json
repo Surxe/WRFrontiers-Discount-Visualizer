@@ -65,7 +65,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 11,
       "avg_interval": 9.2,
-      "likelihood_pct": 29.7,
+      "likelihood_pct": 27.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_Glory.0",
@@ -90,6 +90,48 @@
         }
       ],
       "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::harpy",
+      "id": "harpy",
+      "name": "Harpy",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHarpy",
+      "items_anchor": "bot-harpy",
+      "overdue_rank": 4,
+      "weeks_since_discount": 11,
+      "avg_interval": 9.0,
+      "likelihood_pct": 27.0,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Trebuchet.0",
+          "name": "Trebuchet",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Trebuchet",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Weapon_Railgun.0",
+          "name": "Railgun",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Railgun",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_FuelReserve.1",
+          "name": "Fuel Reserve",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FuelReserve",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
     },
     {
       "ref": "OBJID_VirtualBot::bulgasari",
@@ -121,48 +163,6 @@
           "name": "Infinite Ammo",
           "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
           "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
-      "ref": "OBJID_VirtualBot::harpy",
-      "id": "harpy",
-      "name": "Harpy",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHarpy",
-      "items_anchor": "bot-harpy",
-      "overdue_rank": 4,
-      "weeks_since_discount": 11,
-      "avg_interval": 9.0,
-      "likelihood_pct": 24.3,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Trebuchet.0",
-          "name": "Trebuchet",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Trebuchet",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Weapon_Railgun.0",
-          "name": "Railgun",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Railgun",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_FuelReserve.1",
-          "name": "Fuel Reserve",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FuelReserve",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Dazzle.1",
-          "name": "Flashbang",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
       ],
