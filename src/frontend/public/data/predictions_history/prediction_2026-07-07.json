@@ -30,7 +30,7 @@
       "overdue_rank": 2,
       "weeks_since_discount": 11,
       "avg_interval": 12.8,
-      "likelihood_pct": 41.7,
+      "likelihood_pct": 31.5,
       "associated": [
         {
           "id": "DA_Module_Weapon_StickyGun.0",
@@ -65,7 +65,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 11,
       "avg_interval": 12.5,
-      "likelihood_pct": 27.8,
+      "likelihood_pct": 31.5,
       "associated": [
         {
           "id": "DA_Module_Weapon_Horde.0",
@@ -90,6 +90,41 @@
         }
       ],
       "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::anansi",
+      "id": "anansi",
+      "name": "Anansi",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
+      "items_anchor": "bot-anansi",
+      "overdue_rank": 4,
+      "weeks_since_discount": 11,
+      "avg_interval": 13.7,
+      "likelihood_pct": 31.5,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_MLx2.0",
+          "name": "MLx2",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_MLx2",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Atrophy.1",
+          "name": "Suppressor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
     },
     {
       "ref": "OBJID_VirtualBot::bulgasari",
@@ -121,41 +156,6 @@
           "name": "Infinite Ammo",
           "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
           "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
-      "ref": "OBJID_VirtualBot::anansi",
-      "id": "anansi",
-      "name": "Anansi",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
-      "items_anchor": "bot-anansi",
-      "overdue_rank": 4,
-      "weeks_since_discount": 11,
-      "avg_interval": 13.7,
-      "likelihood_pct": 25.0,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_MLx2.0",
-          "name": "MLx2",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_MLx2",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_Atrophy.1",
-          "name": "Suppressor",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Dazzle.1",
-          "name": "Flashbang",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
       ],

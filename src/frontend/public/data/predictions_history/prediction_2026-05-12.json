@@ -30,7 +30,7 @@
       "overdue_rank": 1,
       "weeks_since_discount": 10,
       "avg_interval": 10.8,
-      "likelihood_pct": 28.6,
+      "likelihood_pct": 23.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Incinerator.0",
@@ -65,7 +65,7 @@
       "overdue_rank": 2,
       "weeks_since_discount": 10,
       "avg_interval": 11.3,
-      "likelihood_pct": 28.6,
+      "likelihood_pct": 23.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Locust.0",
@@ -92,41 +92,6 @@
       "hit": true
     },
     {
-      "ref": "OBJID_VirtualBot::bulgasari",
-      "id": "bulgasari",
-      "name": "Bulgasari",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
-      "items_anchor": "bot-bulgasari",
-      "overdue_rank": 4,
-      "weeks_since_discount": 10,
-      "avg_interval": 10.0,
-      "likelihood_pct": 21.4,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Shredder.0",
-          "name": "Shredder",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shredder",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_ArmorShield.1",
-          "name": "Emergency Shield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_InfiniteAmmo.1",
-          "name": "Infinite Ammo",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::fenrir",
       "id": "fenrir",
       "name": "Fenrir",
@@ -135,7 +100,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 10,
       "avg_interval": 8.6,
-      "likelihood_pct": 14.3,
+      "likelihood_pct": 23.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Fowler.0",
@@ -160,6 +125,41 @@
         }
       ],
       "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::bulgasari",
+      "id": "bulgasari",
+      "name": "Bulgasari",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
+      "items_anchor": "bot-bulgasari",
+      "overdue_rank": 4,
+      "weeks_since_discount": 10,
+      "avg_interval": 10.0,
+      "likelihood_pct": 23.2,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Shredder.0",
+          "name": "Shredder",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shredder",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_ArmorShield.1",
+          "name": "Emergency Shield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_InfiniteAmmo.1",
+          "name": "Infinite Ammo",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
     },
     {
       "ref": "OBJID_VirtualBot::varangian",

@@ -100,7 +100,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 9,
       "avg_interval": 10.8,
-      "likelihood_pct": 22.2,
+      "likelihood_pct": 18.5,
       "associated": [
         {
           "id": "DA_Module_Weapon_Incinerator.0",
@@ -135,7 +135,7 @@
       "overdue_rank": 5,
       "weeks_since_discount": 9,
       "avg_interval": 11.3,
-      "likelihood_pct": 14.8,
+      "likelihood_pct": 18.5,
       "associated": [
         {
           "id": "DA_Module_Weapon_Locust.0",

@@ -23,6 +23,29 @@ const ordinal = (n: number) => {
 	return n + (s[(v - 20) % 10] || s[v] || s[0]);
 };
 const rankOrdinal = ex ? ordinal(ex.overdue_rank) : null;
+
+// When the top card is tied with others on weeks-since-discount, its shown
+// percentage is the average of those tied spots' hit-rates, not one spot's, so
+// the walk-through explains the pooling instead of a single slot.
+const pooled = !!ex?.pooled;
+const tieRanks: number[] = ex?.tie_ranks ?? [];
+const tieRankList = tieRanks.map((r: number) => ordinal(r));
+// e.g. "2nd, 3rd and 4th"
+const tieRanksPhrase =
+	tieRankList.length <= 1
+		? tieRankList.join('')
+		: `${tieRankList.slice(0, -1).join(', ')} and ${tieRankList[tieRankList.length - 1]}`;
+const tieCount = tieRanks.length;
+const tieHits: number[] = ex?.tie_slot_hits ?? [];
+// Each tied spot as its own "hits / scored = pct" fraction, for the pooled walk.
+const tieSlots = tieRanks.map((r: number, i: number) => ({
+	ordinal: ordinal(r),
+	hits: tieHits[i] ?? 0,
+	pct: scoredWeeks ? round1(((tieHits[i] ?? 0) / scoredWeeks) * 100) : null,
+}));
+// The card's number is the average of those spots (computed exactly in the
+// backend); render it verbatim so the page can never drift from the card.
+const pooledPct = round1(ex?.likelihood_pct);
 ---
 
 <GenericPage
@@ -93,27 +116,64 @@ const rankOrdinal = ex ? ordinal(ex.overdue_rank) : null;
 					grows and the predicted week moves &mdash; do not read them as fixed
 					constants.
 				</p>
-				<ol class="walk">
-					<li>
-						<strong>{ex.name}</strong> was last discounted{' '}
-						<strong>{ex.weeks_since_discount}</strong> weeks ago &mdash; the{' '}
-						<strong>{rankOrdinal}</strong> longest wait in the line right now
-						(Step&nbsp;1).
-					</li>
-					<li>
-						Looking back over the last <strong>{scoredWeeks}</strong> weeks, whoever
-						sat in that <strong>{rankOrdinal}</strong> spot ended up discounted in{' '}
-						<strong>{ex.slot_hits}</strong> of them (Step&nbsp;2).
-					</li>
-					<li>
-						<div class="formula formula--calc">
-							{ex.slot_hits} out of {scoredWeeks} = {slotRatePct}&percnt;
-						</div>
-						So <strong>{ex.name}</strong> is shown at{' '}
-						<strong>{round1(ex.likelihood_pct)}&percnt;</strong> &mdash; the number
-						on its card on the Predictions page.
-					</li>
-				</ol>
+				{!pooled && (
+					<ol class="walk">
+						<li>
+							<strong>{ex.name}</strong> was last discounted{' '}
+							<strong>{ex.weeks_since_discount}</strong> weeks ago &mdash; the{' '}
+							<strong>{rankOrdinal}</strong> longest wait in the line right now
+							(Step&nbsp;1).
+						</li>
+						<li>
+							Looking back over the last <strong>{scoredWeeks}</strong> weeks, whoever
+							sat in that <strong>{rankOrdinal}</strong> spot ended up discounted in{' '}
+							<strong>{ex.slot_hits}</strong> of them (Step&nbsp;2).
+						</li>
+						<li>
+							<div class="formula formula--calc">
+								{ex.slot_hits} out of {scoredWeeks} = {slotRatePct}&percnt;
+							</div>
+							So <strong>{ex.name}</strong> is shown at{' '}
+							<strong>{round1(ex.likelihood_pct)}&percnt;</strong> &mdash; the number
+							on its card on the Predictions page.
+						</li>
+					</ol>
+				)}
+				{pooled && (
+					<ol class="walk">
+						<li>
+							<strong>{ex.name}</strong> was last discounted{' '}
+							<strong>{ex.weeks_since_discount}</strong> weeks ago &mdash; but it is
+							<strong> tied</strong> with {tieCount - 1} other robot{tieCount - 1 === 1 ? '' : 's'} on
+							exactly that wait, so they share the {tieRanksPhrase} longest-wait spots
+							(Step&nbsp;1).
+						</li>
+						<li>
+							Those spots have not paid off equally over the last{' '}
+							<strong>{scoredWeeks}</strong> weeks &mdash; whoever sat in them was
+							discounted{' '}
+							{tieSlots.map((s, i) => (
+								<>
+									{i > 0 ? (i === tieSlots.length - 1 ? ' and ' : ', ') : ''}
+									<strong>{s.hits}</strong> time{s.hits === 1 ? '' : 's'} ({s.ordinal})
+								</>
+							))}{' '}
+							(Step&nbsp;2).
+						</li>
+						<li>
+							Because the tied robots are interchangeable &mdash; nothing in the data
+							separates them &mdash; those spots are <strong>pooled</strong> and each
+							tied robot is shown the average, rather than letting an arbitrary tiebreak
+							hand one a fatter spot than another.
+							<div class="formula formula--calc">
+								average of {tieSlots.map((s) => `${s.pct}%`).join(', ')} = {pooledPct}&percnt;
+							</div>
+							So <strong>{ex.name}</strong> is shown at{' '}
+							<strong>{pooledPct}&percnt;</strong> &mdash; the number on its card on the
+							Predictions page.
+						</li>
+					</ol>
+				)}
 			</section>
 		)}
 

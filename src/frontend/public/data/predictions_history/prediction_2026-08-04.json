@@ -135,7 +135,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 10,
       "avg_interval": 11.2,
-      "likelihood_pct": 22.5,
+      "likelihood_pct": 18.8,
       "associated": [
         {
           "id": "DA_Module_Weapon_Orkan.0",
@@ -170,7 +170,7 @@
       "overdue_rank": 5,
       "weeks_since_discount": 10,
       "avg_interval": 9.0,
-      "likelihood_pct": 15.0,
+      "likelihood_pct": 18.8,
       "associated": [
         {
           "id": "DA_Module_Weapon_Scatter.0",

@@ -9,6 +9,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'backend'))
 from build_predictions import (
     _rank_pool,
     _calibrate,
+    _pool_tied_odds,
     period_actuals,
     _grade_pool,
     BOTS_HEADLINE_MIN_HITS,
@@ -88,6 +89,31 @@ class TestCalibrate(unittest.TestCase):
         self.assertTrue(all(vals[i] <= vals[i + 1] for i in range(len(vals) - 1)))
 
 
+class TestPoolTiedOdds(unittest.TestCase):
+    def test_averages_runs_of_tied_positions(self):
+        # Slots 1,2,3 are tied (wsd 11); slot 0 and slot 4 stand alone.
+        odds = [0.20, 0.5333, 0.3778, 0.2667, 0.1556]
+        wsd = [27, 11, 11, 11, 10]
+        pooled = _pool_tied_odds(odds, wsd)
+        shared = (0.5333 + 0.3778 + 0.2667) / 3
+        self.assertAlmostEqual(pooled[0], 0.20, places=6)      # untied
+        self.assertAlmostEqual(pooled[1], shared, places=6)
+        self.assertAlmostEqual(pooled[2], shared, places=6)
+        self.assertAlmostEqual(pooled[3], shared, places=6)
+        self.assertAlmostEqual(pooled[4], 0.1556, places=6)    # untied
+        # Pooling redistributes but never changes the total expected hits.
+        self.assertAlmostEqual(sum(pooled), sum(odds), places=6)
+
+    def test_no_ties_is_identity(self):
+        odds = [0.5, 0.4, 0.3]
+        self.assertEqual(_pool_tied_odds(odds, [5, 4, 3]), odds)
+
+    def test_all_tied_flattens_to_the_mean(self):
+        odds = [0.6, 0.3, 0.0]
+        pooled = _pool_tied_odds(odds, [7, 7, 7])
+        self.assertTrue(all(abs(p - 0.3) < 1e-9 for p in pooled))
+
+
 class TestGeneratedPredictions(unittest.TestCase):
     """Invariants on the on-disk predictions.json (skipped if not generated)."""
 
@@ -142,9 +168,23 @@ class TestGeneratedPredictions(unittest.TestCase):
             expected = round(sum(per_pos) / len(per_pos), 4)
             self.assertAlmostEqual(acc['precision'], expected, places=3)
 
+    def test_tied_bots_share_pooled_odds(self):
+        """Robots tied on weeks-since-discount must show identical odds -- an
+        arbitrary tiebreak may not open a likelihood gap between equals."""
+        for key in ('bots', 'titans'):
+            by_wait = {}
+            for b in self.data[key]:
+                by_wait.setdefault(b['weeks_since_discount'], []).append(b['likelihood_pct'])
+            for wait, pcts in by_wait.items():
+                self.assertEqual(
+                    len(set(pcts)), 1,
+                    f"{key} tied at wsd={wait} show differing odds {pcts}",
+                )
+
     def test_methodology_example_reproduces_top_card(self):
-        """The /methodology worked example must match the top robot's card and the
-        calibrated slot rate, so the page's arithmetic can never contradict it."""
+        """The /methodology worked example must match the top robot's card, so the
+        page's arithmetic can never contradict it -- pooling the tied slots when
+        the top card is tied, else the single overdue-rank slot's rate."""
         m = self.data.get('methodology')
         if not self.data['bots']:
             self.assertIsNone(m)
@@ -156,14 +196,20 @@ class TestGeneratedPredictions(unittest.TestCase):
         self.assertEqual(ex['bot_id'], top['id'])
         self.assertEqual(ex['likelihood_pct'], top['likelihood_pct'])
         self.assertEqual(ex['overdue_rank'], top['overdue_rank'])
-        # Its likelihood is exactly its overdue-rank slot's calibrated hit-rate.
         per_pos = self.data['accuracy']['bots']['per_position']
+        scored = self.data['accuracy']['bots']['scored_weeks']
+        self.assertEqual(m['scored_weeks'], scored)
+        # The example's own-slot fields always describe its overdue-rank slot.
         slot_rate = per_pos[ex['overdue_rank'] - 1]
         self.assertAlmostEqual(ex['slot_hit_rate'], slot_rate, places=4)
-        self.assertEqual(m['scored_weeks'], self.data['accuracy']['bots']['scored_weeks'])
-        self.assertEqual(ex['slot_hits'], round(slot_rate * m['scored_weeks']))
-        # The shown % is the slot rate as a percentage.
-        self.assertAlmostEqual(ex['likelihood_pct'], round(slot_rate * 100, 1), places=1)
+        self.assertEqual(ex['slot_hits'], round(slot_rate * scored))
+        # The shown % is the mean of the tied slots' rates (a lone card is a
+        # one-slot tie group, so this reduces to that slot's rate).
+        tie_rates = [per_pos[r - 1] for r in ex['tie_ranks']]
+        self.assertIn(ex['overdue_rank'], ex['tie_ranks'])
+        self.assertEqual(ex['pooled'], len(ex['tie_ranks']) > 1)
+        expected_pct = round(sum(tie_rates) / len(tie_rates) * 100, 1)
+        self.assertAlmostEqual(ex['likelihood_pct'], expected_pct, places=1)
 
 
 class TestPeriodActualsCutoff(unittest.TestCase):

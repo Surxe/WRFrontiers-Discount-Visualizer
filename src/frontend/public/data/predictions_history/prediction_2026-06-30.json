@@ -57,41 +57,6 @@
       "hit": true
     },
     {
-      "ref": "OBJID_VirtualBot::ravana",
-      "id": "ravana",
-      "name": "Ravana",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRavana",
-      "items_anchor": "bot-ravana",
-      "overdue_rank": 3,
-      "weeks_since_discount": 10,
-      "avg_interval": 12.8,
-      "likelihood_pct": 28.6,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_StickyGun.0",
-          "name": "Magneto",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_StickyGun",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_SpeedBoost.1",
-          "name": "Sprint Reactor",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SpeedBoost",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_RegenerationFull.1",
-          "name": "Nanite Repair",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::bulgasari",
       "id": "bulgasari",
       "name": "Bulgasari",
@@ -127,6 +92,41 @@
       "hit": false
     },
     {
+      "ref": "OBJID_VirtualBot::ravana",
+      "id": "ravana",
+      "name": "Ravana",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRavana",
+      "items_anchor": "bot-ravana",
+      "overdue_rank": 3,
+      "weeks_since_discount": 10,
+      "avg_interval": 12.8,
+      "likelihood_pct": 21.9,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_StickyGun.0",
+          "name": "Magneto",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_StickyGun",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_SpeedBoost.1",
+          "name": "Sprint Reactor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SpeedBoost",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_RegenerationFull.1",
+          "name": "Nanite Repair",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
       "ref": "OBJID_VirtualBot::kumo",
       "id": "kumo",
       "name": "Kumo",
@@ -135,7 +135,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 10,
       "avg_interval": 12.5,
-      "likelihood_pct": 25.7,
+      "likelihood_pct": 21.9,
       "associated": [
         {
           "id": "DA_Module_Weapon_Horde.0",
@@ -170,7 +170,7 @@
       "overdue_rank": 5,
       "weeks_since_discount": 10,
       "avg_interval": 13.7,
-      "likelihood_pct": 11.4,
+      "likelihood_pct": 21.9,
       "associated": [
         {
           "id": "DA_Module_Weapon_MLx2.0",

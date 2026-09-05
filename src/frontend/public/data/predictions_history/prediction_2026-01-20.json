@@ -22,48 +22,6 @@
   "method": "weeks-since-discount; walk-forward, history-before-week only",
   "bots": [
     {
-      "ref": "OBJID_VirtualBot::harpy",
-      "id": "harpy",
-      "name": "Harpy",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHarpy",
-      "items_anchor": "bot-harpy",
-      "overdue_rank": 2,
-      "weeks_since_discount": 7,
-      "avg_interval": 9.0,
-      "likelihood_pct": 25.0,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Trebuchet.0",
-          "name": "Trebuchet",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Trebuchet",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Weapon_Railgun.0",
-          "name": "Railgun",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Railgun",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_FuelReserve.1",
-          "name": "Fuel Reserve",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FuelReserve",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Dazzle.1",
-          "name": "Flashbang",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::varangian",
       "id": "varangian",
       "name": "Varangian",
@@ -134,6 +92,83 @@
       "hit": false
     },
     {
+      "ref": "OBJID_VirtualBot::harpy",
+      "id": "harpy",
+      "name": "Harpy",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHarpy",
+      "items_anchor": "bot-harpy",
+      "overdue_rank": 2,
+      "weeks_since_discount": 7,
+      "avg_interval": 9.0,
+      "likelihood_pct": 20.8,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Trebuchet.0",
+          "name": "Trebuchet",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Trebuchet",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Weapon_Railgun.0",
+          "name": "Railgun",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Railgun",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_FuelReserve.1",
+          "name": "Fuel Reserve",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FuelReserve",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::fenrir",
+      "id": "fenrir",
+      "name": "Fenrir",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFenrir",
+      "items_anchor": "bot-fenrir",
+      "overdue_rank": 3,
+      "weeks_since_discount": 7,
+      "avg_interval": 8.6,
+      "likelihood_pct": 20.8,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Fowler.0",
+          "name": "Fowler",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Fowler",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Regeneration.1",
+          "name": "Quick Repair",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_ArmorRepairing2",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_CounterAttack.1",
+          "name": "Reflector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
       "ref": "OBJID_VirtualBot::typhon",
       "id": "typhon",
       "name": "Typhon",
@@ -163,41 +198,6 @@
           "name": "Umbrella",
           "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon",
           "rarity": "DA_ModuleRarity_Common.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
-      "ref": "OBJID_VirtualBot::fenrir",
-      "id": "fenrir",
-      "name": "Fenrir",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFenrir",
-      "items_anchor": "bot-fenrir",
-      "overdue_rank": 3,
-      "weeks_since_discount": 7,
-      "avg_interval": 8.6,
-      "likelihood_pct": 16.7,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Fowler.0",
-          "name": "Fowler",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Fowler",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_Regeneration.1",
-          "name": "Quick Repair",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_ArmorRepairing2",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_CounterAttack.1",
-          "name": "Reflector",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
       ],

@@ -30,7 +30,7 @@
       "overdue_rank": 2,
       "weeks_since_discount": 12,
       "avg_interval": 10.4,
-      "likelihood_pct": 46.2,
+      "likelihood_pct": 39.7,
       "associated": [
         {
           "id": "DA_Module_Weapon_Trident.0",
@@ -72,7 +72,7 @@
       "overdue_rank": 3,
       "weeks_since_discount": 12,
       "avg_interval": 10.0,
-      "likelihood_pct": 33.3,
+      "likelihood_pct": 39.7,
       "associated": [
         {
           "id": "DA_Module_Weapon_Pulsar.0",
@@ -142,7 +142,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 11,
       "avg_interval": 10.8,
-      "likelihood_pct": 23.1,
+      "likelihood_pct": 17.9,
       "associated": [
         {
           "id": "DA_Module_Weapon_Incinerator.0",
@@ -177,7 +177,7 @@
       "overdue_rank": 5,
       "weeks_since_discount": 11,
       "avg_interval": 11.3,
-      "likelihood_pct": 12.8,
+      "likelihood_pct": 17.9,
       "associated": [
         {
           "id": "DA_Module_Weapon_Locust.0",

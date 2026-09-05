@@ -30,7 +30,7 @@
       "overdue_rank": 2,
       "weeks_since_discount": 10,
       "avg_interval": 10.7,
-      "likelihood_pct": 36.4,
+      "likelihood_pct": 31.8,
       "associated": [
         {
           "id": "DA_Module_Weapon_Hefty.0",
@@ -55,6 +55,41 @@
         }
       ],
       "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::ceres",
+      "id": "ceres",
+      "name": "Ceres",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCeres",
+      "items_anchor": "bot-ceres",
+      "overdue_rank": 3,
+      "weeks_since_discount": 10,
+      "avg_interval": 10.2,
+      "likelihood_pct": 31.8,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Bisector.0",
+          "name": "Bisector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Bisector",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_CounterAttack.1",
+          "name": "Reflector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
     },
     {
       "ref": "OBJID_VirtualBot::bulgasari",
@@ -92,41 +127,6 @@
       "hit": false
     },
     {
-      "ref": "OBJID_VirtualBot::ceres",
-      "id": "ceres",
-      "name": "Ceres",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCeres",
-      "items_anchor": "bot-ceres",
-      "overdue_rank": 3,
-      "weeks_since_discount": 10,
-      "avg_interval": 10.2,
-      "likelihood_pct": 27.3,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Bisector.0",
-          "name": "Bisector",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Bisector",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_GhostTurret.1",
-          "name": "Ghost Turret",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_CounterAttack.1",
-          "name": "Reflector",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::crix",
       "id": "crix",
       "name": "Crix",
@@ -135,7 +135,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 9,
       "avg_interval": 10.5,
-      "likelihood_pct": 24.2,
+      "likelihood_pct": 18.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Stormpike.0",
@@ -170,7 +170,7 @@
       "overdue_rank": 5,
       "weeks_since_discount": 9,
       "avg_interval": 10.2,
-      "likelihood_pct": 12.1,
+      "likelihood_pct": 18.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Thunder.0",

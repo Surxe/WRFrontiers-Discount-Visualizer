@@ -30,7 +30,7 @@
       "overdue_rank": 1,
       "weeks_since_discount": 12,
       "avg_interval": 12.8,
-      "likelihood_pct": 22.7,
+      "likelihood_pct": 18.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_StickyGun.0",
@@ -65,7 +65,7 @@
       "overdue_rank": 2,
       "weeks_since_discount": 12,
       "avg_interval": 12.5,
-      "likelihood_pct": 22.7,
+      "likelihood_pct": 18.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Scourge.0",
@@ -79,6 +79,41 @@
           "name": "Holofield",
           "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SmokeWall",
           "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::anansi",
+      "id": "anansi",
+      "name": "Anansi",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
+      "items_anchor": "bot-anansi",
+      "overdue_rank": 3,
+      "weeks_since_discount": 12,
+      "avg_interval": 13.7,
+      "likelihood_pct": 18.2,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_MLx2.0",
+          "name": "MLx2",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_MLx2",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Atrophy.1",
+          "name": "Suppressor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "supply-gear"
         },
         {
@@ -156,41 +191,6 @@
           "name": "Nanite Repair",
           "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing",
           "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
-      "ref": "OBJID_VirtualBot::anansi",
-      "id": "anansi",
-      "name": "Anansi",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
-      "items_anchor": "bot-anansi",
-      "overdue_rank": 3,
-      "weeks_since_discount": 12,
-      "avg_interval": 13.7,
-      "likelihood_pct": 9.1,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_MLx2.0",
-          "name": "MLx2",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_MLx2",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_Atrophy.1",
-          "name": "Suppressor",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Dazzle.1",
-          "name": "Flashbang",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
       ],

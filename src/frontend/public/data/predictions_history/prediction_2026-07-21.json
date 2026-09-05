@@ -64,41 +64,6 @@
       "hit": true
     },
     {
-      "ref": "OBJID_VirtualBot::tyr",
-      "id": "tyr",
-      "name": "Tyr",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyr",
-      "items_anchor": "bot-tyr",
-      "overdue_rank": 3,
-      "weeks_since_discount": 11,
-      "avg_interval": 9.8,
-      "likelihood_pct": 31.6,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Vortex.0",
-          "name": "Vortex",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Vortex",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_GhostTurret.1",
-          "name": "Ghost Turret",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Homing.1",
-          "name": "Homing Missile",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": true
-    },
-    {
       "ref": "OBJID_VirtualBot::bulgasari",
       "id": "bulgasari",
       "name": "Bulgasari",
@@ -134,6 +99,41 @@
       "hit": false
     },
     {
+      "ref": "OBJID_VirtualBot::tyr",
+      "id": "tyr",
+      "name": "Tyr",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyr",
+      "items_anchor": "bot-tyr",
+      "overdue_rank": 3,
+      "weeks_since_discount": 11,
+      "avg_interval": 9.8,
+      "likelihood_pct": 22.8,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Vortex.0",
+          "name": "Vortex",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Vortex",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Homing.1",
+          "name": "Homing Missile",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
       "ref": "OBJID_VirtualBot::siren",
       "id": "siren",
       "name": "Siren",
@@ -142,7 +142,7 @@
       "overdue_rank": 4,
       "weeks_since_discount": 11,
       "avg_interval": 10.4,
-      "likelihood_pct": 23.7,
+      "likelihood_pct": 22.8,
       "associated": [
         {
           "id": "DA_Module_Weapon_Trident.0",
@@ -184,7 +184,7 @@
       "overdue_rank": 5,
       "weeks_since_discount": 11,
       "avg_interval": 10.0,
-      "likelihood_pct": 13.2,
+      "likelihood_pct": 22.8,
       "associated": [
         {
           "id": "DA_Module_Weapon_Pulsar.0",
