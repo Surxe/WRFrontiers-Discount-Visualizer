@@ -23,6 +23,9 @@ const row = (b: any) => ({
 		b?.weeks_since_discount == null
 			? ''
 			: `${b.weeks_since_discount} wks since${b?.avg_interval == null ? '' : ` · avg ${b.avg_interval}`}`,
+	gear: (b?.associated ?? [])
+		.map((a: any) => ({ name: a?.name ?? '', icon: getTexturePath(a?.icon_path, baseUrl) }))
+		.filter((g: any) => g.icon),
 });
 const botRows = bots.map(row);
 const titanRows = titans.map(row);
@@ -56,6 +59,13 @@ const titanRows = titans.map(row);
 								<span class="og-idbody">
 									<span class="og-name">{r.name}</span>
 									<span class="og-meta">{r.meta}</span>
+									{r.gear.length > 0 && (
+										<span class="og-gear">
+											{r.gear.map((g) => (
+												<img class="og-gear__icon" src={g.icon} alt={g.name} title={g.name} />
+											))}
+										</span>
+									)}
 								</span>
 								{r.pct != null && <span class="og-pct">{r.pct}%</span>}
 							</li>
@@ -95,7 +105,7 @@ const titanRows = titans.map(row);
 		box-sizing: border-box;
 		width: 1200px;
 		height: 630px;
-		padding: 44px 52px;
+		padding: 28px 52px;
 		background:
 			radial-gradient(1100px 500px at 82% -10%, rgba(79, 195, 247, 0.16), transparent 60%),
 			linear-gradient(160deg, #12151c 0%, #0d0f14 100%);
@@ -111,20 +121,20 @@ const titanRows = titans.map(row);
 		align-items: flex-start;
 		justify-content: space-between;
 		border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-		padding-bottom: 20px;
+		padding-bottom: 14px;
 	}
 
 	.og-title {
 		margin: 0;
-		font-size: 46px;
+		font-size: 36px;
 		font-weight: 700;
 		letter-spacing: -0.5px;
 		text-align: left;
 	}
 
 	.og-sub {
-		margin: 8px 0 0;
-		font-size: 21px;
+		margin: 4px 0 0;
+		font-size: 19px;
 		color: var(--wrf-text-muted);
 	}
 
@@ -148,7 +158,7 @@ const titanRows = titans.map(row);
 		display: grid;
 		grid-template-columns: 1.32fr 1fr;
 		gap: 40px;
-		padding-top: 26px;
+		padding-top: 6px;
 		min-height: 0;
 	}
 
@@ -164,8 +174,8 @@ const titanRows = titans.map(row);
 	}
 
 	.og-colhead {
-		margin: 0 0 16px;
-		font-size: 16px;
+		margin: 0 0 12px;
+		font-size: 15px;
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 1px;
@@ -178,17 +188,21 @@ const titanRows = titans.map(row);
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 4px;
 	}
 
 	.og-row {
 		display: flex;
 		align-items: center;
 		gap: 16px;
-		padding: 10px 14px;
+		padding: 6px 14px;
 		background: rgba(22, 25, 32, 0.72);
 		border: 1px solid rgba(255, 255, 255, 0.08);
 		border-radius: 12px;
+	}
+
+	.og-col--titans .og-row {
+		padding: 10px 14px;
 	}
 
 	.og-rank {
@@ -202,11 +216,16 @@ const titanRows = titans.map(row);
 
 	.og-icon {
 		flex-shrink: 0;
-		width: 46px;
-		height: 46px;
+		width: 36px;
+		height: 36px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	.og-col--titans .og-icon {
+		width: 46px;
+		height: 46px;
 	}
 
 	.og-icon img {
@@ -224,7 +243,7 @@ const titanRows = titans.map(row);
 	}
 
 	.og-name {
-		font-size: 21px;
+		font-size: 20px;
 		font-weight: 700;
 		white-space: nowrap;
 		overflow: hidden;
@@ -237,6 +256,23 @@ const titanRows = titans.map(row);
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.og-gear {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		margin-top: 3px;
+	}
+
+	.og-gear__icon {
+		width: 22px;
+		height: 22px;
+		object-fit: contain;
+		background: rgba(255, 255, 255, 0.04);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 5px;
+		padding: 2px;
 	}
 
 	.og-pct {
