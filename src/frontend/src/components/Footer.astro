@@ -10,7 +10,7 @@ const { baseUrl = '/WRFrontiers-Discount-Visualizer/' } = Astro.props;
 	<div class="footer-links">
 		<DiscordFeedback />
 		<GitHubHistory />
-		<RobotsLink />
+		<RobotsLink href={`${baseUrl}robots.txt`} />
 	</div>
 	<div class="legal-links">
 		<a href={`${baseUrl}methodology`} class="legal-link">Methodology</a>
