@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-09-04T23:25:16.218666-05:00",
+  "generated_at": "2026-09-07T14:22:01.723824+00:00",
   "method": "weeks-since-discount (most overdue first); position-calibrated odds",
   "predictedWeek": {
     "start_year": 2026,
     "start_month": 9,
-    "start_day": 8,
+    "start_day": 16,
     "end_year": 2026,
     "end_month": 9,
-    "end_day": 15,
-    "slug": "2026-09-08",
-    "label": "September 8 - 15 (2026)"
+    "end_day": 23,
+    "slug": "2026-09-16",
+    "label": "September 16 - 23 (2026)"
   },
   "bots": [
     {
@@ -19,9 +19,9 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotNipper",
       "items_anchor": "bot-crix",
       "overdue_rank": 2,
-      "weeks_since_discount": 11,
+      "weeks_since_discount": 12,
       "avg_interval": 10.5,
-      "likelihood_pct": 39.3,
+      "likelihood_pct": 44.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Stormpike.0",
@@ -53,9 +53,9 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCeres",
       "items_anchor": "bot-ceres",
       "overdue_rank": 3,
-      "weeks_since_discount": 11,
+      "weeks_since_discount": 12,
       "avg_interval": 10.2,
-      "likelihood_pct": 39.3,
+      "likelihood_pct": 44.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Bisector.0",
@@ -81,22 +81,22 @@
       ]
     },
     {
-      "ref": "OBJID_VirtualBot::bulwark",
-      "id": "bulwark",
-      "name": "Bulwark",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulwark",
-      "items_anchor": "bot-bulwark",
+      "ref": "OBJID_VirtualBot::ares",
+      "id": "ares",
+      "name": "Ares",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAres",
+      "items_anchor": "bot-ares",
       "overdue_rank": 4,
       "weeks_since_discount": 11,
-      "avg_interval": 10.2,
-      "likelihood_pct": 39.3,
+      "avg_interval": 12.5,
+      "likelihood_pct": 28.3,
       "associated": [
         {
-          "id": "DA_Module_Weapon_Thunder.0",
-          "name": "Thunder",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Thunder",
+          "id": "DA_Module_Weapon_Scourge.0",
+          "name": "Scourge",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Scourge",
           "rarity": "DA_ModuleRarity_Common.0",
-          "group": "heavy-weapon"
+          "group": "light-weapon"
         },
         {
           "id": "DA_Module_Ability_SmokeWall.1",
@@ -106,10 +106,10 @@
           "group": "supply-gear"
         },
         {
-          "id": "DA_Module_Ability_RegenerationFull.1",
-          "name": "Nanite Repair",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing",
-          "rarity": "DA_ModuleRarity_Rare.0",
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
       ]
@@ -121,9 +121,9 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
       "items_anchor": "bot-bulgasari",
       "overdue_rank": 1,
-      "weeks_since_discount": 27,
+      "weeks_since_discount": 28,
       "avg_interval": 10.0,
-      "likelihood_pct": 20.0,
+      "likelihood_pct": 19.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Shredder.0",
@@ -149,35 +149,35 @@
       ]
     },
     {
-      "ref": "OBJID_VirtualBot::ares",
-      "id": "ares",
-      "name": "Ares",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAres",
-      "items_anchor": "bot-ares",
+      "ref": "OBJID_VirtualBot::typhon",
+      "id": "typhon",
+      "name": "Typhon",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyphon",
+      "items_anchor": "bot-typhon",
       "overdue_rank": 5,
       "weeks_since_discount": 10,
-      "avg_interval": 12.5,
-      "likelihood_pct": 15.6,
+      "avg_interval": 12.8,
+      "likelihood_pct": 15.2,
       "associated": [
         {
-          "id": "DA_Module_Weapon_Scourge.0",
-          "name": "Scourge",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Scourge",
-          "rarity": "DA_ModuleRarity_Common.0",
+          "id": "DA_Module_Weapon_Shocktrain.0",
+          "name": "Shocktrain",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shocktrain",
+          "rarity": "DA_ModuleRarity_Rare.0",
           "group": "light-weapon"
         },
         {
-          "id": "DA_Module_Ability_SmokeWall.1",
-          "name": "Holofield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SmokeWall",
-          "rarity": "DA_ModuleRarity_Common.0",
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
           "group": "supply-gear"
         },
         {
-          "id": "DA_Module_Ability_Dazzle.1",
-          "name": "Flashbang",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "id": "DA_Module_Ability_Umbrella.1",
+          "name": "Umbrella",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon",
+          "rarity": "DA_ModuleRarity_Common.0",
           "group": "cycle-gear"
         }
       ]
@@ -191,7 +191,7 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
       "items_anchor": "bot-matriarch",
       "overdue_rank": 1,
-      "weeks_since_discount": 17,
+      "weeks_since_discount": 18,
       "avg_interval": 11.7,
       "likelihood_pct": 63.6,
       "associated": []
@@ -203,7 +203,7 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Norna",
       "items_anchor": "bot-norna",
       "overdue_rank": 2,
-      "weeks_since_discount": 12,
+      "weeks_since_discount": 13,
       "avg_interval": 6.0,
       "likelihood_pct": 27.3,
       "associated": []
@@ -212,81 +212,78 @@
   "accuracy": {
     "bots": {
       "top_n": 5,
-      "scored_weeks": 45,
-      "any_weeks": 39,
-      "any_rate": 0.8667,
+      "scored_weeks": 46,
+      "any_weeks": 40,
+      "any_rate": 0.8696,
       "per_position": [
-        0.2,
-        0.5333,
-        0.3778,
-        0.2667,
-        0.1556
+        0.1957,
+        0.5217,
+        0.3696,
+        0.2826,
+        0.1522
       ],
       "per_position_conditional": [
-        0.2308,
-        0.6154,
-        0.4359,
-        0.3077,
-        0.1795
+        0.225,
+        0.6,
+        0.425,
+        0.325,
+        0.175
       ],
-      "precision": 0.3067,
+      "precision": 0.3043,
       "at_least_one": {
-        "1": 0.2,
-        "2": 0.6,
-        "3": 0.6222,
-        "4": 0.7111,
-        "5": 0.7111
+        "1": 0.1957,
+        "2": 0.587,
+        "3": 0.6087,
+        "4": 0.7174,
+        "5": 0.7174
       },
       "presence_rate": 1.0
     },
     "titans": {
       "top_n": 2,
-      "scored_weeks": 43,
+      "scored_weeks": 44,
       "any_weeks": 11,
-      "any_rate": 0.2558,
+      "any_rate": 0.25,
       "per_position": [
-        0.1628,
-        0.0698
+        0.1591,
+        0.0682
       ],
       "per_position_conditional": [
         0.6364,
         0.2727
       ],
-      "precision": 0.1163,
+      "precision": 0.1136,
       "at_least_one": {
-        "1": 0.1628,
-        "2": 0.2326
+        "1": 0.1591,
+        "2": 0.2273
       },
-      "presence_rate": 0.3962
+      "presence_rate": 0.3889
     }
   },
   "methodology": {
     "method": "position-calibrated",
-    "predicted_week": "2026-09-08",
-    "scored_weeks": 45,
+    "predicted_week": "2026-09-16",
+    "scored_weeks": 46,
     "example": {
       "bot_id": "crix",
       "name": "Crix",
       "overdue_rank": 2,
-      "weeks_since_discount": 11,
-      "slot_hit_rate": 0.5333,
+      "weeks_since_discount": 12,
+      "slot_hit_rate": 0.5217,
       "slot_hits": 24,
-      "likelihood_pct": 39.3,
+      "likelihood_pct": 44.6,
       "pooled": true,
       "tie_ranks": [
         2,
-        3,
-        4
+        3
       ],
       "tie_slot_rates": [
-        0.5333,
-        0.3778,
-        0.2667
+        0.5217,
+        0.3696
       ],
       "tie_slot_hits": [
         24,
-        17,
-        12
+        17
       ]
     }
   }
