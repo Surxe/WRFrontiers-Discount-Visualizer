@@ -4,13 +4,13 @@
       "week": {
         "start_year": 2026,
         "start_month": 9,
-        "start_day": 9,
+        "start_day": 8,
         "end_year": 2026,
         "end_month": 9,
-        "end_day": 16
+        "end_day": 15
       },
-      "file": "week_grids/grid_2026-09-09.json",
-      "slug": "2026-09-09"
+      "file": "week_grids/grid_2026-09-08.json",
+      "slug": "2026-09-08"
     },
     {
       "week": {

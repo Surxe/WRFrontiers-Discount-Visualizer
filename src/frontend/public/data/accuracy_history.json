@@ -18,8 +18,8 @@
     "titans_scored_weeks": 43
   },
   {
-    "predicted_week": "2026-09-16",
-    "generated_at": "2026-09-07T14:57:46.008916+00:00",
+    "predicted_week": "2026-09-15",
+    "generated_at": "2026-09-08T18:27:29.156823-05:00",
     "bots_precision": 0.3043,
     "bots_at_least_one_top3": 0.6087,
     "bots_scored_weeks": 46,
