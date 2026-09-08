@@ -2,13 +2,13 @@
   "week": {
     "start_year": 2026,
     "start_month": 9,
-    "start_day": 9,
+    "start_day": 8,
     "end_year": 2026,
     "end_month": 9,
-    "end_day": 16
+    "end_day": 15
   },
-  "slug": "2026-09-09",
-  "label": "September 9 - 16 (2026)",
+  "slug": "2026-09-08",
+  "label": "September 8 - 15 (2026)",
   "reconstructed": true,
   "graded": true,
   "insufficient_history": {

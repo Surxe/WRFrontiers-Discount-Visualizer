@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-07T14:57:46.553313+00:00",
+  "generated_at": "2026-09-08T18:27:29.214754-05:00",
   "scoreboard": {
     "window_weeks": 15,
     "bots_scored_weeks": 15,
@@ -11,17 +11,17 @@
   },
   "weeks": [
     {
-      "slug": "2026-09-09",
+      "slug": "2026-09-08",
       "week": {
         "start_year": 2026,
         "start_month": 9,
-        "start_day": 9,
+        "start_day": 8,
         "end_year": 2026,
         "end_month": 9,
-        "end_day": 16
+        "end_day": 15
       },
-      "label": "September 9 - 16 (2026)",
-      "file": "predictions_history/prediction_2026-09-09.json",
+      "label": "September 8 - 15 (2026)",
+      "file": "predictions_history/prediction_2026-09-08.json",
       "graded": true,
       "insufficient_history": {
         "bots": false,

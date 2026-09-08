@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-09-07T14:57:46.008916+00:00",
+  "generated_at": "2026-09-08T18:27:29.156823-05:00",
   "method": "weeks-since-discount (most overdue first); position-calibrated odds",
   "predictedWeek": {
     "start_year": 2026,
     "start_month": 9,
-    "start_day": 16,
+    "start_day": 15,
     "end_year": 2026,
     "end_month": 9,
-    "end_day": 23,
-    "slug": "2026-09-16",
-    "label": "September 16 - 23 (2026)"
+    "end_day": 22,
+    "slug": "2026-09-15",
+    "label": "September 15 - 22 (2026)"
   },
   "bots": [
     {
@@ -262,7 +262,7 @@
   },
   "methodology": {
     "method": "position-calibrated",
-    "predicted_week": "2026-09-16",
+    "predicted_week": "2026-09-15",
     "scored_weeks": 46,
     "example": {
       "bot_id": "crix",
