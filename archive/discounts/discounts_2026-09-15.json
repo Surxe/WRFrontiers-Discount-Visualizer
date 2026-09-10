@@ -1,0 +1,30 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 9,
+    "start_day": 15,
+    "end_year": 2026,
+    "end_month": 9,
+    "end_day": 22
+  },
+  "items": [
+    "DA_Module_ChassisDemeter.2",
+    "DA_Module_TorsoDemeter.1",
+    "DA_Module_ShoulderDemeter.0",
+    "DA_Module_ChassisArtemis.2",
+    "DA_Module_TorsoArtemis.1",
+    "DA_Module_ShoulderArtemis.0",
+    "DA_Module_ChassisNorna.2",
+    "DA_Module_TorsoNorna.0",
+    "DA_Module_ShoulderLNorna.0",
+    "DA_Module_ShoulderRNorna.0",
+    "DA_Module_Weapon_Bisector.0",
+    "DA_Module_Weapon_Velite.0",
+    "DA_Module_Weapon_Coriolis.0",
+    "DA_Module_Ability_GhostTurret.1",
+    "DA_Module_Ability_CounterAttack.1",
+    "DA_Module_Ability_SupplySurge.1",
+    "DA_Module_Ability_Atrophy.1",
+    "DA_Module_Ability_KineticPulse.1"
+  ]
+}

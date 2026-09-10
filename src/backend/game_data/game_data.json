@@ -132,6 +132,10 @@
     "name": "Relic Lancelot"
   },
   {
+    "ref": "OBJID_VirtualBot::relic-scorpion",
+    "name": "Relic Scorpion"
+  },
+  {
     "ref": "OBJID_VirtualBot::scorpion",
     "name": "Scorpion"
   },
@@ -364,6 +368,10 @@
     "name": "Orkan"
   },
   {
+    "ref": "OBJID_Module::DA_Module_Weapon_Pinata.0",
+    "name": "Pinata"
+  },
+  {
     "ref": "OBJID_Module::DA_Module_Weapon_Pulsar.0",
     "name": "Pulsar"
   },
@@ -382,6 +390,10 @@
   {
     "ref": "OBJID_Module::DA_Module_Weapon_RelicOrkan.0",
     "name": "Relic Orkan"
+  },
+  {
+    "ref": "OBJID_Module::DA_Module_Weapon_RelicPinata.0",
+    "name": "Relic Pinata"
   },
   {
     "ref": "OBJID_Module::DA_Module_Weapon_RelicThunder.0",

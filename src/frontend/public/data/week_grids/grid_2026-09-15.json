@@ -1,0 +1,56 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 9,
+    "start_day": 15,
+    "end_year": 2026,
+    "end_month": 9,
+    "end_day": 22
+  },
+  "grid": {
+    "standardRows": [
+      {
+        "botId": "ceres",
+        "cells": {
+          "1": "OBJID_VirtualBot::ceres",
+          "2": "OBJID_Module::DA_Module_TorsoDemeter.1",
+          "3": "OBJID_Module::DA_Module_ShoulderDemeter.0",
+          "4": "OBJID_Module::DA_Module_ChassisDemeter.2",
+          "5": "OBJID_Module::DA_Module_Weapon_Bisector.0",
+          "7": "OBJID_Module::DA_Module_Ability_GhostTurret.1",
+          "8": "OBJID_Module::DA_Module_Ability_CounterAttack.1"
+        }
+      },
+      {
+        "botId": "artemis",
+        "cells": {
+          "1": "OBJID_VirtualBot::artemis",
+          "2": "OBJID_Module::DA_Module_TorsoArtemis.1",
+          "3": "OBJID_Module::DA_Module_ShoulderArtemis.0",
+          "4": "OBJID_Module::DA_Module_ChassisArtemis.2",
+          "5": "OBJID_Module::DA_Module_Weapon_Velite.0",
+          "7": "OBJID_Module::DA_Module_Ability_Atrophy.1",
+          "8": "OBJID_Module::DA_Module_Ability_SupplySurge.1"
+        }
+      },
+      {
+        "botId": null,
+        "cells": {
+          "7": "OBJID_Module::DA_Module_Ability_KineticPulse.1"
+        }
+      }
+    ],
+    "titanRows": [
+      {
+        "botId": "norna",
+        "cells": {
+          "1": "OBJID_VirtualBot::norna",
+          "2": "OBJID_Module::DA_Module_TorsoNorna.0",
+          "3": "OBJID_Module::DA_Module_ShoulderLNorna.0",
+          "4": "OBJID_Module::DA_Module_ChassisNorna.2",
+          "5": "OBJID_Module::DA_Module_Weapon_Coriolis.0"
+        }
+      }
+    ]
+  }
+}

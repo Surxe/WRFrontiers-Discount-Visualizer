@@ -2,13 +2,13 @@
   "week": {
     "start_year": 2026,
     "start_month": 9,
-    "start_day": 1,
+    "start_day": 15,
     "end_year": 2026,
     "end_month": 9,
-    "end_day": 8
+    "end_day": 22
   },
-  "slug": "2026-09-01",
-  "label": "September 1 - 8 (2026)",
+  "slug": "2026-09-15",
+  "label": "September 15 - 22 (2026)",
   "reconstructed": true,
   "graded": true,
   "insufficient_history": {
@@ -22,85 +22,15 @@
   "method": "weeks-since-discount; walk-forward, history-before-week only",
   "bots": [
     {
-      "ref": "OBJID_VirtualBot::phantom",
-      "id": "phantom",
-      "name": "Phantom",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPhantom",
-      "items_anchor": "bot-phantom",
-      "overdue_rank": 2,
-      "weeks_since_discount": 12,
-      "avg_interval": 9.5,
-      "likelihood_pct": 52.3,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Toxin.0",
-          "name": "Lighter",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Toxin",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_BlockingField.1",
-          "name": "Energy Wall",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlockingField",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_MineField.1",
-          "name": "Minefield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_MineField",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": true
-    },
-    {
-      "ref": "OBJID_VirtualBot::decker",
-      "id": "decker",
-      "name": "Decker",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotKernel",
-      "items_anchor": "bot-decker",
-      "overdue_rank": 3,
-      "weeks_since_discount": 11,
-      "avg_interval": 10.7,
-      "likelihood_pct": 36.4,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Hefty.0",
-          "name": "Hefty",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Hefty",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_ArmorShield.1",
-          "name": "Emergency Shield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_SupplySurge.1",
-          "name": "Supply Surge",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SupplySurge",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": true
-    },
-    {
       "ref": "OBJID_VirtualBot::crix",
       "id": "crix",
       "name": "Crix",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotNipper",
       "items_anchor": "bot-crix",
-      "overdue_rank": 4,
-      "weeks_since_discount": 10,
+      "overdue_rank": 2,
+      "weeks_since_discount": 12,
       "avg_interval": 10.5,
-      "likelihood_pct": 21.6,
+      "likelihood_pct": 44.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Stormpike.0",
@@ -132,10 +62,10 @@
       "name": "Ceres",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCeres",
       "items_anchor": "bot-ceres",
-      "overdue_rank": 5,
-      "weeks_since_discount": 10,
+      "overdue_rank": 3,
+      "weeks_since_discount": 12,
       "avg_interval": 10.6,
-      "likelihood_pct": 21.6,
+      "likelihood_pct": 44.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Bisector.0",
@@ -159,6 +89,41 @@
           "group": "cycle-gear"
         }
       ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::ares",
+      "id": "ares",
+      "name": "Ares",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAres",
+      "items_anchor": "bot-ares",
+      "overdue_rank": 4,
+      "weeks_since_discount": 11,
+      "avg_interval": 12.5,
+      "likelihood_pct": 28.3,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Scourge.0",
+          "name": "Scourge",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Scourge",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_SmokeWall.1",
+          "name": "Holofield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SmokeWall",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
       "hit": false
     },
     {
@@ -168,9 +133,9 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
       "items_anchor": "bot-bulgasari",
       "overdue_rank": 1,
-      "weeks_since_discount": 26,
+      "weeks_since_discount": 28,
       "avg_interval": 10.0,
-      "likelihood_pct": 20.4,
+      "likelihood_pct": 19.6,
       "associated": [
         {
           "id": "DA_Module_Weapon_Shredder.0",
@@ -195,6 +160,41 @@
         }
       ],
       "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::typhon",
+      "id": "typhon",
+      "name": "Typhon",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyphon",
+      "items_anchor": "bot-typhon",
+      "overdue_rank": 5,
+      "weeks_since_discount": 10,
+      "avg_interval": 12.8,
+      "likelihood_pct": 15.2,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Shocktrain.0",
+          "name": "Shocktrain",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shocktrain",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Umbrella.1",
+          "name": "Umbrella",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
     }
   ],
   "titans": [
@@ -205,7 +205,7 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
       "items_anchor": "bot-matriarch",
       "overdue_rank": 1,
-      "weeks_since_discount": 16,
+      "weeks_since_discount": 18,
       "avg_interval": 11.7,
       "likelihood_pct": 63.6,
       "associated": [],
@@ -218,35 +218,36 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Norna",
       "items_anchor": "bot-norna",
       "overdue_rank": 2,
-      "weeks_since_discount": 11,
+      "weeks_since_discount": 13,
       "avg_interval": 7.8,
       "likelihood_pct": 27.3,
       "associated": [],
-      "hit": false
+      "hit": true
     }
   ],
   "actuals": {
     "bots": [
-      "decker",
-      "phantom"
+      "ceres"
     ],
-    "titans": []
+    "titans": [
+      "norna"
+    ]
   },
   "result": {
     "bots": {
-      "hits": 2,
+      "hits": 1,
       "listed": 5,
-      "eligible_actual": 2,
-      "top_hit": true,
+      "eligible_actual": 1,
+      "top_hit": false,
       "top3_hit": true,
-      "headline_hit": true
+      "headline_hit": false
     },
     "titans": {
-      "hits": 0,
+      "hits": 1,
       "listed": 2,
-      "eligible_actual": 0,
+      "eligible_actual": 1,
       "top_hit": false,
-      "any_titan": false
+      "any_titan": true
     }
   }
 }
