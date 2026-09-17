@@ -169,7 +169,7 @@
       "items_anchor": "bot-ares",
       "overdue_rank": 5,
       "weeks_since_discount": 6,
-      "avg_interval": 12.5,
+      "avg_interval": 12.4,
       "likelihood_pct": null,
       "associated": [
         {
@@ -219,7 +219,7 @@
       "items_anchor": "bot-grim",
       "overdue_rank": 2,
       "weeks_since_discount": 4,
-      "avg_interval": 11.2,
+      "avg_interval": 11.6,
       "likelihood_pct": null,
       "associated": [],
       "hit": false

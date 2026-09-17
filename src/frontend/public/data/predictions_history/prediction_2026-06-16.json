@@ -134,7 +134,7 @@
       "items_anchor": "bot-crix",
       "overdue_rank": 4,
       "weeks_since_discount": 9,
-      "avg_interval": 10.5,
+      "avg_interval": 11.3,
       "likelihood_pct": 18.2,
       "associated": [
         {
@@ -219,7 +219,7 @@
       "items_anchor": "bot-grim",
       "overdue_rank": 2,
       "weeks_since_discount": 12,
-      "avg_interval": 11.2,
+      "avg_interval": 11.6,
       "likelihood_pct": 14.3,
       "associated": [],
       "hit": false

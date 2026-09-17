@@ -99,7 +99,7 @@
       "items_anchor": "bot-crix",
       "overdue_rank": 3,
       "weeks_since_discount": 10,
-      "avg_interval": 10.5,
+      "avg_interval": 11.3,
       "likelihood_pct": 20.6,
       "associated": [
         {
@@ -169,7 +169,7 @@
       "items_anchor": "bot-ares",
       "overdue_rank": 5,
       "weeks_since_discount": 10,
-      "avg_interval": 12.5,
+      "avg_interval": 12.4,
       "likelihood_pct": 20.6,
       "associated": [
         {
@@ -219,7 +219,7 @@
       "items_anchor": "bot-grim",
       "overdue_rank": 2,
       "weeks_since_discount": 13,
-      "avg_interval": 11.2,
+      "avg_interval": 11.6,
       "likelihood_pct": 12.5,
       "associated": [],
       "hit": true

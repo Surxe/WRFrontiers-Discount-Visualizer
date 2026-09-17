@@ -1,0 +1,62 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 9,
+    "start_day": 22,
+    "end_year": 2026,
+    "end_month": 9,
+    "end_day": 29
+  },
+  "grid": {
+    "standardRows": [
+      {
+        "botId": "ares",
+        "cells": {
+          "1": "OBJID_VirtualBot::ares",
+          "2": "OBJID_Module::DA_Module_TorsoAres.1",
+          "3": "OBJID_Module::DA_Module_ShoulderAres.0",
+          "4": "OBJID_Module::DA_Module_ChassisAres.2",
+          "5": "OBJID_Module::DA_Module_Weapon_Scourge.0",
+          "7": "OBJID_Module::DA_Module_Ability_SmokeWall.1",
+          "8": "OBJID_Module::DA_Module_Ability_Dazzle.1"
+        }
+      },
+      {
+        "botId": "crix",
+        "cells": {
+          "1": "OBJID_VirtualBot::crix",
+          "2": "OBJID_Module::DA_Module_TorsoNipper.1",
+          "3": "OBJID_Module::DA_Module_ShoulderNipper.0",
+          "4": "OBJID_Module::DA_Module_ChassisNipper.2",
+          "5": "OBJID_Module::DA_Module_Weapon_Stormpike.0",
+          "7": "OBJID_Module::DA_Module_Ability_Grounded.1",
+          "8": "OBJID_Module::DA_Module_Ability_MineField.1"
+        }
+      },
+      {
+        "botId": "kumo",
+        "cells": {
+          "1": "OBJID_VirtualBot::kumo",
+          "2": "OBJID_Module::DA_Module_TorsoKumo.1",
+          "3": "OBJID_Module::DA_Module_ShoulderKumo.0",
+          "4": "OBJID_Module::DA_Module_ChassisKumo.2",
+          "6": "OBJID_Module::DA_Module_Weapon_Horde.0",
+          "7": "OBJID_Module::DA_Module_Ability_Atrophy.1",
+          "8": "OBJID_Module::DA_Module_Ability_TensionLink.1"
+        }
+      }
+    ],
+    "titanRows": [
+      {
+        "botId": "grim",
+        "cells": {
+          "1": "OBJID_VirtualBot::grim",
+          "2": "OBJID_Module::DA_Module_TorsoGrim.0",
+          "3": "OBJID_Module::DA_Module_ShoulderLGrim.0",
+          "4": "OBJID_Module::DA_Module_ChassisGrim.1",
+          "5": "OBJID_Module::DA_Module_Weapon_Katzbalger.0"
+        }
+      }
+    ]
+  }
+}
