@@ -1,16 +1,34 @@
 """
 step2_map_items.py
 
-Step 2: Take comma-separated items and a date range. Map the items using fuzzy matching
-against game_data.json and manual_mapping.json. Expand VirtualBot refs to core_module_refs.
-Outputs the final item list to discounts.json.
+Step 2: Take comma-separated items and a date range. Map each announced name to a
+game_data ref, then expand VirtualBot refs to core_module_refs and write discounts.json.
+
+Resolution order per item:
+  1. manual_mapping.json  -- exact override/pin (value may be a single ref or a list
+     of refs, for a known mis-split like "Ceresm Norna" -> [Ceres, Norna]).
+  2. exact vocab name match against game_data.json.
+  3. Jev  -- TypeSafe AI's typed closed-set classifier (see jev_mapper.py). Used when
+     a JEV_API_KEY is configured; resolves typos / plurals / mis-splits and records
+     each new hit back into manual_mapping.json for a deterministic, reviewable rerun.
+  4. difflib fuzzy match  -- OFFLINE FALLBACK ONLY, when no Jev key is configured, so
+     tests and keyless local runs still work.
+
+With Jev configured, a name it cannot resolve confidently is raised as an error
+(listing Jev's best guess + confidence) rather than silently fuzzy-matched, so a
+genuinely new/unknown item surfaces for a human to map.
 """
 
 import sys
 import json
 import difflib
 from datetime import datetime
-from config import TEMP_DIR, MANUAL_MAPPING_JSON, GAME_DATA_JSON, DISCOUNTS_OUTPUT, VIRTUAL_BOT_JSON, MODULE_JSON
+from config import (
+    TEMP_DIR, MANUAL_MAPPING_JSON, GAME_DATA_JSON, DISCOUNTS_OUTPUT,
+    VIRTUAL_BOT_JSON, MODULE_JSON,
+    JEV_API_KEY, JEV_MODEL, JEV_ACCEPT_THRESHOLD, JEV_SPLIT_PIECE_THRESHOLD,
+)
+from jev_mapper import JevMapper
 
 def parse_date_range(date_str: str) -> dict:
     parts = date_str.split(" ")
@@ -39,9 +57,18 @@ def parse_date_range(date_str: str) -> dict:
         "end_day": end_date.day
     }
 
-def perform_mapping(items: list[str], game_data: list[dict], manual_mapping: dict) -> tuple[list[str], dict, bool]:
+def perform_mapping(
+    items: list[str],
+    game_data: list[dict],
+    manual_mapping: dict,
+    mapper: JevMapper | None = None,
+) -> tuple[list[str], dict, bool]:
     """
-    Fuzzy maps a list of items against game_data and manual_mapping.
+    Map a list of announced names to game_data refs (see module docstring for order).
+
+    Args:
+        mapper: a JevMapper. If None or not available (no key), Jev is skipped and
+                unresolved names fall back to difflib fuzzy matching (offline mode).
     Returns:
         (mapped_refs, updated_manual_mapping, new_mappings_found)
     Raises:
@@ -49,36 +76,50 @@ def perform_mapping(items: list[str], game_data: list[dict], manual_mapping: dic
     """
     name_to_ref = {entry["name"].lower(): entry["ref"] for entry in game_data}
     game_names_lower = list(name_to_ref.keys())
-    
+    criteria = {entry["ref"]: entry["name"] for entry in game_data}
+    use_jev = mapper is not None and mapper.available
+
     mapped_refs = []
     unmapped_items = []
     updated_manual_mapping = dict(manual_mapping)
     new_mappings_found = False
-    
+
     for item in items:
         item_lower = item.lower()
 
-        # Check manual mapping first
-        if item in updated_manual_mapping:
-            mapped_refs.append(updated_manual_mapping[item])
-            continue
-        if item_lower in updated_manual_mapping:
-            mapped_refs.append(updated_manual_mapping[item_lower])
+        # 1. Manual mapping (exact then lowercased). Value may be a ref or a list.
+        manual_val = updated_manual_mapping.get(item)
+        if manual_val is None:
+            manual_val = updated_manual_mapping.get(item_lower)
+        if manual_val is not None:
+            mapped_refs.extend(manual_val if isinstance(manual_val, list) else [manual_val])
             continue
 
-        # Check exact match
+        # 2. Exact vocab name match.
         if item_lower in name_to_ref:
             mapped_refs.append(name_to_ref[item_lower])
             continue
 
-        # Fuzzy matching
+        # 3. Jev (typed closed-set classifier), when configured.
+        if use_jev:
+            res = mapper.resolve(item, criteria)
+            if res.ok:
+                mapped_refs.extend(res.refs)
+                # Record so a rerun is deterministic and the hit is reviewable in git.
+                updated_manual_mapping[item] = res.refs if len(res.refs) > 1 else res.refs[0]
+                new_mappings_found = True
+                names = ", ".join(criteria.get(r, r) for r in res.refs)
+                print(f"  [jev] {item!r} -> {names} ({res.method}, conf={res.confidence:.2f})")
+            else:
+                best = criteria.get(res.detail.get("best"), res.detail.get("best"))
+                unmapped_items.append(f"{item} (jev best: {best} @ {res.confidence:.2f})")
+            continue
+
+        # 4. Offline fallback: difflib fuzzy match (only when Jev is unavailable).
         matches = difflib.get_close_matches(item_lower, game_names_lower, n=1, cutoff=0.5)
         if matches:
-            best_match_lower = matches[0]
-            best_ref = name_to_ref[best_match_lower]
+            best_ref = name_to_ref[matches[0]]
             mapped_refs.append(best_ref)
-            
-            # Record non-1:1 match
             updated_manual_mapping[item] = best_ref
             new_mappings_found = True
         else:
@@ -91,7 +132,14 @@ def perform_mapping(items: list[str], game_data: list[dict], manual_mapping: dic
 
 
 def map_items(items_str: str, date_range_str: str):
-    print("[2/3] Mapping items using local fuzzy match...")
+    mapper = JevMapper(
+        api_key=JEV_API_KEY,
+        model=JEV_MODEL,
+        accept_threshold=JEV_ACCEPT_THRESHOLD,
+        split_piece_threshold=JEV_SPLIT_PIECE_THRESHOLD,
+    )
+    engine = "Jev typed classifier" if mapper.available else "local fuzzy match (offline; no JEV_API_KEY)"
+    print(f"[2/3] Mapping items using {engine}...")
 
     # 1. Parse dates
     week_data = parse_date_range(date_range_str)
@@ -135,10 +183,14 @@ def map_items(items_str: str, date_range_str: str):
 
     # 4. Map each item using perform_mapping
     try:
-        mapped_refs, manual_mapping, new_mappings_found = perform_mapping(items, game_data, manual_mapping)
+        mapped_refs, manual_mapping, new_mappings_found = perform_mapping(
+            items, game_data, manual_mapping, mapper=mapper
+        )
     except ValueError as e:
         print(f"  [ERROR] {e}")
         sys.exit(1)
+    finally:
+        mapper.close()
 
     if new_mappings_found:
         with open(MANUAL_MAPPING_JSON, "w", encoding="utf-8") as f:
