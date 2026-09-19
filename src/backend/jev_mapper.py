@@ -34,18 +34,37 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass, field
 
-# Accept a whole-token Jev answer at/above this confidence. Empirically, real names
-# score >= 0.84 and out-of-vocab garbage scores <= ~0.12, so this cleanly separates
-# them with wide margin while never rejecting a legitimately fuzzy (typo/plural) hit.
-DEFAULT_ACCEPT_THRESHOLD = 0.5
+# Accept a whole-token Jev answer at/above this confidence. Calibrated against the 10
+# latest discount weeks (130 items, see the calibration run): every genuine single name
+# scored >= 0.94 (typos included) while out-of-vocab / unknown names topped out at 0.37,
+# leaving a wide empty band. 0.7 sits mid-gap -- it rejects no real name seen yet keeps
+# ~0.33 clearance above noise, so a brand-new unknown item is surfaced for a manual pin
+# (a loud, one-time failure) instead of being silently mis-mapped (quiet corruption).
+DEFAULT_ACCEPT_THRESHOLD = 0.7
 # Only reconstruct a mis-split when every piece maps this confidently; keeps us from
-# shredding a genuine (but slightly typo'd) multi-word name into noise.
+# shredding a genuine (but slightly typo'd) multi-word name into noise. The one observed
+# mis-split ("Ceresm Norna") had both pieces >= 0.99, far above this, so 0.75 has margin.
 DEFAULT_SPLIT_PIECE_THRESHOLD = 0.75
 
+# Prompt engineering note: the vocab carries variant twins that share a base name but are
+# SEPARATE items -- most commonly a "Relic <X>" alongside the plain "<X>" (e.g. "Relic
+# Thunder" vs "Thunder"). The distinguishing word is often the only difference, so its
+# presence *and its absence* both carry meaning. We tell the model to read that negative
+# space: a qualifier that is present selects the variant; a qualifier that is absent
+# selects the base, never the variant. Without this, a fuzzy/typo'd base name can leak
+# probability onto its Relic twin (and vice versa).
 DEFAULT_INSTRUCTIONS = (
     "This is one item name taken from a War Robots: Frontiers discount announcement. "
-    "It may contain typos, plural forms, or informal spelling. "
-    "Select the single game item (robot, weapon, or gear) it refers to."
+    "It may contain typos, plural forms, or informal spelling; correct for those and "
+    "select the single game item (robot, weapon, or gear) it refers to.\n"
+    "Match qualifier words exactly -- by their absence as well as their presence. Some "
+    "items exist as distinct variants set apart by an extra word, above all the prefix "
+    "'Relic': 'Relic Thunder' is its own standalone item, NOT another name for the base "
+    "'Thunder'. So choose a variant ONLY when the announced name actually carries that "
+    "word, and choose the plain base item when it does not. A name with no 'Relic' (or "
+    "other qualifier) means the base item is intended -- never fall through to the "
+    "variant just because the base word matches. Likewise, do not strip a qualifier that "
+    "is present: an announced 'Relic <X>' must map to the Relic variant, not the base."
 )
 
 
