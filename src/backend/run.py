@@ -8,10 +8,13 @@ Usage:
 
 Example:
     python src/backend/run.py --items "Phantom, Lighter, Blink" --date-range "06-16 06-23"
+
+All output is logged to timestamped files in logs/ with 14-day auto-retention.
 """
 
 import argparse
 import sys
+from logger import DiscountLogger
 from step1_build_game_data import run_step as run_step1
 from step2_map_items import run_step as run_step2
 from step3_archive_gen_grid import run_step as run_step3
@@ -36,25 +39,38 @@ def parse_args():
 
 def main():
     args = parse_args()
+    logger = DiscountLogger()
 
-    print("Starting WRFrontiers Discount Visualizer Backend Processing...")
+    try:
+        item_names = args.item_names.strip()
+        target_date_range = args.target_date_range.strip()
 
-    item_names = args.item_names.strip()
-    target_date_range = args.target_date_range.strip()
+        if not item_names:
+            logger.error("--items cannot be empty.")
+            sys.exit(1)
 
-    if not item_names:
-        print("Error: --items cannot be empty.")
-        sys.exit(1)
-        
-    if not target_date_range:
-        print("Error: --date-range cannot be empty.")
-        sys.exit(1)
+        if not target_date_range:
+            logger.error("--date-range cannot be empty.")
+            sys.exit(1)
 
-    run_step1()
-    run_step2(item_names, target_date_range)
-    discounts = run_step3()
+        logger.start_run(item_names, target_date_range)
 
-    print("\nDone! All steps completed successfully. Ready for frontend build.")
+        logger.step("Step 1: Build game data")
+        run_step1()
+
+        logger.step("Step 2: Map items to game refs")
+        run_step2(item_names, target_date_range, logger)
+
+        logger.step("Step 3: Archive and generate grid")
+        discounts = run_step3()
+
+        logger.result(f"Successfully mapped {len([i for i in item_names.split(',') if i.strip()])} items for week {target_date_range}. Ready for frontend build.")
+
+    except Exception as e:
+        logger.error(str(e))
+        raise
+    finally:
+        logger.close()
 
 if __name__ == "__main__":
     main()
