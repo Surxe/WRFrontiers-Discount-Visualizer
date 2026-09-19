@@ -1,6 +1,7 @@
 import os
 import sys
 import unittest
+from unittest import mock
 
 # Add src/backend to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'backend'))
@@ -40,8 +41,12 @@ class ScriptedJev(JevMapper):
 
 class TestJevResolve(unittest.TestCase):
     def test_available_reflects_key(self):
+        # An explicit key (or an ambient JEV_API_KEY) makes the mapper available; with no
+        # key anywhere it is not. Clear the env so a local .env / CI secret can't leak in.
         self.assertTrue(JevMapper(api_key="k").available)
-        self.assertFalse(JevMapper(api_key=None).available)
+        with mock.patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("JEV_API_KEY", None)
+            self.assertFalse(JevMapper(api_key=None).available)
 
     def test_accepts_confident_typo(self):
         m = ScriptedJev({"Supressor": ("OBJID_Module::DA_Module_Ability_Atrophy.1", 0.99)})

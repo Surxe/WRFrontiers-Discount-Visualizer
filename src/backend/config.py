@@ -17,7 +17,7 @@ load_dotenv()
 # disabled and step2 falls back to local difflib fuzzy matching (offline mode).
 JEV_API_KEY = os.environ.get("JEV_API_KEY") or None
 JEV_MODEL = os.environ.get("JEV_MODEL") or None  # None -> SDK default (jev-latest)
-JEV_ACCEPT_THRESHOLD = float(os.environ.get("JEV_ACCEPT_THRESHOLD", "0.5"))
+JEV_ACCEPT_THRESHOLD = float(os.environ.get("JEV_ACCEPT_THRESHOLD", "0.7"))
 JEV_SPLIT_PIECE_THRESHOLD = float(os.environ.get("JEV_SPLIT_PIECE_THRESHOLD", "0.75"))
 
 SCRIPT_DIR = Path(__file__).resolve().parent
