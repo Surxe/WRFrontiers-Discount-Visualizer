@@ -62,6 +62,7 @@ def perform_mapping(
     game_data: list[dict],
     manual_mapping: dict,
     mapper: JevMapper | None = None,
+    logger=None,
 ) -> tuple[list[str], dict, bool]:
     """
     Map a list of announced names to game_data refs (see module docstring for order).
@@ -69,6 +70,7 @@ def perform_mapping(
     Args:
         mapper: a JevMapper. If None or not available (no key), Jev is skipped and
                 unresolved names fall back to difflib fuzzy matching (offline mode).
+        logger: optional DiscountLogger for verbose mapping traces.
     Returns:
         (mapped_refs, updated_manual_mapping, new_mappings_found)
     Raises:
@@ -77,6 +79,7 @@ def perform_mapping(
     name_to_ref = {entry["name"].lower(): entry["ref"] for entry in game_data}
     game_names_lower = list(name_to_ref.keys())
     criteria = {entry["ref"]: entry["name"] for entry in game_data}
+    ref_to_name = {entry["ref"]: entry["name"] for entry in game_data}
     use_jev = mapper is not None and mapper.available
 
     mapped_refs = []
@@ -92,12 +95,19 @@ def perform_mapping(
         if manual_val is None:
             manual_val = updated_manual_mapping.get(item_lower)
         if manual_val is not None:
-            mapped_refs.extend(manual_val if isinstance(manual_val, list) else [manual_val])
+            refs_list = manual_val if isinstance(manual_val, list) else [manual_val]
+            mapped_refs.extend(refs_list)
+            names = ", ".join(ref_to_name.get(r, r) for r in refs_list)
+            if logger:
+                logger.mapping(item, refs_list, "manual-pin", 1.0, f"mapped to {names}")
             continue
 
         # 2. Exact vocab name match.
         if item_lower in name_to_ref:
-            mapped_refs.append(name_to_ref[item_lower])
+            ref = name_to_ref[item_lower]
+            mapped_refs.append(ref)
+            if logger:
+                logger.mapping(item, [ref], "exact-vocab", 1.0)
             continue
 
         # 3. Jev (typed closed-set classifier), when configured.
@@ -109,9 +119,15 @@ def perform_mapping(
                 updated_manual_mapping[item] = res.refs if len(res.refs) > 1 else res.refs[0]
                 new_mappings_found = True
                 names = ", ".join(criteria.get(r, r) for r in res.refs)
-                print(f"  [jev] {item!r} -> {names} ({res.method}, conf={res.confidence:.2f})")
+                detail = ""
+                if res.method == "jev-split":
+                    detail = f"split into {len(res.refs)} refs"
+                if logger:
+                    logger.mapping(item, res.refs, res.method, res.confidence, detail)
             else:
                 best = criteria.get(res.detail.get("best"), res.detail.get("best"))
+                if logger:
+                    logger.mapping_fail(item, best, res.confidence, "below confidence threshold")
                 unmapped_items.append(f"{item} (jev best: {best} @ {res.confidence:.2f})")
             continue
 
@@ -122,16 +138,22 @@ def perform_mapping(
             mapped_refs.append(best_ref)
             updated_manual_mapping[item] = best_ref
             new_mappings_found = True
+            if logger:
+                logger.mapping(item, [best_ref], "difflib-fuzzy", 0.5, f"fuzzy match (offline)")
         else:
+            if logger:
+                logger.mapping_fail(item, "?", 0.0, "no match found in vocab")
             unmapped_items.append(item)
 
     if unmapped_items:
+        if logger:
+            logger.error(f"Unable to map: {', '.join(unmapped_items)}")
         raise ValueError(f"Unable to map the following items: {unmapped_items}")
 
     return mapped_refs, updated_manual_mapping, new_mappings_found
 
 
-def map_items(items_str: str, date_range_str: str):
+def map_items(items_str: str, date_range_str: str, logger=None):
     mapper = JevMapper(
         api_key=JEV_API_KEY,
         model=JEV_MODEL,
@@ -139,7 +161,10 @@ def map_items(items_str: str, date_range_str: str):
         split_piece_threshold=JEV_SPLIT_PIECE_THRESHOLD,
     )
     engine = "Jev typed classifier" if mapper.available else "local fuzzy match (offline; no JEV_API_KEY)"
-    print(f"[2/3] Mapping items using {engine}...")
+    msg = f"Mapping items using {engine}..."
+    if logger:
+        logger.info(msg)
+    print(msg)
 
     # 1. Parse dates
     week_data = parse_date_range(date_range_str)
@@ -184,10 +209,12 @@ def map_items(items_str: str, date_range_str: str):
     # 4. Map each item using perform_mapping
     try:
         mapped_refs, manual_mapping, new_mappings_found = perform_mapping(
-            items, game_data, manual_mapping, mapper=mapper
+            items, game_data, manual_mapping, mapper=mapper, logger=logger
         )
     except ValueError as e:
         print(f"  [ERROR] {e}")
+        if logger:
+            logger.error(str(e))
         sys.exit(1)
     finally:
         mapper.close()
@@ -240,8 +267,8 @@ def map_items(items_str: str, date_range_str: str):
     print(f"  -> Successfully mapped {len(items)} items to {len(final_refs)} refs.")
     print(f"  -> Output saved to {DISCOUNTS_OUTPUT.name}")
 
-def run_step(items_str: str, date_range_str: str):
-    map_items(items_str, date_range_str)
+def run_step(items_str: str, date_range_str: str, logger=None):
+    map_items(items_str, date_range_str, logger)
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
