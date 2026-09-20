@@ -37,7 +37,7 @@
   },
   {
     "predicted_week": "2026-09-29",
-    "generated_at": "2026-09-17T14:13:14.442733+00:00",
+    "generated_at": "2026-09-20T15:26:21.396038+00:00",
     "bots_precision": 0.3042,
     "bots_at_least_one_top3": 0.625,
     "bots_scored_weeks": 48,

@@ -2,5 +2,10 @@
   "Phantm": "OBJID_VirtualBot::phantom",
   "Recon Boost": "OBJID_Module::DA_Module_Ability_Spotlight.1",
   "Orkans": "OBJID_Module::DA_Module_Weapon_Orkan.0",
-  "orkans": "OBJID_Module::DA_Module_Weapon_Orkan.0"
+  "orkans": "OBJID_Module::DA_Module_Weapon_Orkan.0",
+  "Ceresm Norna": [
+    "OBJID_VirtualBot::ceres",
+    "OBJID_VirtualBot::norna"
+  ],
+  "Supressor": "OBJID_Module::DA_Module_Ability_Atrophy.1"
 }
