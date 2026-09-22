@@ -8,7 +8,7 @@ Turns a weekly War Robots Frontiers discount item list into a static visual grid
 
 ## Features
 
-- Fuzzy item-name mapping with persistent overrides in `manual_mapping.json`
+- Name-to-id mapping via Jev (TypeSafe AI's typed closed-set classifier) with persistent overrides in `manual_mapping.json`
 - Virtual Bot expansion to core modules (titan weapons filtered out)
 - Responsive 7-column discount grid with game textures
 - Archived discount history under `archive/discounts/`
@@ -38,7 +38,7 @@ The **All** workflow (`.github/workflows/all.yml`) runs four stages:
 
 1. **Map** — Backend steps 1–3:
    - Rebuilds `game_data.json` from the latest `WRFrontiersDB-Data`
-   - Fuzzy-maps item names; new non-1:1 matches are saved to `manual_mapping.json`
+   - Maps item names to ids with Jev; new non-1:1 matches are saved to `manual_mapping.json`
    - Expands Virtual Bots to core modules
    - Writes `archive/discounts/discounts_<slug>.json`
    - Generates `src/frontend/public/data/week_grids/grid_<slug>.json`
@@ -207,7 +207,7 @@ CI needs a **`DATA_REPO_PAT`** secret — a GitHub Personal Access Token with re
 |---------|-----|
 | `WRFrontiersDB-Data` not found (backend) | Clone the repo to the project root (see [Local setup](#local-setup--game-data)) |
 | Missing textures or objects (frontend) | Verify the symlink in `src/frontend/public/WRFrontiersDB-Data` points at the root clone |
-| Wrong fuzzy match | Add or correct an entry in `src/backend/manual_mapping.json`, then re-run |
+| Wrong or unresolved name-to-id match | Add or correct an entry in `src/backend/manual_mapping.json`, then re-run |
 | Build fails on Virtual Bot rarity | Chassis, Torso, and Shoulder must share the same rarity in game data |
 | Puppeteer / capture fails locally | Run `npm run build` first; ensure Chrome is available via Puppeteer |
 
