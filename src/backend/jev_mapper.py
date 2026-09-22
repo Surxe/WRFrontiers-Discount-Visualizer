@@ -25,8 +25,9 @@ not an exact vocab name and, when split on whitespace, its pieces each resolve t
 distinct high-confidence ref, so we expand it to both. Genuine multi-word names
 ("Kinetic Pulse", "Ghost Turret") are exact vocab entries and are never split.
 
-Offline safety: with no API key the mapper reports itself unavailable and the caller
-falls back to local fuzzy matching, so tests and keyless dev runs still work.
+No API key: the mapper reports itself unavailable. perform_mapping then resolves only
+manual pins and exact vocab matches (so unit tests can run without a key); the CLI
+entry point (map_items) fails fast, since Jev is the mapper for real runs.
 """
 
 from __future__ import annotations

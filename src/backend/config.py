@@ -13,8 +13,8 @@ load_dotenv()
 
 # --- Jev name->id mapping (see jev_mapper.py) --------------------------------
 # TypeSafe AI's Jev classifier maps announced item names to game_data refs.
-# JEV_API_KEY is provided as a repo secret in CI; when unset the mapper is
-# disabled and step2 falls back to local difflib fuzzy matching (offline mode).
+# JEV_API_KEY is provided as a repo secret in CI. Jev is the mapper: when the key
+# is unset, step2's CLI entry point (map_items) fails fast rather than guessing.
 JEV_API_KEY = os.environ.get("JEV_API_KEY") or None
 JEV_MODEL = os.environ.get("JEV_MODEL") or None  # None -> SDK default (jev-latest)
 JEV_ACCEPT_THRESHOLD = float(os.environ.get("JEV_ACCEPT_THRESHOLD", "0.7"))

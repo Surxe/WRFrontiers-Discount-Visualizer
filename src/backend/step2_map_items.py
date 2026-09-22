@@ -8,20 +8,18 @@ Resolution order per item:
   1. manual_mapping.json  -- exact override/pin (value may be a single ref or a list
      of refs, for a known mis-split like "Ceresm Norna" -> [Ceres, Norna]).
   2. exact vocab name match against game_data.json.
-  3. Jev  -- TypeSafe AI's typed closed-set classifier (see jev_mapper.py). Used when
-     a JEV_API_KEY is configured; resolves typos / plurals / mis-splits and records
-     each new hit back into manual_mapping.json for a deterministic, reviewable rerun.
-  4. difflib fuzzy match  -- OFFLINE FALLBACK ONLY, when no Jev key is configured, so
-     tests and keyless local runs still work.
+  3. Jev  -- TypeSafe AI's typed closed-set classifier (see jev_mapper.py). Resolves
+     typos / plurals / mis-splits and records each new hit back into
+     manual_mapping.json for a deterministic, reviewable rerun.
 
-With Jev configured, a name it cannot resolve confidently is raised as an error
-(listing Jev's best guess + confidence) rather than silently fuzzy-matched, so a
-genuinely new/unknown item surfaces for a human to map.
+Jev is the mapper: a JEV_API_KEY is required (map_items() fails fast without one).
+A name Jev cannot resolve confidently is raised as an error (listing Jev's best
+guess + confidence) rather than silently guessed, so a genuinely new/unknown item
+surfaces for a human to map.
 """
 
 import sys
 import json
-import difflib
 from datetime import datetime
 from config import (
     TEMP_DIR, MANUAL_MAPPING_JSON, GAME_DATA_JSON, DISCOUNTS_OUTPUT,
@@ -68,8 +66,9 @@ def perform_mapping(
     Map a list of announced names to game_data refs (see module docstring for order).
 
     Args:
-        mapper: a JevMapper. If None or not available (no key), Jev is skipped and
-                unresolved names fall back to difflib fuzzy matching (offline mode).
+        mapper: a JevMapper. If None or not available (no key), Jev is skipped and any
+                name not resolved by a manual pin or exact vocab match is left unmapped
+                (raised as an error). The CLI entry point (map_items) requires a key.
         logger: optional DiscountLogger for verbose mapping traces.
     Returns:
         (mapped_refs, updated_manual_mapping, new_mappings_found)
@@ -77,7 +76,6 @@ def perform_mapping(
         ValueError: If any items cannot be mapped.
     """
     name_to_ref = {entry["name"].lower(): entry["ref"] for entry in game_data}
-    game_names_lower = list(name_to_ref.keys())
     criteria = {entry["ref"]: entry["name"] for entry in game_data}
     ref_to_name = {entry["ref"]: entry["name"] for entry in game_data}
     use_jev = mapper is not None and mapper.available
@@ -131,19 +129,10 @@ def perform_mapping(
                 unmapped_items.append(f"{item} (jev best: {best} @ {res.confidence:.2f})")
             continue
 
-        # 4. Offline fallback: difflib fuzzy match (only when Jev is unavailable).
-        matches = difflib.get_close_matches(item_lower, game_names_lower, n=1, cutoff=0.5)
-        if matches:
-            best_ref = name_to_ref[matches[0]]
-            mapped_refs.append(best_ref)
-            updated_manual_mapping[item] = best_ref
-            new_mappings_found = True
-            if logger:
-                logger.mapping(item, [best_ref], "difflib-fuzzy", 0.5, f"fuzzy match (offline)")
-        else:
-            if logger:
-                logger.mapping_fail(item, "?", 0.0, "no match found in vocab")
-            unmapped_items.append(item)
+        # No engine available (no key): only manual pins and exact vocab can resolve.
+        if logger:
+            logger.mapping_fail(item, "?", 0.0, "no JEV_API_KEY; not an exact/manual match")
+        unmapped_items.append(item)
 
     if unmapped_items:
         if logger:
@@ -160,8 +149,18 @@ def map_items(items_str: str, date_range_str: str, logger=None):
         accept_threshold=JEV_ACCEPT_THRESHOLD,
         split_piece_threshold=JEV_SPLIT_PIECE_THRESHOLD,
     )
-    engine = "Jev typed classifier" if mapper.available else "local fuzzy match (offline; no JEV_API_KEY)"
-    msg = f"Mapping items using {engine}..."
+    if not mapper.available:
+        err = (
+            "JEV_API_KEY is not set. Jev is the item mapper; set JEV_API_KEY "
+            "(repo secret in CI, or your local .env) and rerun."
+        )
+        print(f"  [ERROR] {err}")
+        if logger:
+            logger.error(err)
+        mapper.close()
+        sys.exit(1)
+
+    msg = "Mapping items using Jev typed classifier..."
     if logger:
         logger.info(msg)
     print(msg)
@@ -222,7 +221,7 @@ def map_items(items_str: str, date_range_str: str, logger=None):
     if new_mappings_found:
         with open(MANUAL_MAPPING_JSON, "w", encoding="utf-8") as f:
             json.dump(manual_mapping, f, indent=2, ensure_ascii=False)
-        print("  -> Updated manual_mapping.json with new fuzzy matches.")
+        print("  -> Updated manual_mapping.json with new Jev mappings.")
 
     # 5. Expand Virtual Bots
     final_refs = []
