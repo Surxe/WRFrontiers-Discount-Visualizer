@@ -99,7 +99,7 @@
       "items_anchor": "bot-ravana",
       "overdue_rank": 1,
       "weeks_since_discount": 15,
-      "avg_interval": 12.8,
+      "avg_interval": 12.6,
       "likelihood_pct": 10.0,
       "associated": [
         {
@@ -169,7 +169,7 @@
       "items_anchor": "bot-typhon",
       "overdue_rank": 3,
       "weeks_since_discount": 13,
-      "avg_interval": 12.8,
+      "avg_interval": 12.6,
       "likelihood_pct": 10.0,
       "associated": [
         {

@@ -8,6 +8,10 @@
     "name": "Anansi"
   },
   {
+    "ref": "OBJID_VirtualBot::angler",
+    "name": "Angler"
+  },
+  {
     "ref": "OBJID_VirtualBot::ares",
     "name": "Ares"
   },
@@ -274,6 +278,10 @@
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Bisector.0",
     "name": "Bisector"
+  },
+  {
+    "ref": "OBJID_Module::DA_Module_Weapon_Breacher.0",
+    "name": "Breacher"
   },
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Buckshot.0",
