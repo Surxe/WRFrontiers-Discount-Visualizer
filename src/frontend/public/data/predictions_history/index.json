@@ -1,15 +1,50 @@
 {
-  "generated_at": "2026-09-29T13:00:59.301960+00:00",
+  "generated_at": "2026-10-01T13:44:04.339961+00:00",
   "scoreboard": {
     "window_weeks": 15,
     "bots_scored_weeks": 15,
-    "bots_hits": 11,
-    "bots_rate": 0.7333,
+    "bots_hits": 10,
+    "bots_rate": 0.6667,
     "titans_scored_weeks": 15,
-    "titans_hits": 11,
-    "titans_rate": 0.7333
+    "titans_hits": 12,
+    "titans_rate": 0.8
   },
   "weeks": [
+    {
+      "slug": "2026-10-06",
+      "week": {
+        "start_year": 2026,
+        "start_month": 10,
+        "start_day": 6,
+        "end_year": 2026,
+        "end_month": 10,
+        "end_day": 13
+      },
+      "label": "October 6 - 13 (2026)",
+      "file": "predictions_history/prediction_2026-10-06.json",
+      "graded": true,
+      "insufficient_history": {
+        "bots": false,
+        "titans": false
+      },
+      "result": {
+        "bots": {
+          "hits": 0,
+          "listed": 5,
+          "eligible_actual": 2,
+          "top_hit": false,
+          "top3_hit": false,
+          "headline_hit": false
+        },
+        "titans": {
+          "hits": 0,
+          "listed": 2,
+          "eligible_actual": 0,
+          "top_hit": false,
+          "any_titan": false
+        }
+      }
+    },
     {
       "slug": "2026-09-29",
       "week": {

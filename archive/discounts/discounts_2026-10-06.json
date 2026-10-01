@@ -1,0 +1,30 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 10,
+    "start_day": 6,
+    "end_year": 2026,
+    "end_month": 10,
+    "end_day": 13
+  },
+  "items": [
+    "DA_Module_ChassisKumo.2",
+    "DA_Module_TorsoKumo.1",
+    "DA_Module_ShoulderKumo.0",
+    "DA_Module_ChassisWyrm.2",
+    "DA_Module_TorsoWyrm.1",
+    "DA_Module_ShoulderWyrm.0",
+    "DA_Module_ChassisHelios.2",
+    "DA_Module_TorsoHelios.1",
+    "DA_Module_ShoulderHelios.0",
+    "DA_Module_Weapon_Pyre.0",
+    "DA_Module_Weapon_Horde.0",
+    "DA_Module_Weapon_Aftershock.0",
+    "DA_Module_Weapon_Conflux.0",
+    "DA_Module_Ability_DashBlinkedVisible.1",
+    "DA_Module_Ability_IronVeil.1",
+    "DA_Module_Ability_Regeneration.1",
+    "DA_Module_Ability_Atrophy.1",
+    "DA_Module_Ability_TensionLink.1"
+  ]
+}
