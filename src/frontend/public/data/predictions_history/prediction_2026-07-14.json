@@ -29,7 +29,7 @@
       "items_anchor": "bot-anansi",
       "overdue_rank": 2,
       "weeks_since_discount": 12,
-      "avg_interval": 13.7,
+      "avg_interval": 13.5,
       "likelihood_pct": 43.2,
       "associated": [
         {
@@ -64,7 +64,7 @@
       "items_anchor": "bot-loki",
       "overdue_rank": 3,
       "weeks_since_discount": 11,
-      "avg_interval": 9.2,
+      "avg_interval": 9.8,
       "likelihood_pct": 27.0,
       "associated": [
         {
@@ -99,7 +99,7 @@
       "items_anchor": "bot-harpy",
       "overdue_rank": 4,
       "weeks_since_discount": 11,
-      "avg_interval": 9.0,
+      "avg_interval": 9.5,
       "likelihood_pct": 27.0,
       "associated": [
         {

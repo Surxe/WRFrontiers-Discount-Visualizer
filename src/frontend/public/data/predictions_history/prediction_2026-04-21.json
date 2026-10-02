@@ -64,7 +64,7 @@
       "items_anchor": "bot-anansi",
       "overdue_rank": 2,
       "weeks_since_discount": 15,
-      "avg_interval": 13.7,
+      "avg_interval": 13.5,
       "likelihood_pct": 22.0,
       "associated": [
         {
@@ -134,7 +134,7 @@
       "items_anchor": "bot-loki",
       "overdue_rank": 5,
       "weeks_since_discount": 10,
-      "avg_interval": 9.2,
+      "avg_interval": 9.8,
       "likelihood_pct": 20.0,
       "associated": [
         {

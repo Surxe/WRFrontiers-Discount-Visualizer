@@ -2,13 +2,13 @@
   "week": {
     "start_year": 2026,
     "start_month": 10,
-    "start_day": 6,
+    "start_day": 13,
     "end_year": 2026,
     "end_month": 10,
-    "end_day": 13
+    "end_day": 20
   },
-  "slug": "2026-10-06",
-  "label": "October 6 - 13 (2026)",
+  "slug": "2026-10-13",
+  "label": "October 13 - 20 (2026)",
   "reconstructed": true,
   "graded": true,
   "insufficient_history": {
@@ -28,9 +28,9 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLoki",
       "items_anchor": "bot-loki",
       "overdue_rank": 2,
-      "weeks_since_discount": 12,
+      "weeks_since_discount": 13,
       "avg_interval": 9.8,
-      "likelihood_pct": 46.9,
+      "likelihood_pct": 46.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_Glory.0",
@@ -54,7 +54,7 @@
           "group": "cycle-gear"
         }
       ],
-      "hit": false
+      "hit": true
     },
     {
       "ref": "OBJID_VirtualBot::anansi",
@@ -63,9 +63,9 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
       "items_anchor": "bot-anansi",
       "overdue_rank": 3,
-      "weeks_since_discount": 12,
+      "weeks_since_discount": 13,
       "avg_interval": 13.5,
-      "likelihood_pct": 46.9,
+      "likelihood_pct": 46.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_MLx2.0",
@@ -89,7 +89,7 @@
           "group": "cycle-gear"
         }
       ],
-      "hit": false
+      "hit": true
     },
     {
       "ref": "OBJID_VirtualBot::tyr",
@@ -98,9 +98,9 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyr",
       "items_anchor": "bot-tyr",
       "overdue_rank": 4,
-      "weeks_since_discount": 11,
+      "weeks_since_discount": 12,
       "avg_interval": 9.8,
-      "likelihood_pct": 20.4,
+      "likelihood_pct": 20.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_Vortex.0",
@@ -133,9 +133,9 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHarpy",
       "items_anchor": "bot-harpy",
       "overdue_rank": 5,
-      "weeks_since_discount": 11,
+      "weeks_since_discount": 12,
       "avg_interval": 9.5,
-      "likelihood_pct": 20.4,
+      "likelihood_pct": 20.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_Trebuchet.0",
@@ -166,7 +166,7 @@
           "group": "cycle-gear"
         }
       ],
-      "hit": false
+      "hit": true
     },
     {
       "ref": "OBJID_VirtualBot::bulgasari",
@@ -175,9 +175,9 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
       "items_anchor": "bot-bulgasari",
       "overdue_rank": 1,
-      "weeks_since_discount": 31,
+      "weeks_since_discount": 32,
       "avg_interval": 10.0,
-      "likelihood_pct": 18.4,
+      "likelihood_pct": 18.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_Shredder.0",
@@ -212,7 +212,7 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
       "items_anchor": "bot-matriarch",
       "overdue_rank": 1,
-      "weeks_since_discount": 21,
+      "weeks_since_discount": 22,
       "avg_interval": 11.7,
       "likelihood_pct": 53.8,
       "associated": [],
@@ -225,7 +225,7 @@
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
       "items_anchor": "bot-alpha",
       "overdue_rank": 2,
-      "weeks_since_discount": 10,
+      "weeks_since_discount": 11,
       "avg_interval": 13.5,
       "likelihood_pct": 38.5,
       "associated": [],
@@ -234,19 +234,20 @@
   ],
   "actuals": {
     "bots": [
-      "kumo",
-      "wyrm"
+      "anansi",
+      "harpy",
+      "loki"
     ],
     "titans": []
   },
   "result": {
     "bots": {
-      "hits": 0,
+      "hits": 3,
       "listed": 5,
-      "eligible_actual": 2,
-      "top_hit": false,
-      "top3_hit": false,
-      "headline_hit": false
+      "eligible_actual": 3,
+      "top_hit": true,
+      "top3_hit": true,
+      "headline_hit": true
     },
     "titans": {
       "hits": 0,
