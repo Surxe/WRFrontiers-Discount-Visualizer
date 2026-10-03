@@ -11,7 +11,8 @@ from config import MODULE_JSON, VIRTUAL_BOT_JSON, TEMP_DIR, GAME_DATA_JSON, REPO
 def build_game_data() -> list[dict]:
     """
     Reads VirtualBot.json and Module.json to extract relevant game objects.
-    Produces a compact list of { id, name, image_path } for the LLM prompt.
+    Produces a compact list of { id, name, image_path }: the closed vocabulary step 2
+    maps announced names onto (exact match, then Jev's choices).
     VirtualBots are prefixed with OBJID_VirtualBot::
     Modules are prefixed with OBJID_Module::
     """
