@@ -26,6 +26,12 @@ This is the routine when a new in-game discount week is announced.
 
 ### 2. Run the pipeline (production)
 
+Normally this is automatic: on the home-server, WRFrontiersDB-Orchestrator's discount run
+(`src/discount.py`, driving WRFrontiers-News-Scraper) detects the new week, dispatches **All**
+with the announced items and dates, waits for the run to finish, and emails a report with
+its result. Run it by hand to re-run a week or after fixing a mapping (a manual run sends
+no email; check the Actions run itself).
+
 In GitHub, open **Actions → All → Run workflow** and fill in:
 
 | Input | Description |
@@ -38,7 +44,7 @@ The **All** workflow (`.github/workflows/all.yml`) runs four stages:
 
 1. **Map** — Backend steps 1–3:
    - Rebuilds `game_data.json` from the latest `WRFrontiersDB-Data`
-   - Maps item names to ids with Jev; new non-1:1 matches are saved to `manual_mapping.json`
+   - Maps item names to ids (manual pin -> exact name -> Jev); each new Jev match is saved to `manual_mapping.json`, so later runs reuse it as a pin
    - Expands Virtual Bots to core modules
    - Writes `archive/discounts/discounts_<slug>.json`
    - Generates `src/frontend/public/data/week_grids/grid_<slug>.json`
@@ -191,7 +197,7 @@ WRFrontiers-Discount-Visualizer/
 
 | Workflow | Trigger | Purpose |
 |----------|---------|---------|
-| [`all.yml`](.github/workflows/all.yml) | Manual | Full weekly update: map → screenshot → build → deploy |
+| [`all.yml`](.github/workflows/all.yml) | Manual, or dispatched by the home-server discount run | Full weekly update: map → screenshot → build → deploy |
 | [`map.yml`](.github/workflows/map.yml) | Manual | Mapping only; commits data, no deploy |
 | [`screenshot.yml`](.github/workflows/screenshot.yml) | Manual | Capture `discount-table.png` only |
 | [`build.yml`](.github/workflows/build.yml) | Manual | Build site only |
