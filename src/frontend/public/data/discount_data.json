@@ -183,6 +183,7 @@
     },
     "OBJID_VirtualBot::loki": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-28",
         "2026-02-10",
@@ -190,10 +191,11 @@
         "2025-11-11",
         "2025-08-26"
       ],
-      "avg_weeks_between_discounts": 9.2
+      "avg_weeks_between_discounts": 9.8
     },
     "OBJID_VirtualBot::harpy": {
       "weeks": [
+        "2026-10-13",
         "2026-07-21",
         "2026-04-28",
         "2026-03-03",
@@ -201,7 +203,7 @@
         "2025-12-02",
         "2025-09-09"
       ],
-      "avg_weeks_between_discounts": 9.0
+      "avg_weeks_between_discounts": 9.5
     },
     "OBJID_VirtualBot::ceres": {
       "weeks": [
@@ -247,12 +249,13 @@
     },
     "OBJID_VirtualBot::anansi": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-21",
         "2026-01-06",
         "2025-09-30"
       ],
-      "avg_weeks_between_discounts": 13.7
+      "avg_weeks_between_discounts": 13.5
     },
     "OBJID_VirtualBot::griffin": {
       "weeks": [
@@ -527,6 +530,7 @@
     },
     "OBJID_Module::DA_Module_Ability_Spotlight.1": {
       "weeks": [
+        "2026-10-13",
         "2026-08-11",
         "2026-07-14",
         "2026-05-26",
@@ -552,7 +556,7 @@
         "orochi",
         "pursuer"
       ],
-      "avg_weeks_between_discounts": 3.7
+      "avg_weeks_between_discounts": 4.0
     },
     "OBJID_Module::DA_Module_Ability_BlockingField.1": {
       "weeks": [
@@ -990,6 +994,7 @@
     },
     "OBJID_Module::DA_Module_Ability_Dazzle.1": {
       "weeks": [
+        "2026-10-13",
         "2026-09-22",
         "2026-08-11",
         "2026-07-21",
@@ -1076,6 +1081,7 @@
     },
     "OBJID_Module::DA_Module_Ability_Grounded.1": {
       "weeks": [
+        "2026-10-13",
         "2026-09-22",
         "2026-08-11",
         "2026-07-14",
@@ -1269,6 +1275,7 @@
     },
     "OBJID_Module::DA_Module_Weapon_Railgun.0": {
       "weeks": [
+        "2026-10-13",
         "2026-07-28",
         "2026-07-21",
         "2026-05-05",
@@ -1285,7 +1292,7 @@
         "harpy",
         "siren"
       ],
-      "avg_weeks_between_discounts": 5.2
+      "avg_weeks_between_discounts": 5.7
     },
     "OBJID_Module::DA_Module_Weapon_Twinflare.0": {
       "weeks": [
@@ -1676,6 +1683,7 @@
     },
     "OBJID_Module::DA_Module_ChassisLoki.2": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-28",
         "2026-02-10",
@@ -1684,10 +1692,11 @@
         "2025-08-26"
       ],
       "virtual_bots": [],
-      "avg_weeks_between_discounts": 9.2
+      "avg_weeks_between_discounts": 9.8
     },
     "OBJID_Module::DA_Module_TorsoLoki.1": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-28",
         "2026-02-10",
@@ -1696,10 +1705,11 @@
         "2025-08-26"
       ],
       "virtual_bots": [],
-      "avg_weeks_between_discounts": 9.2
+      "avg_weeks_between_discounts": 9.8
     },
     "OBJID_Module::DA_Module_ShoulderLoki.0": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-28",
         "2026-02-10",
@@ -1708,7 +1718,7 @@
         "2025-08-26"
       ],
       "virtual_bots": [],
-      "avg_weeks_between_discounts": 9.2
+      "avg_weeks_between_discounts": 9.8
     },
     "OBJID_Module::DA_Module_Weapon_Gozer.0": {
       "weeks": [
@@ -1727,6 +1737,7 @@
     },
     "OBJID_Module::DA_Module_Weapon_Glory.0": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-28",
         "2026-02-10",
@@ -1737,7 +1748,7 @@
       "virtual_bots": [
         "loki"
       ],
-      "avg_weeks_between_discounts": 9.2
+      "avg_weeks_between_discounts": 9.8
     },
     "OBJID_Module::DA_Module_Ability_InfiniteAmmo.1": {
       "weeks": [
@@ -1762,6 +1773,7 @@
     },
     "OBJID_Module::DA_Module_ChassisHarpy.2": {
       "weeks": [
+        "2026-10-13",
         "2026-07-21",
         "2026-04-28",
         "2026-03-03",
@@ -1770,10 +1782,11 @@
         "2025-09-09"
       ],
       "virtual_bots": [],
-      "avg_weeks_between_discounts": 9.0
+      "avg_weeks_between_discounts": 9.5
     },
     "OBJID_Module::DA_Module_TorsoHarpy.1": {
       "weeks": [
+        "2026-10-13",
         "2026-07-21",
         "2026-04-28",
         "2026-03-03",
@@ -1782,10 +1795,11 @@
         "2025-09-09"
       ],
       "virtual_bots": [],
-      "avg_weeks_between_discounts": 9.0
+      "avg_weeks_between_discounts": 9.5
     },
     "OBJID_Module::DA_Module_ShoulderHarpy.0": {
       "weeks": [
+        "2026-10-13",
         "2026-07-21",
         "2026-04-28",
         "2026-03-03",
@@ -1794,7 +1808,7 @@
         "2025-09-09"
       ],
       "virtual_bots": [],
-      "avg_weeks_between_discounts": 9.0
+      "avg_weeks_between_discounts": 9.5
     },
     "OBJID_Module::DA_Module_ChassisDemeter.2": {
       "weeks": [
@@ -1910,6 +1924,7 @@
     },
     "OBJID_Module::DA_Module_Weapon_Trebuchet.0": {
       "weeks": [
+        "2026-10-13",
         "2026-07-21",
         "2026-04-28",
         "2026-03-03",
@@ -1920,7 +1935,7 @@
       "virtual_bots": [
         "harpy"
       ],
-      "avg_weeks_between_discounts": 9.0
+      "avg_weeks_between_discounts": 9.5
     },
     "OBJID_Module::DA_Module_Weapon_Bisector.0": {
       "weeks": [
@@ -1967,6 +1982,7 @@
     },
     "OBJID_Module::DA_Module_Ability_FuelReserve.1": {
       "weeks": [
+        "2026-10-13",
         "2026-08-04",
         "2026-07-21",
         "2026-05-12",
@@ -1982,7 +1998,7 @@
         "harpy",
         "purifier"
       ],
-      "avg_weeks_between_discounts": 5.2
+      "avg_weeks_between_discounts": 5.7
     },
     "OBJID_Module::DA_Module_Weapon_Scrubber.0": {
       "weeks": [
@@ -2068,36 +2084,40 @@
     },
     "OBJID_Module::DA_Module_ChassisAnansi.2": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-21",
         "2026-01-06",
         "2025-09-30"
       ],
       "virtual_bots": [],
-      "avg_weeks_between_discounts": 13.7
+      "avg_weeks_between_discounts": 13.5
     },
     "OBJID_Module::DA_Module_TorsoAnansi.1": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-21",
         "2026-01-06",
         "2025-09-30"
       ],
       "virtual_bots": [],
-      "avg_weeks_between_discounts": 13.7
+      "avg_weeks_between_discounts": 13.5
     },
     "OBJID_Module::DA_Module_ShoulderAnansi.0": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-21",
         "2026-01-06",
         "2025-09-30"
       ],
       "virtual_bots": [],
-      "avg_weeks_between_discounts": 13.7
+      "avg_weeks_between_discounts": 13.5
     },
     "OBJID_Module::DA_Module_Weapon_MLx2.0": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-21",
         "2026-01-06",
@@ -2106,10 +2126,11 @@
       "virtual_bots": [
         "anansi"
       ],
-      "avg_weeks_between_discounts": 13.7
+      "avg_weeks_between_discounts": 13.5
     },
     "OBJID_Module::DA_Module_Ability_Atrophy.1": {
       "weeks": [
+        "2026-10-13",
         "2026-10-06",
         "2026-09-29",
         "2026-09-22",
@@ -2127,7 +2148,7 @@
         "artemis",
         "kumo"
       ],
-      "avg_weeks_between_discounts": 5.3
+      "avg_weeks_between_discounts": 4.9
     },
     "OBJID_Module::DA_Module_Weapon_Bayonet.0": {
       "weeks": [
@@ -2744,11 +2765,12 @@
     },
     "OBJID_Module::DA_Module_Weapon_Skuld.0": {
       "weeks": [
+        "2026-10-13",
         "2026-07-14",
         "2026-04-28"
       ],
       "virtual_bots": [],
-      "avg_weeks_between_discounts": 11.0
+      "avg_weeks_between_discounts": 12.0
     },
     "OBJID_Module::DA_Module_ChassisHeike.2": {
       "weeks": [
