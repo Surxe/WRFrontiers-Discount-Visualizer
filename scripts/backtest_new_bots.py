@@ -24,6 +24,10 @@ Variants (all walk-forward, no look-ahead, scored on the same weeks):
   * rate (live)     -- the shipped method: rank by historical discount rate for
                        the bot's (stage, wait), via build_predictions'
                        DiscountRateModel / _rank_pool.
+  * rate roster     -- (rejected) waits rescaled to a reference roster size,
+                       since weekly discounts are flat while the roster grows.
+  * rate decay=H    -- (rejected) rate model with exponential recency weighting,
+                       half-life H weeks.
 
 Per-slot odds are position-calibrated for every variant (as on the live page),
 and Brier is taken over the full released roster: top slots get their prior
@@ -51,6 +55,8 @@ from build_predictions import (  # noqa: E402
 )
 
 RECENT_WINDOW = 20  # weeks; new bots only exist in volume in recent history
+ROSTER_REF = 30  # reference roster size for the roster-scaled variant
+DECAY_HALF_LIVES = (13, 26, 52)
 SHIFT_GRID = list(range(-6, 9))
 MIN_FIT_WEEKS = 5
 
@@ -89,6 +95,56 @@ def rank_rate(pool, as_of, release_weeks, model, _params):
     return [c["id"] for c in _rank_pool(pool, as_of, release_weeks, model)]
 
 
+def roster_size(pool, week, release_weeks):
+    return sum(_bot_state(w, week, release_weeks.get(b)) is not None for b, w in pool.items())
+
+
+class RosterScaledModel(DiscountRateModel):
+    """Rate keyed on wait rescaled to ROSTER_REF bots: wait * REF / roster(week)."""
+
+    def observe(self, pool, release_weeks, week, actual):
+        n = roster_size(pool, week, release_weeks)
+        for bot_id, weeknums in pool.items():
+            state = _bot_state(weeknums, week, release_weeks.get(bot_id))
+            if state is None:
+                continue
+            key = (state[0], round(state[1] * ROSTER_REF / n))
+            self.basis[key] = self.basis.get(key, 0) + 1
+            if bot_id in actual:
+                self.hits[key] = self.hits.get(key, 0) + 1
+
+
+def rank_roster_scaled(pool, as_of, release_weeks, model, _params):
+    n = roster_size(pool, as_of, release_weeks)
+    c = []
+    for b, wns in pool.items():
+        state = _bot_state(wns, as_of, release_weeks.get(b))
+        if state is None:
+            continue
+        stage, wait = state
+        c.append((model.rate(stage, round(wait * ROSTER_REF / n)), wait, b))
+    c.sort(reverse=True)
+    return [b for *_, b in c]
+
+
+def decay_model(half_life):
+    class DecayModel(DiscountRateModel):
+        """Rate model whose past observations fade with a half-life in weeks."""
+
+        def __init__(self):
+            super().__init__()
+            self.last_week = None
+
+        def observe(self, pool, release_weeks, week, actual):
+            if self.last_week is not None:
+                f = 0.5 ** ((week - self.last_week) / half_life)
+                self.hits = {k: v * f for k, v in self.hits.items()}
+                self.basis = {k: v * f for k, v in self.basis.items()}
+            self.last_week = week
+            super().observe(pool, release_weeks, week, actual)
+    return DecayModel
+
+
 # ---------------------------------------------------------------------------
 # Grading
 # ---------------------------------------------------------------------------
@@ -114,9 +170,10 @@ def fit_best_shift(pool, actuals, release_weeks, as_of, top_n):
     return best[1]
 
 
-def grade(ranker, pool, actuals, release_weeks, top_n, fit_shift=False):
+def grade(ranker, pool, actuals, release_weeks, top_n, fit_shift=False,
+          model_factory=DiscountRateModel):
     rows = []
-    model = DiscountRateModel()
+    model = model_factory()
     slot_hits = [0] * top_n
     slot_n = 0
     rest_hits = rest_n = 0
@@ -202,14 +259,15 @@ def main():
         print(f"  {k:>20}: {v}")
 
     variants = [
-        ("min2 (old)", rank_min_history(2), False),
-        ("min1", rank_min_history(1), False),
-        ("release", rank_release, False),
-        ("release+d (fit)", rank_release, True),
-        ("rate (live)", rank_rate, False),
-    ]
-    results = {name: grade(r, pool, actuals, release_weeks, top_n, fit)
-               for name, r, fit in variants}
+        ("min2 (old)", rank_min_history(2), False, DiscountRateModel),
+        ("min1", rank_min_history(1), False, DiscountRateModel),
+        ("release", rank_release, False, DiscountRateModel),
+        ("release+d (fit)", rank_release, True, DiscountRateModel),
+        ("rate (live)", rank_rate, False, DiscountRateModel),
+        ("rate roster", rank_roster_scaled, False, RosterScaledModel),
+    ] + [(f"rate decay={h}", rank_rate, False, decay_model(h)) for h in DECAY_HALF_LIVES]
+    results = {name: grade(r, pool, actuals, release_weeks, top_n, fit, factory)
+               for name, r, fit, factory in variants}
 
     weeks = sorted({r["week"] for r in results["rate (live)"]})
     windows = (("ALL scored weeks", set(weeks)), (f"RECENT {RECENT_WINDOW}", set(weeks[-RECENT_WINDOW:])))

@@ -16,15 +16,19 @@ const round1 = (v: number | null | undefined) =>
 // slot_hit_rate is 0-1; likelihood_pct is already 0-100.
 const slotRatePct = ex ? round1(ex.slot_hit_rate * 100) : null;
 
-// Small plain-language ordinal for the overdue position (1st, 2nd, ...).
+// Small plain-language ordinal for the rank position (1st, 2nd, ...).
 const ordinal = (n: number) => {
 	const s = ['th', 'st', 'nd', 'rd'];
 	const v = n % 100;
 	return n + (s[(v - 20) % 10] || s[v] || s[0]);
 };
 const rankOrdinal = ex ? ordinal(ex.rank) : null;
+// A never-discounted (new) robot waits from its release instead.
+const isNew = ex ? ex.weeks_since_discount == null && ex.weeks_since_release != null : false;
+const wait = ex ? (isNew ? ex.weeks_since_release : ex.weeks_since_discount) : null;
+const ratePct = round1(ex?.historical_rate_pct);
 
-// When the top card is tied with others on weeks-since-discount, its shown
+// When the top card is tied with others on historical rate, its shown
 // percentage is the average of those tied spots' hit-rates, not one spot's, so
 // the walk-through explains the pooling instead of a single slot.
 const pooled = !!ex?.pooled;
@@ -50,7 +54,7 @@ const pooledPct = round1(ex?.likelihood_pct);
 
 <GenericPage
 	title="Methodology - WRF Discounts"
-	description="How the WRFrontiers discount predictions work, in plain terms: line robots up by how overdue they are, then show how often each spot has paid off in the past."
+	description="How the WRFrontiers discount predictions work, in plain terms: line robots up by how often robots at their wait have been discounted, then show how often each spot has paid off in the past."
 	baseUrl={baseUrl}
 >
 	<NavBar baseUrl={baseUrl} currentPage="predictions" />
@@ -64,22 +68,29 @@ const pooledPct = round1(ex?.likelihood_pct);
 		</p>
 
 		<section>
-			<h2>Step 1 &mdash; Line them up by how overdue they are</h2>
+			<h2>Step 1 &mdash; Line them up by their track record</h2>
 			<p>
-				Robots tend to come back around for a discount on a rough cycle. So we line
-				every robot up by one thing: <strong>how long it has been since its last
-				discount</strong>. The robot that has waited longest goes to the front of
-				the line, the next-longest behind it, and so on. The ones near the front are
-				"due".
+				Robots tend to come back around for a discount on a rough cycle. So for every
+				robot we start with one number: <strong>how long it has been waiting</strong>
+				&mdash; weeks since its last discount, or since its release if it has never
+				been discounted.
+			</p>
+			<p>
+				Then we ask the history: <em>when a robot had waited that long, how often was
+				it discounted that week?</em> That share is the robot's
+				<strong>track record</strong>, and the line is ordered by it, best first.
+				Robots around the usual cycle score high, robots discounted recently score
+				low &mdash; and so do robots on a very long dry spell, because a robot that
+				has been skipped far past the usual cycle tends to keep getting skipped.
 			</p>
 			<p class="fine">
-				A robot needs at least <strong>2 past discounts</strong> before we include
-				it, so we have some idea of its cycle. That mostly leaves out the
-				<strong>newest robots</strong> &mdash; and there is an honest catch to that:
-				a brand-new robot can still swoop in and grab a discount slot, bumping one of
-				the robots we listed. We have no cycle to judge a newcomer by, so we leave it
-				out rather than guess. The practical effect is that each listed robot's real
-				chance is <strong>a little lower</strong> than the number shown.
+				<strong>New robots are included</strong> from the week they are released.
+				They have followed the same cycle as everyone else: a new robot's first
+				discount has typically come about 9 weeks after release, and the gaps after
+				that match the rest of the roster. To keep thin data from swinging the
+				numbers, each wait is pooled with waits up to 2 weeks either side, and every
+				track record starts from a modest 10&percnt;-a-week assumption that the real
+				history quickly outweighs.
 			</p>
 		</section>
 
@@ -92,18 +103,16 @@ const pooledPct = round1(ex?.likelihood_pct);
 			</p>
 			<p>
 				We look back over every past week and ask a simple question: when a robot was
-				sitting in <em>this</em> spot in the overdue line, how often did it actually
+				sitting in <em>this</em> spot in the line, how often did it actually
 				get discounted? If a spot came through in, say, 24 of the last 45 weeks,
 				that is about a 53&percnt; chance &mdash; so that is the number we show for
 				whoever is in that spot now.
 			</p>
 			<p class="fine">
 				Because it is just counting what really happened, the percentage stays honest
-				on its own, and it updates as new weeks are added. One surprise falls out of
-				it: the robot that has waited the <em>longest</em> is not always the most
-				likely &mdash; a very long dry spell often means a robot that keeps getting
-				skipped. That is why the cards are ordered by the percentage, not by the
-				wait. The example below shows exactly that.
+				on its own, and it updates as new weeks are added. Spots do not always pay
+				off in strict order, so the cards are sorted by the percentage, which can
+				differ slightly from the line order.
 			</p>
 		</section>
 
@@ -119,9 +128,11 @@ const pooledPct = round1(ex?.likelihood_pct);
 				{!pooled && (
 					<ol class="walk">
 						<li>
-							<strong>{ex.name}</strong> was last discounted{' '}
-							<strong>{ex.weeks_since_discount}</strong> weeks ago &mdash; the{' '}
-							<strong>{rankOrdinal}</strong> longest wait in the line right now
+							<strong>{ex.name}</strong>{' '}
+							{isNew ? 'was released' : 'was last discounted'}{' '}
+							<strong>{wait}</strong> weeks ago. Robots at that wait were discounted
+							in about <strong>{ratePct}&percnt;</strong> of weeks &mdash; the{' '}
+							<strong>{rankOrdinal}</strong> best track record in the line right now
 							(Step&nbsp;1).
 						</li>
 						<li>
@@ -142,11 +153,13 @@ const pooledPct = round1(ex?.likelihood_pct);
 				{pooled && (
 					<ol class="walk">
 						<li>
-							<strong>{ex.name}</strong> was last discounted{' '}
-							<strong>{ex.weeks_since_discount}</strong> weeks ago &mdash; but it is
-							<strong> tied</strong> with {tieCount - 1} other robot{tieCount - 1 === 1 ? '' : 's'} on
-							exactly that wait, so they share the {tieRanksPhrase} longest-wait spots
-							(Step&nbsp;1).
+							<strong>{ex.name}</strong>{' '}
+							{isNew ? 'was released' : 'was last discounted'}{' '}
+							<strong>{wait}</strong> weeks ago, and robots at that wait were
+							discounted in about <strong>{ratePct}&percnt;</strong> of weeks &mdash;
+							but it is <strong>tied</strong> with {tieCount - 1} other robot{tieCount - 1 === 1 ? '' : 's'} on
+							exactly that track record, so they share the {tieRanksPhrase} spots in
+							the line (Step&nbsp;1).
 						</li>
 						<li>
 							Those spots have not paid off equally over the last{' '}

@@ -2,7 +2,7 @@
 
 **Status: REJECTED by backtest (2026-08-29).** The head-to-head gate
 (`scripts/backtest_formula.py`) found this formula strictly worse than the
-current position-calibrated method on every metric, in both pools. It is NOT
+then-live position-calibrated method on every metric, in both pools. It is NOT
 live and should not be shipped as designed. Numbers and takeaways are in the
 "Validation gate" section below; the rest of the document is retained as the
 record of what was tried and why it failed.
@@ -211,7 +211,11 @@ week and still loses at every point). Two takeaways:
    error than the current method's concentration on the top few slots. For a
    sparse selection problem, concentrated beats smooth.
 
-Consequence: the current per-position method stays live. A methodology page that
+Consequence: the per-position method stays live. (Update 2026-10-03: the
+ranking under it has since moved from raw `w` to a historical discount rate by
+wait, which also admits newly-released bots -- see `PREDICTIONS.md`. That is the
+"keep the raw-`w` signal, replace the read" direction suggested below, applied to
+the ranking; the per-slot probability read is unchanged.) A methodology page that
 documents the *real* live method (not this formula) is still worth building; the
 two-layer alpha framing does not apply to it. Any future formula attempt should
 keep the raw-`w` ranking and only try to replace the probability read (e.g. a
