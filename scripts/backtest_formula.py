@@ -1,4 +1,4 @@
-"""Phase 0 gate: backtest the proposed due-ness formula against the live
+"""Phase 0 gate: backtest the proposed due-ness formula against the (then) live
 position-calibrated method, head-to-head, with no look-ahead.
 
 Read-only. Touches nothing the pipeline writes. Run:
@@ -33,14 +33,53 @@ sys.path.insert(0, str(BACKEND))
 
 from build_predictions import (  # noqa: E402
     _load_pools,
-    _rank_pool,
-    _calibrate,
     period_actuals,
-    _prior_count,
-    MIN_HISTORY,
     BOTS_TOP_N,
     TITANS_TOP_N,
 )
+
+# ---------------------------------------------------------------------------
+# The baseline this gate was run against: the position-calibrated method as it
+# was live on 2026-08-29 (rank by weeks-since-discount, bots need MIN_HISTORY
+# prior discounts). The live ranking has since moved to historical discount
+# rate (see scripts/backtest_new_bots.py); these frozen copies keep this
+# script reproducing its recorded result.
+# ---------------------------------------------------------------------------
+
+MIN_HISTORY = 2
+
+
+def _prior_count(weeknums, as_of_week):
+    return sum(1 for w in weeknums if w < as_of_week)
+
+
+def _rank_pool(pool_weeknums, as_of_week, min_history=MIN_HISTORY):
+    candidates = []
+    for bot_id, weeknums in pool_weeknums.items():
+        prior = [w for w in weeknums if w < as_of_week]
+        if len(prior) < min_history:
+            continue
+        candidates.append((as_of_week - prior[-1], bot_id))
+    candidates.sort(reverse=True)
+    return [bot_id for _wsd, bot_id in candidates]
+
+
+def _calibrate(pool_weeknums, period_actuals, top_n, min_history=MIN_HISTORY):
+    """Per-position hit rates of the legacy ranking (only what this script uses)."""
+    pos_hits = [0] * top_n
+    scored = 0
+    for as_of_week, actual in period_actuals:
+        ranking = _rank_pool(pool_weeknums, as_of_week, min_history)
+        if len(ranking) < top_n:
+            continue
+        eligible = {b for b, wns in pool_weeknums.items()
+                    if _prior_count(wns, as_of_week) >= min_history}
+        actual = actual & eligible
+        scored += 1
+        for i, bot_id in enumerate(ranking[:top_n]):
+            if bot_id in actual:
+                pos_hits[i] += 1
+    return {"per_position": [round(h / scored, 4) if scored else 0.0 for h in pos_hits]}
 
 # Search grid for the shape constant. [0, ALPHA_MAX], coarse enough to be fast,
 # fine enough to place the optimum. ALPHA_PRIOR is the fallback until there is

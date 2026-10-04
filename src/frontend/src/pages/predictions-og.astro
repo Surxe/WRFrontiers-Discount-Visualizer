@@ -20,9 +20,11 @@ const row = (b: any) => ({
 	icon: getTexturePath(b?.icon_path, baseUrl),
 	pct: b?.likelihood_pct == null ? null : Math.round(b.likelihood_pct),
 	meta:
-		b?.weeks_since_discount == null
-			? ''
-			: `${b.weeks_since_discount} wks since${b?.avg_interval == null ? '' : ` · avg ${b.avg_interval}`}`,
+		b?.weeks_since_discount != null
+			? `${b.weeks_since_discount} wks since${b?.avg_interval == null ? '' : ` · avg ${b.avg_interval}`}`
+			: b?.weeks_since_release != null
+				? `${b.weeks_since_release} wks since release`
+				: '',
 	gear: (b?.associated ?? [])
 		.map((a: any) => ({ name: a?.name ?? '', icon: getTexturePath(a?.icon_path, baseUrl) }))
 		.filter((g: any) => g.icon),

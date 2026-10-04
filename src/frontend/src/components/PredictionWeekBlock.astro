@@ -31,7 +31,7 @@ const outcome = weekOutcome(snap);
 
 	{insufficient ? (
 		<p class="week-block__note">
-			Too few prior discounts to make a prediction this early.
+			Too little history to make a prediction this early.
 		</p>
 	) : (
 		<div class="week-block__body">
@@ -39,12 +39,12 @@ const outcome = weekOutcome(snap);
 			{snap?.odds_available && !snap.odds_available.bots && (
 				<p class="week-block__hint">
 					Odds aren't shown this early — too little history to calibrate
-					them yet. Picks are the most overdue robots and are graded normally.
+					them yet. Picks are the top-ranked robots and are graded normally.
 				</p>
 			)}
 			<ol class="prediction-cards">
 				{snap.bots.map((bot: any) => (
-					<PredictionCard bot={bot} baseUrl={baseUrl} rank={bot.overdue_rank} hit={bot.hit} />
+					<PredictionCard bot={bot} baseUrl={baseUrl} rank={bot.rank} hit={bot.hit} />
 				))}
 			</ol>
 			{snap.titans && snap.titans.length > 0 && (
@@ -57,7 +57,7 @@ const outcome = weekOutcome(snap);
 					</h3>
 					<ol class="prediction-cards">
 						{snap.titans.map((titan: any) => (
-							<PredictionCard bot={titan} baseUrl={baseUrl} rank={titan.overdue_rank} oddsLabel="if a titan" hit={titan.hit} />
+							<PredictionCard bot={titan} baseUrl={baseUrl} rank={titan.rank} oddsLabel="if a titan" hit={titan.hit} />
 						))}
 					</ol>
 				</>

@@ -19,53 +19,20 @@
     "bots": true,
     "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
-    {
-      "ref": "OBJID_VirtualBot::anansi",
-      "id": "anansi",
-      "name": "Anansi",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
-      "items_anchor": "bot-anansi",
-      "overdue_rank": 2,
-      "weeks_since_discount": 12,
-      "avg_interval": 13.5,
-      "likelihood_pct": 43.2,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_MLx2.0",
-          "name": "MLx2",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_MLx2",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_Atrophy.1",
-          "name": "Suppressor",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Dazzle.1",
-          "name": "Flashbang",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": true
-    },
     {
       "ref": "OBJID_VirtualBot::loki",
       "id": "loki",
       "name": "Loki",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLoki",
       "items_anchor": "bot-loki",
-      "overdue_rank": 3,
+      "rank": 2,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 25.3,
       "avg_interval": 9.8,
-      "likelihood_pct": 27.0,
+      "likelihood_pct": 43.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Glory.0",
@@ -97,10 +64,12 @@
       "name": "Harpy",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHarpy",
       "items_anchor": "bot-harpy",
-      "overdue_rank": 4,
+      "rank": 3,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 25.3,
       "avg_interval": 9.5,
-      "likelihood_pct": 27.0,
+      "likelihood_pct": 43.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Trebuchet.0",
@@ -134,13 +103,89 @@
       "hit": false
     },
     {
+      "ref": "OBJID_VirtualBot::anansi",
+      "id": "anansi",
+      "name": "Anansi",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
+      "items_anchor": "bot-anansi",
+      "rank": 1,
+      "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 32.8,
+      "avg_interval": 13.5,
+      "likelihood_pct": 35.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_MLx2.0",
+          "name": "MLx2",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_MLx2",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Atrophy.1",
+          "name": "Suppressor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::tyr",
+      "id": "tyr",
+      "name": "Tyr",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyr",
+      "items_anchor": "bot-tyr",
+      "rank": 5,
+      "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 19.3,
+      "avg_interval": 9.8,
+      "likelihood_pct": 35.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Vortex.0",
+          "name": "Vortex",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Vortex",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Homing.1",
+          "name": "Homing Missile",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
       "ref": "OBJID_VirtualBot::bulgasari",
       "id": "bulgasari",
       "name": "Bulgasari",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
       "items_anchor": "bot-bulgasari",
-      "overdue_rank": 1,
+      "rank": 4,
       "weeks_since_discount": 19,
+      "weeks_since_release": null,
+      "historical_rate_pct": 23.5,
       "avg_interval": 10.0,
       "likelihood_pct": 24.3,
       "associated": [
@@ -167,67 +212,36 @@
         }
       ],
       "hit": false
-    },
-    {
-      "ref": "OBJID_VirtualBot::tyr",
-      "id": "tyr",
-      "name": "Tyr",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyr",
-      "items_anchor": "bot-tyr",
-      "overdue_rank": 5,
-      "weeks_since_discount": 10,
-      "avg_interval": 9.8,
-      "likelihood_pct": 13.5,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Vortex.0",
-          "name": "Vortex",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Vortex",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_GhostTurret.1",
-          "name": "Ghost Turret",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Homing.1",
-          "name": "Homing Missile",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
     }
   ],
   "titans": [
-    {
-      "ref": "OBJID_VirtualBot::volta",
-      "id": "volta",
-      "name": "Volta",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
-      "items_anchor": "bot-volta",
-      "overdue_rank": 1,
-      "weeks_since_discount": 18,
-      "avg_interval": 17.0,
-      "likelihood_pct": 66.7,
-      "associated": [],
-      "hit": false
-    },
     {
       "ref": "OBJID_VirtualBot::alpha",
       "id": "alpha",
       "name": "Alpha",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
       "items_anchor": "bot-alpha",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 10.6,
       "avg_interval": 13.5,
-      "likelihood_pct": 22.2,
+      "likelihood_pct": 53.3,
+      "associated": [],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::volta",
+      "id": "volta",
+      "name": "Volta",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
+      "items_anchor": "bot-volta",
+      "rank": 1,
+      "weeks_since_discount": 18,
+      "weeks_since_release": null,
+      "historical_rate_pct": 16.7,
+      "avg_interval": 17.0,
+      "likelihood_pct": 33.3,
       "associated": [],
       "hit": false
     }
@@ -235,7 +249,8 @@
   "actuals": {
     "bots": [
       "anansi",
-      "loki"
+      "loki",
+      "wyrm"
     ],
     "titans": []
   },
@@ -243,7 +258,7 @@
     "bots": {
       "hits": 2,
       "listed": 5,
-      "eligible_actual": 2,
+      "eligible_actual": 3,
       "top_hit": true,
       "top3_hit": true,
       "headline_hit": true

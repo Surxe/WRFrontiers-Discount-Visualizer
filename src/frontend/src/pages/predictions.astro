@@ -32,7 +32,7 @@ const titanNoneRate = titanPresence == null ? null : `${Math.round((1 - titanPre
 // The list is ordered by likelihood, so the "weeks since" values are not in
 // order -- a much longer wait does not mean a higher chance. Explain gently.
 const botOddsTooltip =
-	'Ordered by likelihood, not by how long each bot has waited. A bot that is very overdue is often one that rarely gets discounted, so a longer wait does not always mean a higher chance.';
+	'Ordered by likelihood, not by how long each bot has waited. Bots are ranked by how often bots at the same wait were discounted in the past; a bot far past the usual cycle tends to keep getting skipped, so a longer wait does not always mean a higher chance.';
 
 // Shareable summary, assembled at build time from the same predictions object.
 // Copied to the clipboard by the "Copy to share" button below.
@@ -126,8 +126,7 @@ const shareText = shareLines.join('\n');
 								chance at least one of the top 3 is discounted.{' '}
 							</>
 						)}
-						Robots discounted fewer than 2 times are excluded, as they
-						have no established cadence to predict from.
+						Newly released robots are included, counting from their release.
 					</Fragment>
 				</PredictionList>
 

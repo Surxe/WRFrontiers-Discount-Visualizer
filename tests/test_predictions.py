@@ -7,12 +7,17 @@ import unittest
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'backend'))
 
 from build_predictions import (
+    DiscountRateModel,
+    _bot_state,
     _rank_pool,
     _calibrate,
     _pool_tied_odds,
     period_actuals,
     _grade_pool,
     BOTS_HEADLINE_MIN_HITS,
+    MIN_PRIOR_WEEKS,
+    STAGE_DISCOUNT,
+    STAGE_RELEASE,
 )
 
 DATA_DIR = os.path.join(
@@ -22,70 +27,103 @@ PREDICTIONS_JSON = os.path.join(DATA_DIR, 'predictions.json')
 HISTORY_INDEX_JSON = os.path.join(DATA_DIR, 'predictions_history', 'index.json')
 
 
+class TestBotState(unittest.TestCase):
+    def test_waits_from_last_prior_discount(self):
+        self.assertEqual(_bot_state([0, 3], 5, None), (STAGE_DISCOUNT, 2))
+
+    def test_discount_in_the_week_itself_is_not_prior(self):
+        self.assertEqual(_bot_state([0, 5], 5, None), (STAGE_DISCOUNT, 5))
+
+    def test_never_discounted_waits_from_release(self):
+        self.assertEqual(_bot_state([], 10, 4), (STAGE_RELEASE, 6))
+
+    def test_not_released_yet_is_none(self):
+        self.assertIsNone(_bot_state([], 4, 4))
+        self.assertIsNone(_bot_state([], 3, 4))
+
+    def test_early_access_bot_anchors_at_origin(self):
+        self.assertEqual(_bot_state([], 3, None), (STAGE_RELEASE, 3))
+
+
+class TestDiscountRateModel(unittest.TestCase):
+    def test_empty_model_is_the_prior(self):
+        self.assertAlmostEqual(DiscountRateModel().rate(STAGE_DISCOUNT, 10), 0.1)
+
+    def test_rate_counts_hits_over_basis_in_window(self):
+        m = DiscountRateModel()
+        # 'a' waits 2 at week 2 and is discounted; 'b' waits 2 and is not.
+        pool = {'a': [0, 2], 'b': [0]}
+        m.observe(pool, {}, 2, {'a'})
+        # 1 hit / 2 basis at wait 2 (stage borrows nothing: release stage empty,
+        # but basis < RATE_MIN_BASIS pulls in the empty other stage -> same).
+        self.assertAlmostEqual(m.rate(STAGE_DISCOUNT, 2), (1 + 1) / (2 + 10))
+
+    def test_unreleased_bots_are_not_observed(self):
+        m = DiscountRateModel()
+        m.observe({'n': []}, {'n': 5}, 3, set())
+        self.assertEqual(m.basis, {})
+
+
 class TestRankPool(unittest.TestCase):
-    def test_ranks_by_wsd_and_excludes_thin_history(self):
-        pool = {
-            'a': [0, 3],      # 2 priors -> wsd 5-3 = 2
-            'b': [1],         # only 1 prior -> excluded (no established cadence)
-            'c': [2, 4],      # 2 priors -> wsd 5-4 = 1
-        }
-        ranking = _rank_pool(pool, as_of_week=5)
-        self.assertEqual(ranking, ['a', 'c'])
-        self.assertNotIn('b', ranking)
+    def test_new_bot_is_ranked_from_release(self):
+        pool = {'old': [0, 3], 'new': []}
+        ranking = _rank_pool(pool, 9, {'new': 1}, DiscountRateModel())
+        # Empty model ties every rate, so the longer wait wins: new waits 8.
+        self.assertEqual([c['id'] for c in ranking], ['new', 'old'])
+        self.assertEqual(ranking[0]['stage'], STAGE_RELEASE)
 
-    def test_only_counts_discounts_strictly_before(self):
-        # A discount exactly at as_of_week must not count as prior history, so
-        # 'b' has only one qualifying prior and is excluded.
-        pool = {'a': [0, 3], 'b': [0, 5]}
-        self.assertEqual(_rank_pool(pool, as_of_week=5), ['a'])
+    def test_unreleased_bot_is_excluded(self):
+        pool = {'old': [0, 3], 'future': []}
+        ranking = _rank_pool(pool, 5, {'future': 7}, DiscountRateModel())
+        self.assertEqual([c['id'] for c in ranking], ['old'])
 
-    def test_min_history_is_configurable(self):
-        pool = {'a': [1], 'b': [0, 2]}
-        self.assertEqual(_rank_pool(pool, as_of_week=3, min_history=1), ['a', 'b'])
+    def test_rate_outranks_raw_wait(self):
+        """A bot far past the usual cycle ranks below one at a historically
+        productive wait -- the Bulgasari case the old most-overdue rule missed."""
+        m = DiscountRateModel()
+        m.hits[(STAGE_DISCOUNT, 10)] = 8
+        m.basis[(STAGE_DISCOUNT, 10)] = 10
+        m.basis[(STAGE_DISCOUNT, 30)] = 10
+        pool = {'stale': [0], 'due': [20]}
+        ranking = _rank_pool(pool, 30, {}, m)
+        self.assertEqual([c['id'] for c in ranking], ['due', 'stale'])
 
 
 class TestCalibrate(unittest.TestCase):
-    def test_matches_hand_computed_scenario(self):
-        pool = {
-            'a': [0, 2, 4, 6],
-            'b': [0, 3, 6],
-            'c': [1],
-        }
-        # (week_number, discounted set) chronologically ascending.
-        period_actuals = [
-            (0, {'a', 'b'}),
-            (1, {'c'}),
-            (2, {'a'}),
-            (3, {'b'}),
-            (4, {'a'}),
-            (6, {'a', 'b'}),
-        ]
-        # With MIN_HISTORY=2, only weeks 4 and 6 are scorable (two eligible bots):
-        #   wk4: rank [a(wsd2), b(wsd1)], actual {a} -> pos1 hit
-        #   wk6: rank [b(wsd3), a(wsd2)], actual {a,b} -> both slots hit
-        result = _calibrate(pool, period_actuals, top_n=2)
-
-        self.assertEqual(result['scored_weeks'], 2)
-        self.assertEqual(result['per_position'], [1.0, 0.5])
-        self.assertEqual(result['precision'], 0.75)
-        self.assertEqual(result['at_least_one'], {'1': 1.0, '2': 1.0})
-
-    def test_at_least_one_is_non_decreasing_in_k(self):
-        pool = {
-            'a': [0, 2, 4, 6, 8],
-            'b': [0, 3, 6],
-            'c': [1, 5],
-            'd': [2, 7],
-        }
-        period_actuals = []
+    def _history(self, pool):
         by_week = {}
         for bot, weeks in pool.items():
             for w in weeks:
                 by_week.setdefault(w, set()).add(bot)
-        period_actuals = sorted(by_week.items())
+        return sorted(by_week.items())
 
-        result = _calibrate(pool, period_actuals, top_n=3)
-        vals = [result['at_least_one'][str(k)] for k in (1, 2, 3)]
+    def test_skips_weeks_without_enough_prior_history(self):
+        pool = {'a': list(range(0, 20, 2)), 'b': list(range(1, 20, 2))}
+        pa = self._history(pool)
+        calib, model = _calibrate(pool, pa, top_n=2, release_weeks={})
+        self.assertEqual(calib['scored_weeks'], len(pa) - MIN_PRIOR_WEEKS)
+        # The returned model has observed every period.
+        # No release dates -> both bots exist every period.
+        self.assertEqual(sum(model.basis.values()), 2 * len(pa))
+
+    def test_new_bot_discount_is_a_target(self):
+        """A week where only a freshly released bot was discounted must count as
+        a pool-discount week (it used to be dropped from grading altogether)."""
+        pool = {'a': list(range(0, 17, 2)), 'b': list(range(1, 17, 2)), 'n': [18]}
+        pa = self._history(pool)
+        calib, _ = _calibrate(pool, pa, top_n=1, release_weeks={'n': 15})
+        self.assertEqual(pa[-1], (18, {'n'}))
+        self.assertEqual(calib['any_weeks'], calib['scored_weeks'])
+
+    def test_at_least_one_is_non_decreasing_in_k(self):
+        pool = {
+            'a': [0, 2, 4, 6, 8, 10, 12, 14],
+            'b': [0, 3, 6, 9, 12],
+            'c': [1, 5, 9, 13],
+            'd': [2, 7, 11, 15],
+        }
+        calib, _ = _calibrate(pool, self._history(pool), top_n=3, release_weeks={})
+        vals = [calib['at_least_one'][str(k)] for k in (1, 2, 3)]
         self.assertTrue(all(vals[i] <= vals[i + 1] for i in range(len(vals) - 1)))
 
 
@@ -133,7 +171,11 @@ class TestGeneratedPredictions(unittest.TestCase):
         for bot in d['bots'] + d['titans']:
             self.assertGreaterEqual(bot['likelihood_pct'], 0)
             self.assertLessEqual(bot['likelihood_pct'], 100)
-            self.assertGreaterEqual(bot['weeks_since_discount'], 0)
+            # Exactly one wait is set: since last discount, or since release.
+            waits = [bot['weeks_since_discount'], bot['weeks_since_release']]
+            self.assertEqual(sum(w is not None for w in waits), 1)
+            self.assertGreater(next(w for w in waits if w is not None), 0)
+            self.assertGreater(bot['historical_rate_pct'], 0)
 
     def test_lists_sorted_by_likelihood_desc(self):
         for key in ('bots', 'titans'):
@@ -169,16 +211,16 @@ class TestGeneratedPredictions(unittest.TestCase):
             self.assertAlmostEqual(acc['precision'], expected, places=3)
 
     def test_tied_bots_share_pooled_odds(self):
-        """Robots tied on weeks-since-discount must show identical odds -- an
+        """Robots tied on historical discount rate must show identical odds -- an
         arbitrary tiebreak may not open a likelihood gap between equals."""
         for key in ('bots', 'titans'):
-            by_wait = {}
+            by_rate = {}
             for b in self.data[key]:
-                by_wait.setdefault(b['weeks_since_discount'], []).append(b['likelihood_pct'])
-            for wait, pcts in by_wait.items():
+                by_rate.setdefault(b['historical_rate_pct'], []).append(b['likelihood_pct'])
+            for rate, pcts in by_rate.items():
                 self.assertEqual(
                     len(set(pcts)), 1,
-                    f"{key} tied at wsd={wait} show differing odds {pcts}",
+                    f"{key} tied at rate={rate} show differing odds {pcts}",
                 )
 
     def test_methodology_example_reproduces_top_card(self):
@@ -195,18 +237,19 @@ class TestGeneratedPredictions(unittest.TestCase):
         # Example is the top displayed robot.
         self.assertEqual(ex['bot_id'], top['id'])
         self.assertEqual(ex['likelihood_pct'], top['likelihood_pct'])
-        self.assertEqual(ex['overdue_rank'], top['overdue_rank'])
+        self.assertEqual(ex['rank'], top['rank'])
+        self.assertEqual(ex['historical_rate_pct'], top['historical_rate_pct'])
         per_pos = self.data['accuracy']['bots']['per_position']
         scored = self.data['accuracy']['bots']['scored_weeks']
         self.assertEqual(m['scored_weeks'], scored)
         # The example's own-slot fields always describe its overdue-rank slot.
-        slot_rate = per_pos[ex['overdue_rank'] - 1]
+        slot_rate = per_pos[ex['rank'] - 1]
         self.assertAlmostEqual(ex['slot_hit_rate'], slot_rate, places=4)
         self.assertEqual(ex['slot_hits'], round(slot_rate * scored))
         # The shown % is the mean of the tied slots' rates (a lone card is a
         # one-slot tie group, so this reduces to that slot's rate).
         tie_rates = [per_pos[r - 1] for r in ex['tie_ranks']]
-        self.assertIn(ex['overdue_rank'], ex['tie_ranks'])
+        self.assertIn(ex['rank'], ex['tie_ranks'])
         self.assertEqual(ex['pooled'], len(ex['tie_ranks']) > 1)
         expected_pct = round(sum(tie_rates) / len(tie_rates) * 100, 1)
         self.assertAlmostEqual(ex['likelihood_pct'], expected_pct, places=1)
@@ -232,9 +275,9 @@ class TestPeriodActualsCutoff(unittest.TestCase):
 class TestGradePool(unittest.TestCase):
     def test_marks_hits_and_headline(self):
         listed = [
-            {'id': 'x', 'overdue_rank': 2},  # display order != rank order
-            {'id': 'y', 'overdue_rank': 1},
-            {'id': 'z', 'overdue_rank': 4},
+            {'id': 'x', 'rank': 2},  # display order != rank order
+            {'id': 'y', 'rank': 1},
+            {'id': 'z', 'rank': 4},
         ]
         result = _grade_pool(listed, {'x', 'z'}, headline_k=3)
         self.assertEqual([p['hit'] for p in listed], [True, False, True])
@@ -246,8 +289,8 @@ class TestGradePool(unittest.TestCase):
 
     def test_top3_ignores_picks_below_rank_3(self):
         listed = [
-            {'id': 'y', 'overdue_rank': 1},
-            {'id': 'z', 'overdue_rank': 5},
+            {'id': 'y', 'rank': 1},
+            {'id': 'z', 'rank': 5},
         ]
         # Only the rank-5 pick was discounted -> not a top-3 hit.
         result = _grade_pool(listed, {'z'}, headline_k=3)

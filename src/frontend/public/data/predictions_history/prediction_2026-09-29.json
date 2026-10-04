@@ -19,7 +19,7 @@
     "bots": true,
     "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
     {
       "ref": "OBJID_VirtualBot::typhon",
@@ -27,10 +27,12 @@
       "name": "Typhon",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyphon",
       "items_anchor": "bot-typhon",
-      "overdue_rank": 2,
+      "rank": 1,
       "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 34.8,
       "avg_interval": 12.6,
-      "likelihood_pct": 45.8,
+      "likelihood_pct": 50.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_Shocktrain.0",
@@ -62,10 +64,12 @@
       "name": "Ravana",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRavana",
       "items_anchor": "bot-ravana",
-      "overdue_rank": 3,
+      "rank": 2,
       "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 34.8,
       "avg_interval": 12.6,
-      "likelihood_pct": 45.8,
+      "likelihood_pct": 50.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_StickyGun.0",
@@ -97,10 +101,12 @@
       "name": "Loki",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLoki",
       "items_anchor": "bot-loki",
-      "overdue_rank": 4,
+      "rank": 3,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 26.2,
       "avg_interval": 9.8,
-      "likelihood_pct": 20.8,
+      "likelihood_pct": 33.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Glory.0",
@@ -132,10 +138,12 @@
       "name": "Anansi",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
       "items_anchor": "bot-anansi",
-      "overdue_rank": 5,
+      "rank": 4,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 26.2,
       "avg_interval": 13.5,
-      "likelihood_pct": 20.8,
+      "likelihood_pct": 33.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_MLx2.0",
@@ -162,35 +170,37 @@
       "hit": false
     },
     {
-      "ref": "OBJID_VirtualBot::bulgasari",
-      "id": "bulgasari",
-      "name": "Bulgasari",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
-      "items_anchor": "bot-bulgasari",
-      "overdue_rank": 1,
-      "weeks_since_discount": 30,
-      "avg_interval": 10.0,
-      "likelihood_pct": 18.8,
+      "ref": "OBJID_VirtualBot::helios",
+      "id": "helios",
+      "name": "Helios",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHelios",
+      "items_anchor": "bot-helios",
+      "rank": 5,
+      "weeks_since_discount": null,
+      "weeks_since_release": 8,
+      "historical_rate_pct": 21.2,
+      "avg_interval": null,
+      "likelihood_pct": 31.2,
       "associated": [
         {
-          "id": "DA_Module_Weapon_Shredder.0",
-          "name": "Shredder",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shredder",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "light-weapon"
+          "id": "DA_Module_Weapon_Pyre.0",
+          "name": "Pyre",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Pyre",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "heavy-weapon"
         },
         {
-          "id": "DA_Module_Ability_ArmorShield.1",
-          "name": "Emergency Shield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
+          "id": "DA_Module_Ability_DashBlinkedVisible.1",
+          "name": "Blink",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_DashBlinkedVisible",
           "rarity": "DA_ModuleRarity_Common.0",
           "group": "supply-gear"
         },
         {
-          "id": "DA_Module_Ability_InfiniteAmmo.1",
-          "name": "Infinite Ammo",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
-          "rarity": "DA_ModuleRarity_Rare.0",
+          "id": "DA_Module_Ability_IronVeil.1",
+          "name": "Iron Veil",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_IronVeil",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
       ],
@@ -199,28 +209,32 @@
   ],
   "titans": [
     {
-      "ref": "OBJID_VirtualBot::matriarch",
-      "id": "matriarch",
-      "name": "Matriarch",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
-      "items_anchor": "bot-matriarch",
-      "overdue_rank": 1,
-      "weeks_since_discount": 20,
-      "avg_interval": 11.7,
-      "likelihood_pct": 53.8,
-      "associated": [],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::alpha",
       "id": "alpha",
       "name": "Alpha",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
       "items_anchor": "bot-alpha",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 9,
+      "weeks_since_release": null,
+      "historical_rate_pct": 6.7,
       "avg_interval": 13.5,
-      "likelihood_pct": 38.5,
+      "likelihood_pct": 47.4,
+      "associated": [],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::matriarch",
+      "id": "matriarch",
+      "name": "Matriarch",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
+      "items_anchor": "bot-matriarch",
+      "rank": 1,
+      "weeks_since_discount": 20,
+      "weeks_since_release": null,
+      "historical_rate_pct": 12.5,
+      "avg_interval": 11.7,
+      "likelihood_pct": 42.1,
       "associated": [],
       "hit": false
     }

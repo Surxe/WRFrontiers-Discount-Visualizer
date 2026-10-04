@@ -19,53 +19,20 @@
     "bots": true,
     "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
-    {
-      "ref": "OBJID_VirtualBot::fenrir",
-      "id": "fenrir",
-      "name": "Fenrir",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFenrir",
-      "items_anchor": "bot-fenrir",
-      "overdue_rank": 1,
-      "weeks_since_discount": 12,
-      "avg_interval": 8.6,
-      "likelihood_pct": 17.6,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Fowler.0",
-          "name": "Fowler",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Fowler",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_Regeneration.1",
-          "name": "Quick Repair",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_ArmorRepairing2",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_CounterAttack.1",
-          "name": "Reflector",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": true
-    },
     {
       "ref": "OBJID_VirtualBot::varangian",
       "id": "varangian",
       "name": "Varangian",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotVarangian",
       "items_anchor": "bot-varangian",
-      "overdue_rank": 2,
+      "rank": 3,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 20.3,
       "avg_interval": 11.2,
-      "likelihood_pct": 17.6,
+      "likelihood_pct": 35.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Orkan.0",
@@ -97,10 +64,12 @@
       "name": "Orochi",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotOrochi",
       "items_anchor": "bot-orochi",
-      "overdue_rank": 3,
+      "rank": 4,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 20.3,
       "avg_interval": 12.7,
-      "likelihood_pct": 17.6,
+      "likelihood_pct": 35.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Zeus.0",
@@ -132,10 +101,12 @@
       "name": "Lancelot",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLancelot",
       "items_anchor": "bot-lancelot",
-      "overdue_rank": 4,
+      "rank": 5,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 20.3,
       "avg_interval": 9.7,
-      "likelihood_pct": 17.6,
+      "likelihood_pct": 35.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Punisher.0",
@@ -162,43 +133,75 @@
       "hit": true
     },
     {
-      "ref": "OBJID_VirtualBot::siren",
-      "id": "siren",
-      "name": "Siren",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotSiren",
-      "items_anchor": "bot-siren",
-      "overdue_rank": 5,
-      "weeks_since_discount": 10,
-      "avg_interval": 10.4,
-      "likelihood_pct": 17.6,
+      "ref": "OBJID_VirtualBot::mesa",
+      "id": "mesa",
+      "name": "Mesa",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotMesa",
+      "items_anchor": "bot-mesa",
+      "rank": 1,
+      "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 23.4,
+      "avg_interval": 11.3,
+      "likelihood_pct": 26.5,
       "associated": [
         {
-          "id": "DA_Module_Weapon_Trident.0",
-          "name": "Trident",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Trident",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "heavy-weapon"
+          "id": "DA_Module_Weapon_Locust.0",
+          "name": "Locust",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Locust",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
         },
         {
-          "id": "DA_Module_Ability_BlockingField.1",
-          "name": "Energy Wall",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlockingField",
+          "id": "DA_Module_Ability_AmmoGenerator.1",
+          "name": "Ammo Fabricator",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AmmoGenerator",
           "rarity": "DA_ModuleRarity_Common.0",
           "group": "supply-gear"
         },
         {
-          "id": "DA_Module_Ability_Umbrella.1",
-          "name": "Umbrella",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon",
+          "id": "DA_Module_Ability_TensionLink.1",
+          "name": "Gamma Beam",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_TensionLink",
           "rarity": "DA_ModuleRarity_Common.0",
           "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::fenrir",
+      "id": "fenrir",
+      "name": "Fenrir",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFenrir",
+      "items_anchor": "bot-fenrir",
+      "rank": 2,
+      "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 23.4,
+      "avg_interval": 8.6,
+      "likelihood_pct": 26.5,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Fowler.0",
+          "name": "Fowler",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Fowler",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "heavy-weapon"
         },
         {
-          "id": "DA_Module_Weapon_Railgun.0",
-          "name": "Railgun",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Railgun",
+          "id": "DA_Module_Ability_Regeneration.1",
+          "name": "Quick Repair",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_ArmorRepairing2",
           "rarity": "DA_ModuleRarity_Common.0",
-          "group": "light-weapon"
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_CounterAttack.1",
+          "name": "Reflector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
         }
       ],
       "hit": true
@@ -211,23 +214,27 @@
       "name": "Grim",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Grim",
       "items_anchor": "bot-grim",
-      "overdue_rank": 1,
+      "rank": 2,
       "weeks_since_discount": 9,
+      "weeks_since_release": null,
+      "historical_rate_pct": 16.2,
       "avg_interval": 11.6,
-      "likelihood_pct": 66.7,
+      "likelihood_pct": 71.4,
       "associated": [],
       "hit": false
     },
     {
-      "ref": "OBJID_VirtualBot::alpha",
-      "id": "alpha",
-      "name": "Alpha",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
-      "items_anchor": "bot-alpha",
-      "overdue_rank": 2,
-      "weeks_since_discount": 4,
-      "avg_interval": 13.5,
-      "likelihood_pct": 33.3,
+      "ref": "OBJID_VirtualBot::volta",
+      "id": "volta",
+      "name": "Volta",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
+      "items_anchor": "bot-volta",
+      "rank": 1,
+      "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 23.1,
+      "avg_interval": 17.0,
+      "likelihood_pct": 28.6,
       "associated": [],
       "hit": false
     }
@@ -242,10 +249,10 @@
   },
   "result": {
     "bots": {
-      "hits": 3,
+      "hits": 2,
       "listed": 5,
       "eligible_actual": 3,
-      "top_hit": true,
+      "top_hit": false,
       "top3_hit": true,
       "headline_hit": true
     },

@@ -19,7 +19,7 @@
     "bots": true,
     "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
     {
       "ref": "OBJID_VirtualBot::harpy",
@@ -27,10 +27,12 @@
       "name": "Harpy",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHarpy",
       "items_anchor": "bot-harpy",
-      "overdue_rank": 2,
+      "rank": 1,
       "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 32.8,
       "avg_interval": 9.5,
-      "likelihood_pct": 44.7,
+      "likelihood_pct": 36.8,
       "associated": [
         {
           "id": "DA_Module_Weapon_Trebuchet.0",
@@ -64,50 +66,17 @@
       "hit": true
     },
     {
-      "ref": "OBJID_VirtualBot::bulgasari",
-      "id": "bulgasari",
-      "name": "Bulgasari",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
-      "items_anchor": "bot-bulgasari",
-      "overdue_rank": 1,
-      "weeks_since_discount": 20,
-      "avg_interval": 10.0,
-      "likelihood_pct": 23.7,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Shredder.0",
-          "name": "Shredder",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shredder",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_ArmorShield.1",
-          "name": "Emergency Shield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_InfiniteAmmo.1",
-          "name": "Infinite Ammo",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::tyr",
       "id": "tyr",
       "name": "Tyr",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyr",
       "items_anchor": "bot-tyr",
-      "overdue_rank": 3,
+      "rank": 2,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 25.2,
       "avg_interval": 9.8,
-      "likelihood_pct": 22.8,
+      "likelihood_pct": 36.8,
       "associated": [
         {
           "id": "DA_Module_Weapon_Vortex.0",
@@ -139,10 +108,12 @@
       "name": "Siren",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotSiren",
       "items_anchor": "bot-siren",
-      "overdue_rank": 4,
+      "rank": 3,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 25.2,
       "avg_interval": 10.4,
-      "likelihood_pct": 22.8,
+      "likelihood_pct": 36.8,
       "associated": [
         {
           "id": "DA_Module_Weapon_Trident.0",
@@ -181,10 +152,12 @@
       "name": "Fury",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFury",
       "items_anchor": "bot-fury",
-      "overdue_rank": 5,
+      "rank": 4,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 25.2,
       "avg_interval": 10.0,
-      "likelihood_pct": 22.8,
+      "likelihood_pct": 36.8,
       "associated": [
         {
           "id": "DA_Module_Weapon_Pulsar.0",
@@ -209,6 +182,43 @@
         }
       ],
       "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::bulgasari",
+      "id": "bulgasari",
+      "name": "Bulgasari",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
+      "items_anchor": "bot-bulgasari",
+      "rank": 5,
+      "weeks_since_discount": 20,
+      "weeks_since_release": null,
+      "historical_rate_pct": 20.0,
+      "avg_interval": 10.0,
+      "likelihood_pct": 34.2,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Shredder.0",
+          "name": "Shredder",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shredder",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_ArmorShield.1",
+          "name": "Emergency Shield",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_InfiniteAmmo.1",
+          "name": "Infinite Ammo",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
     }
   ],
   "titans": [
@@ -218,10 +228,12 @@
       "name": "Volta",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
       "items_anchor": "bot-volta",
-      "overdue_rank": 1,
+      "rank": 2,
       "weeks_since_discount": 19,
+      "weeks_since_release": null,
+      "historical_rate_pct": 12.5,
       "avg_interval": 17.0,
-      "likelihood_pct": 66.7,
+      "likelihood_pct": 53.3,
       "associated": [],
       "hit": false
     },
@@ -231,10 +243,12 @@
       "name": "Alpha",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
       "items_anchor": "bot-alpha",
-      "overdue_rank": 2,
+      "rank": 1,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 16.4,
       "avg_interval": 13.5,
-      "likelihood_pct": 22.2,
+      "likelihood_pct": 33.3,
       "associated": [],
       "hit": false
     }

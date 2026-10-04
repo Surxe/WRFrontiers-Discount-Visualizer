@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-02T13:47:45.791610+00:00",
+  "generated_at": "2026-10-03T22:34:46.180752-05:00",
   "scoreboard": {
     "window_weeks": 15,
     "bots_scored_weeks": 15,
-    "bots_hits": 11,
-    "bots_rate": 0.7333,
+    "bots_hits": 14,
+    "bots_rate": 0.9333,
     "titans_scored_weeks": 15,
     "titans_hits": 12,
     "titans_rate": 0.8
@@ -66,7 +66,7 @@
         "bots": {
           "hits": 0,
           "listed": 5,
-          "eligible_actual": 2,
+          "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
           "headline_hit": false
@@ -134,7 +134,7 @@
       },
       "result": {
         "bots": {
-          "hits": 2,
+          "hits": 3,
           "listed": 5,
           "eligible_actual": 3,
           "top_hit": true,
@@ -169,12 +169,12 @@
       },
       "result": {
         "bots": {
-          "hits": 1,
+          "hits": 2,
           "listed": 5,
-          "eligible_actual": 1,
+          "eligible_actual": 2,
           "top_hit": false,
           "top3_hit": true,
-          "headline_hit": false
+          "headline_hit": true
         },
         "titans": {
           "hits": 1,
@@ -204,12 +204,12 @@
       },
       "result": {
         "bots": {
-          "hits": 1,
+          "hits": 2,
           "listed": 5,
-          "eligible_actual": 1,
+          "eligible_actual": 3,
           "top_hit": false,
-          "top3_hit": false,
-          "headline_hit": false
+          "top3_hit": true,
+          "headline_hit": true
         },
         "titans": {
           "hits": 0,
@@ -239,9 +239,9 @@
       },
       "result": {
         "bots": {
-          "hits": 2,
+          "hits": 3,
           "listed": 5,
-          "eligible_actual": 2,
+          "eligible_actual": 3,
           "top_hit": true,
           "top3_hit": true,
           "headline_hit": true
@@ -379,12 +379,12 @@
       },
       "result": {
         "bots": {
-          "hits": 1,
+          "hits": 2,
           "listed": 5,
-          "eligible_actual": 1,
-          "top_hit": true,
+          "eligible_actual": 3,
+          "top_hit": false,
           "top3_hit": true,
-          "headline_hit": false
+          "headline_hit": true
         },
         "titans": {
           "hits": 1,
@@ -486,7 +486,7 @@
         "bots": {
           "hits": 2,
           "listed": 5,
-          "eligible_actual": 2,
+          "eligible_actual": 3,
           "top_hit": true,
           "top3_hit": true,
           "headline_hit": true
@@ -556,7 +556,7 @@
         "bots": {
           "hits": 1,
           "listed": 5,
-          "eligible_actual": 1,
+          "eligible_actual": 2,
           "top_hit": true,
           "top3_hit": true,
           "headline_hit": false
@@ -600,7 +600,7 @@
           "hits": 1,
           "listed": 2,
           "eligible_actual": 1,
-          "top_hit": false,
+          "top_hit": true,
           "any_titan": true
         }
       }
@@ -624,12 +624,12 @@
       },
       "result": {
         "bots": {
-          "hits": 1,
+          "hits": 2,
           "listed": 5,
-          "eligible_actual": 1,
+          "eligible_actual": 2,
           "top_hit": true,
           "top3_hit": true,
-          "headline_hit": false
+          "headline_hit": true
         },
         "titans": {
           "hits": 0,
@@ -662,7 +662,7 @@
           "hits": 3,
           "listed": 5,
           "eligible_actual": 3,
-          "top_hit": true,
+          "top_hit": false,
           "top3_hit": true,
           "headline_hit": true
         },
@@ -729,9 +729,9 @@
       },
       "result": {
         "bots": {
-          "hits": 2,
+          "hits": 3,
           "listed": 5,
-          "eligible_actual": 2,
+          "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": true,
           "headline_hit": true
@@ -740,7 +740,7 @@
           "hits": 1,
           "listed": 2,
           "eligible_actual": 1,
-          "top_hit": true,
+          "top_hit": false,
           "any_titan": true
         }
       }
@@ -764,12 +764,12 @@
       },
       "result": {
         "bots": {
-          "hits": 1,
+          "hits": 2,
           "listed": 5,
-          "eligible_actual": 1,
+          "eligible_actual": 2,
           "top_hit": false,
           "top3_hit": true,
-          "headline_hit": false
+          "headline_hit": true
         },
         "titans": {
           "hits": 0,
@@ -802,7 +802,7 @@
           "hits": 3,
           "listed": 5,
           "eligible_actual": 3,
-          "top_hit": true,
+          "top_hit": false,
           "top3_hit": true,
           "headline_hit": true
         },
@@ -810,7 +810,7 @@
           "hits": 1,
           "listed": 2,
           "eligible_actual": 1,
-          "top_hit": true,
+          "top_hit": false,
           "any_titan": true
         }
       }
@@ -872,7 +872,7 @@
           "hits": 2,
           "listed": 5,
           "eligible_actual": 3,
-          "top_hit": true,
+          "top_hit": false,
           "top3_hit": true,
           "headline_hit": true
         },
@@ -904,10 +904,10 @@
       },
       "result": {
         "bots": {
-          "hits": 2,
+          "hits": 3,
           "listed": 5,
-          "eligible_actual": 2,
-          "top_hit": true,
+          "eligible_actual": 3,
+          "top_hit": false,
           "top3_hit": true,
           "headline_hit": true
         },
@@ -941,8 +941,8 @@
         "bots": {
           "hits": 2,
           "listed": 5,
-          "eligible_actual": 2,
-          "top_hit": true,
+          "eligible_actual": 3,
+          "top_hit": false,
           "top3_hit": true,
           "headline_hit": true
         },
@@ -976,7 +976,7 @@
         "bots": {
           "hits": 1,
           "listed": 5,
-          "eligible_actual": 2,
+          "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
           "headline_hit": false
@@ -1055,7 +1055,7 @@
           "hits": 1,
           "listed": 2,
           "eligible_actual": 1,
-          "top_hit": true,
+          "top_hit": false,
           "any_titan": true
         }
       }
@@ -1079,11 +1079,11 @@
       },
       "result": {
         "bots": {
-          "hits": 0,
+          "hits": 1,
           "listed": 5,
-          "eligible_actual": 1,
+          "eligible_actual": 2,
           "top_hit": false,
-          "top3_hit": false,
+          "top3_hit": true,
           "headline_hit": false
         },
         "titans": {
@@ -1117,15 +1117,15 @@
           "hits": 2,
           "listed": 5,
           "eligible_actual": 2,
-          "top_hit": true,
+          "top_hit": false,
           "top3_hit": true,
           "headline_hit": true
         },
         "titans": {
-          "hits": 0,
+          "hits": 1,
           "listed": 2,
-          "eligible_actual": 0,
-          "top_hit": false,
+          "eligible_actual": 1,
+          "top_hit": true,
           "any_titan": true
         }
       }
@@ -1149,17 +1149,17 @@
       },
       "result": {
         "bots": {
-          "hits": 0,
+          "hits": 1,
           "listed": 5,
-          "eligible_actual": 4,
+          "eligible_actual": 5,
           "top_hit": false,
-          "top3_hit": false,
+          "top3_hit": true,
           "headline_hit": false
         },
         "titans": {
           "hits": 0,
           "listed": 2,
-          "eligible_actual": 0,
+          "eligible_actual": 1,
           "top_hit": false,
           "any_titan": true
         }
@@ -1184,10 +1184,10 @@
       },
       "result": {
         "bots": {
-          "hits": 3,
+          "hits": 2,
           "listed": 5,
           "eligible_actual": 3,
-          "top_hit": true,
+          "top_hit": false,
           "top3_hit": true,
           "headline_hit": true
         },
@@ -1219,12 +1219,12 @@
       },
       "result": {
         "bots": {
-          "hits": 0,
+          "hits": 2,
           "listed": 5,
           "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
-          "headline_hit": false
+          "headline_hit": true
         },
         "titans": {
           "hits": 0,
@@ -1262,10 +1262,10 @@
           "headline_hit": false
         },
         "titans": {
-          "hits": 0,
+          "hits": 1,
           "listed": 2,
-          "eligible_actual": 0,
-          "top_hit": false,
+          "eligible_actual": 1,
+          "top_hit": true,
           "any_titan": true
         }
       }
@@ -1300,7 +1300,7 @@
           "hits": 1,
           "listed": 2,
           "eligible_actual": 1,
-          "top_hit": true,
+          "top_hit": false,
           "any_titan": true
         }
       }
@@ -1324,18 +1324,18 @@
       },
       "result": {
         "bots": {
-          "hits": 0,
+          "hits": 3,
           "listed": 5,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
-          "top3_hit": false,
-          "headline_hit": false
+          "top3_hit": true,
+          "headline_hit": true
         },
         "titans": {
           "hits": 1,
           "listed": 2,
           "eligible_actual": 1,
-          "top_hit": false,
+          "top_hit": true,
           "any_titan": true
         }
       }
@@ -1359,11 +1359,11 @@
       },
       "result": {
         "bots": {
-          "hits": 0,
+          "hits": 1,
           "listed": 5,
-          "eligible_actual": 1,
+          "eligible_actual": 3,
           "top_hit": false,
-          "top3_hit": false,
+          "top3_hit": true,
           "headline_hit": false
         },
         "titans": {
@@ -1394,12 +1394,12 @@
       },
       "result": {
         "bots": {
-          "hits": 2,
+          "hits": 1,
           "listed": 5,
-          "eligible_actual": 2,
-          "top_hit": false,
-          "top3_hit": true,
-          "headline_hit": true
+          "eligible_actual": 3,
+          "top_hit": true,
+          "top3_hit": false,
+          "headline_hit": false
         },
         "titans": {
           "hits": 0,
@@ -1429,12 +1429,12 @@
       },
       "result": {
         "bots": {
-          "hits": 2,
+          "hits": 1,
           "listed": 5,
-          "eligible_actual": 2,
-          "top_hit": false,
-          "top3_hit": true,
-          "headline_hit": true
+          "eligible_actual": 3,
+          "top_hit": true,
+          "top3_hit": false,
+          "headline_hit": false
         },
         "titans": {
           "hits": 0,
@@ -1464,12 +1464,12 @@
       },
       "result": {
         "bots": {
-          "hits": 2,
+          "hits": 0,
           "listed": 5,
           "eligible_actual": 3,
-          "top_hit": true,
+          "top_hit": false,
           "top3_hit": false,
-          "headline_hit": true
+          "headline_hit": false
         },
         "titans": {
           "hits": 0,
@@ -1499,18 +1499,18 @@
       },
       "result": {
         "bots": {
-          "hits": 2,
+          "hits": 1,
           "listed": 5,
-          "eligible_actual": 2,
+          "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
-          "headline_hit": true
+          "headline_hit": false
         },
         "titans": {
           "hits": 1,
           "listed": 2,
           "eligible_actual": 1,
-          "top_hit": false,
+          "top_hit": true,
           "any_titan": true
         }
       }
@@ -1534,12 +1534,12 @@
       },
       "result": {
         "bots": {
-          "hits": 2,
+          "hits": 0,
           "listed": 5,
           "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
-          "headline_hit": true
+          "headline_hit": false
         },
         "titans": {
           "hits": 0,
@@ -1572,14 +1572,14 @@
           "hits": 2,
           "listed": 5,
           "eligible_actual": 3,
-          "top_hit": false,
+          "top_hit": true,
           "top3_hit": true,
           "headline_hit": true
         },
         "titans": {
-          "hits": 0,
+          "hits": 1,
           "listed": 2,
-          "eligible_actual": 0,
+          "eligible_actual": 1,
           "top_hit": false,
           "any_titan": true
         }
@@ -1604,12 +1604,12 @@
       },
       "result": {
         "bots": {
-          "hits": 0,
+          "hits": 2,
           "listed": 5,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
-          "top3_hit": false,
-          "headline_hit": false
+          "top3_hit": true,
+          "headline_hit": true
         },
         "titans": {
           "hits": 0,
@@ -1639,17 +1639,17 @@
       },
       "result": {
         "bots": {
-          "hits": 0,
+          "hits": 2,
           "listed": 5,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
-          "top3_hit": false,
-          "headline_hit": false
+          "top3_hit": true,
+          "headline_hit": true
         },
         "titans": {
-          "hits": 0,
+          "hits": 1,
           "listed": 2,
-          "eligible_actual": 0,
+          "eligible_actual": 1,
           "top_hit": false,
           "any_titan": true
         }
@@ -1674,12 +1674,12 @@
       },
       "result": {
         "bots": {
-          "hits": 1,
+          "hits": 2,
           "listed": 5,
-          "eligible_actual": 1,
-          "top_hit": true,
+          "eligible_actual": 3,
+          "top_hit": false,
           "top3_hit": true,
-          "headline_hit": false
+          "headline_hit": true
         },
         "titans": {
           "hits": 0,
@@ -1709,12 +1709,12 @@
       },
       "result": {
         "bots": {
-          "hits": 0,
+          "hits": 3,
           "listed": 5,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
-          "top3_hit": false,
-          "headline_hit": false
+          "top3_hit": true,
+          "headline_hit": true
         },
         "titans": {
           "hits": 0,
@@ -1740,21 +1740,21 @@
       "graded": true,
       "insufficient_history": {
         "bots": false,
-        "titans": true
+        "titans": false
       },
       "result": {
         "bots": {
-          "hits": 0,
+          "hits": 2,
           "listed": 5,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
-          "top3_hit": false,
-          "headline_hit": false
+          "top3_hit": true,
+          "headline_hit": true
         },
         "titans": {
-          "hits": 0,
-          "listed": 0,
-          "eligible_actual": 0,
+          "hits": 1,
+          "listed": 2,
+          "eligible_actual": 1,
           "top_hit": false,
           "any_titan": true
         }
@@ -1775,20 +1775,20 @@
       "graded": true,
       "insufficient_history": {
         "bots": false,
-        "titans": true
+        "titans": false
       },
       "result": {
         "bots": {
-          "hits": 0,
+          "hits": 3,
           "listed": 5,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
-          "top3_hit": false,
-          "headline_hit": false
+          "top3_hit": true,
+          "headline_hit": true
         },
         "titans": {
           "hits": 0,
-          "listed": 0,
+          "listed": 2,
           "eligible_actual": 0,
           "top_hit": false,
           "any_titan": false
@@ -1816,7 +1816,7 @@
         "bots": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
           "headline_hit": false
@@ -1824,7 +1824,7 @@
         "titans": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 1,
           "top_hit": false,
           "any_titan": true
         }
@@ -1851,7 +1851,7 @@
         "bots": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
           "headline_hit": false
@@ -1886,7 +1886,7 @@
         "bots": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
           "headline_hit": false
@@ -1894,7 +1894,7 @@
         "titans": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 1,
           "top_hit": false,
           "any_titan": true
         }
@@ -1921,7 +1921,7 @@
         "bots": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
           "headline_hit": false
@@ -1956,7 +1956,7 @@
         "bots": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
           "headline_hit": false
@@ -1964,7 +1964,7 @@
         "titans": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 1,
           "top_hit": false,
           "any_titan": true
         }
@@ -1991,7 +1991,7 @@
         "bots": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 3,
           "top_hit": false,
           "top3_hit": false,
           "headline_hit": false
@@ -2026,7 +2026,7 @@
         "bots": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 5,
           "top_hit": false,
           "top3_hit": false,
           "headline_hit": false
@@ -2034,7 +2034,7 @@
         "titans": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 1,
           "top_hit": false,
           "any_titan": true
         }
@@ -2061,7 +2061,7 @@
         "bots": {
           "hits": 0,
           "listed": 0,
-          "eligible_actual": 0,
+          "eligible_actual": 2,
           "top_hit": false,
           "top3_hit": false,
           "headline_hit": false

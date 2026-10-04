@@ -19,7 +19,7 @@
     "bots": true,
     "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
     {
       "ref": "OBJID_VirtualBot::bulgasari",
@@ -27,10 +27,12 @@
       "name": "Bulgasari",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
       "items_anchor": "bot-bulgasari",
-      "overdue_rank": 1,
+      "rank": 1,
       "weeks_since_discount": 13,
+      "weeks_since_release": null,
+      "historical_rate_pct": 34.7,
       "avg_interval": 10.0,
-      "likelihood_pct": 29.0,
+      "likelihood_pct": 38.7,
       "associated": [
         {
           "id": "DA_Module_Weapon_Shredder.0",
@@ -62,10 +64,12 @@
       "name": "Scorpion",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotScorpion",
       "items_anchor": "bot-scorpion",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 18.1,
       "avg_interval": 10.6,
-      "likelihood_pct": 27.4,
+      "likelihood_pct": 35.5,
       "associated": [
         {
           "id": "DA_Module_Weapon_Tusk.0",
@@ -97,10 +101,12 @@
       "name": "Lancelot",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLancelot",
       "items_anchor": "bot-lancelot",
-      "overdue_rank": 3,
+      "rank": 3,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 18.1,
       "avg_interval": 9.7,
-      "likelihood_pct": 27.4,
+      "likelihood_pct": 35.5,
       "associated": [
         {
           "id": "DA_Module_Weapon_Punisher.0",
@@ -132,10 +138,12 @@
       "name": "Raven",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRaven",
       "items_anchor": "bot-raven",
-      "overdue_rank": 4,
+      "rank": 5,
       "weeks_since_discount": 9,
+      "weeks_since_release": null,
+      "historical_rate_pct": 15.7,
       "avg_interval": 8.5,
-      "likelihood_pct": 16.1,
+      "likelihood_pct": 32.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Gozer.0",
@@ -162,35 +170,37 @@
       "hit": true
     },
     {
-      "ref": "OBJID_VirtualBot::phantom",
-      "id": "phantom",
-      "name": "Phantom",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPhantom",
-      "items_anchor": "bot-phantom",
-      "overdue_rank": 5,
-      "weeks_since_discount": 9,
-      "avg_interval": 9.5,
-      "likelihood_pct": 16.1,
+      "ref": "OBJID_VirtualBot::garuda",
+      "id": "garuda",
+      "name": "Garuda",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotGaruda",
+      "items_anchor": "bot-garuda",
+      "rank": 4,
+      "weeks_since_discount": null,
+      "weeks_since_release": 7,
+      "historical_rate_pct": 16.9,
+      "avg_interval": 11.0,
+      "likelihood_pct": 25.8,
       "associated": [
         {
-          "id": "DA_Module_Weapon_Toxin.0",
-          "name": "Lighter",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Toxin",
-          "rarity": "DA_ModuleRarity_Common.0",
+          "id": "DA_Module_Weapon_Orkan.0",
+          "name": "Orkan",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Orkan",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "light-weapon"
         },
         {
-          "id": "DA_Module_Ability_BlockingField.1",
-          "name": "Energy Wall",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlockingField",
+          "id": "DA_Module_Ability_DashBlinkedVisible.1",
+          "name": "Blink",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_DashBlinkedVisible",
           "rarity": "DA_ModuleRarity_Common.0",
           "group": "supply-gear"
         },
         {
-          "id": "DA_Module_Ability_MineField.1",
-          "name": "Minefield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_MineField",
-          "rarity": "DA_ModuleRarity_Common.0",
+          "id": "DA_Module_Ability_IronVeil.1",
+          "name": "Iron Veil",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_IronVeil",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
       ],
@@ -199,28 +209,32 @@
   ],
   "titans": [
     {
-      "ref": "OBJID_VirtualBot::volta",
-      "id": "volta",
-      "name": "Volta",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
-      "items_anchor": "bot-volta",
-      "overdue_rank": 1,
-      "weeks_since_discount": 12,
-      "avg_interval": 17.0,
-      "likelihood_pct": 85.7,
-      "associated": [],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::grim",
       "id": "grim",
       "name": "Grim",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Grim",
       "items_anchor": "bot-grim",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 11.9,
       "avg_interval": 11.6,
-      "likelihood_pct": 14.3,
+      "likelihood_pct": 53.8,
+      "associated": [],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::volta",
+      "id": "volta",
+      "name": "Volta",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
+      "items_anchor": "bot-volta",
+      "rank": 1,
+      "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 23.3,
+      "avg_interval": 17.0,
+      "likelihood_pct": 38.5,
       "associated": [],
       "hit": false
     }
