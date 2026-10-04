@@ -19,7 +19,7 @@
     "bots": true,
     "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
     {
       "ref": "OBJID_VirtualBot::siren",
@@ -27,10 +27,12 @@
       "name": "Siren",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotSiren",
       "items_anchor": "bot-siren",
-      "overdue_rank": 2,
+      "rank": 1,
       "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 33.2,
       "avg_interval": 10.4,
-      "likelihood_pct": 39.7,
+      "likelihood_pct": 44.9,
       "associated": [
         {
           "id": "DA_Module_Weapon_Trident.0",
@@ -69,10 +71,12 @@
       "name": "Fury",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFury",
       "items_anchor": "bot-fury",
-      "overdue_rank": 3,
+      "rank": 2,
       "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 33.2,
       "avg_interval": 10.0,
-      "likelihood_pct": 39.7,
+      "likelihood_pct": 44.9,
       "associated": [
         {
           "id": "DA_Module_Weapon_Pulsar.0",
@@ -104,10 +108,12 @@
       "name": "Bulgasari",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
       "items_anchor": "bot-bulgasari",
-      "overdue_rank": 1,
+      "rank": 3,
       "weeks_since_discount": 21,
+      "weeks_since_release": null,
+      "historical_rate_pct": 28.6,
       "avg_interval": 10.0,
-      "likelihood_pct": 23.1,
+      "likelihood_pct": 35.9,
       "associated": [
         {
           "id": "DA_Module_Weapon_Shredder.0",
@@ -139,10 +145,12 @@
       "name": "Purifier",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPurifier",
       "items_anchor": "bot-purifier",
-      "overdue_rank": 4,
+      "rank": 4,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 25.5,
       "avg_interval": 10.8,
-      "likelihood_pct": 17.9,
+      "likelihood_pct": 28.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Incinerator.0",
@@ -174,10 +182,12 @@
       "name": "Mesa",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotMesa",
       "items_anchor": "bot-mesa",
-      "overdue_rank": 5,
+      "rank": 5,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 25.5,
       "avg_interval": 11.3,
-      "likelihood_pct": 17.9,
+      "likelihood_pct": 28.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Locust.0",
@@ -206,15 +216,17 @@
   ],
   "titans": [
     {
-      "ref": "OBJID_VirtualBot::volta",
-      "id": "volta",
-      "name": "Volta",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
-      "items_anchor": "bot-volta",
-      "overdue_rank": 1,
-      "weeks_since_discount": 20,
-      "avg_interval": 17.0,
-      "likelihood_pct": 66.7,
+      "ref": "OBJID_VirtualBot::matriarch",
+      "id": "matriarch",
+      "name": "Matriarch",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
+      "items_anchor": "bot-matriarch",
+      "rank": 2,
+      "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 15.9,
+      "avg_interval": 11.7,
+      "likelihood_pct": 53.3,
       "associated": [],
       "hit": false
     },
@@ -224,10 +236,12 @@
       "name": "Alpha",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
       "items_anchor": "bot-alpha",
-      "overdue_rank": 2,
+      "rank": 1,
       "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 20.8,
       "avg_interval": 13.5,
-      "likelihood_pct": 22.2,
+      "likelihood_pct": 33.3,
       "associated": [],
       "hit": true
     }

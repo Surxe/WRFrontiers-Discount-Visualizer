@@ -19,7 +19,7 @@
     "bots": true,
     "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
     {
       "ref": "OBJID_VirtualBot::lancelot",
@@ -27,10 +27,12 @@
       "name": "Lancelot",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLancelot",
       "items_anchor": "bot-lancelot",
-      "overdue_rank": 2,
+      "rank": 1,
       "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 34.2,
       "avg_interval": 9.7,
-      "likelihood_pct": 51.2,
+      "likelihood_pct": 44.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Punisher.0",
@@ -62,10 +64,12 @@
       "name": "Phantom",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPhantom",
       "items_anchor": "bot-phantom",
-      "overdue_rank": 3,
+      "rank": 2,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 26.0,
       "avg_interval": 9.5,
-      "likelihood_pct": 25.6,
+      "likelihood_pct": 38.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_Toxin.0",
@@ -97,10 +101,12 @@
       "name": "Griffin",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotGriffin",
       "items_anchor": "bot-griffin",
-      "overdue_rank": 4,
+      "rank": 3,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 26.0,
       "avg_interval": 11.5,
-      "likelihood_pct": 25.6,
+      "likelihood_pct": 38.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_Buckshot.0",
@@ -132,10 +138,12 @@
       "name": "Cyclops",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCyclops",
       "items_anchor": "bot-cyclops",
-      "overdue_rank": 5,
+      "rank": 4,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 26.0,
       "avg_interval": 9.3,
-      "likelihood_pct": 25.6,
+      "likelihood_pct": 38.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_Twinflare.0",
@@ -162,36 +170,45 @@
       "hit": true
     },
     {
-      "ref": "OBJID_VirtualBot::bulgasari",
-      "id": "bulgasari",
-      "name": "Bulgasari",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
-      "items_anchor": "bot-bulgasari",
-      "overdue_rank": 1,
-      "weeks_since_discount": 25,
-      "avg_interval": 10.0,
-      "likelihood_pct": 20.9,
+      "ref": "OBJID_VirtualBot::relic-lancelot",
+      "id": "relic-lancelot",
+      "name": "Relic Lancelot",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRelicLancelot",
+      "items_anchor": "bot-relic-lancelot",
+      "rank": 5,
+      "weeks_since_discount": null,
+      "weeks_since_release": 7,
+      "historical_rate_pct": 20.3,
+      "avg_interval": null,
+      "likelihood_pct": 32.6,
       "associated": [
         {
-          "id": "DA_Module_Weapon_Shredder.0",
-          "name": "Shredder",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shredder",
-          "rarity": "DA_ModuleRarity_Common.0",
+          "id": "DA_Module_Weapon_RelicOrkan.0",
+          "name": "Relic Orkan",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_RelicOrkan",
+          "rarity": "DA_ModuleRarity_Epic.0",
           "group": "light-weapon"
         },
         {
-          "id": "DA_Module_Ability_ArmorShield.1",
-          "name": "Emergency Shield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
+          "id": "DA_Module_Ability_SpeedBoost.1",
+          "name": "Sprint Reactor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SpeedBoost",
           "rarity": "DA_ModuleRarity_Common.0",
           "group": "supply-gear"
         },
         {
-          "id": "DA_Module_Ability_InfiniteAmmo.1",
-          "name": "Infinite Ammo",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
-          "rarity": "DA_ModuleRarity_Rare.0",
+          "id": "DA_Module_Ability_CounterAttack.1",
+          "name": "Reflector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
+        },
+        {
+          "id": "DA_Module_Weapon_RelicThunder.0",
+          "name": "Relic Thunder",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_RelicThunder",
+          "rarity": "DA_ModuleRarity_Epic.0",
+          "group": "heavy-weapon"
         }
       ],
       "hit": false
@@ -199,28 +216,32 @@
   ],
   "titans": [
     {
-      "ref": "OBJID_VirtualBot::matriarch",
-      "id": "matriarch",
-      "name": "Matriarch",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
-      "items_anchor": "bot-matriarch",
-      "overdue_rank": 1,
-      "weeks_since_discount": 15,
-      "avg_interval": 11.7,
-      "likelihood_pct": 63.6,
-      "associated": [],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::norna",
       "id": "norna",
       "name": "Norna",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Norna",
       "items_anchor": "bot-norna",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 10.5,
       "avg_interval": 7.8,
-      "likelihood_pct": 27.3,
+      "likelihood_pct": 52.9,
+      "associated": [],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::matriarch",
+      "id": "matriarch",
+      "name": "Matriarch",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
+      "items_anchor": "bot-matriarch",
+      "rank": 1,
+      "weeks_since_discount": 15,
+      "weeks_since_release": null,
+      "historical_rate_pct": 24.1,
+      "avg_interval": 11.7,
+      "likelihood_pct": 35.3,
       "associated": [],
       "hit": false
     }

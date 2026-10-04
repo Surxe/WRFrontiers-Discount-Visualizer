@@ -19,7 +19,7 @@
     "bots": true,
     "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
     {
       "ref": "OBJID_VirtualBot::ares",
@@ -27,10 +27,12 @@
       "name": "Ares",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAres",
       "items_anchor": "bot-ares",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 25.3,
       "avg_interval": 12.4,
-      "likelihood_pct": 40.0,
+      "likelihood_pct": 45.7,
       "associated": [
         {
           "id": "DA_Module_Weapon_Scourge.0",
@@ -62,10 +64,12 @@
       "name": "Bulgasari",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
       "items_anchor": "bot-bulgasari",
-      "overdue_rank": 1,
+      "rank": 1,
       "weeks_since_discount": 17,
+      "weeks_since_release": null,
+      "historical_rate_pct": 36.7,
       "avg_interval": 10.0,
-      "likelihood_pct": 25.7,
+      "likelihood_pct": 34.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Shredder.0",
@@ -97,10 +101,12 @@
       "name": "Ravana",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRavana",
       "items_anchor": "bot-ravana",
-      "overdue_rank": 3,
+      "rank": 3,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 19.4,
       "avg_interval": 12.6,
-      "likelihood_pct": 21.9,
+      "likelihood_pct": 33.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_StickyGun.0",
@@ -132,10 +138,12 @@
       "name": "Kumo",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotKumo",
       "items_anchor": "bot-kumo",
-      "overdue_rank": 4,
+      "rank": 4,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 19.4,
       "avg_interval": 9.5,
-      "likelihood_pct": 21.9,
+      "likelihood_pct": 33.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Horde.0",
@@ -167,10 +175,12 @@
       "name": "Anansi",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
       "items_anchor": "bot-anansi",
-      "overdue_rank": 5,
+      "rank": 5,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 19.4,
       "avg_interval": 13.7,
-      "likelihood_pct": 21.9,
+      "likelihood_pct": 33.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_MLx2.0",
@@ -199,35 +209,40 @@
   ],
   "titans": [
     {
-      "ref": "OBJID_VirtualBot::volta",
-      "id": "volta",
-      "name": "Volta",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
-      "items_anchor": "bot-volta",
-      "overdue_rank": 1,
-      "weeks_since_discount": 16,
-      "avg_interval": 17.0,
-      "likelihood_pct": 66.7,
-      "associated": [],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::alpha",
       "id": "alpha",
       "name": "Alpha",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
       "items_anchor": "bot-alpha",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 8,
+      "weeks_since_release": null,
+      "historical_rate_pct": 5.6,
       "avg_interval": 13.5,
-      "likelihood_pct": 22.2,
+      "likelihood_pct": 53.3,
+      "associated": [],
+      "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::volta",
+      "id": "volta",
+      "name": "Volta",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
+      "items_anchor": "bot-volta",
+      "rank": 1,
+      "weeks_since_discount": 16,
+      "weeks_since_release": null,
+      "historical_rate_pct": 22.2,
+      "avg_interval": 17.0,
+      "likelihood_pct": 33.3,
       "associated": [],
       "hit": false
     }
   ],
   "actuals": {
     "bots": [
-      "ares"
+      "ares",
+      "artemis"
     ],
     "titans": []
   },
@@ -235,7 +250,7 @@
     "bots": {
       "hits": 1,
       "listed": 5,
-      "eligible_actual": 1,
+      "eligible_actual": 2,
       "top_hit": true,
       "top3_hit": true,
       "headline_hit": false

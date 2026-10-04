@@ -19,18 +19,24 @@
     "bots": false,
     "titans": false
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [],
   "titans": [],
   "actuals": {
-    "bots": [],
-    "titans": []
+    "bots": [
+      "bulwark",
+      "ceres",
+      "harpy"
+    ],
+    "titans": [
+      "matriarch"
+    ]
   },
   "result": {
     "bots": {
       "hits": 0,
       "listed": 0,
-      "eligible_actual": 0,
+      "eligible_actual": 3,
       "top_hit": false,
       "top3_hit": false,
       "headline_hit": false
@@ -38,7 +44,7 @@
     "titans": {
       "hits": 0,
       "listed": 0,
-      "eligible_actual": 0,
+      "eligible_actual": 1,
       "top_hit": false,
       "any_titan": true
     }

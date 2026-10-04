@@ -19,18 +19,57 @@
     "bots": true,
     "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
+    {
+      "ref": "OBJID_VirtualBot::kumo",
+      "id": "kumo",
+      "name": "Kumo",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotKumo",
+      "items_anchor": "bot-kumo",
+      "rank": 4,
+      "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 15.8,
+      "avg_interval": 9.5,
+      "likelihood_pct": 33.3,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Horde.0",
+          "name": "Horde",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Horde",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Atrophy.1",
+          "name": "Suppressor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_TensionLink.1",
+          "name": "Gamma Beam",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_TensionLink",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
     {
       "ref": "OBJID_VirtualBot::ceres",
       "id": "ceres",
       "name": "Ceres",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCeres",
       "items_anchor": "bot-ceres",
-      "overdue_rank": 4,
+      "rank": 5,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 15.8,
       "avg_interval": 10.6,
-      "likelihood_pct": 19.1,
+      "likelihood_pct": 33.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Bisector.0",
@@ -57,50 +96,17 @@
       "hit": false
     },
     {
-      "ref": "OBJID_VirtualBot::bulwark",
-      "id": "bulwark",
-      "name": "Bulwark",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulwark",
-      "items_anchor": "bot-bulwark",
-      "overdue_rank": 5,
-      "weeks_since_discount": 10,
-      "avg_interval": 10.4,
-      "likelihood_pct": 19.1,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Thunder.0",
-          "name": "Thunder",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Thunder",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_SmokeWall.1",
-          "name": "Holofield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SmokeWall",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_RegenerationFull.1",
-          "name": "Nanite Repair",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FullArmorRepairing",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::ravana",
       "id": "ravana",
       "name": "Ravana",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRavana",
       "items_anchor": "bot-ravana",
-      "overdue_rank": 1,
+      "rank": 1,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 21.7,
       "avg_interval": 12.6,
-      "likelihood_pct": 19.0,
+      "likelihood_pct": 30.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_StickyGun.0",
@@ -132,10 +138,12 @@
       "name": "Ares",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAres",
       "items_anchor": "bot-ares",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 21.7,
       "avg_interval": 12.4,
-      "likelihood_pct": 19.0,
+      "likelihood_pct": 30.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Scourge.0",
@@ -167,10 +175,12 @@
       "name": "Anansi",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
       "items_anchor": "bot-anansi",
-      "overdue_rank": 3,
+      "rank": 3,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 21.7,
       "avg_interval": 13.7,
-      "likelihood_pct": 19.0,
+      "likelihood_pct": 30.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_MLx2.0",
@@ -199,30 +209,34 @@
   ],
   "titans": [
     {
-      "ref": "OBJID_VirtualBot::grim",
-      "id": "grim",
-      "name": "Grim",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Grim",
-      "items_anchor": "bot-grim",
-      "overdue_rank": 1,
-      "weeks_since_discount": 13,
-      "avg_interval": 11.6,
-      "likelihood_pct": 66.7,
-      "associated": [],
-      "hit": true
-    },
-    {
       "ref": "OBJID_VirtualBot::alpha",
       "id": "alpha",
       "name": "Alpha",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
       "items_anchor": "bot-alpha",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 8,
+      "weeks_since_release": null,
+      "historical_rate_pct": 8.7,
       "avg_interval": 13.5,
-      "likelihood_pct": 33.3,
+      "likelihood_pct": 66.7,
       "associated": [],
       "hit": false
+    },
+    {
+      "ref": "OBJID_VirtualBot::grim",
+      "id": "grim",
+      "name": "Grim",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Grim",
+      "items_anchor": "bot-grim",
+      "rank": 1,
+      "weeks_since_discount": 13,
+      "weeks_since_release": null,
+      "historical_rate_pct": 18.2,
+      "avg_interval": 11.6,
+      "likelihood_pct": 22.2,
+      "associated": [],
+      "hit": true
     }
   ],
   "actuals": {
@@ -247,7 +261,7 @@
       "hits": 1,
       "listed": 2,
       "eligible_actual": 1,
-      "top_hit": true,
+      "top_hit": false,
       "any_titan": true
     }
   }

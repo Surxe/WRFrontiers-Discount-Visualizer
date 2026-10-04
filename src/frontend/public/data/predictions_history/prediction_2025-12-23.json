@@ -17,20 +17,59 @@
   },
   "odds_available": {
     "bots": true,
-    "titans": false
+    "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
+    {
+      "ref": "OBJID_VirtualBot::typhon",
+      "id": "typhon",
+      "name": "Typhon",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyphon",
+      "items_anchor": "bot-typhon",
+      "rank": 5,
+      "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 25.0,
+      "avg_interval": 12.6,
+      "likelihood_pct": 62.5,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Shocktrain.0",
+          "name": "Shocktrain",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shocktrain",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_GhostTurret.1",
+          "name": "Ghost Turret",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
+          "rarity": "DA_ModuleRarity_Rare.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Umbrella.1",
+          "name": "Umbrella",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ],
+      "hit": false
+    },
     {
       "ref": "OBJID_VirtualBot::ravana",
       "id": "ravana",
       "name": "Ravana",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRavana",
       "items_anchor": "bot-ravana",
-      "overdue_rank": 1,
+      "rank": 1,
       "weeks_since_discount": 13,
+      "weeks_since_release": null,
+      "historical_rate_pct": 40.0,
       "avg_interval": 12.6,
-      "likelihood_pct": 12.5,
+      "likelihood_pct": 50.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_StickyGun.0",
@@ -62,10 +101,12 @@
       "name": "Ares",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAres",
       "items_anchor": "bot-ares",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 32.3,
       "avg_interval": 12.4,
-      "likelihood_pct": 12.5,
+      "likelihood_pct": 31.2,
       "associated": [
         {
           "id": "DA_Module_Weapon_Scourge.0",
@@ -92,104 +133,73 @@
       "hit": false
     },
     {
-      "ref": "OBJID_VirtualBot::typhon",
-      "id": "typhon",
-      "name": "Typhon",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyphon",
-      "items_anchor": "bot-typhon",
-      "overdue_rank": 3,
-      "weeks_since_discount": 11,
-      "avg_interval": 12.6,
-      "likelihood_pct": 12.5,
+      "ref": "OBJID_VirtualBot::anansi",
+      "id": "anansi",
+      "name": "Anansi",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAnansi",
+      "items_anchor": "bot-anansi",
+      "rank": 3,
+      "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 32.3,
+      "avg_interval": 13.7,
+      "likelihood_pct": 31.2,
       "associated": [
         {
-          "id": "DA_Module_Weapon_Shocktrain.0",
-          "name": "Shocktrain",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Shocktrain",
+          "id": "DA_Module_Weapon_MLx2.0",
+          "name": "MLx2",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_MLx2",
           "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "light-weapon"
+          "group": "heavy-weapon"
         },
         {
-          "id": "DA_Module_Ability_GhostTurret.1",
-          "name": "Ghost Turret",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
-          "rarity": "DA_ModuleRarity_Rare.0",
+          "id": "DA_Module_Ability_Atrophy.1",
+          "name": "Suppressor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Atrophy",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "supply-gear"
         },
         {
-          "id": "DA_Module_Ability_Umbrella.1",
-          "name": "Umbrella",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Umbrella_Icon",
-          "rarity": "DA_ModuleRarity_Common.0",
+          "id": "DA_Module_Ability_Dazzle.1",
+          "name": "Flashbang",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Dazzle",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
       ],
       "hit": false
     },
     {
-      "ref": "OBJID_VirtualBot::fury",
-      "id": "fury",
-      "name": "Fury",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotFury",
-      "items_anchor": "bot-fury",
-      "overdue_rank": 4,
-      "weeks_since_discount": 8,
-      "avg_interval": 10.0,
-      "likelihood_pct": 12.5,
+      "ref": "OBJID_VirtualBot::scorpion",
+      "id": "scorpion",
+      "name": "Scorpion",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotScorpion",
+      "items_anchor": "bot-scorpion",
+      "rank": 4,
+      "weeks_since_discount": 19,
+      "weeks_since_release": null,
+      "historical_rate_pct": 28.6,
+      "avg_interval": 10.6,
+      "likelihood_pct": 25.0,
       "associated": [
         {
-          "id": "DA_Module_Weapon_Pulsar.0",
-          "name": "Pulsar",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Pulsar",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_DashBlinkedVisible.1",
-          "name": "Blink",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_DashBlinkedVisible",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_Homing.1",
-          "name": "Homing Missile",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "cycle-gear"
-        }
-      ],
-      "hit": true
-    },
-    {
-      "ref": "OBJID_VirtualBot::tyr",
-      "id": "tyr",
-      "name": "Tyr",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotTyr",
-      "items_anchor": "bot-tyr",
-      "overdue_rank": 5,
-      "weeks_since_discount": 6,
-      "avg_interval": 9.8,
-      "likelihood_pct": 12.5,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Vortex.0",
-          "name": "Vortex",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Vortex",
-          "rarity": "DA_ModuleRarity_Rare.0",
+          "id": "DA_Module_Weapon_Tusk.0",
+          "name": "Tusk",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Tusk",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "light-weapon"
         },
         {
-          "id": "DA_Module_Ability_GhostTurret.1",
-          "name": "Ghost Turret",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_GhostTurret",
-          "rarity": "DA_ModuleRarity_Rare.0",
+          "id": "DA_Module_Ability_Repulsor.1",
+          "name": "Repulsor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Repulsor",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "supply-gear"
         },
         {
-          "id": "DA_Module_Ability_Homing.1",
-          "name": "Homing Missile",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_RedeemerIcon",
+          "id": "DA_Module_Ability_TensionLink.1",
+          "name": "Gamma Beam",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_TensionLink",
           "rarity": "DA_ModuleRarity_Common.0",
           "group": "cycle-gear"
         }
@@ -199,35 +209,40 @@
   ],
   "titans": [
     {
-      "ref": "OBJID_VirtualBot::alpha",
-      "id": "alpha",
-      "name": "Alpha",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
-      "items_anchor": "bot-alpha",
-      "overdue_rank": 1,
-      "weeks_since_discount": 12,
-      "avg_interval": 13.5,
-      "likelihood_pct": null,
-      "associated": [],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::grim",
       "id": "grim",
       "name": "Grim",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Grim",
       "items_anchor": "bot-grim",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 17.4,
       "avg_interval": 11.6,
-      "likelihood_pct": null,
+      "likelihood_pct": 66.7,
       "associated": [],
       "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::alpha",
+      "id": "alpha",
+      "name": "Alpha",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Alpha",
+      "items_anchor": "bot-alpha",
+      "rank": 1,
+      "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 20.0,
+      "avg_interval": 13.5,
+      "likelihood_pct": 33.3,
+      "associated": [],
+      "hit": false
     }
   ],
   "actuals": {
     "bots": [
       "fury",
+      "scorpion",
       "tyr"
     ],
     "titans": [
@@ -236,18 +251,18 @@
   },
   "result": {
     "bots": {
-      "hits": 2,
+      "hits": 1,
       "listed": 5,
-      "eligible_actual": 2,
+      "eligible_actual": 3,
       "top_hit": false,
       "top3_hit": false,
-      "headline_hit": true
+      "headline_hit": false
     },
     "titans": {
       "hits": 1,
       "listed": 2,
       "eligible_actual": 1,
-      "top_hit": false,
+      "top_hit": true,
       "any_titan": true
     }
   }

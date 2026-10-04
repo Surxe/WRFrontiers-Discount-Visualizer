@@ -19,7 +19,7 @@
     "bots": true,
     "titans": true
   },
-  "method": "weeks-since-discount; walk-forward, history-before-week only",
+  "method": "historical discount rate; walk-forward, history-before-week only",
   "bots": [
     {
       "ref": "OBJID_VirtualBot::ceres",
@@ -27,10 +27,12 @@
       "name": "Ceres",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCeres",
       "items_anchor": "bot-ceres",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 11,
+      "weeks_since_release": null,
+      "historical_rate_pct": 24.8,
       "avg_interval": 10.6,
-      "likelihood_pct": 38.2,
+      "likelihood_pct": 44.1,
       "associated": [
         {
           "id": "DA_Module_Weapon_Bisector.0",
@@ -62,10 +64,12 @@
       "name": "Bulgasari",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulgasari",
       "items_anchor": "bot-bulgasari",
-      "overdue_rank": 1,
+      "rank": 1,
       "weeks_since_discount": 16,
+      "weeks_since_release": null,
+      "historical_rate_pct": 35.7,
       "avg_interval": 10.0,
-      "likelihood_pct": 26.5,
+      "likelihood_pct": 35.3,
       "associated": [
         {
           "id": "DA_Module_Weapon_Shredder.0",
@@ -97,10 +101,12 @@
       "name": "Crix",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotNipper",
       "items_anchor": "bot-crix",
-      "overdue_rank": 3,
+      "rank": 3,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 19.0,
       "avg_interval": 11.3,
-      "likelihood_pct": 20.6,
+      "likelihood_pct": 32.4,
       "associated": [
         {
           "id": "DA_Module_Weapon_Stormpike.0",
@@ -132,10 +138,12 @@
       "name": "Bulwark",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotBulwark",
       "items_anchor": "bot-bulwark",
-      "overdue_rank": 4,
+      "rank": 4,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 19.0,
       "avg_interval": 10.4,
-      "likelihood_pct": 20.6,
+      "likelihood_pct": 32.4,
       "associated": [
         {
           "id": "DA_Module_Weapon_Thunder.0",
@@ -167,10 +175,12 @@
       "name": "Ares",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotAres",
       "items_anchor": "bot-ares",
-      "overdue_rank": 5,
+      "rank": 5,
       "weeks_since_discount": 10,
+      "weeks_since_release": null,
+      "historical_rate_pct": 19.0,
       "avg_interval": 12.4,
-      "likelihood_pct": 20.6,
+      "likelihood_pct": 32.4,
       "associated": [
         {
           "id": "DA_Module_Weapon_Scourge.0",
@@ -199,30 +209,34 @@
   ],
   "titans": [
     {
-      "ref": "OBJID_VirtualBot::volta",
-      "id": "volta",
-      "name": "Volta",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
-      "items_anchor": "bot-volta",
-      "overdue_rank": 1,
-      "weeks_since_discount": 15,
-      "avg_interval": 17.0,
-      "likelihood_pct": 75.0,
-      "associated": [],
-      "hit": false
-    },
-    {
       "ref": "OBJID_VirtualBot::grim",
       "id": "grim",
       "name": "Grim",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Grim",
       "items_anchor": "bot-grim",
-      "overdue_rank": 2,
+      "rank": 2,
       "weeks_since_discount": 13,
+      "weeks_since_release": null,
+      "historical_rate_pct": 20.5,
       "avg_interval": 11.6,
-      "likelihood_pct": 12.5,
+      "likelihood_pct": 50.0,
       "associated": [],
       "hit": true
+    },
+    {
+      "ref": "OBJID_VirtualBot::volta",
+      "id": "volta",
+      "name": "Volta",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
+      "items_anchor": "bot-volta",
+      "rank": 1,
+      "weeks_since_discount": 15,
+      "weeks_since_release": null,
+      "historical_rate_pct": 26.1,
+      "avg_interval": 17.0,
+      "likelihood_pct": 35.7,
+      "associated": [],
+      "hit": false
     }
   ],
   "actuals": {
@@ -248,7 +262,7 @@
       "hits": 1,
       "listed": 2,
       "eligible_actual": 1,
-      "top_hit": false,
+      "top_hit": true,
       "any_titan": true
     }
   }
