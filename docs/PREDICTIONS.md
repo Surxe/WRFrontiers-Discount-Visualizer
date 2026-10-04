@@ -7,7 +7,7 @@ Predicts the most likely bot and titan discounts for the upcoming period, on the
 
 - **Eligibility:** every bot released before the predicted week is ranked and
   graded -- including brand-new bots with no discount yet. Release dates come
-  from `WRFrontiersDB-Data/curated/robot_release_dates.json`; Early Access
+  from `WRFrontiersDB-Data/index/robot_release_dates.json`; Early Access
   carry-overs (no release date) count from the start of the history. Roster
   bots never discounted (absent from `discount_data.json`) are added from
   `VirtualBot.json` with an empty history.
