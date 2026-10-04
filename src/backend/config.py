@@ -41,6 +41,7 @@ MODULE_JSON = DATA_REPO / "current" / "Objects" / "Module.json"
 VIRTUAL_BOT_JSON = DATA_REPO / "current" / "Objects" / "VirtualBot.json"
 MODULE_TYPE_JSON = DATA_REPO / "current" / "Objects" / "ModuleType.json"
 CHARACTER_PRESET_JSON = DATA_REPO / "current" / "Objects" / "CharacterPreset.json"
+ROBOT_RELEASE_DATES_JSON = DATA_REPO / "curated" / "robot_release_dates.json"
 
 
 TEMP_DIR = SCRIPT_DIR / "temp"

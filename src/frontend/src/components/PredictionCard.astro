@@ -11,6 +11,11 @@ const iconSrc = getTexturePath(bot.icon_path, baseUrl);
 const itemsHref = bot.items_anchor ? `${baseUrl}items#${bot.items_anchor}` : `${baseUrl}items`;
 const avgText =
 	bot.avg_interval == null ? 'not enough history' : `avg ${bot.avg_interval} wks`;
+// A never-discounted (newly released) bot waits from its release instead.
+const waitText =
+	bot.weeks_since_discount == null && bot.weeks_since_release != null
+		? `${bot.weeks_since_release} wks since release · never discounted`
+		: `${bot.weeks_since_discount} wks since last discount · ${avgText}`;
 ---
 
 <li class:list={["prediction-card", { "is-hit": hit === true, "is-miss": hit === false }]}>
@@ -39,7 +44,7 @@ const avgText =
 			<span class="prediction-card__body">
 				<span class="prediction-card__name">{bot.name}</span>
 				<span class="prediction-card__meta">
-					{bot.weeks_since_discount} wks since last discount &middot; {avgText}
+					{waitText}
 				</span>
 			</span>
 		</a>
@@ -57,7 +62,7 @@ const avgText =
 					<span class="prediction-card__pct prediction-card__pct--na">&mdash;</span>
 					<span class="prediction-card__pct-label">
 						no estimate
-						<InfoTooltip text="Too little history before this week to estimate odds. The pick is still the most overdue robot, and it is graded normally." label="Why no percentage" />
+						<InfoTooltip text="Too little history before this week to estimate odds. The pick is still the top-ranked robot, and it is graded normally." label="Why no percentage" />
 					</span>
 				</>
 			)}

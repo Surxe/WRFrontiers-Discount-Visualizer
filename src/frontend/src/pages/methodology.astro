@@ -22,7 +22,7 @@ const ordinal = (n: number) => {
 	const v = n % 100;
 	return n + (s[(v - 20) % 10] || s[v] || s[0]);
 };
-const rankOrdinal = ex ? ordinal(ex.overdue_rank) : null;
+const rankOrdinal = ex ? ordinal(ex.rank) : null;
 
 // When the top card is tied with others on weeks-since-discount, its shown
 // percentage is the average of those tied spots' hit-rates, not one spot's, so
