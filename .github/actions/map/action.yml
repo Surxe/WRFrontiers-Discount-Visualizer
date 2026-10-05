@@ -15,6 +15,11 @@ inputs:
     required: false
     default: 'true'
 
+outputs:
+  data-sha:
+    description: The WRFrontiersDB-Data commit the mapping used; later jobs build from it
+    value: ${{ steps.data.outputs.sha }}
+
 runs:
   using: composite
   steps:
@@ -24,12 +29,10 @@ runs:
         python-version: '3.12'
 
     - name: Checkout Data Repo
-      uses: actions/checkout@v4
+      id: data
+      uses: Surxe/WRFrontiersDB-Data/.github/actions/checkout-data@main
       with:
-        repository: Surxe/WRFrontiersDB-Data
-        token: ${{ env.DATA_REPO_PAT }}
         path: WRFrontiersDB-Data
-        ref: main
 
     - name: Install Python dependencies
       shell: bash

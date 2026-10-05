@@ -1,32 +1,19 @@
 name: Build frontend
-description: Check out game data, install dependencies, and build the Astro site
+description: Check out game data, install dependencies, build the Astro site, and record which Data commit it was built from
+
+inputs:
+  data-ref:
+    description: WRFrontiersDB-Data ref to build from
+    required: false
+    default: main
 
 runs:
   using: composite
   steps:
-    # Checkout into public/ so Vite can copy assets (symlinks break: ln -s
-    # ../../… from src/frontend resolves to src/WRFrontiersDB-Data, not repo root).
-    - name: Checkout Data Repo
-      uses: actions/checkout@v4
+    - name: Set up frontend
+      uses: ./.github/actions/setup-frontend
       with:
-        repository: Surxe/WRFrontiersDB-Data
-        token: ${{ env.DATA_REPO_PAT }}
-        path: src/frontend/public/WRFrontiersDB-Data
-        ref: main
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
-
-    - name: Install frontend dependencies
-      shell: bash
-      working-directory: src/frontend
-      run: npm install
-
-    - name: Verify WRFrontiersDB-Data checkout
-      shell: bash
-      run: test -f src/frontend/public/WRFrontiersDB-Data/current/Objects/Module.json
+        data-ref: ${{ inputs.data-ref }}
 
     - name: Build frontend
       shell: bash
@@ -40,3 +27,11 @@ runs:
           mv public/predictions-og.png public/predictions-og-${SHORT_SHA}.png
         fi
         PUBLIC_IMAGE_SHA=$SHORT_SHA npm run build
+
+    # Served as /deploy.json, and uploaded as the deploy-record run artifact
+    # that the Orchestrator copies into its deploy state.
+    - name: Record deploy
+      uses: Surxe/WRFrontiersDB-Data/.github/actions/record-deploy@main
+      with:
+        data-path: src/frontend/public/WRFrontiersDB-Data
+        out: src/frontend/dist/deploy.json
