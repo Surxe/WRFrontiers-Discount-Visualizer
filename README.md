@@ -115,7 +115,8 @@ Adjust paths to match your checkout location.
 - The **backend** reads `WRFrontiersDB-Data/` at the repo root (or a sibling clone as a fallback).
 - The **frontend** resolves objects and textures from `src/frontend/public/WRFrontiersDB-Data/`.
 - Both paths are gitignored; only the clone at repo root needs to exist on disk.
-- CI checks out a fresh copy into `src/frontend/public/WRFrontiersDB-Data` — no symlink is needed there.
+- CI checks out a fresh copy into `src/frontend/public/WRFrontiersDB-Data` with Data's shared `checkout-data` action (Data is public, so no token) — no symlink is needed there. In `all.yml` the map job's Data commit is passed to the screenshot and build jobs, so the whole run uses one Data commit.
+- The build writes `/deploy.json` (Data's `record-deploy` action): the Data commit, date and version it was built from, plus this repo's commit and the run. Check it with `curl -s https://surxe.github.io/WRFrontiers-Discount-Visualizer/deploy.json | jq`, or both frontends at once with the Orchestrator's `bin/wrf-deployed`.
 
 ## Architecture
 
@@ -129,7 +130,7 @@ Adjust paths to match your checkout location.
 
 - **Python 3.12+** — `pip install -r src/backend/requirements.txt`
 - **Node.js 22+** — for `src/frontend/`
-- **Git access** to [Surxe/WRFrontiersDB-Data](https://github.com/Surxe/WRFrontiersDB-Data) — clone locally (see above); CI uses the `DATA_REPO_PAT` repository secret
+- **A clone of** [Surxe/WRFrontiersDB-Data](https://github.com/Surxe/WRFrontiersDB-Data) (public) — see above
 
 ## Backend usage
 
@@ -205,7 +206,7 @@ WRFrontiers-Discount-Visualizer/
 
 ### Repository secrets (maintainers)
 
-CI needs a **`DATA_REPO_PAT`** secret — a GitHub Personal Access Token with read access to `Surxe/WRFrontiersDB-Data`. This is used only in Actions to check out game data; local development uses a normal git clone instead.
+CI needs `REPO_PUSH_PAT` (to commit mapped data and screenshots) and `JEV_API_KEY`. WRFrontiersDB-Data is public, so checking it out needs no token.
 
 ## Troubleshooting
 

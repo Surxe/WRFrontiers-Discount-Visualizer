@@ -6,35 +6,23 @@ inputs:
     description: Commit and push discount-table.png
     required: false
     default: 'true'
+  data-ref:
+    description: WRFrontiersDB-Data ref to build from
+    required: false
+    default: main
 
 runs:
   using: composite
   steps:
-    - name: Checkout Data Repo
-      uses: actions/checkout@v4
+    # Data checkout + npm install (includes puppeteer).
+    - name: Set up frontend
+      uses: ./.github/actions/setup-frontend
       with:
-        repository: Surxe/WRFrontiersDB-Data
-        token: ${{ env.DATA_REPO_PAT }}
-        path: src/frontend/public/WRFrontiersDB-Data
-        ref: main
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
-
-    - name: Install frontend dependencies (includes puppeteer)
-      shell: bash
-      working-directory: src/frontend
-      run: npm install
+        data-ref: ${{ inputs.data-ref }}
 
     - name: Install Chromium dependencies (Ubuntu)
       shell: bash
       run: npx --prefix src/frontend puppeteer browsers install chrome
-
-    - name: Verify WRFrontiersDB-Data checkout
-      shell: bash
-      run: test -f src/frontend/public/WRFrontiersDB-Data/current/Objects/Module.json
 
     - name: Build frontend (needed for astro preview)
       shell: bash

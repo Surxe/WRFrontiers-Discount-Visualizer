@@ -21,9 +21,8 @@ def build_game_data() -> list[dict]:
     if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists():
         print(f"  [ERROR] Data files not found.")
         print(
-            "  Make sure WRFrontiersDB-Data is cloned. "
-            "Set DATA_REPO_PAT in .env and run:\n"
-            "  git clone https://<PAT>@github.com/Surxe/WRFrontiersDB-Data.git WRFrontiersDB-Data"
+            "  Make sure WRFrontiersDB-Data is cloned:\n"
+            "  git clone https://github.com/Surxe/WRFrontiersDB-Data.git WRFrontiersDB-Data"
         )
         sys.exit(1)
 
