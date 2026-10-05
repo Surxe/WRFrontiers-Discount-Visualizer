@@ -13,7 +13,7 @@ runs:
     # Checkout into public/ so Vite can copy assets (symlinks break: ln -s
     # ../../… from src/frontend resolves to src/WRFrontiersDB-Data, not repo root).
     - name: Checkout Data Repo
-      uses: Surxe/WRFrontiersDB-Data/.github/actions/checkout-data@deploy-record
+      uses: Surxe/WRFrontiersDB-Data/.github/actions/checkout-data@main
       with:
         path: src/frontend/public/WRFrontiersDB-Data
         ref: ${{ inputs.data-ref }}

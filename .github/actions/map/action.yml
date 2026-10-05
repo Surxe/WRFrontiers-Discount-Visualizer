@@ -30,7 +30,7 @@ runs:
 
     - name: Checkout Data Repo
       id: data
-      uses: Surxe/WRFrontiersDB-Data/.github/actions/checkout-data@deploy-record
+      uses: Surxe/WRFrontiersDB-Data/.github/actions/checkout-data@main
       with:
         path: WRFrontiersDB-Data
 

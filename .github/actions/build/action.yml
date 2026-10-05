@@ -31,7 +31,7 @@ runs:
     # Served as /deploy.json, and uploaded as the deploy-record run artifact
     # that the Orchestrator copies into its deploy state.
     - name: Record deploy
-      uses: Surxe/WRFrontiersDB-Data/.github/actions/record-deploy@deploy-record
+      uses: Surxe/WRFrontiersDB-Data/.github/actions/record-deploy@main
       with:
         data-path: src/frontend/public/WRFrontiersDB-Data
         out: src/frontend/dist/deploy.json
