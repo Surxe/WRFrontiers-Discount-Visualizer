@@ -140,6 +140,10 @@
     "name": "Relic Scorpion"
   },
   {
+    "ref": "OBJID_VirtualBot::relic-tyr",
+    "name": "Relic Tyr"
+  },
+  {
     "ref": "OBJID_VirtualBot::scorpion",
     "name": "Scorpion"
   },
@@ -406,6 +410,10 @@
   {
     "ref": "OBJID_Module::DA_Module_Weapon_RelicThunder.0",
     "name": "Relic Thunder"
+  },
+  {
+    "ref": "OBJID_Module::DA_Module_Weapon_RelicVortex.0",
+    "name": "Relic Vortex"
   },
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Scatter.0",

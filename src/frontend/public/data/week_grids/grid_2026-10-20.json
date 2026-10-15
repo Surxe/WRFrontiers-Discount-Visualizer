@@ -1,0 +1,58 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 10,
+    "start_day": 20,
+    "end_year": 2026,
+    "end_month": 10,
+    "end_day": 27
+  },
+  "grid": {
+    "standardRows": [
+      {
+        "botId": "relic-scorpion",
+        "cells": {
+          "1": "OBJID_VirtualBot::relic-scorpion",
+          "2": "OBJID_Module::DA_Module_TorsoRelicScorpion.1",
+          "3": "OBJID_Module::DA_Module_ShoulderRelicScorpion01.0",
+          "4": "OBJID_Module::DA_Module_ChassisRelicScorpion.2",
+          "5": "OBJID_Module::DA_Module_Weapon_RelicPinata.0",
+          "7": "OBJID_Module::DA_Module_Ability_BlockingField.1",
+          "8": "OBJID_Module::DA_Module_Ability_TensionLink.1"
+        }
+      },
+      {
+        "botId": "tyr",
+        "cells": {
+          "1": "OBJID_VirtualBot::tyr",
+          "2": "OBJID_Module::DA_Module_TorsoTyr.1",
+          "3": "OBJID_Module::DA_Module_ShoulderTyr.0",
+          "4": "OBJID_Module::DA_Module_ChassisTyr.2",
+          "5": "OBJID_Module::DA_Module_Weapon_Vortex.0",
+          "7": "OBJID_Module::DA_Module_Ability_GhostTurret.1",
+          "8": "OBJID_Module::DA_Module_Ability_Homing.1"
+        }
+      },
+      {
+        "botId": "fenrir",
+        "cells": {
+          "1": "OBJID_VirtualBot::fenrir",
+          "2": "OBJID_Module::DA_Module_TorsoFenrir.1",
+          "3": "OBJID_Module::DA_Module_ShoulderFenrir.0",
+          "4": "OBJID_Module::DA_Module_ChassisFenrir.2",
+          "6": "OBJID_Module::DA_Module_Weapon_Fowler.0",
+          "7": "OBJID_Module::DA_Module_Ability_Regeneration.1",
+          "8": "OBJID_Module::DA_Module_Ability_CounterAttack.1"
+        }
+      }
+    ],
+    "titanRows": [
+      {
+        "botId": null,
+        "cells": {
+          "6": "OBJID_Module::DA_Module_Weapon_Bayonet.0"
+        }
+      }
+    ]
+  }
+}
