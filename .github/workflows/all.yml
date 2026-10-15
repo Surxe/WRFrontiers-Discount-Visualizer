@@ -85,7 +85,9 @@ jobs:
   build:
     if: ${{ github.event.inputs.skip_deploy != 'true' }}
     runs-on: ubuntu-latest
-    needs: [map, screenshot]
+    # Renders its own og:images from the data it deploys, so it does not wait
+    # on the screenshot job (which only refreshes the PNGs committed for the README).
+    needs: map
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -96,12 +98,6 @@ jobs:
       - name: Pull map commit
         shell: bash
         run: git pull origin "${{ github.ref_name }}"
-
-      - name: Download table screenshot
-        uses: actions/download-artifact@v4
-        with:
-          name: discount-table
-          path: src/frontend/public/
 
       - name: Build frontend
         uses: ./.github/actions/build

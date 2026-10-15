@@ -1,5 +1,5 @@
 name: Build frontend
-description: Check out game data, install dependencies, build the Astro site, and record which Data commit it was built from
+description: Check out game data, install dependencies, build the Astro site, render its og:images, and record which Data commit it was built from
 
 inputs:
   data-ref:
@@ -15,18 +15,22 @@ runs:
       with:
         data-ref: ${{ inputs.data-ref }}
 
+    - name: Install Chromium (for og:image capture)
+      shell: bash
+      run: npx --prefix src/frontend puppeteer browsers install chrome
+
+    # The og:images are rendered from this same build (same data), straight into
+    # dist/ as `<name>-<sha>.png` -- the filenames GenericPage/DiscountPage put
+    # in og:image. Never deploy the PNGs committed in public/: they only change
+    # on an all.yml run, so any other deploy would ship a stale card.
     - name: Build frontend
       shell: bash
       working-directory: src/frontend
       run: |
         SHORT_SHA=$(git rev-parse --short HEAD)
-        if [ -f public/discount-table.png ]; then
-          mv public/discount-table.png public/discount-table-${SHORT_SHA}.png
-        fi
-        if [ -f public/predictions-og.png ]; then
-          mv public/predictions-og.png public/predictions-og-${SHORT_SHA}.png
-        fi
         PUBLIC_IMAGE_SHA=$SHORT_SHA npm run build
+        npm run capture -- --out dist/discount-table-${SHORT_SHA}.png
+        npm run capture:og -- --out dist/predictions-og-${SHORT_SHA}.png
 
     # Served as /deploy.json, and uploaded as the deploy-record run artifact
     # that the Orchestrator copies into its deploy state.

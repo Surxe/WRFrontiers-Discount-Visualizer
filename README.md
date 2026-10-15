@@ -51,9 +51,9 @@ The **All** workflow (`.github/workflows/all.yml`) runs four stages:
    - Updates `weeks.json` and `discount_data.json`
    - Commits and pushes: `chore(data): update mapped discounts [skip ci]`
 
-2. **Screenshot** — Checks out game data, builds the site, runs Puppeteer, uploads `discount-table.png` as an artifact.
+2. **Screenshot** — Checks out game data, builds the site, runs Puppeteer, and commits `discount-table.png` + `predictions-og.png` to `public/` (the README embed).
 
-3. **Build** — Downloads the PNG into `public/`, runs the final Astro build with the screenshot baked in for `og:image`.
+3. **Build** (in parallel with Screenshot) — Runs the Astro build, then captures both images from that same build straight into `dist/` as the `og:image` files. Every deploy (including `deploy.yml`) renders its own, so an embed can never lag the data it is deployed with.
 
 4. **Publish** — Deploys the static bundle to GitHub Pages.
 
@@ -158,7 +158,8 @@ From `src/frontend/`:
 |---------|---------|
 | `npm run dev` | Dev server at `http://localhost:4321` |
 | `npm run build` | Production static bundle in `dist/` |
-| `npm run capture` | Puppeteer screenshot → `public/discount-table.png` |
+| `npm run capture` | Puppeteer screenshot → `public/discount-table.png` (`-- --out <path>` to write elsewhere) |
+| `npm run capture:og` | Puppeteer screenshot of `/predictions-og` → `public/predictions-og.png` |
 
 At build time, Virtual Bot components (Chassis, Torso, Shoulder) must share the same rarity; a mismatch fails the build intentionally.
 
@@ -192,7 +193,7 @@ WRFrontiers-Discount-Visualizer/
 | `src/frontend/public/data/week_grids/grid_<slug>.json` | Step 3 | Frontend grid layout |
 | `src/frontend/public/data/weeks.json` | Step 3 | Frontend week routing |
 | `src/frontend/public/data/discount_data.json` | Step 3 | Frontend reverse lookup |
-| `src/frontend/public/discount-table.png` | `npm run capture` / CI | `og:image` meta tags |
+| `src/frontend/public/discount-table.png` | `npm run capture` / CI | README embed (deploys capture their own `og:image`) |
 
 ## CI/CD workflows
 

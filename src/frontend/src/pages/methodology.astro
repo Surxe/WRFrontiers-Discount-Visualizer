@@ -2,6 +2,7 @@
 import GenericPage from '../components/GenericPage.astro';
 import NavBar from '../components/NavBar.astro';
 import { fetchPredictions } from '../utils/predictions.js';
+import { isNeverDiscounted, round1 } from '../utils/predictionFormat.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const predictions = fetchPredictions();
@@ -11,8 +12,6 @@ const ex = methodology?.example ?? null;
 const scoredWeeks = methodology?.scored_weeks ?? null;
 const weekLabel = predictions?.predictedWeek?.label ?? null;
 
-const round1 = (v: number | null | undefined) =>
-	v == null ? null : Math.round(v * 10) / 10;
 // slot_hit_rate is 0-1; likelihood_pct is already 0-100.
 const slotRatePct = ex ? round1(ex.slot_hit_rate * 100) : null;
 
@@ -24,7 +23,7 @@ const ordinal = (n: number) => {
 };
 const rankOrdinal = ex ? ordinal(ex.rank) : null;
 // A never-discounted (new) robot waits from its release instead.
-const isNew = ex ? ex.weeks_since_discount == null && ex.weeks_since_release != null : false;
+const isNew = ex ? isNeverDiscounted(ex) : false;
 const wait = ex ? (isNew ? ex.weeks_since_release : ex.weeks_since_discount) : null;
 const ratePct = round1(ex?.historical_rate_pct);
 

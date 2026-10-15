@@ -1,5 +1,5 @@
 name: Screenshot discount table
-description: Build the Astro site, boot astro preview, capture the discount grid via Puppeteer, upload the PNG as a workflow artifact, and optionally commit it to the repo.
+description: Build the Astro site, capture the discount grid and predictions og card via Puppeteer, and optionally commit the PNGs to the repo (for the README; deploys render their own in the build action).
 
 inputs:
   commit:
@@ -38,15 +38,6 @@ runs:
       shell: bash
       working-directory: src/frontend
       run: npm run capture:og
-
-    - name: Upload screenshot artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: discount-table
-        path: |
-          src/frontend/public/discount-table.png
-          src/frontend/public/predictions-og.png
-        retention-days: 7
 
     - name: Commit and push screenshots
       if: inputs.commit == 'true'

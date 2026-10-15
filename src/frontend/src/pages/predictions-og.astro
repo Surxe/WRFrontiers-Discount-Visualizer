@@ -5,6 +5,7 @@
 import '../../vendor/wrf-design/index.css';
 import { fetchPredictions } from '../utils/predictions.js';
 import { getTexturePath } from '../utils/textures.js';
+import { formatLikelihood, formatWait } from '../utils/predictionFormat.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const predictions = fetchPredictions();
@@ -18,13 +19,8 @@ const titans = (predictions?.titans ?? []).slice(0, 2);
 const row = (b: any) => ({
 	name: b?.name ?? '',
 	icon: getTexturePath(b?.icon_path, baseUrl),
-	pct: b?.likelihood_pct == null ? null : Math.round(b.likelihood_pct),
-	meta:
-		b?.weeks_since_discount != null
-			? `${b.weeks_since_discount} wks since${b?.avg_interval == null ? '' : ` · avg ${b.avg_interval}`}`
-			: b?.weeks_since_release != null
-				? `${b.weeks_since_release} wks since release`
-				: '',
+	pct: formatLikelihood(b),
+	meta: formatWait(b, { short: true }),
 	gear: (b?.associated ?? [])
 		.map((a: any) => ({ name: a?.name ?? '', icon: getTexturePath(a?.icon_path, baseUrl) }))
 		.filter((g: any) => g.icon),
@@ -69,7 +65,7 @@ const titanRows = titans.map(row);
 										</span>
 									)}
 								</span>
-								{r.pct != null && <span class="og-pct">{r.pct}%</span>}
+								{r.pct != null && <span class="og-pct">{r.pct}</span>}
 							</li>
 						))}
 					</ol>
@@ -86,7 +82,7 @@ const titanRows = titans.map(row);
 									<span class="og-name">{r.name}</span>
 									<span class="og-meta">{r.meta}</span>
 								</span>
-								{r.pct != null && <span class="og-pct">{r.pct}%</span>}
+								{r.pct != null && <span class="og-pct">{r.pct}</span>}
 							</li>
 						))}
 					</ol>
