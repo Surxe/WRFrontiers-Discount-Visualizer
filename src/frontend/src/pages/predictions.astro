@@ -7,6 +7,7 @@ import PredictionList from '../components/PredictionList.astro';
 import AllWeeksSidebar from '../components/AllWeeksSidebar.astro';
 import { fetchPredictions } from '../utils/predictions.js';
 import { fetchWeeksManifest } from '../utils/weeksManifest.js';
+import { formatLikelihood } from '../utils/predictionFormat.js';
 
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const predictions = fetchPredictions();
@@ -38,9 +39,10 @@ const botOddsTooltip =
 // Copied to the clipboard by the "Copy to share" button below.
 const SITE_ORIGIN = 'https://surxe.github.io';
 const shareUrl = `${SITE_ORIGIN}${baseUrl}predictions`.replace(/([^:])\/\/+/g, '$1/');
-// likelihood_pct is stored 0-100.
-const withPct = (b: any) =>
-	b?.likelihood_pct == null ? b?.name : `${b.name} (${Math.round(b.likelihood_pct)}%)`;
+const withPct = (b: any) => {
+	const pct = formatLikelihood(b);
+	return pct == null ? b?.name : `${b.name} (${pct})`;
+};
 const topBots = bots.slice(0, 3).filter((b) => b?.name);
 const topTitanName = titans?.[0]?.name ?? null;
 const shareLines = [
