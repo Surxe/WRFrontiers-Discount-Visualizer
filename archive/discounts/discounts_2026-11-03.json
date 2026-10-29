@@ -1,0 +1,36 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 11,
+    "start_day": 3,
+    "end_year": 2026,
+    "end_month": 11,
+    "end_day": 10
+  },
+  "items": [
+    "DA_Module_ChassisAngler.2",
+    "DA_Module_TorsoAngler.1",
+    "DA_Module_ShoulderAngler.0",
+    "DA_Module_ChassisRelicBulgasari.2",
+    "DA_Module_TorsoRelicBulgasari.1",
+    "DA_Module_ShoulderRelicBulgasari01.0",
+    "DA_Module_ShoulderRelicBulgasari02.0",
+    "DA_Module_ChassisInquisitor.2",
+    "DA_Module_TorsoInquisitor.1",
+    "DA_Module_ShoulderInquisitor.0",
+    "DA_Module_ChassisSpire.2",
+    "DA_Module_TorsoSpire.0",
+    "DA_Module_ShoulderLSpire.0",
+    "DA_Module_ShoulderRSpire.0",
+    "DA_Module_Weapon_Breacher.0",
+    "DA_Module_Weapon_RelicOrkan.0",
+    "DA_Module_Weapon_Incinerator.0",
+    "DA_Module_Weapon_Cascade.0",
+    "DA_Module_Ability_AmmoGenerator.1",
+    "DA_Module_Ability_Spotlight.1",
+    "DA_Module_Ability_ArmorShield.1",
+    "DA_Module_Ability_InfiniteAmmo.1",
+    "DA_Module_Ability_FuelReserve.1",
+    "DA_Module_Ability_CounterAttack.1"
+  ]
+}

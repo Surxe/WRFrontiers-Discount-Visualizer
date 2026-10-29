@@ -1,101 +1,29 @@
 {
-  "generated_at": "2026-10-15T14:14:22.691896+00:00",
+  "generated_at": "2026-10-29T17:27:57.786308+00:00",
   "method": "historical discount rate by wait (since discount or release); position-calibrated odds",
   "predictedWeek": {
     "start_year": 2026,
     "start_month": 11,
-    "start_day": 3,
+    "start_day": 10,
     "end_year": 2026,
     "end_month": 11,
-    "end_day": 10,
-    "slug": "2026-11-03",
-    "label": "November 3 - 10 (2026)"
+    "end_day": 17,
+    "slug": "2026-11-10",
+    "label": "November 10 - 17 (2026)"
   },
   "bots": [
-    {
-      "ref": "OBJID_VirtualBot::relic-bulgasari",
-      "id": "relic-bulgasari",
-      "name": "Relic Bulgasari",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotRelicBulgasari",
-      "items_anchor": "bot-relic-bulgasari",
-      "rank": 1,
-      "weeks_since_discount": 13,
-      "weeks_since_release": null,
-      "historical_rate_pct": 40.7,
-      "avg_interval": null,
-      "likelihood_pct": 49.1,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_RelicOrkan.0",
-          "name": "Relic Orkan",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_RelicOrkan",
-          "rarity": "DA_ModuleRarity_Epic.0",
-          "group": "light-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_ArmorShield.1",
-          "name": "Emergency Shield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_InfiniteAmmo.1",
-          "name": "Infinite Ammo",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_InfiniteAmmoIcon",
-          "rarity": "DA_ModuleRarity_Rare.0",
-          "group": "cycle-gear"
-        }
-      ]
-    },
-    {
-      "ref": "OBJID_VirtualBot::purifier",
-      "id": "purifier",
-      "name": "Purifier",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPurifier",
-      "items_anchor": "bot-purifier",
-      "rank": 2,
-      "weeks_since_discount": 13,
-      "weeks_since_release": null,
-      "historical_rate_pct": 40.7,
-      "avg_interval": 10.8,
-      "likelihood_pct": 49.1,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Incinerator.0",
-          "name": "Incinerator",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Incinerator",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_FuelReserve.1",
-          "name": "Fuel Reserve",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_FuelReserve",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_CounterAttack.1",
-          "name": "Reflector",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "cycle-gear"
-        }
-      ]
-    },
     {
       "ref": "OBJID_VirtualBot::heike",
       "id": "heike",
       "name": "Heike",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotHeike",
       "items_anchor": "bot-heike",
-      "rank": 3,
-      "weeks_since_discount": 13,
+      "rank": 1,
+      "weeks_since_discount": 14,
       "weeks_since_release": null,
-      "historical_rate_pct": 40.7,
+      "historical_rate_pct": 40.3,
       "avg_interval": 11.0,
-      "likelihood_pct": 49.1,
+      "likelihood_pct": 50.0,
       "associated": [
         {
           "id": "DA_Module_Weapon_Thunder.0",
@@ -126,12 +54,12 @@
       "name": "Varangian",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotVarangian",
       "items_anchor": "bot-varangian",
-      "rank": 4,
-      "weeks_since_discount": 12,
+      "rank": 2,
+      "weeks_since_discount": 13,
       "weeks_since_release": null,
-      "historical_rate_pct": 32.5,
+      "historical_rate_pct": 39.9,
       "avg_interval": 11.2,
-      "likelihood_pct": 25.5,
+      "likelihood_pct": 40.1,
       "associated": [
         {
           "id": "DA_Module_Weapon_Orkan.0",
@@ -162,12 +90,12 @@
       "name": "Pursuer",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPursuer",
       "items_anchor": "bot-pursuer",
-      "rank": 5,
-      "weeks_since_discount": 12,
+      "rank": 3,
+      "weeks_since_discount": 13,
       "weeks_since_release": null,
-      "historical_rate_pct": 32.5,
+      "historical_rate_pct": 39.9,
       "avg_interval": 9.0,
-      "likelihood_pct": 25.5,
+      "likelihood_pct": 40.1,
       "associated": [
         {
           "id": "DA_Module_Weapon_Scatter.0",
@@ -191,119 +119,185 @@
           "group": "cycle-gear"
         }
       ]
+    },
+    {
+      "ref": "OBJID_VirtualBot::orochi",
+      "id": "orochi",
+      "name": "Orochi",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotOrochi",
+      "items_anchor": "bot-orochi",
+      "rank": 4,
+      "weeks_since_discount": 13,
+      "weeks_since_release": null,
+      "historical_rate_pct": 39.9,
+      "avg_interval": 12.7,
+      "likelihood_pct": 40.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Zeus.0",
+          "name": "Zeus",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Zeus",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "heavy-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_BlastWave.1",
+          "name": "Blast Wave",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_BlastWave",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_Spotlight.1",
+          "name": "Recon Mode",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Spotlight",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ]
+    },
+    {
+      "ref": "OBJID_VirtualBot::scorpion",
+      "id": "scorpion",
+      "name": "Scorpion",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotScorpion",
+      "items_anchor": "bot-scorpion",
+      "rank": 5,
+      "weeks_since_discount": 12,
+      "weeks_since_release": null,
+      "historical_rate_pct": 31.8,
+      "avg_interval": 10.6,
+      "likelihood_pct": 27.8,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Tusk.0",
+          "name": "Tusk",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Tusk",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_Repulsor.1",
+          "name": "Repulsor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Repulsor",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_TensionLink.1",
+          "name": "Gamma Beam",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_TensionLink",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "cycle-gear"
+        }
+      ]
     }
   ],
   "titans": [
-    {
-      "ref": "OBJID_VirtualBot::volta",
-      "id": "volta",
-      "name": "Volta",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
-      "items_anchor": "bot-volta",
-      "rank": 1,
-      "weeks_since_discount": 13,
-      "weeks_since_release": null,
-      "historical_rate_pct": 22.0,
-      "avg_interval": 17.0,
-      "likelihood_pct": 45.0,
-      "associated": []
-    },
     {
       "ref": "OBJID_VirtualBot::matriarch",
       "id": "matriarch",
       "name": "Matriarch",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Matriarch",
       "items_anchor": "bot-matriarch",
-      "rank": 2,
-      "weeks_since_discount": 25,
+      "rank": 1,
+      "weeks_since_discount": 26,
       "weeks_since_release": null,
-      "historical_rate_pct": 13.3,
+      "historical_rate_pct": 14.3,
       "avg_interval": 11.7,
-      "likelihood_pct": 45.0,
+      "likelihood_pct": 47.6,
+      "associated": []
+    },
+    {
+      "ref": "OBJID_VirtualBot::volta",
+      "id": "volta",
+      "name": "Volta",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_Titan_Spire",
+      "items_anchor": "bot-volta",
+      "rank": 2,
+      "weeks_since_discount": 1,
+      "weeks_since_release": null,
+      "historical_rate_pct": 4.2,
+      "avg_interval": 15.7,
+      "likelihood_pct": 42.9,
       "associated": []
     }
   ],
   "accuracy": {
     "bots": {
       "top_n": 5,
-      "scored_weeks": 53,
-      "any_weeks": 53,
+      "scored_weeks": 54,
+      "any_weeks": 54,
       "any_rate": 1.0,
       "per_position": [
-        0.4906,
-        0.566,
-        0.4151,
-        0.2264,
-        0.283
+        0.5,
+        0.5741,
+        0.4074,
+        0.2222,
+        0.2778
       ],
       "per_position_conditional": [
-        0.4906,
-        0.566,
-        0.4151,
-        0.2264,
-        0.283
+        0.5,
+        0.5741,
+        0.4074,
+        0.2222,
+        0.2778
       ],
-      "precision": 0.3962,
+      "precision": 0.3963,
       "at_least_one": {
-        "1": 0.4906,
-        "2": 0.7358,
-        "3": 0.7925,
-        "4": 0.8302,
-        "5": 0.8868
+        "1": 0.5,
+        "2": 0.7407,
+        "3": 0.7963,
+        "4": 0.8333,
+        "5": 0.8889
       },
       "presence_rate": 1.0
     },
     "titans": {
       "top_n": 2,
-      "scored_weeks": 53,
-      "any_weeks": 20,
-      "any_rate": 0.3774,
+      "scored_weeks": 54,
+      "any_weeks": 21,
+      "any_rate": 0.3889,
       "per_position": [
-        0.1698,
-        0.1698
+        0.1852,
+        0.1667
       ],
       "per_position_conditional": [
-        0.45,
-        0.45
+        0.4762,
+        0.4286
       ],
-      "precision": 0.1698,
+      "precision": 0.1759,
       "at_least_one": {
-        "1": 0.1698,
-        "2": 0.3396
+        "1": 0.1852,
+        "2": 0.3519
       },
-      "presence_rate": 0.3934
+      "presence_rate": 0.4032
     }
   },
   "methodology": {
     "method": "historical-rate ranked, position-calibrated",
-    "predicted_week": "2026-11-03",
-    "scored_weeks": 53,
+    "predicted_week": "2026-11-10",
+    "scored_weeks": 54,
     "rate_wait_window": 2,
     "example": {
-      "bot_id": "relic-bulgasari",
-      "name": "Relic Bulgasari",
+      "bot_id": "heike",
+      "name": "Heike",
       "rank": 1,
-      "weeks_since_discount": 13,
+      "weeks_since_discount": 14,
       "weeks_since_release": null,
-      "historical_rate_pct": 40.7,
-      "slot_hit_rate": 0.4906,
-      "slot_hits": 26,
-      "likelihood_pct": 49.1,
-      "pooled": true,
+      "historical_rate_pct": 40.3,
+      "slot_hit_rate": 0.5,
+      "slot_hits": 27,
+      "likelihood_pct": 50.0,
+      "pooled": false,
       "tie_ranks": [
-        1,
-        2,
-        3
+        1
       ],
       "tie_slot_rates": [
-        0.4906,
-        0.566,
-        0.4151
+        0.5
       ],
       "tie_slot_hits": [
-        26,
-        30,
-        22
+        27
       ]
     }
   }

@@ -28,6 +28,10 @@
     "name": "Bulwark"
   },
   {
+    "ref": "OBJID_VirtualBot::cerberus",
+    "name": "Cerberus"
+  },
+  {
     "ref": "OBJID_VirtualBot::ceres",
     "name": "Ceres"
   },
@@ -214,6 +218,10 @@
   {
     "ref": "OBJID_Module::DA_Module_Ability_Grounded.1",
     "name": "Fuel Burn"
+  },
+  {
+    "ref": "OBJID_Module::DA_Module_Ability_HeatSeeker.1",
+    "name": "Heat Seeker"
   },
   {
     "ref": "OBJID_Module::DA_Module_Ability_Homing.1",
@@ -454,6 +462,10 @@
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Thunder.0",
     "name": "Thunder"
+  },
+  {
+    "ref": "OBJID_Module::DA_Module_Weapon_Toccata.0",
+    "name": "Toccata"
   },
   {
     "ref": "OBJID_Module::DA_Module_Weapon_Toxin.0",
