@@ -4,13 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       items:
-        description: Plain list of item names to map.
-        required: true
+        description: 'Item names, comma-separated (e.g. "Phantom, Lighter, Blink"). Fill this OR event_id.'
+        required: false
+        type: string
+        default: ''
+      event_id:
+        description: 'OR the Discord event id (last segment of a discord.com/events/<guild>/<event> link); leave items empty.'
+        required: false
         type: string
         default: ''
       target_date_range:
-        description: 'Target date range (e.g. "06-16 06-23").'
-        required: true
+        description: 'Target date range (e.g. "06-16 06-23"). Required with items; leave empty with event_id to use the event''s dates.'
+        required: false
         type: string
         default: ''
       skip_deploy:
@@ -46,12 +51,18 @@ jobs:
 
       - name: Log inputs
         shell: bash
+        env:
+          ITEMS: ${{ github.event.inputs.items }}
+          EVENT_ID: ${{ github.event.inputs.event_id }}
+          DATE_RANGE: ${{ github.event.inputs.target_date_range }}
+          SKIP_DEPLOY: ${{ github.event.inputs.skip_deploy }}
         run: |
           {
             echo "### Workflow inputs"
-            echo "- items: \`${{ github.event.inputs.items }}\`"
-            echo "- target_date_range: \`${{ github.event.inputs.target_date_range }}\`"
-            echo "- skip_deploy: \`${{ github.event.inputs.skip_deploy }}\`"
+            echo "- items: \`$ITEMS\`"
+            echo "- event_id: \`$EVENT_ID\`"
+            echo "- target_date_range: \`$DATE_RANGE\`"
+            echo "- skip_deploy: \`$SKIP_DEPLOY\`"
           } | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Local mapping
@@ -60,6 +71,7 @@ jobs:
         with:
           target_date_range: ${{ github.event.inputs.target_date_range }}
           items: ${{ github.event.inputs.items }}
+          event_id: ${{ github.event.inputs.event_id }}
 
   screenshot:
     if: ${{ github.event.inputs.skip_deploy != 'true' }}

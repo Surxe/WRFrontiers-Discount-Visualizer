@@ -20,6 +20,16 @@ JEV_MODEL = os.environ.get("JEV_MODEL") or None  # None -> SDK default (jev-late
 JEV_ACCEPT_THRESHOLD = float(os.environ.get("JEV_ACCEPT_THRESHOLD", "0.7"))
 JEV_SPLIT_PIECE_THRESHOLD = float(os.environ.get("JEV_SPLIT_PIECE_THRESHOLD", "0.75"))
 
+# --- Discord scheduled-event input (see discord_event.py) --------------------
+# WRF posts each discount week as a scheduled event in its Discord server, often
+# before the news post. The public invite endpoint returns the event without any
+# auth when asked for it by id. The invite code is the server's vanity URL
+# (permanent); the guild id is checked against the response as a sanity check.
+DISCORD_API_BASE = "https://discord.com/api/v10"
+DISCORD_INVITE_CODE = "wrfrontiers"
+DISCORD_GUILD_ID = "941368722860417105"
+DISCORD_TIMEOUT_SECONDS = 15
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent.parent
 
