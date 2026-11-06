@@ -68,7 +68,7 @@
       "weeks_since_discount": null,
       "weeks_since_release": 8,
       "historical_rate_pct": 17.9,
-      "avg_interval": 11.0,
+      "avg_interval": 12.5,
       "likelihood_pct": 34.5,
       "associated": [
         {
@@ -142,7 +142,7 @@
       "weeks_since_discount": 10,
       "weeks_since_release": null,
       "historical_rate_pct": 17.6,
-      "avg_interval": 11.2,
+      "avg_interval": 11.5,
       "likelihood_pct": 25.9,
       "associated": [
         {
@@ -179,7 +179,7 @@
       "weeks_since_discount": 10,
       "weeks_since_release": null,
       "historical_rate_pct": 17.6,
-      "avg_interval": 12.7,
+      "avg_interval": 12.8,
       "likelihood_pct": 25.9,
       "associated": [
         {

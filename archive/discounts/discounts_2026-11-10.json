@@ -1,0 +1,32 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 11,
+    "start_day": 10,
+    "end_year": 2026,
+    "end_month": 11,
+    "end_day": 17
+  },
+  "items": [
+    "DA_Module_ChassisHeike.2",
+    "DA_Module_TorsoHeike.1",
+    "DA_Module_ShoulderHeike.0",
+    "DA_Module_ChassisOrochi.2",
+    "DA_Module_TorsoOrochi.1",
+    "DA_Module_ShoulderOrochi.0",
+    "DA_Module_ChassisVityaz.2",
+    "DA_Module_TorsoVityaz.1",
+    "DA_Module_ShoulderVityaz01.0",
+    "DA_Module_ShoulderVityaz02.0",
+    "DA_Module_Weapon_Thunder.0",
+    "DA_Module_Weapon_Zeus.0",
+    "DA_Module_Weapon_Orkan.0",
+    "DA_Module_Weapon_Gimcoil.0",
+    "DA_Module_Ability_BlastWave.1",
+    "DA_Module_Ability_Spotlight.1",
+    "DA_Module_Ability_Grounded.1",
+    "DA_Module_Ability_Dazzle.1",
+    "DA_Module_Ability_GhostTurret.1",
+    "DA_Module_Ability_TensionLink.1"
+  ]
+}
