@@ -1,0 +1,16 @@
+{
+  "guild_id": "941368722860417105",
+  "guild_scheduled_event": {
+    "id": "1568259964999565422",
+    "guild_id": "941368722860417105",
+    "name": "Intel & Salvage Discount Event: November 10 - November 17",
+    "description": "This week, the Tortuga engineers invite Pilots to take a closer look at the following builds:\n\nWar Robot Modules: Heike, Orochi, Varangian\n\nWeapons: Thunder, Zeus, Orkan, Apollo\n\nGear: Blast Wave, Recon Mode, Fuel Burn, Flashbang, Ghost Turret, Gamma Beam",
+    "scheduled_start_time": "2026-11-10T10:00:00+00:00",
+    "scheduled_end_time": "2026-11-17T09:45:00+00:00",
+    "status": 1,
+    "entity_type": 3,
+    "entity_metadata": {
+      "location": "https://warrobotsfrontiers.com/en/news/272"
+    }
+  }
+}

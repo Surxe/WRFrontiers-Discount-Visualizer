@@ -21,8 +21,18 @@ This is the routine when a new in-game discount week is announced.
 
 ### 1. Gather inputs
 
-- **Items** — plain comma-separated names as announced (e.g. `Phantom, Lighter, Blink`).
-- **Date range** — start and end dates as `mm-dd mm-dd` (e.g. `06-16 06-23`).
+- **Items** — one of:
+  - plain comma-separated names as announced (e.g. `Phantom, Lighter, Blink`), or
+  - the **Discord event id** of the week's scheduled event in the WRF server, which often
+    lands before the news post. The id is the last path segment of a
+    `discord.com/events/<guild>/<event>` link. The backend reads the event through Discord's
+    public invite endpoint (no auth; `src/backend/discord_event.py`) and parses its
+    description (`War Robot Modules:` / `Weapons:` / `Gear:`) with
+    `src/backend/announcement.py`. The event must still be live; an ended or deleted event
+    is an error.
+- **Date range** — start and end dates as `mm-dd mm-dd` (e.g. `06-16 06-23`). Required with
+  plain items; with an event id it defaults to the event's start/end dates (UTC), and an
+  explicit range wins.
 
 ### 2. Run the pipeline (production)
 
@@ -36,8 +46,9 @@ In GitHub, open **Actions → All → Run workflow** and fill in:
 
 | Input | Description |
 |-------|-------------|
-| `items` | Comma-separated item names |
-| `target_date_range` | Week range, e.g. `06-16 06-23` |
+| `items` | Comma-separated item names. Fill this **or** `event_id` |
+| `event_id` | Optional alternative to `items`: the Discord event id (leave `items` empty) |
+| `target_date_range` | Week range, e.g. `06-16 06-23`. Optional with `event_id` (defaults to the event's dates) |
 | `skip_deploy` | Leave unchecked to build and deploy; check to map only |
 
 The **All** workflow (`.github/workflows/all.yml`) runs four stages:
@@ -72,6 +83,8 @@ Use this to preview mapping results or test layout changes before dispatching CI
 ```powershell
 # From repo root — backend reads WRFrontiersDB-Data at the project root
 python src/backend/run.py --items "Phantom, Lighter, Blink" --date-range "06-16 06-23"
+# or read the items and dates from the week's Discord event
+python src/backend/run.py --event-id 1568259964999565422
 
 cd src/frontend
 npm install

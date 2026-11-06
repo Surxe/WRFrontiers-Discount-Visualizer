@@ -3,12 +3,16 @@ description: Map discounts (manual pin -> exact match -> Jev) and write frontend
 
 inputs:
   target_date_range:
-    description: Target date range (e.g. "06-16 06-23").
-    required: true
+    description: Target date range (e.g. "06-16 06-23"). Required with items; defaults to the event's dates with event_id.
+    required: false
     default: ''
   items:
-    description: Plain list of item names to map.
-    required: true
+    description: Comma-separated item names to map. Give this or event_id.
+    required: false
+    default: ''
+  event_id:
+    description: Discord scheduled-event id of the discount week; its description is parsed for the items. Give this or items.
+    required: false
     default: ''
   commit:
     description: Commit and push mapped discount JSON
@@ -40,7 +44,14 @@ runs:
 
     - name: Run Orchestrator Pipeline
       shell: bash
-      run: python src/backend/run.py --items "${{ inputs.items }}" --date-range "${{ inputs.target_date_range }}"
+      # Inputs go through env, not inline ${{ }}, so free text with quotes or
+      # $ can't break (or inject into) the command. run.py checks that exactly
+      # one of items / event_id is set.
+      env:
+        ITEMS: ${{ inputs.items }}
+        EVENT_ID: ${{ inputs.event_id }}
+        DATE_RANGE: ${{ inputs.target_date_range }}
+      run: python src/backend/run.py --items "$ITEMS" --event-id "$EVENT_ID" --date-range "$DATE_RANGE"
 
     - name: Commit and push changes
       if: inputs.commit == 'true'
