@@ -31,6 +31,10 @@ runs:
         PUBLIC_IMAGE_SHA=$SHORT_SHA npm run build
         npm run capture -- --out dist/discount-table-${SHORT_SHA}.png
         npm run capture:og -- --out dist/predictions-og-${SHORT_SHA}.png
+        # The pages were built before the images existed, so their
+        # og:image:width/height are guesses; write the real sizes in (the table's
+        # height varies by week, and a wrong aspect makes Discord crop the card).
+        npm run og:size -- dist/discount-table-${SHORT_SHA}.png dist/predictions-og-${SHORT_SHA}.png
 
     # Served as /deploy.json, and uploaded as the deploy-record run artifact
     # that the Orchestrator copies into its deploy state.

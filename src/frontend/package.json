@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "capture": "node capture-table.js",
-    "capture:og": "node capture-predictions-og.js"
+    "capture:og": "node capture-predictions-og.js",
+    "og:size": "node set-og-size.js"
   },
   "dependencies": {
     "astro": "^6.3.8"
