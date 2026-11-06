@@ -164,7 +164,8 @@ const weekList = weekEntries.map(w => ({
 		<title>WRF Discounts</title>
 		<link rel="stylesheet" href={`${baseUrl}global.css`} />
 		
-		<!-- Open Graph / Discord Embed -->
+		<!-- Open Graph / Discord Embed. og:image:width/height are placeholders: the
+		     CI build overwrites them with the captured PNG's real size (set-og-size.js). -->
 		<meta property="og:title" content="WRF Discounts" />
 		<meta name="description" content={metaDescription} />
 		<meta property="og:description" content={metaDescription} />
