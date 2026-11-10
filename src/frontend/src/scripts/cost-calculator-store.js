@@ -43,6 +43,13 @@ export const JOB_SEEDS = {
   premium: { dailiesPerWeek: 42, weeklyJobsPerWeek: 3 },
 };
 
+/**
+ * Pseudo-level for "not owned yet, craft it". Level 1 in RarityUpgradeCost is
+ * the crafting cost, so starting a row at 0 adds it with no special casing.
+ * The From select shows it as "Craft", never as a bare 0.
+ */
+export const CRAFT_LVL = 0;
+
 const DEFAULT_INCOME = {
   avgImpact: 250,
   premiumGames: 35,        // premium-day matches per week (5/day * 7)
@@ -59,6 +66,10 @@ class CostCalculatorStore extends EventTarget {
     this.isOpen = false;
     this.activeWeek = null;
     this.income = { ...DEFAULT_INCOME };
+    // When true, newly added rows start at CRAFT_LVL (built from a blueprint)
+    // instead of level 1. Only a default for new rows; each row's From select
+    // stays editable. A preference, so Clear keeps it.
+    this.craftNewItems = false;
     this.loadFromStorage();
   }
 
@@ -70,6 +81,7 @@ class CostCalculatorStore extends EventTarget {
         this.shoppingList = parsed.shoppingList || parsed || [];
         this.activeWeek = parsed.activeWeek || null;
         this.income = { ...DEFAULT_INCOME, ...(parsed.income || {}) };
+        this.craftNewItems = parsed.craftNewItems === true;
       }
     } catch (e) {
       console.error('Failed to load calculator list', e);
@@ -82,6 +94,7 @@ class CostCalculatorStore extends EventTarget {
         shoppingList: this.shoppingList,
         activeWeek: this.activeWeek,
         income: this.income,
+        craftNewItems: this.craftNewItems,
       }));
     } catch (e) {
       console.error('Failed to save calculator list', e);
@@ -98,7 +111,7 @@ class CostCalculatorStore extends EventTarget {
       bgSrc: module.bgSrc,
       rarityRef: module.rarityRef || '',
       quantity: 1,
-      fromLvl: 1,
+      fromLvl: this.craftNewItems ? CRAFT_LVL : 1,
       toLvl: 13,
       discountOn: computeIsDiscounted(module.id || '', this.activeWeek),
     });
@@ -203,6 +216,12 @@ class CostCalculatorStore extends EventTarget {
     this.emitChange();
   }
 
+  setCraftNewItems(on) {
+    this.craftNewItems = !!on;
+    this.saveToStorage();
+    this.emitChange();
+  }
+
   /**
    * Flips the discountOn toggle for a single row.
    */
@@ -218,6 +237,8 @@ class CostCalculatorStore extends EventTarget {
   /**
    * Returns row costs for a single item.
    * Cost keys are destination levels: upgrading 9→13 sums costs at levels 10–13.
+   * Level 1 is the crafting cost (never discounted), so a row starting at
+   * CRAFT_LVL (0) naturally includes it: 0→13 sums levels 1–13.
    * Uses window.WRF_CALC_META (rarityUpgradeCosts, discountSchedule).
    */
   calculateRowCost(item) {
@@ -281,6 +302,7 @@ class CostCalculatorStore extends EventTarget {
       isOpen: this.isOpen,
       activeWeek: this.activeWeek,
       income: this.income,
+      craftNewItems: this.craftNewItems,
       weeklyIncome: this.computeWeeklyIncome(),
     }}));
   }
