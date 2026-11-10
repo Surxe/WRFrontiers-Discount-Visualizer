@@ -2,6 +2,7 @@
 import { getCurrencyIconUrl } from '../utils/textures.js';
 import WeeklyIncome from './WeeklyIncome.astro';
 import CalcHeader from './CalcHeader.astro';
+import InfoTooltip from './InfoTooltip.astro';
 
 const { searchableModules = [], rarityUpgradeCosts = {}, discountSchedule = {}, weekList = [], currentWeekSlug = null } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL || '/';
@@ -12,6 +13,17 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     <div class="search-container">
       <input type="text" id="module-search-input" placeholder="Search for a module to add..." autocomplete="off" />
       <ul id="module-search-results" class="search-results"></ul>
+    </div>
+
+    <div class="calc-options">
+      <label class="calc-option">
+        <input type="checkbox" id="calc-craft-new-items" />
+        <span>New items start at Craft</span>
+      </label>
+      <InfoTooltip
+        text="Set an item's From to Craft to include the Salvage cost of building it from its blueprint, for modules you don't own yet. Crafting is never discounted. This box only sets the default for newly added items; each row's From stays editable."
+        label="About crafting cost"
+      />
     </div>
 
     <div id="calculator-empty-state" class="empty-state">
@@ -222,7 +234,9 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     border-radius: 3px;
     padding: 1px 2px;
     font-size: 0.75rem;
-    width: 44px;
+    /* Auto width so the "Craft" entry in From fits; numbers keep the old size. */
+    width: auto;
+    min-width: 44px;
     outline: none;
     cursor: pointer;
   }
@@ -305,6 +319,30 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     font-family: 'Courier New', monospace;
     font-weight: 700;
     color: var(--wrf-text);
+  }
+
+  /* Calculation options (e.g. new items start at Craft) */
+  .calc-options {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    color: var(--wrf-text-muted);
+  }
+
+  .calc-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+  }
+
+  .calc-option input {
+    margin: 0;
+    cursor: pointer;
   }
 
   /* Search Styles */
@@ -537,7 +575,7 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 </script>
 
 <script>
-  import { calculatorStore, CREDIT_SALVAGE_PRESETS, JOB_SEEDS } from '../scripts/cost-calculator-store.js';
+  import { calculatorStore, CREDIT_SALVAGE_PRESETS, JOB_SEEDS, CRAFT_LVL } from '../scripts/cost-calculator-store.js';
 
   const drawer = document.getElementById('cost-calculator-drawer');
   const closeBtn = document.getElementById('close-calculator');
@@ -662,6 +700,13 @@ const baseUrl = import.meta.env.BASE_URL || '/';
     }
   });
 
+  // --- New items start at Craft (default From for added rows) ---
+  const craftNewItemsEl = document.getElementById('calc-craft-new-items');
+  craftNewItemsEl.checked = calculatorStore.craftNewItems;
+  craftNewItemsEl.addEventListener('change', () => {
+    calculatorStore.setCraftNewItems(craftNewItemsEl.checked);
+  });
+
   // --- Week Select ---
   // Sync store with current page week on first load if not already set
   if (!calculatorStore.activeWeek && weekSelect.value) {
@@ -738,12 +783,26 @@ const baseUrl = import.meta.env.BASE_URL || '/';
   });
 
   // --- Level select builder helpers ---
-  function makeLevelSelect(name, selectedVal, min, max, instanceId) {
+  // CRAFT_LVL renders as "Craft" (never a bare 0), titled with the row's
+  // rarity-specific crafting cost so the jump in the total is explained.
+  function craftCostFor(rarityRef) {
+    const node = window.WRF_CALC_META?.rarityUpgradeCosts?.[rarityRef]?.costs?.['1'];
+    return node?.salvage?.standard ?? null;
+  }
+
+  function makeLevelSelect(name, selectedVal, min, max, instanceId, rarityRef) {
+    const cost = craftCostFor(rarityRef);
+    const craftTitle = `Build from blueprint${cost ? ` (+${cost.toLocaleString()} Salvage, never discounted)` : ''}`;
     let opts = '';
     for (let i = min; i <= max; i++) {
-      opts += `<option value="${i}"${i === selectedVal ? ' selected' : ''}>${i}</option>`;
+      const sel = i === selectedVal ? ' selected' : '';
+      opts += i === CRAFT_LVL
+        ? `<option value="${i}"${sel} title="${craftTitle}">Craft</option>`
+        : `<option value="${i}"${sel}>${i}</option>`;
     }
-    return `<select class="level-select" data-lvl-type="${name}" data-id="${instanceId}">${opts}</select>`;
+    // Option titles rarely show, so the select carries the hint while on Craft.
+    const selectTitle = selectedVal === CRAFT_LVL ? ` title="${craftTitle}"` : '';
+    return `<select class="level-select" data-lvl-type="${name}" data-id="${instanceId}"${selectTitle}>${opts}</select>`;
   }
 
   // --- Render ---
@@ -791,8 +850,8 @@ const baseUrl = import.meta.env.BASE_URL || '/';
       const salvageStr = salvage > 0 ? salvage.toLocaleString() : '—';
       const intelStr = intel > 0 ? intel.toLocaleString() : '—';
 
-      const fromSelect = makeLevelSelect('from', item.fromLvl, 1, item.toLvl - 1, item.instanceId);
-      const toSelect = makeLevelSelect('to', item.toLvl, item.fromLvl + 1, 13, item.instanceId);
+      const fromSelect = makeLevelSelect('from', item.fromLvl, CRAFT_LVL, item.toLvl - 1, item.instanceId, item.rarityRef);
+      const toSelect = makeLevelSelect('to', item.toLvl, item.fromLvl + 1, 13, item.instanceId, item.rarityRef);
 
       return `<tr data-instance="${item.instanceId}">
         <td class="module-col">
