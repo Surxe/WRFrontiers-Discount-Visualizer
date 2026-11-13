@@ -1,0 +1,31 @@
+{
+  "week": {
+    "start_year": 2026,
+    "start_month": 11,
+    "start_day": 17,
+    "end_year": 2026,
+    "end_month": 11,
+    "end_day": 24
+  },
+  "items": [
+    "DA_Module_ChassisRelicTyr.2",
+    "DA_Module_TorsoRelicTyr.1",
+    "DA_Module_ShoulderRelicTyr.0",
+    "DA_Module_ChassisHitcher.2",
+    "DA_Module_TorsoHitcher.1",
+    "DA_Module_ShoulderHitcher.0",
+    "DA_Module_ChassisScorpion.2",
+    "DA_Module_TorsoScorpion.1",
+    "DA_Module_ShoulderScorpion.0",
+    "DA_Module_Weapon_Slugger.0",
+    "DA_Module_Weapon_Tusk.0",
+    "DA_Module_Weapon_RelicVortex.0",
+    "DA_Module_Weapon_Nucleon.0",
+    "DA_Module_Ability_Repulsor.1",
+    "DA_Module_Ability_TensionLink.1",
+    "DA_Module_Ability_BlockingField.1",
+    "DA_Module_Ability_Dazzle.1",
+    "DA_Module_Ability_ArmorShield.1",
+    "DA_Module_Ability_RegenerationFull.1"
+  ]
+}

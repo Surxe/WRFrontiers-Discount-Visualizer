@@ -106,5 +106,14 @@
     "bots_scored_weeks": 55,
     "titans_precision": 0.1727,
     "titans_scored_weeks": 55
+  },
+  {
+    "predicted_week": "2026-11-24",
+    "generated_at": "2026-11-13T15:51:43.122245+00:00",
+    "bots_precision": 0.4,
+    "bots_at_least_one_top3": 0.8036,
+    "bots_scored_weeks": 56,
+    "titans_precision": 0.1696,
+    "titans_scored_weeks": 56
   }
 ]
