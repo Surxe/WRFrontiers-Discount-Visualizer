@@ -7,5 +7,6 @@
     "OBJID_VirtualBot::ceres",
     "OBJID_VirtualBot::norna"
   ],
-  "Supressor": "OBJID_Module::DA_Module_Ability_Atrophy.1"
+  "Supressor": "OBJID_Module::DA_Module_Ability_Atrophy.1",
+  "Bast Wave": "OBJID_Module::DA_Module_Ability_BlastWave.1"
 }
