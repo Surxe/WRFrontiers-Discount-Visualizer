@@ -4,7 +4,7 @@ import WeeklyIncome from './WeeklyIncome.astro';
 import CalcHeader from './CalcHeader.astro';
 import InfoTooltip from './InfoTooltip.astro';
 
-const { searchableModules = [], rarityUpgradeCosts = {}, discountSchedule = {}, weekList = [], currentWeekSlug = null } = Astro.props;
+const { searchableModules = [], rarityUpgradeCosts = {}, discountSchedule = {}, levelDiscounts = {}, weekList = [], currentWeekSlug = null } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL || '/';
 ---
 <aside id="cost-calculator-drawer" class="calculator-drawer">
@@ -558,10 +558,10 @@ const baseUrl = import.meta.env.BASE_URL || '/';
 
 </style>
 
-<script is:inline define:vars={{ searchableModules, rarityUpgradeCosts, discountSchedule, weekList, currentWeekSlug }}>
+<script is:inline define:vars={{ searchableModules, rarityUpgradeCosts, discountSchedule, levelDiscounts, weekList, currentWeekSlug }}>
   // Embed all calc data globally
   window.WRF_CALC_DATA = searchableModules;
-  window.WRF_CALC_META = { rarityUpgradeCosts, discountSchedule };
+  window.WRF_CALC_META = { rarityUpgradeCosts, discountSchedule, levelDiscounts };
 
   // Populate week select
   const weekSelect = document.getElementById('calc-week-select');

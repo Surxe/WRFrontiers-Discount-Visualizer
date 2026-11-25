@@ -23,7 +23,7 @@ import { formatWeek } from '../utils/weekDates.js';
 import { extractDiscountedItemsFromGrid } from '../utils/discountHistory.js';
 import { loadRarityUpgradeCosts } from '../utils/rarityUpgradeCosts.js';
 
-const { dateRange, gridData, shopCards, catIcons, weeks, currentSlug, vbotMetaById } = Astro.props;
+const { dateRange, gridData, shopCards, catIcons, weeks, currentSlug, vbotMetaById, levelDiscount } = Astro.props;
 const baseUrl = /** @type {string} */ ((import.meta as any).env?.BASE_URL) || '/';
 const weekEntries = /** @type {{week?: object; date_range?: string; file: string; slug: string;}[]} */ (weeks || []);
 const mainPageWeek = weekEntries.length > 0 ? weekEntries[0] : null;
@@ -153,6 +153,12 @@ const weekList = weekEntries.map(w => ({
   slug: w.slug,
   label: formatWeek(w, 'short') || w.date_range || w.slug,
 }));
+
+// --- Level discount per week: weekSlug -> {start, end} | (absent = all levels) ---
+const levelDiscounts = {};
+for (const w of weekEntries) {
+  if (w.level_discount) levelDiscounts[w.slug] = w.level_discount;
+}
 ---
 
 <html lang="en">
@@ -239,7 +245,7 @@ const weekList = weekEntries.map(w => ({
 
 				<LastDiscountTable items={discountedItems} currentWeekSlug={currentSlug} baseUrl={baseUrl} />
 
-				<DiscountInfo currentSlug={currentSlug} baseUrl={baseUrl} />
+				<DiscountInfo currentSlug={currentSlug} baseUrl={baseUrl} levelDiscount={levelDiscount} />
 			</div>
 
 		<MobileBottomNav baseUrl={baseUrl} currentPage="home" />
@@ -250,6 +256,7 @@ const weekList = weekEntries.map(w => ({
 			searchableModules={searchableModules}
 			rarityUpgradeCosts={rarityUpgradeCosts}
 			discountSchedule={discountSchedule}
+			levelDiscounts={levelDiscounts}
 			weekList={weekList}
 			currentWeekSlug={currentSlug}
 		/>

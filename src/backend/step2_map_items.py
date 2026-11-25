@@ -142,7 +142,7 @@ def perform_mapping(
     return mapped_refs, updated_manual_mapping, new_mappings_found
 
 
-def map_items(items_str: str, date_range_str: str, logger=None):
+def map_items(items_str: str, date_range_str: str, logger=None, level_discount=None):
     mapper = JevMapper(
         api_key=JEV_API_KEY,
         model=JEV_MODEL,
@@ -256,6 +256,8 @@ def map_items(items_str: str, date_range_str: str, logger=None):
         "week": week_data,
         "items": final_refs
     }
+    if level_discount:
+        output_data["level_discount"] = level_discount
 
     TEMP_DIR.mkdir(parents=True, exist_ok=True)
     DISCOUNTS_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
@@ -266,8 +268,8 @@ def map_items(items_str: str, date_range_str: str, logger=None):
     print(f"  -> Successfully mapped {len(items)} items to {len(final_refs)} refs.")
     print(f"  -> Output saved to {DISCOUNTS_OUTPUT.name}")
 
-def run_step(items_str: str, date_range_str: str, logger=None):
-    map_items(items_str, date_range_str, logger)
+def run_step(items_str: str, date_range_str: str, logger=None, level_discount=None):
+    map_items(items_str, date_range_str, logger, level_discount=level_discount)
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:

@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-20T14:51:44.898973+00:00",
+  "generated_at": "2026-11-24T19:29:16.097899-06:00",
   "scoreboard": {
     "window_weeks": 15,
     "bots_scored_weeks": 15,
-    "bots_hits": 14,
-    "bots_rate": 0.9333,
+    "bots_hits": 13,
+    "bots_rate": 0.8667,
     "titans_scored_weeks": 15,
     "titans_hits": 12,
     "titans_rate": 0.8
@@ -29,12 +29,12 @@
       },
       "result": {
         "bots": {
-          "hits": 3,
+          "hits": 1,
           "listed": 5,
-          "eligible_actual": 3,
+          "eligible_actual": 10,
           "top_hit": true,
           "top3_hit": true,
-          "headline_hit": true
+          "headline_hit": false
         },
         "titans": {
           "hits": 0,

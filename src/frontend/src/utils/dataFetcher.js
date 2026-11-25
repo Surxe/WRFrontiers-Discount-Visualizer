@@ -185,6 +185,7 @@ export function fetchEnrichedDiscounts(filename = null) {
   return {
     dateRange,
     week: finalWeek,
+    levelDiscount: gridFileData?.level_discount ?? null,
     gridData: {
       standardRows: enrichedStandardRows,
       titanRows: enrichedTitanRows

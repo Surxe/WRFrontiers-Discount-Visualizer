@@ -23,6 +23,11 @@ on:
         required: false
         type: boolean
         default: false
+      level_discount_note:
+        description: 'Optional natural-language level restriction (e.g. "available only for items at level 9 or higher"). Empty = all levels.'
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -56,6 +61,7 @@ jobs:
           EVENT_ID: ${{ github.event.inputs.event_id }}
           DATE_RANGE: ${{ github.event.inputs.target_date_range }}
           SKIP_DEPLOY: ${{ github.event.inputs.skip_deploy }}
+          LEVEL_DISCOUNT_NOTE: ${{ github.event.inputs.level_discount_note }}
         run: |
           {
             echo "### Workflow inputs"
@@ -63,6 +69,7 @@ jobs:
             echo "- event_id: \`$EVENT_ID\`"
             echo "- target_date_range: \`$DATE_RANGE\`"
             echo "- skip_deploy: \`$SKIP_DEPLOY\`"
+            echo "- level_discount_note: \`$LEVEL_DISCOUNT_NOTE\`"
           } | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Local mapping
@@ -72,6 +79,7 @@ jobs:
           target_date_range: ${{ github.event.inputs.target_date_range }}
           items: ${{ github.event.inputs.items }}
           event_id: ${{ github.event.inputs.event_id }}
+          level_discount_note: ${{ github.event.inputs.level_discount_note }}
 
   screenshot:
     if: ${{ github.event.inputs.skip_deploy != 'true' }}

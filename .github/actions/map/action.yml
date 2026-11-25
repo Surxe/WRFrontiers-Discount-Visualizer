@@ -14,6 +14,10 @@ inputs:
     description: Discord scheduled-event id of the discount week; its description is parsed for the items. Give this or items.
     required: false
     default: ''
+  level_discount_note:
+    description: Optional natural-language level restriction; classified into a start/end level range (empty = all levels).
+    required: false
+    default: ''
   commit:
     description: Commit and push mapped discount JSON
     required: false
@@ -51,7 +55,8 @@ runs:
         ITEMS: ${{ inputs.items }}
         EVENT_ID: ${{ inputs.event_id }}
         DATE_RANGE: ${{ inputs.target_date_range }}
-      run: python src/backend/run.py --items "$ITEMS" --event-id "$EVENT_ID" --date-range "$DATE_RANGE"
+        LEVEL_DISCOUNT_NOTE: ${{ inputs.level_discount_note }}
+      run: python src/backend/run.py --items "$ITEMS" --event-id "$EVENT_ID" --date-range "$DATE_RANGE" --level-discount-note "$LEVEL_DISCOUNT_NOTE"
 
     - name: Commit and push changes
       if: inputs.commit == 'true'

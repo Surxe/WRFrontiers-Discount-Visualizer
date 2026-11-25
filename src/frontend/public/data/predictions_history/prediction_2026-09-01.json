@@ -68,7 +68,7 @@
       "weeks_since_discount": 11,
       "weeks_since_release": null,
       "historical_rate_pct": 26.2,
-      "avg_interval": 10.7,
+      "avg_interval": 11.0,
       "likelihood_pct": 46.6,
       "associated": [
         {
@@ -142,7 +142,7 @@
       "weeks_since_discount": 10,
       "weeks_since_release": null,
       "historical_rate_pct": 20.2,
-      "avg_interval": 11.3,
+      "avg_interval": 10.8,
       "likelihood_pct": 31.8,
       "associated": [
         {
