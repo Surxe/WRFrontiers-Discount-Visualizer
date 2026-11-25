@@ -1,10 +1,13 @@
 ---
 import { getTexturePath } from '../utils/textures.js';
 
-const { currentSlug, baseUrl } = Astro.props;
+const { currentSlug, baseUrl, levelDiscount = null } = Astro.props;
 const { SALVAGE_DISCOUNT_START_DATE } = await import('../utils/constants.js');
 
 const showSalvageInfo = currentSlug >= SALVAGE_DISCOUNT_START_DATE;
+const hasLevelDiscount = levelDiscount
+  && typeof levelDiscount.start === 'number'
+  && typeof levelDiscount.end === 'number';
 ---
 
 <div class="discount-info">
@@ -18,12 +21,24 @@ const showSalvageInfo = currentSlug >= SALVAGE_DISCOUNT_START_DATE;
 		<img src={getTexturePath('/WRFrontiers/Content/Sparrow/UI/Textures/Meta/Currency/T_IntelLarge', baseUrl)} class="currency-icon" alt="Intel" />
 		Intel is ~62% reduced
 	</p>
+	{hasLevelDiscount && (
+		<p class="level-discount-note">
+			Discounted upgrades apply from level {levelDiscount.start} → {levelDiscount.start + 1}
+			through level {levelDiscount.end - 1} → {levelDiscount.end}.
+		</p>
+	)}
 </div>
 
 <style>
 	.discount-info {
 		text-align: center;
 		margin-top: 1rem;
+	}
+
+	.level-discount-note {
+		color: var(--wrf-text-muted);
+		font-size: 0.85rem;
+		margin-top: 0.4rem;
 	}
 
 	.currency-icon {

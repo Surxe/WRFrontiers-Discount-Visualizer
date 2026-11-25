@@ -10,6 +10,17 @@ function computeIsDiscounted(moduleId, weekSlug) {
 }
 
 /**
+ * Returns true if a discount applies to the upgrade that produces the given
+ * destination level. `levelDiscount` is a week's {start, end} range (the discounted
+ * upgrades are start->start+1 through end-1->end), or null/undefined for "all levels".
+ * So for {start: 8, end: 13}, destination levels 9..13 are discounted.
+ */
+function isLevelDiscounted(destinationLevel, levelDiscount) {
+  if (!levelDiscount || levelDiscount.start == null || levelDiscount.end == null) return true;
+  return destinationLevel > levelDiscount.start && destinationLevel <= levelDiscount.end;
+}
+
+/**
  * Weekly-income rates. Single source of truth for the income panel math —
  * correct these here if the game's numbers change. See the "Weekly income"
  * section in CostCalculator.astro for the UI that consumes them.
@@ -249,8 +260,10 @@ class CostCalculatorStore extends EventTarget {
     if (!rarityEntry) return { salvage: 0, intel: 0 };
 
     // item.discountOn is the single source of truth — set on add and
-    // on week change, and manually flippable by the user.
+    // on week change, and manually flippable by the user. The week's level
+    // discount (if any) then narrows which upgrade levels actually discount.
     const isDiscounted = item.discountOn ?? false;
+    const levelDiscount = meta.levelDiscounts?.[this.activeWeek] ?? null;
 
     let totalSalvage = 0;
     let totalIntel = 0;
@@ -264,11 +277,13 @@ class CostCalculatorStore extends EventTarget {
       const stdSalv = costNode.salvage.standard ?? 0;
       const stdIntel = costNode.intel.standard ?? 0;
 
-      const salvage = isDiscounted && costNode.salvage.discounted != null
+      const levelOn = isDiscounted && isLevelDiscounted(lvl, levelDiscount);
+
+      const salvage = levelOn && costNode.salvage.discounted != null
         ? costNode.salvage.discounted
         : stdSalv;
 
-      const intel = isDiscounted && costNode.intel.discounted != null
+      const intel = levelOn && costNode.intel.discounted != null
         ? costNode.intel.discounted
         : stdIntel;
 
