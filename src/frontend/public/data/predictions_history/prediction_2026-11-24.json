@@ -68,7 +68,7 @@
       "weeks_since_discount": 15,
       "weeks_since_release": null,
       "historical_rate_pct": 43.9,
-      "avg_interval": 9.9,
+      "avg_interval": 9.0,
       "likelihood_pct": 50.0,
       "associated": [
         {
@@ -93,7 +93,7 @@
           "group": "cycle-gear"
         }
       ],
-      "hit": true
+      "hit": false
     },
     {
       "ref": "OBJID_VirtualBot::lancelot",
@@ -105,7 +105,7 @@
       "weeks_since_discount": 13,
       "weeks_since_release": null,
       "historical_rate_pct": 38.6,
-      "avg_interval": 10.1,
+      "avg_interval": 9.7,
       "likelihood_pct": 30.4,
       "associated": [
         {
@@ -130,7 +130,7 @@
           "group": "cycle-gear"
         }
       ],
-      "hit": true
+      "hit": false
     },
     {
       "ref": "OBJID_VirtualBot::griffin",
@@ -241,20 +241,27 @@
   ],
   "actuals": {
     "bots": [
-      "lancelot",
-      "pursuer",
-      "raven"
+      "ceres",
+      "crix",
+      "decker",
+      "harpy",
+      "helios",
+      "purifier",
+      "raven",
+      "relic-bulgasari",
+      "scorpion",
+      "tyr"
     ],
     "titans": []
   },
   "result": {
     "bots": {
-      "hits": 3,
+      "hits": 1,
       "listed": 5,
-      "eligible_actual": 3,
+      "eligible_actual": 10,
       "top_hit": true,
       "top3_hit": true,
-      "headline_hit": true
+      "headline_hit": false
     },
     "titans": {
       "hits": 0,

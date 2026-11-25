@@ -10,7 +10,11 @@
         "end_day": 1
       },
       "file": "week_grids/grid_2026-11-24.json",
-      "slug": "2026-11-24"
+      "slug": "2026-11-24",
+      "level_discount": {
+        "start": 8,
+        "end": 13
+      }
     },
     {
       "week": {

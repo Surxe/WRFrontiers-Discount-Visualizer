@@ -8,5 +8,6 @@
     "OBJID_VirtualBot::norna"
   ],
   "Supressor": "OBJID_Module::DA_Module_Ability_Atrophy.1",
-  "Bast Wave": "OBJID_Module::DA_Module_Ability_BlastWave.1"
+  "Bast Wave": "OBJID_Module::DA_Module_Ability_BlastWave.1",
+  "Treb": "OBJID_Module::DA_Module_Weapon_Trebuchet.0"
 }

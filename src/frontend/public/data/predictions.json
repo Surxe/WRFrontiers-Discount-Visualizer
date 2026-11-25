@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T14:51:44.671573+00:00",
+  "generated_at": "2026-11-24T19:29:15.883623-06:00",
   "method": "historical discount rate by wait (since discount or release); position-calibrated odds",
   "predictedWeek": {
     "start_year": 2026,
@@ -13,17 +13,53 @@
   },
   "bots": [
     {
+      "ref": "OBJID_VirtualBot::lancelot",
+      "id": "lancelot",
+      "name": "Lancelot",
+      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotLancelot",
+      "items_anchor": "bot-lancelot",
+      "rank": 1,
+      "weeks_since_discount": 14,
+      "weeks_since_release": null,
+      "historical_rate_pct": 39.0,
+      "avg_interval": 9.7,
+      "likelihood_pct": 49.1,
+      "associated": [
+        {
+          "id": "DA_Module_Weapon_Punisher.0",
+          "name": "Punisher",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Punisher",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "light-weapon"
+        },
+        {
+          "id": "DA_Module_Ability_SpeedBoost.1",
+          "name": "Sprint Reactor",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SpeedBoost",
+          "rarity": "DA_ModuleRarity_Common.0",
+          "group": "supply-gear"
+        },
+        {
+          "id": "DA_Module_Ability_CounterAttack.1",
+          "name": "Reflector",
+          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_Counterattack",
+          "rarity": "DA_ModuleRarity_Uncommon.0",
+          "group": "cycle-gear"
+        }
+      ]
+    },
+    {
       "ref": "OBJID_VirtualBot::griffin",
       "id": "griffin",
       "name": "Griffin",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotGriffin",
       "items_anchor": "bot-griffin",
-      "rank": 1,
+      "rank": 2,
       "weeks_since_discount": 14,
       "weeks_since_release": null,
-      "historical_rate_pct": 39.7,
+      "historical_rate_pct": 39.0,
       "avg_interval": 11.5,
-      "likelihood_pct": 55.3,
+      "likelihood_pct": 49.1,
       "associated": [
         {
           "id": "DA_Module_Weapon_Buckshot.0",
@@ -54,12 +90,12 @@
       "name": "Cyclops",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotCyclops",
       "items_anchor": "bot-cyclops",
-      "rank": 2,
+      "rank": 3,
       "weeks_since_discount": 14,
       "weeks_since_release": null,
-      "historical_rate_pct": 39.7,
+      "historical_rate_pct": 39.0,
       "avg_interval": 9.3,
-      "likelihood_pct": 55.3,
+      "likelihood_pct": 49.1,
       "associated": [
         {
           "id": "DA_Module_Weapon_Twinflare.0",
@@ -90,12 +126,12 @@
       "name": "Phantom",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotPhantom",
       "items_anchor": "bot-phantom",
-      "rank": 3,
+      "rank": 4,
       "weeks_since_discount": 13,
       "weeks_since_release": null,
-      "historical_rate_pct": 38.3,
+      "historical_rate_pct": 37.9,
       "avg_interval": 9.5,
-      "likelihood_pct": 30.4,
+      "likelihood_pct": 25.4,
       "associated": [
         {
           "id": "DA_Module_Weapon_Toxin.0",
@@ -126,12 +162,12 @@
       "name": "Garuda",
       "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotGaruda",
       "items_anchor": "bot-garuda",
-      "rank": 4,
+      "rank": 5,
       "weeks_since_discount": 13,
       "weeks_since_release": null,
-      "historical_rate_pct": 38.3,
+      "historical_rate_pct": 37.9,
       "avg_interval": 11.0,
-      "likelihood_pct": 30.4,
+      "likelihood_pct": 25.4,
       "associated": [
         {
           "id": "DA_Module_Weapon_Orkan.0",
@@ -151,42 +187,6 @@
           "id": "DA_Module_Ability_IronVeil.1",
           "name": "Iron Veil",
           "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_IronVeil",
-          "rarity": "DA_ModuleRarity_Uncommon.0",
-          "group": "cycle-gear"
-        }
-      ]
-    },
-    {
-      "ref": "OBJID_VirtualBot::decker",
-      "id": "decker",
-      "name": "Decker",
-      "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Presets/T_Preset_DevbotKernel",
-      "items_anchor": "bot-decker",
-      "rank": 5,
-      "weeks_since_discount": 13,
-      "weeks_since_release": null,
-      "historical_rate_pct": 38.3,
-      "avg_interval": 10.7,
-      "likelihood_pct": 30.4,
-      "associated": [
-        {
-          "id": "DA_Module_Weapon_Hefty.0",
-          "name": "Hefty",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Modules/T_Module_Weapon_Hefty",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "heavy-weapon"
-        },
-        {
-          "id": "DA_Module_Ability_ArmorShield.1",
-          "name": "Emergency Shield",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_AddShieldIcon",
-          "rarity": "DA_ModuleRarity_Common.0",
-          "group": "supply-gear"
-        },
-        {
-          "id": "DA_Module_Ability_SupplySurge.1",
-          "name": "Supply Surge",
-          "icon_path": "/WRFrontiers/Content/Sparrow/UI/Textures/Abilities/T_SupplySurge",
           "rarity": "DA_ModuleRarity_Uncommon.0",
           "group": "cycle-gear"
         }
@@ -230,22 +230,22 @@
       "any_weeks": 57,
       "any_rate": 1.0,
       "per_position": [
-        0.5088,
+        0.4912,
         0.5965,
-        0.4035,
+        0.386,
         0.2456,
         0.2632
       ],
       "per_position_conditional": [
-        0.5088,
+        0.4912,
         0.5965,
-        0.4035,
+        0.386,
         0.2456,
         0.2632
       ],
-      "precision": 0.4035,
+      "precision": 0.3965,
       "at_least_one": {
-        "1": 0.5088,
+        "1": 0.4912,
         "2": 0.7544,
         "3": 0.807,
         "4": 0.8421,
@@ -280,27 +280,30 @@
     "scored_weeks": 57,
     "rate_wait_window": 2,
     "example": {
-      "bot_id": "griffin",
-      "name": "Griffin",
+      "bot_id": "lancelot",
+      "name": "Lancelot",
       "rank": 1,
       "weeks_since_discount": 14,
       "weeks_since_release": null,
-      "historical_rate_pct": 39.7,
-      "slot_hit_rate": 0.5088,
-      "slot_hits": 29,
-      "likelihood_pct": 55.3,
+      "historical_rate_pct": 39.0,
+      "slot_hit_rate": 0.4912,
+      "slot_hits": 28,
+      "likelihood_pct": 49.1,
       "pooled": true,
       "tie_ranks": [
         1,
-        2
+        2,
+        3
       ],
       "tie_slot_rates": [
-        0.5088,
-        0.5965
+        0.4912,
+        0.5965,
+        0.386
       ],
       "tie_slot_hits": [
-        29,
-        34
+        28,
+        34,
+        22
       ]
     }
   }
