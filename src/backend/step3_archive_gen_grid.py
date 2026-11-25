@@ -80,6 +80,19 @@ def process_discount():
 
     print(f"  -> Found {len(discount_refs)} items for week '{display_name}'.")
 
+    level_discount = output_data.get("level_discount")
+    if level_discount is not None:
+        if not (isinstance(level_discount, dict)
+                and isinstance(level_discount.get("start"), int)
+                and isinstance(level_discount.get("end"), int)
+                and 1 <= level_discount["start"] < level_discount["end"] <= 13):
+            print(f"  [ERROR] 'level_discount' must be {{'start': S, 'end': E}} "
+                  f"with 1 <= S < E <= 13, got: {level_discount}")
+            sys.exit(1)
+        print(f"  -> Level discount: {level_discount['start']}->"
+              f"{level_discount['start'] + 1} through "
+              f"{level_discount['end'] - 1}->{level_discount['end']}")
+
     # Load database JSONs for grid generation
     if not MODULE_JSON.exists() or not VIRTUAL_BOT_JSON.exists() or not MODULE_TYPE_JSON.exists() or not CHARACTER_PRESET_JSON.exists():
         print(f"  [ERROR] Database JSONs not found.")
@@ -117,6 +130,8 @@ def process_discount():
         "week": week,
         "items": archive_items
     }
+    if level_discount is not None:
+        archive_data["level_discount"] = level_discount
     
     with open(archive_output, "w", encoding="utf-8") as f:
         json.dump(archive_data, f, indent=2, ensure_ascii=False)
@@ -141,6 +156,8 @@ def process_discount():
         "week": week,
         "grid": grid_data
     }
+    if level_discount is not None:
+        grid_data_with_week["level_discount"] = level_discount
 
     with open(grid_output, "w", encoding="utf-8") as f:
         json.dump(grid_data_with_week, f, indent=2, ensure_ascii=False)
@@ -175,11 +192,14 @@ def process_discount():
     ]
 
     # Add the new week entry
-    manifest_data["weeks"].append({
+    entry = {
         "week": week,
         "file": grid_manifest_path,
         "slug": slug
-    })
+    }
+    if level_discount is not None:
+        entry["level_discount"] = level_discount
+    manifest_data["weeks"].append(entry)
 
     # Sort descending (most recent first), using each entry's week value.
     manifest_data["weeks"].sort(

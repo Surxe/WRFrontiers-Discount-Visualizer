@@ -23,6 +23,7 @@ import argparse
 import sys
 from announcement import announcement_to_items
 import discord_event
+from level_discount import LevelDiscountClassifier
 from logger import DiscountLogger
 from step1_build_game_data import run_step as run_step1
 from step2_map_items import run_step as run_step2
@@ -50,6 +51,15 @@ def parse_args(argv=None):
         default="",
         help="Target date range for the discount week, e.g. \"06-16 06-23\". "
              "Required with --items; defaults to the event's dates with --event-id.",
+    )
+    parser.add_argument(
+        "--level-discount-note",
+        dest="level_discount_note",
+        default="",
+        help="Optional natural-language note restricting which levels the discount "
+             "applies to (e.g. \"available only for items at level 9 or higher\"). "
+             "Classified into a start/end level range; an unclassifiable note fails "
+             "the run.",
     )
     return parser.parse_args(argv)
 
@@ -86,6 +96,42 @@ def resolve_inputs(item_names: str, event_id: str, date_range: str, logger):
     return item_names, date_range
 
 
+def classify_level_discount(note: str, logger) -> dict | None:
+    """Classify the level-discount note into {"start", "end"}, or fail the run.
+
+    An empty note means "all levels" (returns None, no restriction). A non-empty
+    note that cannot be represented as a start/end range (the LLM's "neither"
+    outcome) is an error: it exits non-zero and quotes the note so the failure is
+    visible in the run log and the orchestrator's email.
+    """
+    note = (note or "").strip()
+    if not note:
+        return None
+
+    classifier = LevelDiscountClassifier()
+    if not classifier.available:
+        msg = (f"A level-discount note was provided but JEV_API_KEY is not set; "
+               f"cannot classify: \"{note}\"")
+        print(f"[ERROR] {msg}")   # [ERROR] so the CI log grep (and the email) picks it up
+        logger.error(msg)
+        sys.exit(1)
+
+    level_discount = classifier.classify(note)
+    classifier.close()
+    if level_discount is None:
+        msg = (f"Could not represent this week's level-discount note as a "
+               f"start/end level range: \"{note}\"")
+        print(f"[ERROR] {msg}")   # [ERROR] so the CI log grep (and the email) picks it up
+        logger.error(msg)
+        sys.exit(1)
+
+    logger.info(f"Level discount classified: level {level_discount['start']}->"
+                f"{level_discount['start'] + 1} through "
+                f"{level_discount['end'] - 1}->{level_discount['end']} "
+                f"(start={level_discount['start']}, end={level_discount['end']})")
+    return level_discount
+
+
 def main():
     args = parse_args()
     logger = DiscountLogger()
@@ -99,13 +145,15 @@ def main():
             logger.error(str(e))
             sys.exit(1)
 
+        level_discount = classify_level_discount(args.level_discount_note, logger)
+
         logger.start_run(item_names, target_date_range)
 
         logger.step("Step 1: Build game data")
         run_step1()
 
         logger.step("Step 2: Map items to game refs")
-        run_step2(item_names, target_date_range, logger)
+        run_step2(item_names, target_date_range, logger, level_discount=level_discount)
 
         logger.step("Step 3: Archive and generate grid")
         discounts = run_step3()
