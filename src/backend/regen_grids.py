@@ -78,17 +78,23 @@ def run():
             "week": week,
             "grid": grid_data
         }
+        level_discount = data.get("level_discount")
+        if level_discount is not None:
+            grid_data_with_week["level_discount"] = level_discount
         json.dump(grid_data_with_week, open(out, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
         std = len(grid_data.get("standardRows", []))
         titan = len(grid_data.get("titanRows", []))
         print(f"  {slug}: {format_week(week, 'long')} - {std} standard row(s), {titan} titan row(s) -> {out.name}")
         
-        manifest_entries.append({
+        entry = {
             "week": week,
             "file": f"week_grids/{out.name}",
             "slug": slug
-        })
+        }
+        if level_discount is not None:
+            entry["level_discount"] = level_discount
+        manifest_entries.append(entry)
 
     manifest_entries.sort(key=lambda entry: week_sort_key(entry.get("week")), reverse=True)
     with open(FRONTEND_DATA_DIR / "weeks.json", "w", encoding="utf-8") as f:
