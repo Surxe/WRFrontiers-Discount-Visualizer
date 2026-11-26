@@ -3,10 +3,25 @@ import GridHeader from './GridHeader.astro';
 import DiscountGridRow from './DiscountGridRow.astro';
 import { getModuleDiscountWeeks, getVbotDiscountWeeks, getLastDiscountBeforeDate, formatDiscountDate } from '../../utils/discountHistory.js';
 
-const { dateRange, gridData, shopCards, catIcons, vbotMetaById = {}, currentWeekSlug } = Astro.props;
+const { dateRange, gridData, shopCards, catIcons, vbotMetaById = {}, currentWeekSlug, levelDiscount = null } = Astro.props;
 
 const standardRows = gridData?.standardRows || [];
 const titanRows = gridData?.titanRows || [];
+
+// Prominent badge for the date header. `levelDiscount` maps to discounted
+// upgrades S→S+1 … E-1→E, so the levels you upgrade *to* span S+1 … E.
+// Omit it for unrestricted weeks (absent) and for the full-range default
+// (1→13, i.e. every upgrade).
+const hasLevelDiscount = levelDiscount
+  && typeof levelDiscount.start === 'number'
+  && typeof levelDiscount.end === 'number'
+  && !(levelDiscount.start === 1 && levelDiscount.end === 13);
+const levelDiscountLabel = hasLevelDiscount
+  ? `Upgrading to Levels ${levelDiscount.start + 1}–${levelDiscount.end}`
+  : null;
+const levelDiscountTitle = hasLevelDiscount
+  ? `Discounted upgrades apply from level ${levelDiscount.start} → ${levelDiscount.start + 1} through level ${levelDiscount.end - 1} → ${levelDiscount.end}`
+  : null;
 
 // Helper to construct bot object expected by DiscountGridRow
 function buildBot(botId, cells) {
@@ -117,7 +132,12 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
 <div class:list={['grid-container', { 'has-date-header': !!dateRange }]} id="discount-grid">
   {dateRange && (
     <div class="grid-date-header">
-      <h2><strong>{dateRange}</strong></h2>
+      <h2>
+        <strong>{dateRange}</strong>
+        {levelDiscountLabel && (
+          <span class="level-discount-chip" title={levelDiscountTitle}>{levelDiscountLabel}</span>
+        )}
+      </h2>
     </div>
   )}
   <GridHeader catIcons={catIcons} />
@@ -229,9 +249,29 @@ const processedTitanRows = titanRows.map(row => processRow({ ...row, variant: 't
   }
 
   .grid-date-header h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: calc(10 * var(--grid-scale-unit, 1px));
     margin: 0;
     font-size: calc(24 * var(--grid-scale-unit, 1px));
     color: var(--wrf-text);
+  }
+
+  .level-discount-chip {
+    display: inline-flex;
+    align-items: center;
+    font-size: calc(13 * var(--grid-scale-unit, 1px));
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--wrf-accent);
+    background: var(--wrf-accent-active-bg);
+    border: calc(2 * var(--grid-scale-unit, 1px)) solid var(--wrf-accent);
+    border-radius: 999px;
+    padding: calc(6 * var(--grid-scale-unit, 1px)) calc(12 * var(--grid-scale-unit, 1px));
+    white-space: nowrap;
   }
 
   @supports not (container-type: inline-size) {
